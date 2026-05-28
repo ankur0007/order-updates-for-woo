@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Creating updates — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html" class="is-active">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				User Guide &nbsp;/&nbsp;
+				Creating updates
+			</p>
+
+			<h1 class="docs-page__title">Creating updates</h1>
+			<p class="docs-page__lede">An update is one conversation about one order &mdash; an issue, a delivery question, a follow-up. You create them from the order edit page, fill in everything in one modal, and publish.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/01-create-update.png" alt="The Add New Update modal showing all fields filled in.">
+					<p class="docs-row__caption">The Add New Update modal &mdash; one form, no multi-step wizard.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>The Add New Update form</h2>
+					<p>Click <strong>Add new update</strong> in the Order Updates meta box on any order. A single modal opens with all the fields you need. Nothing is required except the title &mdash; everything else is optional and can be added later.</p>
+					<h3>Update</h3>
+					<p>A short title for the thread. Customers see this verbatim if the update is visible to them.</p>
+					<h3>Assignee</h3>
+					<p>Searchable picker over admins, shop managers, and editors. The assignee is emailed when the update is created.</p>
+					<h3>Internal note</h3>
+					<p>For your team &mdash; never visible to the customer. Type <code>@</code> to mention a teammate.</p>
+					<h3>Customer note</h3>
+					<p>Writing here makes the update <strong>visible to the customer</strong> and emails them a link to view + reply.</p>
+					<h3>Status</h3>
+					<p>Color-coded label. Defaults: <strong>Neutral</strong>, <strong>Notice</strong>, <strong>Warning</strong>, <strong>Resolved</strong>. Configurable under <em>Settings &rarr; Statuses</em>.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What happens when you publish</h2>
+					<p>Hitting <strong>Publish Update</strong> does several things in one shot:</p>
+					<ul>
+						<li>The update card appears at the top of the Order Updates meta box.</li>
+						<li>If you set an assignee, they get an email notification.</li>
+						<li>If you wrote an internal note with an <code>@mention</code>, the mentioned user gets a separate email and an admin-bar badge.</li>
+						<li>If you wrote a customer note, the customer gets an email with a secure link to their thread.</li>
+						<li>The action is recorded in the update&rsquo;s tracking log.</li>
+					</ul>
+					<div class="docs-callout">
+						<strong>Tip:</strong> Every action has an explicit silent vs notify choice so you can fix typos without spamming inboxes.
+					</div>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Editing an update later</h2>
+					<p>Every field is editable after publish &mdash; title, assignee, status, customer visibility. Edits are recorded in the tracking log.</p>
+					<p>The whole update can be deleted from the action bar. Deletion preserves a full snapshot in the order&rsquo;s deleted-update audit log.</p>
+				</div>
+			</section>
+
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../user-guide/getting-started/index.html">
+					<span>Previous</span>
+					Getting started
+				</a>
+				<a class="next" href="../../user-guide/managing-threads/index.html">
+					<span>Next</span>
+					Managing threads
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

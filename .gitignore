@@ -1,0 +1,23 @@
+# Dependencies — regenerated from the lockfiles, never tracked
+/vendor/
+/node_modules/
+
+# Build output (CI attaches the zip to the GitHub Release)
+/build/
+*.zip
+!docs/downloads/order-updates-for-woo.zip
+
+# Local agent, editor & OS artifacts
+/.claude/
+/memory/
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+
+# Caches
+.phpunit.result.cache
+
+# Secrets — none should exist, but never commit these
+.env
+.env.*

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Embed in page builders — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html" class="is-active">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				User Guide &nbsp;/&nbsp;
+				Embed in page builders
+			</p>
+
+			<h1 class="docs-page__title">Embed in page builders</h1>
+			<p class="docs-page__lede">Drop the customer-update portal anywhere a page builder can render a shortcode &mdash; Gutenberg, Elementor, Divi, Beaver Builder. No extra plugin, no build step.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where the portal shows up by default</h2>
+					<p>The customer-facing thread renders automatically on <em>My Account &rarr; Orders &rarr; View order</em> for the matching order. You don&rsquo;t need to do anything &mdash; the plugin injects it on the standard WooCommerce View Order endpoint.</p>
+					<p>If that&rsquo;s where you want it, you&rsquo;re done. The rest of this page is for putting the portal somewhere else &mdash; a custom checkout confirmation page, a dashboard widget, a dedicated &ldquo;Your order conversation&rdquo; page you&rsquo;ve built with Elementor or Gutenberg.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The one ingredient: the shortcode</h2>
+					<p>The portal is exposed as a shortcode:</p>
+					<pre><code class="language-bash">[order_updates_portal]</code></pre>
+					<p>By default it auto-detects the order ID from the URL &mdash; the same mechanism the View Order page uses. If your page builder hosts the shortcode on a URL that doesn&rsquo;t carry the order ID, pass it explicitly:</p>
+					<pre><code class="language-bash">[order_updates_portal order_id="123"]</code></pre>
+					<p>Every major builder accepts this shortcode as-is. No additional plugin, no native block, no widget. The same five characters work everywhere.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Gutenberg (the block editor)</h2>
+					<p>WordPress ships a built-in Shortcode block. To embed the portal:</p>
+					<ol>
+						<li>Open the page in the block editor.</li>
+						<li>Click the <strong>+</strong> button to add a block, type &ldquo;shortcode&rdquo;.</li>
+						<li>Pick the <strong>Shortcode</strong> block.</li>
+						<li>Paste <code>[order_updates_portal]</code> into the text area.</li>
+						<li>Save and preview &mdash; the portal renders on the live page.</li>
+					</ol>
+					<p>You won&rsquo;t see a live preview inside the editor (the Shortcode block is render-on-output), but the front end renders exactly the same portal you see on My Account.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Elementor</h2>
+					<ol>
+						<li>Open the page in Elementor.</li>
+						<li>Drag a <strong>Shortcode</strong> widget into your layout (it&rsquo;s under <em>General</em> in the widget panel).</li>
+						<li>Paste <code>[order_updates_portal]</code> into the widget&rsquo;s shortcode field.</li>
+						<li>Click <strong>Update</strong> and preview.</li>
+					</ol>
+					<p>The portal inherits its own CSS &mdash; Elementor&rsquo;s theme styling doesn&rsquo;t override it. Width / spacing of the surrounding Elementor section affects the portal&rsquo;s container width; the portal itself is responsive down to mobile widths.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Divi, Beaver Builder, and the classic editor</h2>
+					<p>All three work the same way:</p>
+					<ul>
+						<li><strong>Divi</strong> &mdash; add a <em>Code</em> or <em>Text</em> module and paste the shortcode.</li>
+						<li><strong>Beaver Builder</strong> &mdash; add an <em>HTML</em> or <em>Text Editor</em> module and paste the shortcode.</li>
+						<li><strong>Classic editor</strong> &mdash; just paste the shortcode anywhere in the post body.</li>
+					</ul>
+					<p>If your builder offers a dedicated &ldquo;Shortcode&rdquo; module, use that &mdash; it&rsquo;s slightly cleaner than wrapping the shortcode in a Text module, but functionally identical.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Authentication still applies</h2>
+					<p>Embedding the shortcode somewhere new doesn&rsquo;t loosen the auth gate. The portal will only show a thread when:</p>
+					<ul>
+						<li>The viewer is logged in as the order&rsquo;s customer, <strong>or</strong></li>
+						<li>The URL includes a valid <code>order_key</code> for that order (the WooCommerce order key, also the credential in customer notification emails).</li>
+					</ul>
+					<p>If neither is true, the portal renders an empty &ldquo;You don&rsquo;t have permission to view this order&rdquo; message. So you can safely embed the shortcode on a publicly-reachable page &mdash; visitors who shouldn&rsquo;t see it, won&rsquo;t.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Common embed patterns</h2>
+					<p>Three layouts we see most often:</p>
+					<ul>
+						<li><strong>Post-checkout confirmation page</strong> &mdash; embed the shortcode below the order summary so customers can immediately ask questions about their fresh order.</li>
+						<li><strong>Dedicated &ldquo;Your conversation&rdquo; page</strong> &mdash; build a clean custom layout (logo + title + portal) and link to it from order emails by passing the order_key in the URL.</li>
+						<li><strong>Account dashboard widget</strong> &mdash; some stores hide the default My Account view and build their own dashboard with selected blocks. The portal slots in as just another block.</li>
+					</ul>
+					<p>None of these need code &mdash; just drop the shortcode block in the right place.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Why not a native Gutenberg block / Elementor widget?</h2>
+					<p>We deliberately ship the shortcode rather than building native blocks for now. Two reasons:</p>
+					<ul>
+						<li>A native Gutenberg block needs a JS build pipeline (<code>@wordpress/scripts</code>) and keeps pace with the Gutenberg API, which is still moving fast. Maintenance cost outweighs the small UX gain.</li>
+						<li>An Elementor-native widget only works if the user has Elementor installed. Shortcodes are universal.</li>
+					</ul>
+					<p>If usage data ever shows enough builder-embed traffic to justify it, a native block / widget will land in a future addon &mdash; not the core plugin.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../customer-notes-portal/index.html">
+					<span>Previous</span>
+					Customer notes &amp; portal
+				</a>
+				<a class="next" href="../ratings-feedback/index.html">
+					<span>Next</span>
+					Ratings &amp; feedback
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

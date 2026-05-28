@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="Order Updates for WooCommerce">
+	<description>VIP coding standards for Order Updates for WooCommerce.</description>
+
+	<file>order-updates-for-woo.php</file>
+	<file>src</file>
+
+	<exclude-pattern>vendor/*</exclude-pattern>
+
+	<rule ref="WordPressVIPMinimum"/>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+</ruleset>

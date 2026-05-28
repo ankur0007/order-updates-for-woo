@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Email customisation — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html" class="is-active">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				Email customisation
+			</p>
+
+			<h1 class="docs-page__title">Email customisation</h1>
+			<p class="docs-page__lede">How email actually moves through the plugin, where you can step in, and the patterns for the most common things you&rsquo;ll want to do.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How the email pipeline works (from save to inbox)</h2>
+					<p>Before you start customising anything, get the path straight in your head. A customer note is the easiest example.</p>
+					<ol>
+						<li>An admin writes a customer note and hits send. The REST endpoint saves the note to the database.</li>
+						<li>Immediately, the endpoint calls <code>AsyncJob::queue()</code> to schedule the email as an Action Scheduler job. The endpoint then returns. The admin sees their message in the thread within a hundred milliseconds &mdash; they&rsquo;re not waiting on SMTP.</li>
+						<li>A few seconds later, Action Scheduler runs the job. The job fires <code>HOOK_CUSTOMER_NOTIFICATION</code> with two args: <code>update_id</code> and <code>note_id</code>.</li>
+						<li>The plugin&rsquo;s <code>CustomerOrderUpdateEmail</code> class (a <code>WC_Email</code> subclass) is attached to that hook. It loads the note from the database, builds the HTML by including its template, and calls <code>wp_mail()</code>.</li>
+						<li>The plugin marks the note as <code>notified_at = NOW()</code> so it doesn&rsquo;t accidentally re-send.</li>
+					</ol>
+					<p>Every plugin email follows this shape &mdash; the hook name and the email class change, but the queue / fire / build / send sequence is identical. Knowing where you can step in is half the battle.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>List of all emails the plugin sends</h2>
+					<table>
+						<thead><tr><th>Class</th><th>Goes to</th><th>Fires when</th></tr></thead>
+						<tbody>
+							<tr><td><code>CustomerOrderUpdateEmail</code></td><td>Customer</td><td>Customer-visible note added, or update status changed</td></tr>
+							<tr><td><code>CustomerRatingRequestEmail</code></td><td>Customer</td><td>Update is marked solved (prompts the rating)</td></tr>
+							<tr><td><code>CustomerRatingFollowupEmail</code></td><td>Customer</td><td>After the customer rates — promoter share or detractor empathy</td></tr>
+							<tr><td><code>CustomerUpdateDeletedEmail</code></td><td>Customer</td><td>An update they could see is deleted, with &ldquo;notify&rdquo; chosen</td></tr>
+							<tr><td><code>AdminOrderUpdateEmail</code></td><td>Site admin</td><td>Detractor rating arrives, or a customer-initiated update is created</td></tr>
+							<tr><td><code>AssigneeOrderUpdateEmail</code></td><td>Assignee</td><td>Assignment, reassignment, customer reply, customer rates the update</td></tr>
+							<tr><td><code>InternalMentionEmail</code></td><td>@mentioned user</td><td>You were tagged in an internal note</td></tr>
+							<tr><td><code>ParticipantUpdateEmail</code></td><td>Participants</td><td>New note in a thread you&rsquo;ve already contributed to</td></tr>
+							<tr><td><code>CreatorUpdateDeletedEmail</code></td><td>Update creator</td><td>Another staff member deleted your update</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Change subject, heading, or body text</h2>
+					<p>If you only want different wording, stop reading this developer page and go to <em>WooCommerce &rarr; Settings &rarr; Emails</em>. Every plugin email is in that list. Click any one and you get the standard WooCommerce email customiser &mdash; edit subject, heading, additional content, recipient, the works. No code, no theme files, survives plugin updates.</p>
+					<p>Subject lines support the standard WooCommerce tokens (<code>{site_title}</code>, <code>{order_number}</code>) plus a couple of plugin-specific ones documented inline next to each email&rsquo;s default text.</p>
+					<p>The rest of this page is for the cases where the customiser isn&rsquo;t enough.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Override the email HTML template (theme override)</h2>
+					<p>The customiser changes the subject and body text. It doesn&rsquo;t change the HTML structure &mdash; the colours, the header logo, the button styles. For that you copy the template into your theme and edit it there.</p>
+					<p>Three template files cover every plugin email:</p>
+					<pre><code class="language-bash"># Customer-facing emails (notes, rating requests, etc.)
+cp wp-content/plugins/order-updates-for-woo/src/Frontend/Notifications/Templates/order-update-notification.php \
+   wp-content/themes/your-theme/order-updates-for-woo/frontend/notifications/order-update-notification.php
+
+# Promoter / detractor follow-up
+cp wp-content/plugins/order-updates-for-woo/src/Frontend/Notifications/Templates/rating-followup.php \
+   wp-content/themes/your-theme/order-updates-for-woo/frontend/notifications/rating-followup.php
+
+# Staff-facing emails (assignee, @mention, participant, etc.)
+cp wp-content/plugins/order-updates-for-woo/src/Admin/Notifications/Templates/order-update-notification.php \
+   wp-content/themes/your-theme/order-updates-for-woo/admin/notifications/order-update-notification.php</code></pre>
+					<p>Edit your copy. Reload. <code>View::render()</code> picks up the theme version automatically &mdash; no filter to register, no settings to flip. Delete the override and behaviour falls back to the plugin&rsquo;s default.</p>
+					<p>Heads up: the templates are pure PHP. They receive the email&rsquo;s context as locally-scoped variables (<code>$order</code>, <code>$update</code>, <code>$note_content</code>, <code>$action_url</code>, etc.). Open one and read it before you edit &mdash; the available variables are obvious from the top of the file.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Suppress or disable an email</h2>
+					<p>Plenty of stores already have a CRM or helpdesk sending customer notifications &mdash; the plugin&rsquo;s emails would just duplicate them. Disable a specific one without touching anything else.</p>
+					<p>Easiest path: <em>WooCommerce &rarr; Settings &rarr; Emails &rarr; &lt;the email&gt;</em>, untick &ldquo;Enable this email notification&rdquo;, save. Done.</p>
+					<p>If you want the toggle to be programmatic &mdash; turn it off in code so a non-technical user doesn&rsquo;t accidentally re-enable it &mdash; use WooCommerce&rsquo;s standard filter:</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Shared\Config\Constants;
+
+add_filter(
+    'woocommerce_email_enabled_' . Constants::EMAIL_ID_CUSTOMER_RATING_REQUEST,
+    '__return_false'
+);</code></pre>
+					<p>This is the same filter WC uses for every email; nothing plugin-specific about it. The trick is the email ID &mdash; use the constant from <code>OrderUpdatesForWoo\Shared\Config\Constants</code>, not the raw string. The string can change between versions; the constant is the stable identifier.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Intercept the email dispatch (run custom code per email)</h2>
+					<p>Say you&rsquo;ve got a CRM &mdash; Hubspot, Pipedrive, your own &mdash; and you want every customer-facing message to show up on the contact&rsquo;s timeline. Not instead of the email. In addition.</p>
+					<p>This is what <code>HOOK_CUSTOMER_NOTIFICATION</code> is for. It fires inside the Action Scheduler job, just before <code>wp_mail()</code> goes out. You attach a named handler at a lower priority and do your CRM work there.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Shared\Config\Constants;
+
+add_action( Constants::HOOK_CUSTOMER_NOTIFICATION, 'my_addon_log_to_crm', 5, 1 );
+
+function my_addon_log_to_crm( array $args ): void {
+    $note = OrderUpdatesForWoo\Plugin::db()-&gt;get_customer_note( $args['note_id'] );
+    if ( ! $note ) {
+        return;
+    }
+
+    My_Addon\Crm::log_outbound_message( [
+        'order_id' =&gt; (int) $note['order_id'],
+        'body'     =&gt; $note['note'],
+        'sent_at'  =&gt; $note['created_at'],
+    ] );
+}</code></pre>
+					<p><strong>Your handler runs alongside the email, not instead of it.</strong> The customer still gets the email. If you want to replace the email entirely, you also need to disable it (see the previous section).</p>
+					<p><strong>Priority 5 matters.</strong> WC_Email&rsquo;s trigger runs at priority 10. Going at priority 5 means your CRM log fires before the email. If the CRM is down and your code throws, nothing&rsquo;s been sent &mdash; fix it, retry the queue job. Run at priority 15 and the email&rsquo;s already in the customer&rsquo;s inbox while the CRM has no record &mdash; you&rsquo;ll spend Monday reconciling.</p>
+					<p><strong>The <code>if ( ! $note )</code> check matters.</strong> Notes can be deleted between when the job queues and when it runs. If the note&rsquo;s gone, your handler bails quietly rather than crashing the whole queue job.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Route email through a different SMTP provider</h2>
+					<p>You don&rsquo;t replace anything in this plugin to switch transactional providers. Install an SMTP/API plugin like WP Mail SMTP or Post SMTP, configure it once with your provider&rsquo;s credentials, and every <code>wp_mail()</code> call on the site &mdash; including this plugin&rsquo;s &mdash; routes through the new sender.</p>
+					<p>This is the right answer 99% of the time. WP Mail SMTP knows about email delivery, signed sending domains, bounce handling, retry logic. Don&rsquo;t reinvent any of that inside a plugin hook.</p>
+					<p>If you genuinely need per-email routing &mdash; some emails through Postmark, others through SES &mdash; you can branch inside <code>phpmailer_init</code> (a WordPress core filter, not plugin-specific) and reconfigure the mailer based on the subject or recipient. That&rsquo;s a more advanced topic and lives outside this doc; the WP Mail SMTP docs have a good chapter on it.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Customise email per recipient (VIP, role-based)</h2>
+					<p>Common request: customers with a VIP tag should get a different signature in their notification emails. Standard WC has nothing for this; you handle it inside the email&rsquo;s template variables via a filter.</p>
+					<p>Every <code>OrderUpdateEmailBase</code> subclass passes a context array into <code>View::render()</code>. The template includes <code>additional_content</code> at the bottom &mdash; the same field the WC customiser exposes. Filter <code>woocommerce_email_additional_content_&lt;id&gt;</code> to swap that text based on the order or customer.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Shared\Config\Constants;
+
+add_filter(
+    'woocommerce_email_additional_content_' . Constants::EMAIL_ID_CUSTOMER_UPDATE,
+    'my_addon_vip_signature',
+    10, 3
+);
+
+function my_addon_vip_signature( string $content, $object, $email ): string {
+    if ( ! $object instanceof \WC_Order ) {
+        return $content;
+    }
+
+    $is_vip = (string) $object-&gt;get_meta( '_is_vip' ) === 'yes';
+    if ( ! $is_vip ) {
+        return $content;
+    }
+
+    return $content . "\n\nThanks for being a VIP customer. Your dedicated account manager is Sarah -- reply to this email and it goes straight to her.";
+}</code></pre>
+					<p>This is standard WC filter territory &mdash; nothing plugin-specific except the email ID constant. Same pattern works for the heading (<code>woocommerce_email_heading_&lt;id&gt;</code>) and the subject (<code>woocommerce_email_subject_&lt;id&gt;</code>) if you need to vary those per recipient.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Add a brand new custom email type</h2>
+					<p>Say you&rsquo;ve added a new event &mdash; a Slack-to-update bridge that creates updates from Slack reactions &mdash; and you want a different-looking email for that case. Don&rsquo;t fork the existing classes. Write your own <code>WC_Email</code> subclass and register it the same way the core plugin does.</p>
+					<pre><code class="language-php">declare(strict_types=1);
+
+namespace My_Addon\Notifications\Emails;
+
+use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
+
+class SlackBridgedUpdateEmail extends OrderUpdateEmailBase {
+
+    public function __construct( \OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb $db ) {
+        $this-&gt;id             = 'my_addon_slack_bridged_update';
+        $this-&gt;title          = __( 'Slack-bridged update notification', 'my-addon' );
+        $this-&gt;description    = __( 'Sent when an update is created from a Slack reaction.', 'my-addon' );
+        $this-&gt;customer_email = false; // staff-facing
+
+        parent::__construct( $db );
+
+        // Use your own template, or reuse the plugin&#39;s admin one.
+        $this-&gt;template_html = MY_ADDON_PATH . 'templates/slack-bridged-notification.php';
+    }
+
+    public function trigger( int $update_id, int $recipient_user_id ): bool {
+        $this-&gt;reset_trigger_state();
+
+        if ( ! $this-&gt;load_context( $update_id ) ) {
+            return false;
+        }
+
+        $user             = get_userdata( $recipient_user_id );
+        $this-&gt;recipient  = $user-&gt;user_email;
+        $this-&gt;intro_text = __( 'A new update was created from a Slack reaction.', 'my-addon' );
+
+        if ( ! $this-&gt;is_enabled() || ! $this-&gt;get_recipient() ) {
+            return false;
+        }
+
+        return $this-&gt;send_with_locale();
+    }
+
+    public function get_default_subject(): string {
+        return __( '[{site_title}] Slack-bridged update on #{order_number}', 'my-addon' );
+    }
+
+    public function get_default_heading(): string {
+        return __( 'Update from Slack', 'my-addon' );
+    }
+}
+
+// Register the class with WC.
+add_filter( 'woocommerce_email_classes', 'my_addon_register_email_class' );
+
+function my_addon_register_email_class( array $emails ): array {
+    $emails['my_addon_slack_bridged_update'] = new \My_Addon\Notifications\Emails\SlackBridgedUpdateEmail(
+        OrderUpdatesForWoo\Plugin::db()
+    );
+    return $emails;
+}</code></pre>
+					<p>Three things you get for free by extending <code>OrderUpdateEmailBase</code>: the locale dance (<code>setup_locale</code> / <code>send</code> / <code>restore_locale</code> already handled by <code>send_with_locale()</code>), the same template-override system the core emails use, and a row in <em>WooCommerce &rarr; Settings &rarr; Emails</em> for your email so non-developers can change the wording without touching code.</p>
+					<p>Fire your email from wherever its trigger lives &mdash; the moment your Slack handler creates the update, call <code>$email-&gt;trigger( $update_id, $recipient_id )</code>. If the work is heavy, queue it through Action Scheduler the same way the core plugin does.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Email ID constants (for the WC enabled/disabled filter)</h2>
+					<p>Every WC email filter takes the email&rsquo;s string ID. Always reach for the constant, never the literal string &mdash; the literals can change between versions, the constants stay stable.</p>
+					<table>
+						<thead><tr><th>Email</th><th>Constant</th></tr></thead>
+						<tbody>
+							<tr><td>Admin notification (low rating, guest-created update)</td><td><code>EMAIL_ID_ADMIN_UPDATE</code></td></tr>
+							<tr><td>Assignee notification</td><td><code>EMAIL_ID_ASSIGNEE_UPDATE</code></td></tr>
+							<tr><td>@mention notification</td><td><code>EMAIL_ID_INTERNAL_MENTION</code></td></tr>
+							<tr><td>Participant notification</td><td><code>EMAIL_ID_PARTICIPANT_UPDATE</code></td></tr>
+							<tr><td>Customer notification</td><td><code>EMAIL_ID_CUSTOMER_UPDATE</code></td></tr>
+							<tr><td>Rating request</td><td><code>EMAIL_ID_CUSTOMER_RATING_REQUEST</code></td></tr>
+							<tr><td>Rating follow-up</td><td><code>EMAIL_ID_CUSTOMER_RATING_FOLLOWUP</code></td></tr>
+							<tr><td>Customer update deleted</td><td><code>EMAIL_ID_CUSTOMER_UPDATE_DELETED</code></td></tr>
+							<tr><td>Creator update deleted</td><td><code>EMAIL_ID_CREATOR_UPDATE_DELETED</code></td></tr>
+						</tbody>
+					</table>
+					<p>All under <code>OrderUpdatesForWoo\Shared\Config\Constants</code>. Use the <code>use</code> statement once at the top of your file and reach for the constant by short name (<code>Constants::EMAIL_ID_CUSTOMER_UPDATE</code>) thereafter.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/theme-overrides/index.html">
+					<span>Previous</span>
+					Theme overrides
+				</a>
+				<a class="next" href="../../developer-guide/extending/index.html">
+					<span>Next</span>
+					Extending the plugin
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

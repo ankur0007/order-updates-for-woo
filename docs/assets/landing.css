@@ -1,0 +1,4530 @@
+/**
+ * Marketing landing page styles.
+ * Loaded only on the home page (index.html); not on docs pages.
+ */
+
+* {
+	box-sizing: border-box;
+}
+
+body.landing {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Oxygen, Ubuntu, sans-serif;
+	color: #0f172a;
+	background: #ffffff;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Top nav ---------- */
+
+.landing__nav {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: rgba(255, 255, 255, 0.92);
+	backdrop-filter: saturate(180%) blur(12px);
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.landing__nav__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 28px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+}
+
+.landing__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	text-decoration: none;
+	color: #0f172a;
+	font-weight: 600;
+}
+
+/* The logo PNG ships with built-in whitespace, so we crop visually with
+   a fixed display box + object-fit: cover. Keeps the visible mark large
+   without inflating the nav bar height. */
+.landing__brand__logo {
+	display: block;
+	width: 327px;
+	height: 87px;
+	object-fit: cover;
+	object-position: center;
+}
+
+@media (max-width: 480px) {
+	.landing__brand__logo {
+		width: 220px;
+		height: 60px;
+	}
+}
+
+.landing__nav__links {
+	display: flex;
+	gap: 28px;
+}
+
+.landing__nav__links a {
+	color: #475569;
+	text-decoration: none;
+	font-size: 0.92rem;
+	font-weight: 500;
+	transition: color 0.15s ease;
+}
+
+.landing__nav__links a:hover {
+	color: #2563eb;
+}
+
+/* ---------- Hero ---------- */
+
+.landing__hero {
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(1200px 600px at 80% -10%, rgba(59, 130, 246, 0.12), transparent 60%),
+		radial-gradient(900px 500px at 0% 30%, rgba(99, 102, 241, 0.10), transparent 60%),
+		linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+	padding: 80px 28px 100px;
+}
+
+.landing__hero__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+	gap: 64px;
+	align-items: center;
+}
+
+.landing__hero__body {
+	min-width: 0;
+}
+
+.landing__hero__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 14px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+	color: #1d4ed8;
+	font-weight: 600;
+	font-size: 0.82rem;
+	letter-spacing: 0.02em;
+	margin-bottom: 22px;
+	border: 1px solid rgba(99, 102, 241, 0.18);
+}
+
+.landing__hero__title {
+	font-size: clamp(2.2rem, 4.2vw, 3.5rem);
+	font-weight: 800;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	margin: 0 0 24px;
+	color: #0f172a;
+}
+
+.landing__hero__accent {
+	background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.landing__hero__lede {
+	margin: 0 0 32px;
+	font-size: 1.13rem;
+	color: #475569;
+	max-width: 60ch;
+}
+
+.landing__hero__pills {
+	margin: 0 0 32px;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.landing__hero__pills li {
+	padding: 5px 12px;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 999px;
+	color: #475569;
+	font-size: 0.82rem;
+	font-weight: 500;
+}
+
+.landing__hero__ctas {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+}
+
+.landing__hero__media {
+	position: relative;
+	z-index: 1;
+	min-width: 0;
+}
+
+.landing__hero__frame {
+	position: relative;
+	display: block;
+}
+
+.landing__hero__frame img {
+	width: 100%;
+	height: auto;
+	border-radius: 14px;
+	box-shadow:
+		0 30px 60px -15px rgba(15, 23, 42, 0.22),
+		0 12px 24px -8px rgba(15, 23, 42, 0.12);
+	border: 1px solid #e5e7eb;
+	display: block;
+	cursor: zoom-in;
+}
+
+/* Floating real product screenshots layered over the hero image */
+
+.landing__hero__floater {
+	position: absolute;
+	border-radius: 10px;
+	overflow: hidden;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	box-shadow:
+		0 18px 36px -10px rgba(15, 23, 42, 0.22),
+		0 6px 14px -6px rgba(15, 23, 42, 0.12);
+	z-index: 2;
+	width: 240px;
+}
+
+.landing__hero__floater img {
+	width: 100%;
+	height: auto;
+	display: block;
+	border-radius: 0;
+	border: 0;
+	box-shadow: none;
+	cursor: zoom-in;
+}
+
+.landing__hero__floater--top {
+	top: -28px;
+	right: -36px;
+	transform: rotate(2deg);
+}
+
+.landing__hero__floater--bottom {
+	bottom: -28px;
+	left: -36px;
+	transform: rotate(-2deg);
+}
+
+/* ---------- Buttons ---------- */
+
+.landing__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 22px;
+	border-radius: 10px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+	border: 1px solid transparent;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.landing__btn--primary {
+	background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+	color: #ffffff;
+	box-shadow: 0 8px 20px -6px rgba(37, 99, 235, 0.45);
+}
+
+.landing__btn--primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 24px -6px rgba(37, 99, 235, 0.55);
+}
+
+.landing__btn--secondary {
+	background: #ffffff;
+	color: #0f172a;
+	border: 1px solid #e5e7eb;
+}
+
+.landing__btn--secondary:hover {
+	background: #f8fafc;
+	border-color: #cbd5e1;
+}
+
+.landing__btn--large {
+	padding: 16px 32px;
+	font-size: 1rem;
+}
+
+/* ---------- Section primitives ---------- */
+
+.landing__section {
+	padding: 96px 28px;
+}
+
+.landing__section--features {
+	background: #ffffff;
+}
+
+.landing__section--steps {
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+	border-top: 1px solid #e5e7eb;
+}
+
+.landing__section--config {
+	background: #ffffff;
+	border-top: 1px solid #e5e7eb;
+}
+
+.landing__section--screenshots {
+	background: #f8fafc;
+}
+
+.landing__section--demo {
+	background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+	color: #f1f5f9;
+}
+
+.landing__section--demo .landing__section__title,
+.landing__section--demo .landing__eyebrow {
+	color: #ffffff;
+}
+
+.landing__section--demo .landing__section__lede {
+	color: #cbd5e1;
+}
+
+.landing__section--demo .landing__small {
+	color: #94a3b8;
+}
+
+.landing__section--download {
+	background: #ffffff;
+}
+
+.landing__section--docs {
+	background: #f8fafc;
+	border-top: 1px solid #e5e7eb;
+}
+
+.landing__section__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.landing__section__inner--narrow {
+	max-width: 720px;
+	text-align: center;
+}
+
+.landing__section__header {
+	max-width: 760px;
+	margin: 0 auto 56px;
+	text-align: center;
+}
+
+.landing__eyebrow {
+	margin: 0 0 12px;
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 0.78rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.landing__section__title {
+	font-size: clamp(1.8rem, 3vw, 2.4rem);
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+	margin: 0 0 16px;
+	color: #0f172a;
+}
+
+.landing__section__lede {
+	margin: 0;
+	color: #475569;
+	font-size: 1.05rem;
+}
+
+/* ---------- How it works — three-step row ---------- */
+
+.landing__steps {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+	counter-reset: step-counter;
+}
+
+.landing__step {
+	display: flex;
+	flex-direction: column;
+	padding: 28px 28px 24px;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	box-shadow: 0 4px 12px -6px rgba(15, 23, 42, 0.06);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.landing__step:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 30px -10px rgba(15, 23, 42, 0.14);
+	border-color: #cbd5e1;
+}
+
+.landing__step__head {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 12px;
+}
+
+.landing__step__num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 1rem;
+	flex-shrink: 0;
+}
+
+.landing__step h3 {
+	margin: 0;
+	font-size: 1.08rem;
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.3;
+}
+
+.landing__step__desc {
+	margin: 0 0 18px;
+	color: #475569;
+	font-size: 0.94rem;
+	line-height: 1.6;
+	flex-grow: 1;
+}
+
+.landing__step__desc code {
+	background: #f1f5f9;
+	color: #1d4ed8;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 0.85em;
+}
+
+.landing__step__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 72px;
+	height: 72px;
+	border-radius: 16px;
+	background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+	color: #1d4ed8;
+	margin-top: 4px;
+}
+
+.landing__step__media {
+	margin-top: 4px;
+}
+
+.landing__step__media img {
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	border: 1px solid #e5e7eb;
+	cursor: zoom-in;
+	display: block;
+	transition: transform 0.2s ease;
+}
+
+.landing__step__media img:hover {
+	transform: translateY(-1px);
+}
+
+/* ---------- Configure your way — settings grid ---------- */
+
+.landing__config-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 28px;
+}
+
+.landing__config-shot {
+	margin: 0;
+	position: relative;
+}
+
+.landing__config-shot img {
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	border: 1px solid #e5e7eb;
+	box-shadow:
+		0 16px 32px -10px rgba(15, 23, 42, 0.14),
+		0 6px 12px -6px rgba(15, 23, 42, 0.08);
+	cursor: zoom-in;
+	display: block;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.landing__config-shot img:hover {
+	transform: translateY(-2px);
+	box-shadow:
+		0 20px 40px -10px rgba(15, 23, 42, 0.18),
+		0 8px 16px -6px rgba(15, 23, 42, 0.10);
+}
+
+.landing__config-shot figcaption {
+	margin-top: 12px;
+	font-size: 0.9rem;
+	color: #64748b;
+	text-align: center;
+}
+
+/* ---------- Feature rows (alternating story layout) ---------- */
+
+.landing__feature-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+	gap: 64px;
+	align-items: center;
+	padding: 48px 0;
+}
+
+.landing__feature-row + .landing__feature-row {
+	border-top: 1px solid #f1f5f9;
+}
+
+.landing__feature-row--reverse .landing__feature-row__body {
+	order: 2;
+}
+
+.landing__feature-row--reverse .landing__feature-row__media {
+	order: 1;
+}
+
+.landing__feature-row__kicker {
+	margin: 0 0 12px;
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 0.78rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.landing__feature-row__title {
+	margin: 0 0 16px;
+	font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	color: #0f172a;
+}
+
+.landing__feature-row__lede {
+	margin: 0 0 20px;
+	color: #475569;
+	font-size: 1.02rem;
+	line-height: 1.65;
+}
+
+.landing__feature-row__bullets {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.landing__feature-row__bullets li {
+	position: relative;
+	padding-left: 28px;
+	margin-bottom: 12px;
+	color: #334155;
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+.landing__feature-row__bullets li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 8px;
+	width: 16px;
+	height: 16px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+}
+
+.landing__feature-row__bullets li::after {
+	content: "";
+	position: absolute;
+	left: 4px;
+	top: 12px;
+	width: 8px;
+	height: 4px;
+	border-left: 2px solid #1d4ed8;
+	border-bottom: 2px solid #1d4ed8;
+	transform: rotate(-45deg);
+}
+
+.landing__feature-row__bullets li code {
+	background: #f1f5f9;
+	color: #1d4ed8;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 0.85em;
+}
+
+.landing__feature-row__media img {
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	border: 1px solid #e5e7eb;
+	box-shadow:
+		0 20px 40px -10px rgba(15, 23, 42, 0.15),
+		0 8px 16px -6px rgba(15, 23, 42, 0.08);
+	display: block;
+	cursor: zoom-in;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.landing__feature-row__media img:hover {
+	transform: translateY(-2px);
+	box-shadow:
+		0 24px 48px -10px rgba(15, 23, 42, 0.20),
+		0 10px 20px -6px rgba(15, 23, 42, 0.10);
+}
+
+/* ---------- Also included strip ---------- */
+
+.landing__also {
+	padding: 32px;
+	background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+	border-radius: 16px;
+	border: 1px solid #e5e7eb;
+}
+
+.landing__also__heading {
+	margin: 0 0 18px;
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 0.78rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.landing__also__header {
+	max-width: 720px;
+	margin: 0 auto 28px;
+	text-align: center;
+}
+
+.landing__also__title {
+	margin: 4px 0 10px;
+	font-size: clamp(1.5rem, 2.6vw, 2rem);
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.25;
+}
+
+.landing__also__lede {
+	margin: 0;
+	color: #475569;
+	font-size: 1rem;
+	line-height: 1.55;
+}
+
+.landing__also__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.landing__also__list li {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	color: #334155;
+	font-size: 0.92rem;
+	line-height: 1.55;
+}
+
+.landing__also__list svg {
+	flex-shrink: 0;
+	color: #2563eb;
+	margin-top: 3px;
+}
+
+.landing__also__list code {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	color: #1d4ed8;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 0.85em;
+}
+
+/* ---------- Lightbox cursor on any zoomable image ---------- */
+
+.landing__zoom img {
+	cursor: zoom-in;
+}
+
+/* Headline highlights — "install" (start, brand blue) + "happy
+   repeated customers" (end, success green) for the section title. */
+.landing__hl {
+	font-weight: inherit;
+}
+
+.landing__hl--start {
+	background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.landing__hl--end {
+	background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+
+/* ---------- "How it works" auto-rotating stepper ----------
+
+   Left rail: 3 numbered dots arranged with a slight horizontal offset
+   so the second dot bulges right — gives the column a subtle arc.
+   Right stage: one panel visible at a time, fades on swap. */
+
+.landing__stepper {
+	display: grid;
+	grid-template-columns: 420px minmax(0, 1fr);
+	gap: 40px;
+	align-items: center;
+	max-width: 1140px;
+	margin: 0 auto;
+	padding: 24px 0;
+}
+
+/* Closed-loop rail — a fixed square with the 6 dots positioned around
+   its perimeter on a true circle. Centre stays empty so the loop
+   visually communicates "and round again". */
+.landing__stepper__rail {
+	position: relative;
+	width: 420px;
+	height: 420px;
+	margin: 0 auto;
+}
+
+.landing__stepper__rail::before {
+	content: '';
+	position: absolute;
+	inset: 32px;
+	border: 1.5px dashed #e2e8f0;
+	border-radius: 50%;
+	z-index: 0;
+	pointer-events: none;
+}
+
+/* Centre cap — small label that names the active step inside the
+   loop. Updated by the stepper JS via the same is-active handoff. */
+.landing__stepper__rail__center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1;
+	text-align: center;
+	pointer-events: none;
+	color: #475569;
+}
+
+.landing__stepper__rail__center__kicker {
+	display: block;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #2563eb;
+	margin-bottom: 4px;
+}
+
+.landing__stepper__rail__center__label {
+	display: block;
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: #0f172a;
+	max-width: 160px;
+	margin: 0 auto;
+	line-height: 1.25;
+}
+
+.landing__stepper__dot {
+	position: absolute;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	font-family: inherit;
+	color: #94a3b8;
+	cursor: pointer;
+	z-index: 2;
+	transition: color 0.25s ease;
+	/* Anchor by NUM center — translate accounts for the inactive num
+	   being 48px, so it sits centred on the calculated circle point. */
+	transform: translate(-50%, -50%);
+}
+
+/* Inactive dots: small, light, muted. */
+.landing__stepper__dot__num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 999px;
+	background: #ffffff;
+	border: 1.5px solid #e2e8f0;
+	color: #94a3b8;
+	font-weight: 600;
+	font-size: 1.05rem;
+	transition: width 0.3s ease, height 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, font-size 0.3s ease;
+}
+
+/* In circle mode the inline label is hidden — the active step's label
+   shows in the center of the loop instead. */
+.landing__stepper__dot__label {
+	display: none;
+}
+
+.landing__stepper__dot:hover .landing__stepper__dot__num {
+	border-color: #93c5fd;
+	color: #2563eb;
+}
+
+/* Active dot: noticeably larger, gradient fill, soft drop shadow.
+   Label gets bolder + darker to draw the eye. */
+.landing__stepper__dot.is-active {
+	color: #0f172a;
+}
+
+.landing__stepper__dot.is-active .landing__stepper__dot__num {
+	width: 80px;
+	height: 80px;
+	background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+	border-color: transparent;
+	color: #ffffff;
+	font-size: 1.6rem;
+	box-shadow: 0 16px 32px -10px rgba(37, 99, 235, 0.45);
+}
+
+.landing__stepper__dot.is-active .landing__stepper__dot__label {
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+/* 7 dots evenly distributed around the circle (360°/7 ≈ 51.4° apart).
+   Rail box = 420×420, padding 32 → radius 178, centre (210, 210).
+   Starting at 12 o'clock and going clockwise. */
+.landing__stepper__dot[data-stepper-dot="1"] { top: 32px;  left: 210px; }
+.landing__stepper__dot[data-stepper-dot="2"] { top: 99px;  left: 349px; }
+.landing__stepper__dot[data-stepper-dot="3"] { top: 250px; left: 384px; }
+.landing__stepper__dot[data-stepper-dot="4"] { top: 370px; left: 287px; }
+.landing__stepper__dot[data-stepper-dot="5"] { top: 370px; left: 133px; }
+.landing__stepper__dot[data-stepper-dot="6"] { top: 250px; left: 36px;  }
+.landing__stepper__dot[data-stepper-dot="7"] { top: 99px;  left: 71px;  }
+
+/* Content stage on the right. Panels overlay each other so they
+   always occupy the same vertical position — swapping doesn't push
+   neighbours up or down. */
+.landing__stepper__stage {
+	position: relative;
+	min-height: 480px;
+}
+
+/* Each panel is a 2-column layout: text on the left, vertical image
+   on the right. Panels overlay each other (only the active one is
+   in flow + visible) so swapping doesn't push neighbours around. */
+.landing__stepper__panel {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 280px;
+	gap: 36px;
+	align-items: center;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity 0.35s ease, transform 0.35s ease;
+	pointer-events: none;
+}
+
+.landing__stepper__panel.is-active {
+	position: relative; /* In-flow — defines the stage's natural height. */
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.landing__stepper__panel__text {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+/* `[hidden]` would normally do this for us, but our `display: flex`
+   rule above wins specificity-wise — explicit override required. */
+.landing__stepper__panel[hidden] {
+	display: none;
+}
+
+.landing__stepper__panel__kicker {
+	margin: 0;
+	color: #2563eb;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.landing__stepper__panel__title {
+	margin: 0;
+	font-size: clamp(1.5rem, 2.6vw, 2rem);
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+}
+
+.landing__stepper__panel__desc {
+	margin: 0;
+	color: #475569;
+	font-size: 1.02rem;
+	line-height: 1.6;
+}
+
+.landing__stepper__panel__desc code {
+	background: #f1f5f9;
+	border-radius: 4px;
+	padding: 1px 6px;
+	font-size: 0.9em;
+	color: #1d4ed8;
+}
+
+/* Vertical/portrait image on the right side of the panel. */
+.landing__stepper__panel__media {
+	width: 100%;
+}
+
+.landing__stepper__panel__media img {
+	display: block;
+	width: 100%;
+	height: 420px;
+	object-fit: cover;
+	/* Most screenshots show their meaningful content on the LEFT — the
+	   right side is admin sidebar / whitespace. Anchor the crop to the
+	   top-left so the title / hero of each screenshot is visible. */
+	object-position: top left;
+	border-radius: 14px;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.2);
+	cursor: zoom-in;
+}
+
+/* Per-step crop overrides — each screenshot has its hero in a different
+   spot, so we shift the focal point individually. */
+.landing__stepper__panel[data-stepper-panel="4"] .landing__stepper__panel__media img {
+	object-position: top center;
+}
+
+.landing__stepper__panel[data-stepper-panel="5"] .landing__stepper__panel__media img {
+	object-position: -40px top;
+}
+
+.landing__stepper__panel[data-stepper-panel="7"] .landing__stepper__panel__media img {
+	object-position: -50px top;
+}
+
+/* `--art` variant — used when the slot holds an illustration / logo
+   instead of a screenshot. No crop, soft gradient backdrop, no border. */
+.landing__stepper__panel__media--art {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 420px;
+	border-radius: 14px;
+	background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+	border: 1px solid #e0e7ff;
+	padding: 32px;
+}
+
+.landing__stepper__panel__media--art img {
+	width: auto;
+	max-width: 100%;
+	max-height: 100%;
+	height: auto;
+	object-fit: contain;
+	border: 0;
+	box-shadow: none;
+	background: transparent;
+}
+
+/* Custom install illustration — sized to fit the art container. */
+.landing__stepper__install-art {
+	width: 100%;
+	max-width: 280px;
+	height: auto;
+	display: block;
+}
+
+/* Mobile / tablet — stack the rail on top, dots become a horizontal pill row. */
+@media (max-width: 880px) {
+	.landing__stepper {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+	}
+
+	.landing__stepper__rail {
+		flex-direction: row;
+		gap: 14px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.landing__stepper__rail::before {
+		top: 50%;
+		bottom: auto;
+		left: 14px;
+		right: 14px;
+		height: 2px;
+		width: auto;
+		transform: translateY(-50%);
+	}
+
+	.landing__stepper__dot[data-stepper-dot="2"] {
+		margin-left: 0;
+		margin-top: 14px;
+	}
+
+	.landing__stepper__dot__num {
+		width: 44px;
+		height: 44px;
+		font-size: 1.05rem;
+	}
+
+	.landing__stepper__dot__label {
+		display: none;
+	}
+
+	.landing__stepper__stage {
+		min-height: 0;
+	}
+
+	/* Mobile: panel collapses to single column — text on top, image below. */
+	.landing__stepper__panel {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 20px;
+	}
+
+	.landing__stepper__panel__media img {
+		height: 280px;
+	}
+}
+
+/* ---------- "More features" bento grid ---------- */
+
+.landing__bento__header {
+	max-width: 720px;
+	margin: 0 auto 28px;
+	text-align: center;
+}
+
+.landing__bento__title {
+	margin: 4px 0 0;
+	font-size: clamp(1.6rem, 3vw, 2.1rem);
+	font-weight: 700;
+	color: #0f172a;
+}
+
+/* Magazine-style 3-column grid with explicit areas. Two rows of tiles:
+   ratings spans two columns at the top, round-robin sits beside it; row
+   two has devs, statuses, and the admin-bar inbox side-by-side. */
+.landing__bento__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-areas:
+		"ratings     ratings  round-robin"
+		"devs        statuses adminbar";
+	gap: 18px;
+	align-items: stretch;
+}
+
+.landing__bento__tile--ratings     { grid-area: ratings; }
+.landing__bento__tile--round-robin { grid-area: round-robin; }
+.landing__bento__tile--adminbar    { grid-area: adminbar; }
+.landing__bento__tile--devs        { grid-area: devs; }
+.landing__bento__tile--statuses    { grid-area: statuses; }
+
+.landing__bento__tile {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 18px;
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	box-shadow:
+		0 12px 28px -14px rgba(15, 23, 42, 0.12),
+		0 4px 8px -4px rgba(15, 23, 42, 0.05);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.landing__bento__tile:hover {
+	transform: translateY(-3px);
+	border-color: #cbd5e1;
+	box-shadow:
+		0 22px 40px -18px rgba(15, 23, 42, 0.18),
+		0 6px 12px -6px rgba(15, 23, 42, 0.08);
+}
+
+/* Anchor tiles — same look as <article> tiles, but with a small "read
+   more" cue at the bottom that hints the whole card is clickable.
+   The hover override is mandatory because the global stylesheet adds
+   `text-decoration: underline` on every `a:hover`, which otherwise paints
+   every text node inside the tile with a line. */
+.landing__bento__tile--link,
+.landing__bento__tile--link:hover,
+.landing__bento__tile--link:focus {
+	color: inherit;
+	text-decoration: none;
+}
+
+.landing__bento__tile__link-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 4px;
+	color: #6d28d9;
+	font-size: 0.85rem;
+	font-weight: 600;
+}
+
+.landing__bento__tile--link:hover .landing__bento__tile__link-cta {
+	gap: 10px;
+}
+
+/* Soft, subtle accent backgrounds so each tile reads as its own surface
+   without breaking the unified look. Each accent leans on a different
+   pastel hue, which helps the eye separate tiles at a glance. */
+.landing__bento__tile--ratings     { background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%); }
+.landing__bento__tile--round-robin { background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); }
+.landing__bento__tile--adminbar    { background: linear-gradient(135deg, #ffffff 0%, #ecfeff 100%); }
+.landing__bento__tile--devs        { background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%); }
+.landing__bento__tile--statuses    { background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%); }
+.landing__bento__tile--privacy     { background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%); }
+
+.landing__bento__tile__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.landing__bento__tile__kicker {
+	margin: 0;
+	font-weight: 600;
+	font-size: 0.72rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #2563eb;
+}
+
+.landing__bento__tile__title {
+	margin: 0;
+	font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.3;
+}
+
+.landing__bento__tile__lede {
+	margin: 0;
+	color: #475569;
+	font-size: 0.93rem;
+	line-height: 1.55;
+}
+
+/* Media is flex-anchored to the bottom so it grows to match a row's
+   tallest tile instead of leaving empty space above it. */
+.landing__bento__tile__media {
+	margin-top: auto;
+	display: flex;
+	flex: 1 1 auto;
+}
+
+/* Images keep aspect-ratio cropping (cover) and stretch to fill the
+   tile's media area. Cap at 320px so they don't blow up on very tall
+   tiles. Lightbox still shows the full original on click. */
+.landing__bento__tile__media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 220px;
+	max-height: 320px;
+	object-fit: cover;
+	object-position: top center;
+	border-radius: 12px;
+	border: 1px solid #e5e7eb;
+	cursor: zoom-in;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	box-shadow: 0 8px 20px -10px rgba(15, 23, 42, 0.18);
+}
+
+/* Paired-media variant: split the available height between two images,
+   each filling its half. */
+.landing__bento__tile__media--pair {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.landing__bento__tile__media--pair img {
+	height: 100%;
+	min-height: 220px;
+	max-height: 320px;
+}
+
+/* Privacy tile — visual guarantees list instead of a screenshot. Two
+   columns on desktop so the wide bottom tile fills nicely; collapses
+   to one column on mobile. Each item is icon + bold claim + sub-text. */
+.landing__bento__tile__guarantees {
+	margin: 8px 0 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.landing__bento__tile__guarantees li {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding: 14px;
+	background: rgba(255, 255, 255, 0.7);
+	border: 1px solid #fbcfe8;
+	border-radius: 12px;
+}
+
+.landing__bento__tile__guarantees__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	flex-shrink: 0;
+	border-radius: 10px;
+	background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+	color: #be185d;
+}
+
+.landing__bento__tile__guarantees li > div {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.landing__bento__tile__guarantees strong {
+	color: #831843;
+	font-size: 0.95rem;
+	font-weight: 700;
+}
+
+.landing__bento__tile__guarantees span {
+	color: #6b7280;
+	font-size: 0.84rem;
+	line-height: 1.45;
+}
+
+@media (max-width: 720px) {
+	.landing__bento__tile__guarantees {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Round-robin assignee preview — used inside the Team tile to visualise
+   "next ticket goes to the top of this list, then rotates to the back."
+   An ordered list with coloured avatar chips + a small loop arrow at
+   the bottom. Tells the story without needing a screenshot. */
+.landing__bento__tile__rotation {
+	position: relative;
+	padding: 18px;
+	background: rgba(255, 255, 255, 0.85);
+	border: 1px solid #dbeafe;
+	border-radius: 14px;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.landing__bento__tile__rotation__label {
+	margin: 0;
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #1e40af;
+}
+
+.landing__bento__tile__rotation__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	counter-reset: rotation;
+	flex: 1;
+}
+
+.landing__bento__tile__rotation__list li {
+	counter-increment: rotation;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 10px;
+	background: rgba(255, 255, 255, 0.7);
+	border-radius: 10px;
+	font-size: 0.95rem;
+	color: #1e293b;
+}
+
+.landing__bento__tile__rotation__list li::before {
+	content: counter(rotation);
+	width: 22px;
+	height: 22px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	background: #e0e7ff;
+	color: #4338ca;
+	font-size: 0.78rem;
+	font-weight: 700;
+	flex-shrink: 0;
+}
+
+.landing__bento__tile__rotation__chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.landing__bento__tile__rotation__chip[data-color="amber"]   { background: #f59e0b; }
+.landing__bento__tile__rotation__chip[data-color="blue"]    { background: #3b82f6; }
+.landing__bento__tile__rotation__chip[data-color="emerald"] { background: #10b981; }
+.landing__bento__tile__rotation__chip[data-color="violet"]  { background: #8b5cf6; }
+
+.landing__bento__tile__rotation__hint {
+	margin-left: auto;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #fef3c7;
+	color: #92400e;
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.landing__bento__tile__rotation__arrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 10px;
+	color: #475569;
+	font-size: 0.75rem;
+	font-weight: 500;
+}
+
+/* Icon-stage variant — used when a screenshot would visually crowd the
+   tile (e.g. the long REST endpoints table). Shows a large icon plus a
+   stack of chips that hint at what the screenshot would have shown,
+   without the awkward proportions. */
+.landing__bento__tile__icon-stage {
+	margin-top: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	min-height: 200px;
+	padding: 24px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+	color: #6d28d9;
+	border: 1px solid #e0e7ff;
+}
+
+.landing__bento__tile__icon-chips {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	align-items: center;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	font-size: 0.78rem;
+	width: 100%;
+}
+
+.landing__bento__tile__icon-chips span {
+	display: inline-block;
+	max-width: 100%;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.7);
+	border: 1px solid #ddd6fe;
+	color: #5b21b6;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.landing__bento__tile__icon-chips span:last-child {
+	background: transparent;
+	border: none;
+	color: #7c3aed;
+	font-style: italic;
+}
+
+.landing__bento__tile__media img:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 28px -12px rgba(15, 23, 42, 0.25);
+}
+
+/* Pair: two images side-by-side inside one tile. Used by tiles that
+   tell a two-screenshot story (e.g. widget + email, or guest URL +
+   attachment limits). */
+.landing__bento__tile__media--pair {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+/* ---------- Masonry-style gallery ---------- */
+
+.landing__gallery__header {
+	max-width: 720px;
+	margin: 0 auto 28px;
+	text-align: center;
+}
+
+.landing__gallery__title {
+	margin: 4px 0 6px;
+	font-size: clamp(1.6rem, 3vw, 2rem);
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.landing__gallery__lede {
+	margin: 0;
+	color: #64748b;
+	font-size: 1rem;
+	line-height: 1.55;
+}
+
+/* CSS columns gives us a Pinterest-style masonry without JS.
+   Items stay in column-flow order; each <figure> sets `break-inside: avoid`
+   so a thumb + caption never split across columns. */
+.landing__gallery__grid {
+	column-count: 4;
+	column-gap: 16px;
+}
+
+.landing__gallery__item {
+	break-inside: avoid;
+	margin: 0 0 16px;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	overflow: hidden;
+	background: #fff;
+	box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.08);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.landing__gallery__item:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.15);
+}
+
+.landing__gallery__item img {
+	display: block;
+	width: 100%;
+	height: auto;
+	cursor: zoom-in;
+}
+
+.landing__gallery__item figcaption {
+	padding: 10px 14px;
+	color: #475569;
+	font-size: 0.85rem;
+	font-weight: 500;
+	border-top: 1px solid #f1f5f9;
+}
+
+/* ---------- Home page feature teaser grid ---------- */
+
+.landing__feature-teaser {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 14px;
+	margin-top: 32px;
+}
+
+.landing__feature-teaser__card {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 20px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+	color: inherit;
+	text-decoration: none;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+/* Defeat the global `a:hover { text-decoration: underline }` so the
+   inner heading + body text don't get a line painted on hover. */
+.landing__feature-teaser__card:hover,
+.landing__feature-teaser__card:focus {
+	transform: translateY(-3px);
+	border-color: #93c5fd;
+	box-shadow: 0 14px 28px -12px rgba(15, 23, 42, 0.18);
+	text-decoration: none;
+}
+
+.landing__feature-teaser__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 10px;
+	background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+	color: #2563eb;
+}
+
+.landing__feature-teaser__card h3 {
+	margin: 4px 0 0;
+	font-size: 1rem;
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.3;
+}
+
+.landing__feature-teaser__card p {
+	margin: 0;
+	color: #475569;
+	font-size: 0.87rem;
+	line-height: 1.5;
+}
+
+.landing__feature-teaser__cta {
+	margin-top: 32px;
+	text-align: center;
+}
+
+.landing__feature-teaser__cta .landing__btn {
+	gap: 6px;
+}
+
+.landing__feature-teaser__cta-sub {
+	margin: 12px 0 0;
+	color: #94a3b8;
+	font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+	.landing__feature-teaser {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 480px) {
+	.landing__feature-teaser {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ---------- Mega-menu (anchored panels under top nav) ---------- */
+
+.landing__nav__item {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+}
+
+.landing__nav__trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #475569;
+	font-family: inherit;
+	font-size: 0.92rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: color 0.15s ease;
+}
+
+.landing__nav__trigger:hover,
+.landing__nav__trigger[aria-expanded="true"] {
+	color: #2563eb;
+}
+
+.landing__nav__trigger__chevron {
+	transition: transform 0.18s ease;
+}
+
+.landing__nav__trigger[aria-expanded="true"] .landing__nav__trigger__chevron {
+	transform: rotate(180deg);
+}
+
+/* Anchored panel — drops down from the trigger. Hidden by default;
+   `data-open` flips it visible with a small slide + fade. */
+.landing__nav__panel {
+	position: absolute;
+	top: calc(100% + 14px);
+	left: 50%;
+	transform: translate(-50%, -8px);
+	min-width: 320px;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+	box-shadow: 0 20px 40px -16px rgba(15, 23, 42, 0.22), 0 6px 12px -6px rgba(15, 23, 42, 0.08);
+	padding: 10px;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.18s ease, transform 0.18s ease;
+	z-index: 1000;
+}
+
+.landing__nav__panel[data-open] {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translate(-50%, 0);
+}
+
+/* Wide mega-menu variant — two columns: scrollable nav links on the
+   left, featured promo card on the right. Used by Product / Resources
+   panels and ready to host addon launches when they ship. */
+.landing__nav__panel--wide {
+	min-width: 640px;
+	padding: 18px;
+	display: grid;
+	grid-template-columns: minmax(260px, 1fr) minmax(220px, 280px);
+	gap: 24px;
+}
+
+.landing__nav__panel__links {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.landing__nav__panel__heading {
+	margin: 0 0 8px;
+	padding: 0 12px;
+	color: #94a3b8;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+/* Featured slot — clickable promo card. Drop in a new image + copy
+   when launching an addon to surface it inside the dropdown. */
+.landing__nav__featured {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 14px;
+	background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+	border: 1px solid #e0e7ff;
+	border-radius: 12px;
+	color: inherit;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.landing__nav__featured:hover,
+.landing__nav__featured:focus {
+	transform: translateY(-2px);
+	border-color: #93c5fd;
+	box-shadow: 0 12px 24px -12px rgba(15, 23, 42, 0.18);
+}
+
+.landing__nav__featured__img {
+	display: block;
+	width: 100%;
+	height: 120px;
+	object-fit: cover;
+	object-position: top center;
+	border-radius: 8px;
+	border: 1px solid #dbeafe;
+	margin-bottom: 6px;
+}
+
+.landing__nav__featured__kicker {
+	color: #2563eb;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.landing__nav__featured__title {
+	color: #0f172a;
+	font-size: 0.98rem;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.landing__nav__featured__lede {
+	color: #475569;
+	font-size: 0.84rem;
+	line-height: 1.45;
+}
+
+.landing__nav__featured__cta {
+	margin-top: 4px;
+	color: #2563eb;
+	font-size: 0.85rem;
+	font-weight: 600;
+}
+
+/* Cards inside each panel — icon on the left, title + lede on the right. */
+.landing__nav__card {
+	display: grid;
+	grid-template-columns: 36px 1fr;
+	gap: 12px;
+	padding: 10px 12px;
+	border-radius: 10px;
+	color: inherit;
+	transition: background 0.12s ease;
+}
+
+.landing__nav__card:hover,
+.landing__nav__card:focus {
+	background: #f8fafc;
+}
+
+.landing__nav__card__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 9px;
+	background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+	color: #2563eb;
+	flex-shrink: 0;
+}
+
+.landing__nav__card__body {
+	min-width: 0;
+}
+
+.landing__nav__card__title {
+	display: block;
+	font-size: 0.93rem;
+	font-weight: 600;
+	color: #0f172a;
+	line-height: 1.3;
+}
+
+.landing__nav__card__lede {
+	display: block;
+	margin-top: 2px;
+	font-size: 0.82rem;
+	color: #64748b;
+	line-height: 1.4;
+}
+
+/* ---------- Mobile nav (hamburger + slide-out panel) ----------
+
+   Hidden on desktop. On viewports ≤ 880px the hamburger replaces the
+   inline link row; tapping it slides a full-height panel in from the
+   right with the same links as large, finger-friendly targets. */
+
+.landing__nav__toggle {
+	display: none;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid #e5e7eb;
+	background: #fff;
+	border-radius: 10px;
+	color: #0f172a;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.15s ease;
+	/* Sit above the slide-in panel so the X stays tappable when open. */
+	position: relative;
+	z-index: 10000;
+}
+
+.landing__nav__toggle:hover {
+	background: #f8fafc;
+}
+
+.landing__nav__toggle svg {
+	display: block;
+}
+
+.landing__nav__toggle .icon-close {
+	display: none;
+}
+
+body.nav-is-open .landing__nav__toggle .icon-open  { display: none; }
+body.nav-is-open .landing__nav__toggle .icon-close { display: block; }
+
+/* Lock background scroll while the menu is open. */
+body.nav-is-open {
+	overflow: hidden;
+}
+
+/* Dimming overlay behind the panel. */
+.landing__nav::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.5);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease;
+	z-index: 9990;
+}
+
+body.nav-is-open .landing__nav::after {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+@media (max-width: 880px) {
+	.landing__nav__toggle {
+		display: inline-flex;
+	}
+
+	/* Bump the sticky nav above the slide-in panel so brand + close
+	   stay visible while the menu is open. */
+	body.nav-is-open .landing__nav {
+		z-index: 10001;
+		background: #ffffff;
+	}
+
+	/* Full-screen sliding panel. Uses min-height + auto height instead
+	   of bottom:0 so the inner content can grow past the viewport and
+	   scroll naturally — `bottom:0` was clipping the bottom of the
+	   panel when accordions expanded. */
+	.landing__nav__links {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100vw;
+		min-height: 100vh;
+		background: #ffffff;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 84px 28px 40px;
+		transform: translateX(100%);
+		transition: transform 0.3s ease;
+		z-index: 9995;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	body.nav-is-open .landing__nav__links {
+		transform: translateX(0);
+	}
+
+	/* Top-level row styling — applies to BOTH plain <a> links and the
+	   <button> triggers that head the dropdown groups. */
+	.landing__nav__links > a,
+	.landing__nav__trigger {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 16px 0;
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: #0f172a;
+		border: 0;
+		border-bottom: 1px solid #f1f5f9;
+		background: transparent;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.landing__nav__links > a:last-child {
+		border-bottom: 0;
+	}
+
+	.landing__nav__links > a:hover,
+	.landing__nav__links > a:focus,
+	.landing__nav__links > a.is-active,
+	.landing__nav__trigger:hover,
+	.landing__nav__trigger[aria-expanded="true"] {
+		color: #2563eb;
+	}
+
+	/* Item containers go block-level so each takes its own row. */
+	.landing__nav__item {
+		display: block;
+		position: static;
+	}
+
+	/* Dropdown panels become inline accordions on mobile — no absolute
+	   positioning, no box chrome. max-height animates the open/close. */
+	.landing__nav__panel {
+		position: static;
+		transform: none;
+		opacity: 1;
+		pointer-events: auto;
+		background: transparent;
+		border: 0;
+		border-bottom: 1px solid #f1f5f9;
+		border-radius: 0;
+		box-shadow: none;
+		padding: 0;
+		min-width: 0;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.28s ease, padding 0.2s ease;
+	}
+
+	.landing__nav__panel[data-open] {
+		max-height: 600px;
+		padding: 4px 0 12px;
+		transform: none;
+	}
+
+	/* Wide panel collapses to single column on mobile so the featured
+	   block sits below the links instead of trying to fit beside them. */
+	.landing__nav__panel--wide {
+		min-width: 0;
+		padding: 0;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+
+	.landing__nav__panel__heading {
+		display: none;
+	}
+
+	.landing__nav__featured {
+		padding: 12px;
+		border-radius: 10px;
+	}
+
+	.landing__nav__featured__img {
+		height: 100px;
+	}
+
+	/* Cards inside the panel — compact rows with icon + title only. */
+	.landing__nav__card {
+		padding: 10px 12px;
+		grid-template-columns: 32px 1fr;
+		gap: 10px;
+	}
+
+	.landing__nav__card__icon {
+		width: 32px;
+		height: 32px;
+	}
+
+	.landing__nav__card__icon svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.landing__nav__card__title {
+		font-size: 1.02rem;
+	}
+
+	.landing__nav__card__lede {
+		font-size: 0.78rem;
+	}
+}
+
+/* ---------- Global anchor hygiene on landing pages ----------
+
+   The shared `styles.css` adds `text-decoration: underline` on every
+   `a:hover` — fine for documentation pages, but on marketing pages it
+   paints a line on full-box anchors (cards, tiles), nav items, button
+   chrome, and every other anchor as soon as the mouse touches it.
+
+   Strategy: kill underline by default on `body.landing`, then opt
+   back in for the narrow set of contexts where a link IS inline
+   running text (footer credit, paragraph links, CTA sub-lines).
+*/
+
+body.landing a,
+body.landing a:hover,
+body.landing a:focus {
+	text-decoration: none;
+}
+
+/* Inline text links — these need a visible underline because they
+   live inside paragraphs and would otherwise look like body text. */
+body.landing .about__para a,
+body.landing .about__cta__sub a,
+body.landing .landing__footer__bottom a {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+body.landing .about__para a:hover,
+body.landing .about__cta__sub a:hover,
+body.landing .landing__footer__bottom a:hover {
+	text-decoration: underline;
+	opacity: 0.78;
+}
+
+/* ---------- Reviews section (home) ---------- */
+
+.landing__section--reviews {
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.landing__reviews {
+	margin: 0 auto;
+}
+
+.landing__reviews__waiting {
+	padding: 40px 32px;
+	background: #fff;
+	border: 1px dashed #cbd5e1;
+	border-radius: 16px;
+	text-align: center;
+}
+
+.landing__reviews__waiting__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 72px;
+	height: 72px;
+	margin: 0 auto 16px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+	color: #b45309;
+}
+
+.landing__reviews__waiting h3 {
+	margin: 0 0 8px;
+	font-size: 1.3rem;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.landing__reviews__waiting p {
+	margin: 0 auto 20px;
+	max-width: 480px;
+	color: #475569;
+	line-height: 1.6;
+}
+
+/* WP.org review widget — populated by JS once real reviews land.
+   Belt-and-braces: `[hidden]` should suffice but some sibling styles
+   force display, so spell out the hide explicitly. */
+.landing__reviews__wporg[hidden] {
+	display: none;
+}
+
+.landing__reviews__wporg--inline {
+	margin-top: 24px;
+	display: inline-block;
+}
+
+.landing__reviews__wporg--inline[hidden] {
+	display: none;
+}
+
+.landing__reviews__wporg {
+	margin-top: 24px;
+	padding: 32px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	text-align: center;
+	box-shadow: 0 12px 24px -12px rgba(15, 23, 42, 0.12);
+}
+
+.landing__reviews__wporg__stars {
+	display: inline-flex;
+	gap: 4px;
+	color: #f59e0b;
+	margin-bottom: 8px;
+}
+
+.landing__reviews__wporg__rating {
+	margin: 0 0 16px;
+	color: #0f172a;
+	font-size: 1.1rem;
+}
+
+.landing__reviews__wporg__rating strong {
+	font-size: 1.6rem;
+	font-weight: 800;
+	color: #0f172a;
+}
+
+.landing__reviews__wporg__count {
+	display: block;
+	color: #64748b;
+	font-size: 0.9rem;
+	margin-top: 4px;
+}
+
+/* ---------- Testimonial cards (modern, flat design) ----------
+
+   No heavy box / border / shadow. A flat layout: large quote up top,
+   a thin separator, then attribution row at the bottom. Reads as
+   editorial prose, not as a product card. */
+.landing__testimonial {
+	position: relative;
+	margin: 0;
+	padding: 36px 32px 28px;
+	background: transparent;
+	border-radius: 0;
+	border: 0;
+	box-shadow: none;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	overflow: visible;
+}
+
+/* Decorative quote glyph — bigger, behind the text, very faded. Acts as
+   a visual marker that the block is a quote without needing a box. */
+.landing__testimonial__quote-mark {
+	position: absolute;
+	top: 14px;
+	left: 24px;
+	width: 80px;
+	height: 80px;
+	color: #eef2ff;
+	z-index: 0;
+}
+
+.landing__testimonial__stars,
+.landing__testimonial__quote,
+.landing__testimonial__meta,
+.landing__testimonial__reply,
+.landing__testimonial__source {
+	position: relative;
+	z-index: 1;
+}
+
+.landing__testimonial__stars {
+	color: #f59e0b;
+	font-size: 1.15rem;
+	letter-spacing: 3px;
+	line-height: 1;
+}
+
+.landing__testimonial__quote {
+	margin: 0;
+	color: #0f172a;
+	font-size: 1.18rem;
+	line-height: 1.6;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+}
+
+.landing__testimonial__meta {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-top: auto;
+	padding-top: 18px;
+	border-top: 1px solid #e2e8f0;
+	font-size: 0.9rem;
+}
+
+/* Avatar circle with initials. 6 accent colours rotate per-name via JS. */
+.landing__testimonial__avatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 0.92rem;
+	flex-shrink: 0;
+}
+
+.landing__testimonial[data-accent="0"] .landing__testimonial__avatar { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
+.landing__testimonial[data-accent="1"] .landing__testimonial__avatar { background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); }
+.landing__testimonial[data-accent="2"] .landing__testimonial__avatar { background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%); }
+.landing__testimonial[data-accent="3"] .landing__testimonial__avatar { background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%); }
+.landing__testimonial[data-accent="4"] .landing__testimonial__avatar { background: linear-gradient(135deg, #10b981 0%, #84cc16 100%); }
+.landing__testimonial[data-accent="5"] .landing__testimonial__avatar { background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%); }
+
+.landing__testimonial__who {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+	flex: 1;
+}
+
+.landing__testimonial__who strong {
+	color: #0f172a;
+	font-size: 0.95rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.landing__testimonial__role {
+	color: #64748b;
+	font-size: 0.82rem;
+	line-height: 1.3;
+}
+
+.landing__testimonial__verify {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 5px 10px;
+	border-radius: 999px;
+	background: #eff6ff;
+	color: #1d4ed8;
+	font-weight: 600;
+	font-size: 0.78rem;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.landing__testimonial__verify:hover {
+	background: #dbeafe;
+}
+
+/* Source pill — inline inside the meta row (set by JS markup order). */
+.landing__testimonial__source {
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: #eff6ff;
+	color: #1d4ed8;
+	font-size: 0.66rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+/* On reviews.html card variant, push the source pill to the top-right
+   absolutely (the card has room for it there). */
+.landing__testimonials--rows .landing__testimonial {
+	position: relative;
+}
+
+.landing__testimonials--rows .landing__testimonial__source {
+	position: absolute;
+	top: 22px;
+	right: 22px;
+}
+
+/* Reply — indented, no card. Left rule + slightly smaller text reads
+   as a nested response, not another box. */
+.landing__testimonial__reply {
+	display: flex;
+	gap: 10px;
+	padding: 6px 0 6px 14px;
+	border-left: 2px solid #c7d2fe;
+	font-size: 0.9rem;
+	line-height: 1.55;
+	color: #475569;
+}
+
+.landing__testimonial__reply__pip {
+	color: #6366f1;
+	flex-shrink: 0;
+	margin-top: 2px;
+}
+
+.landing__testimonial__reply__label {
+	display: block;
+	font-weight: 700;
+	color: #1e293b;
+	font-size: 0.78rem;
+	margin-bottom: 2px;
+}
+
+.landing__testimonial__reply p {
+	margin: 0;
+	color: #475569;
+}
+
+/* ---------- Home: editorial 2-column pull-quote ---------- */
+
+.landing__testi-2col {
+	display: grid;
+	grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+	gap: 64px;
+	align-items: start;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.landing__testi-2col__intro {
+	padding-top: 8px;
+}
+
+.landing__testi-2col__title {
+	margin: 12px 0 16px;
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+}
+
+.landing__testi-2col__lede {
+	margin: 0;
+	max-width: 380px;
+	color: #475569;
+	font-size: 1rem;
+	line-height: 1.6;
+}
+
+.landing__testi-2col__controls {
+	display: flex;
+	gap: 12px;
+	margin-top: 32px;
+}
+
+.landing__testi-2col__see-all {
+	margin: 20px 0 0;
+}
+
+.landing__testi-2col__see-all a {
+	color: #2563eb;
+	font-weight: 600;
+}
+
+.landing__testi-2col__stage {
+	position: relative;
+	min-height: 320px;
+}
+
+.landing__testi-2col__dots {
+	margin-top: 8px;
+	justify-content: flex-start;
+}
+
+/* The slider track inside the stage — one quote per slide. */
+.landing__testi-2col [data-slider-track] {
+	display: flex;
+	gap: 0;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+}
+
+.landing__testi-2col [data-slider-track]::-webkit-scrollbar {
+	display: none;
+}
+
+/* Pull-quote treatment for slides inside the 2-col layout. Big blue
+   opening quote glyph at top, large quote text, attribution row below
+   with avatar + name + verify. No box. */
+.landing__testimonials--pullquote .landing__testimonial {
+	flex: 0 0 100%;
+	scroll-snap-align: start;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	border-radius: 0;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	text-align: left;
+	align-items: stretch;
+}
+
+.landing__testimonials--pullquote .landing__testimonial::before {
+	content: '\201C';
+	display: block;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 4.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #2563eb;
+	margin-bottom: -8px;
+}
+
+.landing__testimonials--pullquote .landing__testimonial__quote-mark {
+	display: none;
+}
+
+.landing__testimonials--pullquote .landing__testimonial__stars {
+	display: none;
+}
+
+.landing__testimonials--pullquote .landing__testimonial__quote {
+	margin: 0;
+	color: #0f172a;
+	font-size: clamp(1.3rem, 1.9vw, 1.65rem);
+	line-height: 1.45;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+}
+
+.landing__testimonials--pullquote .landing__testimonial__meta {
+	margin-top: 8px;
+	padding-top: 0;
+	border-top: 0;
+	gap: 14px;
+	font-size: 0.92rem;
+}
+
+.landing__testimonials--pullquote .landing__testimonial__who strong {
+	font-size: 1rem;
+}
+
+.landing__testimonials--pullquote .landing__testimonial__source {
+	display: none;
+}
+
+/* Mobile/tablet — stack to one column with intro on top. */
+@media (max-width: 880px) {
+	.landing__testi-2col {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+	}
+	.landing__testi-2col__title br {
+		display: none;
+	}
+}
+
+/* ---------- Home slider (legacy) — keep for backwards compatibility ---------- */
+
+.landing__testi-slider {
+	max-width: 920px;
+	margin: 0 auto 8px;
+	position: relative;
+}
+
+.landing__testi-slider__head {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 14px;
+}
+
+.landing__testi-slider__controls {
+	display: flex;
+	gap: 8px;
+}
+
+.landing__testi-slider [data-slider-track] {
+	display: flex;
+	gap: 0;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+}
+
+.landing__testi-slider [data-slider-track]::-webkit-scrollbar {
+	display: none;
+}
+
+/* Each slide takes the full width — one testimonial at a time. */
+.landing__testi-slider .landing__testimonial {
+	flex: 0 0 100%;
+	scroll-snap-align: start;
+	padding: 24px 8px 16px;
+	text-align: center;
+	align-items: center;
+	gap: 20px;
+}
+
+/* No quote glyph on the home pull-quote — the big stars + bold quote
+   carry the visual weight. The glyph was reading as a box outline at
+   large sizes. */
+.landing__testi-slider .landing__testimonial__quote-mark {
+	display: none;
+}
+
+.landing__testi-slider .landing__testimonial__quote {
+	font-size: 1.4rem;
+	line-height: 1.5;
+	font-weight: 500;
+	max-width: 720px;
+	margin: 0 auto;
+}
+
+.landing__testi-slider .landing__testimonial__stars {
+	font-size: 1.15rem;
+}
+
+/* Attribution row — flat line below the quote. No card border. */
+.landing__testi-slider .landing__testimonial__meta {
+	margin-top: 8px;
+	padding-top: 0;
+	border-top: 0;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 12px;
+	color: #475569;
+}
+
+.landing__testi-slider .landing__testimonial__avatar {
+	width: 36px;
+	height: 36px;
+	font-size: 0.82rem;
+}
+
+.landing__testi-slider .landing__testimonial__who {
+	flex: 0 1 auto;
+	text-align: left;
+}
+
+
+/* Reply on home pull-quote — centred + max-width so it doesn't get loud. */
+.landing__testi-slider .landing__testimonial__reply {
+	max-width: 640px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+.landing__testi-slider__see-all {
+	margin: 16px 0 0;
+	text-align: center;
+	font-size: 0.95rem;
+}
+
+.landing__testi-slider__see-all a {
+	color: #2563eb;
+	font-weight: 600;
+}
+
+/* ---------- Reviews page (reviews.html) — 2-col layout ---------- */
+
+.landing__section--all-reviews .landing__reviews__waiting--narrow {
+	max-width: 540px;
+	margin: 0 auto;
+}
+
+.reviews-layout {
+	display: grid;
+	grid-template-columns: 280px minmax(0, 1fr);
+	gap: 40px;
+	max-width: 1200px;
+	margin: 0 auto;
+	align-items: start;
+}
+
+/* Left sidebar — sticky on desktop so it stays visible while scrolling. */
+.reviews-breakdown {
+	position: sticky;
+	top: 90px;
+	padding: 24px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+	box-shadow: 0 8px 20px -12px rgba(15, 23, 42, 0.08);
+}
+
+.reviews-breakdown__overall {
+	text-align: center;
+	padding-bottom: 18px;
+	border-bottom: 1px solid #f1f5f9;
+	margin-bottom: 18px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
+.reviews-breakdown__overall__avg {
+	font-size: 2.4rem;
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1;
+}
+
+.reviews-breakdown__overall__stars {
+	color: #f59e0b;
+	font-size: 1rem;
+	letter-spacing: 3px;
+}
+
+.reviews-breakdown__overall__count {
+	color: #64748b;
+	font-size: 0.85rem;
+}
+
+.reviews-breakdown__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.reviews-breakdown__row.is-active .reviews-breakdown__btn {
+	background: #eff6ff;
+	border-color: #93c5fd;
+}
+
+.reviews-breakdown__btn {
+	width: 100%;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	color: inherit;
+	font-family: inherit;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.reviews-breakdown__btn:hover {
+	background: #f8fafc;
+}
+
+.reviews-breakdown__stars {
+	color: #f59e0b;
+	font-size: 0.8rem;
+	letter-spacing: 2px;
+}
+
+.reviews-breakdown__bar {
+	display: block;
+	height: 6px;
+	background: #e2e8f0;
+	border-radius: 999px;
+	overflow: hidden;
+}
+
+.reviews-breakdown__bar span {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+	border-radius: 999px;
+	transition: width 0.3s ease;
+}
+
+.reviews-breakdown__count {
+	color: #475569;
+	font-weight: 600;
+	min-width: 24px;
+	text-align: right;
+}
+
+.reviews-breakdown__note {
+	margin: 16px 0 0;
+	color: #94a3b8;
+	font-size: 0.78rem;
+	text-align: center;
+}
+
+/* Right column. */
+.reviews-list-wrap__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 18px;
+	flex-wrap: wrap;
+}
+
+.reviews-list-wrap__count {
+	margin: 0;
+	color: #475569;
+	font-size: 0.92rem;
+}
+
+.reviews-list-wrap__count strong {
+	color: #0f172a;
+}
+
+.reviews-list-wrap__sort {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.85rem;
+	color: #475569;
+}
+
+.reviews-list-wrap__sort select {
+	padding: 8px 32px 8px 12px;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	background: #fff;
+	font-family: inherit;
+	font-size: 0.9rem;
+	color: #0f172a;
+	cursor: pointer;
+}
+
+.reviews-list-wrap__no-match {
+	padding: 28px;
+	text-align: center;
+	color: #64748b;
+	background: #f8fafc;
+	border: 1px dashed #cbd5e1;
+	border-radius: 12px;
+}
+
+.reviews-list-wrap__no-match button {
+	background: none;
+	border: 0;
+	padding: 0;
+	color: #2563eb;
+	font: inherit;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+/* Reviews page — single-column list of distinct cards. Restoring the
+   card look here (white surface, soft border, soft shadow) so each
+   review reads as its own quoted block, not blended with neighbours. */
+.landing__testimonials--rows {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.landing__testimonials--rows .landing__testimonial {
+	width: 100%;
+	padding: 28px 26px 22px;
+	background: #fff;
+	border: 1px solid #eef2f7;
+	border-radius: 16px;
+	box-shadow: 0 6px 20px -10px rgba(15, 23, 42, 0.10);
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.landing__testimonials--rows .landing__testimonial:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 16px 32px -16px rgba(15, 23, 42, 0.18);
+}
+
+.landing__testimonials--rows .landing__testimonial__quote-mark {
+	top: 18px;
+	left: auto;
+	right: 16px;
+	width: 56px;
+	height: 56px;
+}
+
+/* ---------- Mobile / tablet responsive ---------- */
+
+@media (max-width: 820px) {
+	/* Reviews page collapses to one column with the breakdown on top. */
+	.reviews-layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+	}
+	.reviews-breakdown {
+		position: static;
+	}
+}
+
+@media (max-width: 640px) {
+	.landing__testimonial {
+		padding: 28px 18px 22px;
+	}
+	.landing__testimonial__quote {
+		font-size: 1.05rem;
+	}
+	.landing__testimonial__source {
+		position: static;
+		align-self: flex-start;
+	}
+	.landing__testimonial__quote-mark {
+		width: 56px;
+		height: 56px;
+		left: 12px;
+	}
+	.reviews-list-wrap__head {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+.landing__testimonial {
+	margin: 0;
+	padding: 22px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+	box-shadow: 0 8px 20px -12px rgba(15, 23, 42, 0.12);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.landing__testimonial__stars {
+	color: #f59e0b;
+	font-size: 1.05rem;
+	letter-spacing: 2px;
+}
+
+.landing__testimonial__quote {
+	margin: 0;
+	color: #1e293b;
+	font-size: 0.98rem;
+	line-height: 1.55;
+}
+
+.landing__testimonial__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 10px;
+	font-size: 0.85rem;
+	color: #475569;
+	border-top: 1px solid #f1f5f9;
+	padding-top: 12px;
+}
+
+.landing__testimonial__meta strong {
+	color: #0f172a;
+	font-size: 0.92rem;
+}
+
+.landing__testimonial__role {
+	color: #64748b;
+}
+
+.landing__testimonial__verify {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	color: #2563eb;
+	font-weight: 500;
+}
+
+.landing__testimonial__source {
+	margin-left: auto;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #eff6ff;
+	color: #1d4ed8;
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+/* ---------- Testimonial submission form (collapsible) ---------- */
+
+.landing__testimonial-form {
+	max-width: 720px;
+	margin: 24px auto 0;
+}
+
+.landing__testimonial-form summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 14px 20px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	cursor: pointer;
+	list-style: none;
+	font-weight: 600;
+	color: #0f172a;
+}
+
+.landing__testimonial-form summary::-webkit-details-marker {
+	display: none;
+}
+
+.landing__testimonial-form summary svg {
+	transition: transform 0.2s ease;
+}
+
+.landing__testimonial-form[open] summary svg {
+	transform: rotate(180deg);
+}
+
+.landing__testimonial-form[open] summary {
+	border-radius: 12px 12px 0 0;
+	border-bottom: 0;
+}
+
+.landing__testimonial-form .awts-inline-form--card {
+	border-radius: 0 0 12px 12px;
+	border-top: 0;
+}
+
+.awts-inline-form__hint {
+	font-weight: 400;
+	color: #94a3b8;
+	font-size: 0.85em;
+}
+
+.awts-inline-form__field select {
+	width: 100%;
+	padding: 12px 14px;
+	font-size: 0.98rem;
+	font-family: inherit;
+	border: 1px solid #cbd5e1;
+	border-radius: 10px;
+	background: #fff;
+	color: #0f172a;
+}
+
+.awts-inline-form__fineprint {
+	margin: 0;
+	color: #64748b;
+	font-size: 0.82rem;
+	line-height: 1.5;
+}
+
+/* ---------- Inline forms (download + contact) ---------- */
+
+.awts-inline-form {
+	max-width: 560px;
+	margin: 0 auto;
+}
+
+.awts-inline-form__label {
+	display: block;
+	margin: 0 0 8px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: #475569;
+}
+
+.awts-inline-form__row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 10px;
+}
+
+.awts-inline-form__row input[type="email"] {
+	padding: 14px 16px;
+	font-size: 1rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 10px;
+	background: #fff;
+	color: #0f172a;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.awts-inline-form__row input[type="email"]:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.awts-inline-form__status {
+	margin: 12px 0 0;
+	padding: 10px 14px;
+	border-radius: 8px;
+	font-size: 0.92rem;
+	line-height: 1.5;
+}
+
+.awts-inline-form__status.is-success {
+	background: #ecfdf5;
+	border: 1px solid #a7f3d0;
+	color: #065f46;
+}
+
+.awts-inline-form__status.is-error {
+	background: #fef2f2;
+	border: 1px solid #fecaca;
+	color: #991b1b;
+}
+
+.awts-inline-form__success {
+	max-width: 560px;
+	margin: 0 auto;
+	padding: 32px;
+	text-align: center;
+	background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+	border: 1px solid #6ee7b7;
+	border-radius: 16px;
+	color: #065f46;
+}
+
+.awts-inline-form__success svg {
+	color: #059669;
+	margin-bottom: 8px;
+}
+
+.awts-inline-form__success h3 {
+	margin: 0 0 8px;
+	font-size: 1.3rem;
+	font-weight: 700;
+	color: #064e3b;
+}
+
+.awts-inline-form__success p {
+	margin: 0;
+	color: #047857;
+}
+
+.landing__download__skip {
+	margin: 24px 0 0;
+	color: #64748b;
+	font-size: 0.9rem;
+	line-height: 1.55;
+}
+
+.landing__download__skip a {
+	color: #2563eb;
+}
+
+/* ---------- Two-column download (home) ---------- */
+
+.landing__download-2col {
+	display: grid;
+	grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+	gap: 64px;
+	align-items: center;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.landing__download-2col__title {
+	margin: 12px 0 16px;
+	font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.landing__download-2col__lede {
+	margin: 0;
+	color: #475569;
+	font-size: 1rem;
+	line-height: 1.6;
+	max-width: 460px;
+}
+
+.landing__download-2col__lede code {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	color: #1d4ed8;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
+
+.landing__download-2col__form .awts-inline-form {
+	max-width: none;
+}
+
+/* Three install-path buttons stacked. Primary (GitHub .zip) sits on
+   top with a stronger fill; secondaries (WP.org, GitHub repo) below. */
+.landing__download__buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 24px;
+}
+
+.landing__download__btn {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 18px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	color: inherit;
+	transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.landing__download__btn:hover,
+.landing__download__btn:focus {
+	transform: translateY(-2px);
+	border-color: #93c5fd;
+	box-shadow: 0 14px 28px -14px rgba(15, 23, 42, 0.18);
+}
+
+.landing__download__btn svg {
+	flex-shrink: 0;
+	color: #475569;
+}
+
+.landing__download__btn strong {
+	display: block;
+	color: #0f172a;
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.landing__download__btn small {
+	display: block;
+	color: #64748b;
+	font-size: 0.85rem;
+	margin-top: 2px;
+}
+
+/* Primary variant — gradient fill so the canonical .zip download
+   stands apart from the two secondary options. */
+.landing__download__btn--primary {
+	background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+	border-color: transparent;
+	color: #fff;
+}
+
+.landing__download__btn--primary:hover,
+.landing__download__btn--primary:focus {
+	border-color: transparent;
+	box-shadow: 0 18px 32px -14px rgba(37, 99, 235, 0.5);
+}
+
+.landing__download__btn--primary svg,
+.landing__download__btn--primary strong {
+	color: #fff;
+}
+
+.landing__download__btn--primary small {
+	color: rgba(255, 255, 255, 0.85);
+}
+
+/* Newsletter signup — smaller, less visually loud than the download
+   buttons. Reads as a "by the way" rather than a gate. */
+.landing__download__signup {
+	padding-top: 16px;
+	border-top: 1px solid #e5e7eb;
+}
+
+.landing__download__signup .awts-inline-form__label {
+	font-size: 0.9rem;
+	color: #475569;
+}
+
+@media (max-width: 880px) {
+	.landing__download-2col {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+	}
+	.landing__download-2col__title br {
+		display: none;
+	}
+}
+
+/* ---------- Contact section ---------- */
+
+.landing__section--contact {
+	background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+/* Stacked, centred contact block. Capped width so the form reads as a
+   compact action card (not a stretched sidebar). Title is dialled down
+   from the section-default size — at 2.1rem on a wide viewport it
+   dominates the card; here we cap at ~1.6rem so it sits inside the
+   proportions of the form. */
+.landing__contact {
+	max-width: 720px;
+	margin: 0 auto;
+}
+
+.landing__contact__intro {
+	text-align: center;
+	margin-bottom: 28px;
+}
+
+.landing__contact__title {
+	margin: 8px 0 12px;
+	font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.25;
+}
+
+.landing__contact__lede {
+	margin: 0 0 16px;
+	color: #475569;
+	font-size: 0.95rem;
+	line-height: 1.55;
+}
+
+.landing__contact__lede code {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	color: #1d4ed8;
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
+
+/* Reasons row — inline pills below the intro lede. Reads as quick chips
+   ("here's what people send"), not a bulleted manifesto. */
+.landing__contact__reasons {
+	margin: 18px 0 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+}
+
+.landing__contact__reasons li {
+	padding: 6px 14px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 999px;
+	color: #475569;
+	font-size: 0.88rem;
+	line-height: 1.45;
+}
+
+.landing__contact__reasons li strong {
+	color: #0f172a;
+}
+
+.landing__contact__reasons a {
+	color: #2563eb;
+	text-decoration: underline;
+}
+
+/* Card variant of the inline form — used for the multi-field contact. */
+.awts-inline-form--card {
+	max-width: none;
+	padding: 24px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	box-shadow: 0 18px 32px -18px rgba(15, 23, 42, 0.12);
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+/* The submit button inside the card stops being full-width — at 700px
+   the full-width button reads as too aggressive. Constrain it and pin
+   to the right so the form still has a clear primary action. */
+.awts-inline-form--card button[type="submit"] {
+	align-self: flex-end;
+	min-width: 200px;
+	margin-top: 4px;
+}
+
+.awts-inline-form__field label {
+	display: block;
+	margin: 0 0 6px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: #475569;
+}
+
+/* Testimonial form variant — labels on the left, inputs on the right.
+   Reads like a settings form rather than a stacked column. */
+.landing__testimonial-form .awts-inline-form__field {
+	display: grid;
+	grid-template-columns: 200px minmax(0, 1fr);
+	gap: 16px;
+	align-items: start;
+}
+
+.landing__testimonial-form .awts-inline-form__field label {
+	margin: 0;
+	padding-top: 10px;
+	text-align: left;
+}
+
+.landing__testimonial-form .awts-inline-form__field .awts-inline-form__hint {
+	display: block;
+	margin-top: 4px;
+	font-weight: 400;
+}
+
+/* Bottom elements (fineprint + submit button + status) sit aligned
+   with the input column by padding-left to match the label column. */
+.landing__testimonial-form .awts-inline-form__fineprint,
+.landing__testimonial-form button[type="submit"],
+.landing__testimonial-form .awts-inline-form__status {
+	margin-left: 216px;
+	align-self: flex-start;
+}
+
+@media (max-width: 720px) {
+	.landing__testimonial-form .awts-inline-form__field {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 6px;
+	}
+	.landing__testimonial-form .awts-inline-form__field label {
+		padding-top: 0;
+	}
+	.landing__testimonial-form .awts-inline-form__fineprint,
+	.landing__testimonial-form button[type="submit"],
+	.landing__testimonial-form .awts-inline-form__status {
+		margin-left: 0;
+	}
+}
+
+.awts-inline-form__field input,
+.awts-inline-form__field textarea {
+	width: 100%;
+	padding: 12px 14px;
+	font-size: 0.98rem;
+	font-family: inherit;
+	border: 1px solid #cbd5e1;
+	border-radius: 10px;
+	background: #fff;
+	color: #0f172a;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.awts-inline-form__field input:focus,
+.awts-inline-form__field textarea:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.awts-inline-form__field textarea {
+	resize: vertical;
+	min-height: 96px;
+}
+
+@media (max-width: 560px) {
+	.awts-inline-form__row {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ---------- Changelog page (changelog.html) ---------- */
+
+.landing__section--known-issues {
+	background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+	border-bottom: 1px solid #fde68a;
+}
+
+.landing__section--changelog {
+	background: #ffffff;
+}
+
+.changelog__loading {
+	color: #94a3b8;
+	font-size: 0.95rem;
+	text-align: center;
+	padding: 32px 0;
+}
+
+/* Known issues — compact list of clickable rows. */
+.changelog__issues {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	max-width: 880px;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.changelog__issue {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.changelog__issue__link {
+	display: grid;
+	grid-template-columns: auto 1fr auto auto;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 18px;
+	background: #fff;
+	border: 1px solid #fde68a;
+	border-radius: 12px;
+	color: inherit;
+	transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.changelog__issue__link:hover,
+.changelog__issue__link:focus {
+	transform: translateY(-1px);
+	border-color: #f59e0b;
+	box-shadow: 0 8px 20px -10px rgba(245, 158, 11, 0.25);
+}
+
+.changelog__issue__number {
+	color: #94a3b8;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.82rem;
+	flex-shrink: 0;
+}
+
+.changelog__issue__title {
+	font-weight: 500;
+	color: #0f172a;
+	line-height: 1.4;
+	min-width: 0;
+}
+
+.changelog__issue__labels {
+	display: flex;
+	gap: 4px;
+	flex-shrink: 0;
+}
+
+.changelog__issue__label {
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #f1f5f9;
+	color: #475569;
+	font-size: 0.72rem;
+	font-weight: 600;
+}
+
+.changelog__issue__comments {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	color: #64748b;
+	font-size: 0.85rem;
+}
+
+.changelog__issues__empty,
+.changelog__issues__error,
+.changelog__list__empty,
+.changelog__list__error {
+	max-width: 540px;
+	margin: 0 auto;
+	padding: 32px;
+	text-align: center;
+	color: #475569;
+	background: #fff;
+	border: 1px dashed #cbd5e1;
+	border-radius: 14px;
+}
+
+.changelog__issues__empty svg {
+	color: #059669;
+	margin-bottom: 8px;
+}
+
+.changelog__issues__empty h3 {
+	margin: 0 0 6px;
+	color: #064e3b;
+	font-size: 1.1rem;
+}
+
+/* Releases — full notes per version. */
+.changelog__list {
+	max-width: 880px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+.changelog__release {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	padding: 28px 32px;
+	box-shadow: 0 6px 20px -12px rgba(15, 23, 42, 0.08);
+}
+
+.changelog__release__head {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 16px;
+	margin-bottom: 12px;
+	flex-wrap: wrap;
+}
+
+.changelog__release__version {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.changelog__release__version a {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.changelog__release__badge {
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	background: #eff6ff;
+	color: #1d4ed8;
+}
+
+.changelog__release__badge--pre {
+	background: #fef3c7;
+	color: #92400e;
+}
+
+.changelog__release__date {
+	color: #94a3b8;
+	font-size: 0.88rem;
+}
+
+.changelog__release__title {
+	margin: 0 0 14px;
+	font-size: 1.15rem;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.changelog__release__body {
+	color: #334155;
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+.changelog__release__body p {
+	margin: 0 0 10px;
+}
+
+.changelog__release__body p:last-child {
+	margin-bottom: 0;
+}
+
+.changelog__release__body .changelog__release__h {
+	margin: 14px 0 6px;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.changelog__release__body ul {
+	margin: 0 0 10px;
+	padding-left: 22px;
+}
+
+.changelog__release__body li {
+	margin-bottom: 4px;
+}
+
+.changelog__release__body code {
+	background: #f1f5f9;
+	border-radius: 4px;
+	padding: 1px 6px;
+	font-size: 0.88em;
+	color: #1d4ed8;
+}
+
+.changelog__release__empty {
+	color: #94a3b8;
+	font-style: italic;
+}
+
+@media (max-width: 640px) {
+	.changelog__issue__link {
+		grid-template-columns: auto 1fr;
+		grid-template-areas:
+			"num    title"
+			"labels comments";
+	}
+	.changelog__issue__number  { grid-area: num; }
+	.changelog__issue__title   { grid-area: title; }
+	.changelog__issue__labels  { grid-area: labels; }
+	.changelog__issue__comments { grid-area: comments; justify-self: end; }
+	.changelog__release {
+		padding: 22px 20px;
+	}
+}
+
+/* ---------- About page (about.html) ---------- */
+
+.about {
+	background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+	padding: 80px 24px;
+}
+
+.about__inner {
+	max-width: 1080px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 320px minmax(0, 1fr);
+	gap: 56px;
+	align-items: start;
+}
+
+.about__photo {
+	margin: 0;
+	position: sticky;
+	top: 90px;
+}
+
+.about__photo img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 20px;
+	border: 1px solid #e5e7eb;
+	box-shadow:
+		0 24px 48px -20px rgba(15, 23, 42, 0.25),
+		0 8px 16px -6px rgba(15, 23, 42, 0.08);
+}
+
+.about__body {
+	min-width: 0;
+}
+
+.about__title {
+	margin: 8px 0 18px;
+	font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.2;
+}
+
+.about__lede {
+	margin: 0 0 16px;
+	font-size: 1.1rem;
+	line-height: 1.65;
+	color: #1e293b;
+}
+
+.about__para {
+	margin: 0 0 16px;
+	font-size: 1rem;
+	line-height: 1.65;
+	color: #475569;
+}
+
+.about__para--callout {
+	background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+	border: 1px solid #fcd34d;
+	border-radius: 14px;
+	padding: 18px 22px;
+	color: #78350f;
+}
+
+.about__para--callout strong {
+	color: #78350f;
+}
+
+/* Tech stack chip strip — soft pill list under the bio paragraphs. */
+.about__stack {
+	margin: 28px 0;
+	padding: 18px 22px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+}
+
+.about__stack__label {
+	margin: 0 0 12px;
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #2563eb;
+}
+
+.about__stack__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.about__stack__list li {
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: #eff6ff;
+	color: #1d4ed8;
+	font-size: 0.85rem;
+	font-weight: 500;
+	border: 1px solid #dbeafe;
+}
+
+/* Call-to-action block at the bottom of the bio. */
+.about__cta {
+	margin-top: 32px;
+	padding-top: 28px;
+	border-top: 1px solid #e5e7eb;
+}
+
+.about__cta__heading {
+	margin: 0 0 14px;
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: #0f172a;
+}
+
+.about__cta__btns {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.about__cta__sub {
+	margin: 14px 0 0;
+	color: #64748b;
+	font-size: 0.9rem;
+}
+
+.about__cta__sub a {
+	color: #2563eb;
+	text-decoration: underline;
+}
+
+/* Light ghost button — used on the LinkedIn link to balance against the
+   darker GitHub button without competing with it. */
+.landing__btn--ghost-light {
+	background: #fff;
+	color: #1e40af;
+	border: 1px solid #cbd5e1;
+}
+
+.landing__btn--ghost-light:hover {
+	background: #f8fafc;
+	border-color: #93c5fd;
+}
+
+@media (max-width: 820px) {
+	.about__inner {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+	}
+
+	.about__photo {
+		position: static;
+		max-width: 280px;
+		margin: 0 auto;
+	}
+}
+
+/* ---------- features.html page header ---------- */
+
+.features-header {
+	background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+	border-bottom: 1px solid #e5e7eb;
+	padding: 72px 24px 56px;
+}
+
+.features-header__inner {
+	max-width: 880px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.features-header__title {
+	margin: 8px 0 14px;
+	font-size: clamp(2rem, 4vw, 2.8rem);
+	font-weight: 800;
+	color: #0f172a;
+	line-height: 1.15;
+}
+
+.features-header__lede {
+	margin: 0 auto;
+	max-width: 720px;
+	color: #475569;
+	font-size: 1.1rem;
+	line-height: 1.55;
+}
+
+.features-header__cta {
+	margin: 24px 0 0;
+}
+
+.features-header__cta .landing__btn {
+	gap: 8px;
+}
+
+/* ---------- Slider section (features.html) ---------- */
+
+.landing__section--slider {
+	background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+}
+
+.landing__slider__header {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: 28px;
+}
+
+.landing__slider__header > div:first-child {
+	max-width: 640px;
+}
+
+.landing__slider__title {
+	margin: 4px 0 8px;
+	font-size: clamp(1.6rem, 3vw, 2.1rem);
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.landing__slider__lede {
+	margin: 0;
+	color: #475569;
+	font-size: 1rem;
+	line-height: 1.55;
+}
+
+.landing__slider__controls {
+	display: flex;
+	gap: 8px;
+	flex-shrink: 0;
+}
+
+.landing__slider__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	color: #0f172a;
+	cursor: pointer;
+	transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+	box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.12);
+}
+
+.landing__slider__btn:hover {
+	background: #f8fafc;
+	transform: translateY(-1px);
+	box-shadow: 0 8px 16px -6px rgba(15, 23, 42, 0.18);
+}
+
+.landing__slider__btn:active {
+	transform: translateY(0);
+}
+
+/* The track is the scrollable area. Slides snap to its left edge
+   so prev/next buttons land cleanly. Native scrollbar hidden because
+   the prev/next buttons + dots are the affordance. */
+.landing__slider {
+	position: relative;
+}
+
+.landing__slider__track {
+	display: flex;
+	gap: 24px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	padding: 4px 4px 28px;
+	margin: 0 -4px;
+	scrollbar-width: none;
+}
+
+.landing__slider__track::-webkit-scrollbar {
+	display: none;
+}
+
+/* Each slide is large — about 75% of the section width on desktop, with
+   a peek of the next slide on the right to telegraph "there is more."
+   Full width on mobile so the screenshot reads comfortably. */
+.landing__slide {
+	flex: 0 0 75%;
+	scroll-snap-align: start;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 20px;
+	overflow: hidden;
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	box-shadow:
+		0 18px 36px -16px rgba(15, 23, 42, 0.18),
+		0 6px 12px -6px rgba(15, 23, 42, 0.08);
+}
+
+.landing__slide__media {
+	background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+	padding: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.landing__slide__media img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	border-radius: 12px;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 10px 20px -8px rgba(15, 23, 42, 0.18);
+	cursor: zoom-in;
+}
+
+.landing__slide__body {
+	padding: 36px 32px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 12px;
+	background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+}
+
+.landing__slide__kicker {
+	margin: 0;
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 0.72rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.landing__slide__title {
+	margin: 0;
+	font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.25;
+}
+
+.landing__slide__lede {
+	margin: 0;
+	color: #475569;
+	font-size: 0.98rem;
+	line-height: 1.6;
+}
+
+.landing__slider__dots {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 4px;
+}
+
+.landing__slider__dot {
+	width: 8px;
+	height: 8px;
+	padding: 0;
+	border-radius: 999px;
+	border: none;
+	background: #cbd5e1;
+	cursor: pointer;
+	transition: width 0.2s ease, background 0.2s ease;
+}
+
+.landing__slider__dot.is-active {
+	background: #2563eb;
+	width: 22px;
+}
+
+/* ---------- features.html CTA section ---------- */
+
+.landing__section--cta {
+	background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+	color: #f1f5f9;
+	text-align: center;
+}
+
+.landing__section--cta .landing__section__inner {
+	padding-top: 72px;
+	padding-bottom: 72px;
+}
+
+.landing__cta__title {
+	margin: 0 0 8px;
+	font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+	font-weight: 700;
+	color: #ffffff;
+}
+
+.landing__cta__lede {
+	margin: 0 0 28px;
+	color: #cbd5e1;
+	font-size: 1.05rem;
+}
+
+.landing__cta__btns {
+	display: inline-flex;
+	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.landing__btn--ghost {
+	background: transparent;
+	color: #ffffff;
+	border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.landing__btn--ghost:hover {
+	background: rgba(255, 255, 255, 0.08);
+	border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- Slider responsive ---------- */
+
+@media (max-width: 900px) {
+	.landing__slide {
+		flex: 0 0 90%;
+		grid-template-columns: 1fr;
+	}
+
+	.landing__slide__media {
+		padding: 20px;
+	}
+
+	.landing__slide__body {
+		padding: 24px 24px 32px;
+	}
+
+	.landing__slider__header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+/* ---------- Privacy section (features.html) ---------- */
+
+.landing__section--privacy {
+	background: linear-gradient(180deg, #fdf2f8 0%, #fff 100%);
+	border-top: 1px solid #fbcfe8;
+	border-bottom: 1px solid #fbcfe8;
+}
+
+.landing__privacy__header {
+	max-width: 720px;
+	margin: 0 auto 40px;
+	text-align: center;
+}
+
+.landing__privacy__badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+	color: #be185d;
+	margin-bottom: 14px;
+	box-shadow: 0 8px 20px -10px rgba(190, 24, 93, 0.35);
+}
+
+.landing__privacy__title {
+	margin: 4px 0 12px;
+	font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+	font-weight: 800;
+	color: #831843;
+	line-height: 1.2;
+}
+
+.landing__privacy__lede {
+	margin: 0;
+	color: #6b7280;
+	font-size: 1.05rem;
+	line-height: 1.6;
+}
+
+/* 3-column guarantees grid. Each item is a card with a strong icon and
+   a single-sentence promise. Two rows × three columns on desktop. */
+.landing__privacy__guarantees {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.landing__privacy__guarantees li {
+	background: #fff;
+	border: 1px solid #fce7f3;
+	border-radius: 14px;
+	padding: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	box-shadow: 0 8px 20px -12px rgba(190, 24, 93, 0.18);
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.landing__privacy__guarantees li:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 28px -14px rgba(190, 24, 93, 0.28);
+}
+
+.landing__privacy__guarantees__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+	color: #be185d;
+}
+
+.landing__privacy__guarantees h3 {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: #0f172a;
+	line-height: 1.3;
+}
+
+.landing__privacy__guarantees p {
+	margin: 0;
+	color: #475569;
+	font-size: 0.92rem;
+	line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+	.landing__privacy__guarantees {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 560px) {
+	.landing__privacy__guarantees {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ---------- "Free, in one plugin" callout ---------- */
+
+.landing__free-callout {
+	margin: 48px auto 32px;
+	max-width: 720px;
+	padding: 20px 28px;
+	background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 100%);
+	border: 1px solid #a7f3d0;
+	border-radius: 14px;
+	text-align: center;
+	color: #065f46;
+	font-size: 1.05rem;
+	line-height: 1.5;
+}
+
+.landing__free-callout strong {
+	color: #064e3b;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1024px) {
+	.landing__gallery__grid {
+		column-count: 3;
+	}
+
+	/* Bento on tablet — 2-column stack. Ratings stays wide; rest pair up. */
+	.landing__bento__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-areas:
+			"ratings     ratings"
+			"round-robin adminbar"
+			"devs        statuses";
+	}
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 720px) {
+	.landing__gallery__grid {
+		column-count: 2;
+		column-gap: 10px;
+	}
+
+	/* Bento on mobile — single column. Each tile reads top-to-bottom. */
+	.landing__bento__grid {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			"ratings"
+			"round-robin"
+			"adminbar"
+			"devs"
+			"statuses";
+	}
+
+	.landing__bento__tile__media--pair {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ---------- Demo section ---------- */
+
+.landing__section--demo .landing__btn {
+	margin-top: 8px;
+}
+
+.landing__small {
+	margin: 18px 0 0;
+	font-size: 0.85rem;
+	color: #94a3b8;
+}
+
+/* ---------- Download cards ---------- */
+
+.landing__downloads {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.landing__download {
+	display: flex;
+	flex-direction: column;
+	padding: 32px;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+	text-decoration: none;
+	color: #0f172a;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.landing__download:hover,
+.landing__download:focus {
+	text-decoration: none;
+	transform: translateY(-3px);
+	box-shadow: 0 12px 28px -10px rgba(15, 23, 42, 0.12);
+	border-color: #2563eb;
+}
+
+.landing__download--coming-soon {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.landing__download--coming-soon:hover {
+	transform: none;
+	border-color: #e5e7eb;
+	box-shadow: none;
+}
+
+.landing__download__icon {
+	width: 56px;
+	height: 56px;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+	color: #0f172a;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 18px;
+}
+
+.landing__download h3 {
+	margin: 0 0 10px;
+	font-size: 1.15rem;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.landing__download p {
+	margin: 0 0 18px;
+	color: #475569;
+	font-size: 0.94rem;
+	flex-grow: 1;
+}
+
+.landing__download p code {
+	background: #f1f5f9;
+	color: #1d4ed8;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 0.85em;
+}
+
+.landing__download__cta {
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 0.92rem;
+}
+
+.landing__badge {
+	font-size: 0.7rem;
+	font-weight: 600;
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: #fef3c7;
+	color: #92400e;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+/* ---------- Docs cards ---------- */
+
+.landing__docs-cards {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 20px;
+}
+
+.landing__docs-card {
+	display: flex;
+	flex-direction: column;
+	padding: 24px;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	text-decoration: none;
+	color: #0f172a;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.landing__docs-card:hover,
+.landing__docs-card:focus {
+	text-decoration: none;
+	transform: translateY(-2px);
+	box-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.12);
+	border-color: #2563eb;
+}
+
+.landing__docs-card h3 {
+	margin: 0 0 8px;
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+
+.landing__docs-card p {
+	margin: 0 0 14px;
+	color: #475569;
+	font-size: 0.9rem;
+	flex-grow: 1;
+}
+
+.landing__docs-card__cta {
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+/* ---------- Footer ---------- */
+
+.landing__footer {
+	background: #0f172a;
+	color: #cbd5e1;
+	padding: 64px 28px 32px;
+}
+
+.landing__footer__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.landing__footer__brand {
+	margin-bottom: 40px;
+}
+
+.landing__footer__name {
+	margin: 0 0 4px;
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 1.05rem;
+}
+
+.landing__footer__tag {
+	margin: 0;
+	color: #94a3b8;
+	font-size: 0.9rem;
+}
+
+.landing__footer__cols {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 40px;
+	margin-bottom: 40px;
+}
+
+.landing__footer__cols h4 {
+	margin: 0 0 14px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: #ffffff;
+}
+
+.landing__footer__cols ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.landing__footer__cols li {
+	margin-bottom: 8px;
+}
+
+.landing__footer__cols a {
+	color: #cbd5e1;
+	text-decoration: none;
+	font-size: 0.92rem;
+	transition: color 0.15s ease;
+}
+
+.landing__footer__cols a:hover {
+	color: #ffffff;
+}
+
+.landing__footer__bottom {
+	margin: 0;
+	padding-top: 28px;
+	border-top: 1px solid #1e293b;
+	color: #64748b;
+	font-size: 0.85rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 980px) {
+	.landing__hero__inner {
+		grid-template-columns: 1fr;
+		gap: 40px;
+		text-align: center;
+	}
+	.landing__hero__ctas,
+	.landing__hero__pills {
+		justify-content: center;
+	}
+	.landing__hero__lede {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.landing__hero__floater--top {
+		top: -18px;
+		right: 12px;
+		width: 180px;
+	}
+	.landing__hero__floater--bottom {
+		bottom: -18px;
+		left: 12px;
+		width: 180px;
+	}
+	.landing__steps {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+	.landing__config-grid {
+		grid-template-columns: 1fr;
+	}
+	.landing__feature-row {
+		grid-template-columns: 1fr;
+		gap: 32px;
+		padding: 36px 0;
+	}
+	.landing__feature-row--reverse .landing__feature-row__body,
+	.landing__feature-row--reverse .landing__feature-row__media {
+		order: initial;
+	}
+	.landing__downloads {
+		grid-template-columns: 1fr;
+	}
+	.landing__docs-cards {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.landing__also__list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 640px) {
+	.landing__hero {
+		padding: 56px 20px 64px;
+	}
+	.landing__section {
+		padding: 64px 20px;
+	}
+	.landing__docs-cards {
+		grid-template-columns: 1fr;
+	}
+	.landing__also__list {
+		grid-template-columns: 1fr;
+	}
+	.landing__footer__cols {
+		grid-template-columns: 1fr;
+		gap: 28px;
+	}
+	.landing__hero__title {
+		font-size: 2rem;
+	}
+	.landing__brand__name {
+		display: none;
+	}
+	.landing__hero__floater {
+		width: 140px;
+	}
+	.landing__hero__floater--top {
+		right: 8px;
+	}
+	.landing__hero__floater--bottom {
+		left: 8px;
+	}
+}

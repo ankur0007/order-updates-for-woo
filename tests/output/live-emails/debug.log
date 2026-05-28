@@ -1,0 +1,434 @@
+[14:19:25] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:19:53] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:19:53] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:19:57] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/customer-notes/2/notify
+[2026-04-17 14:19:57] action_scheduler_stored_action fired — action_id: 131
+[2026-04-17 14:19:57] Stored action hook: order_updates_for_woo_send_customer_notification
+[2026-04-17 14:19:57] Firing notification synchronously: order_updates_for_woo_send_customer_notification
+[2026-04-17 14:19:57] order_updates_for_woo_send_customer_notification action fired — payload: {"update_id":1,"note_id":2}
+[2026-04-17 14:19:57] woocommerce_mail_callback filter fired — swapping mailer.
+[2026-04-17 14:19:57] Email intercepted — subject: [WordPress VIP Starter] New update for order #22 | to: avtest@test.com
+[2026-04-17 14:19:57] Email saved to: /var/www/html/wordpress/wp-content/plugins/order-updates-for-woo/tests/output/live-emails/2026-04-17/14-19-57_wordpress-vip-starter-new-update-for-order-22.html
+[2026-04-17 14:19:57] Notification fired and action cancelled.
+[14:20:04] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:20:27] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:20:48] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:21:18] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:21:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:21:20] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&status=pending&order=asc&s=order_updates_for_woo_send_customer_notification&_wpnonce=d9969be34e&_wp_http_referer=%2Fwp-admin%2Ftools.php%3Fpage%3Daction-scheduler%26status%3Dpending%26order%3Dasc%26s%3Dorder_updates_for_woo_send_customer_notification%26action%3D-1%26paged%3D1%26action2%3D-1
+[14:21:20] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&status=pending&order=asc&s=order_updates_for_woo_send_customer_notification
+[14:21:21] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:21:28] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:21:29] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc
+[14:21:29] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:21:43] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc&status=canceled
+[14:21:43] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:21:48] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc&status=canceled&paged=7
+[14:21:48] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:21:54] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:22:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:22:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:22:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:22:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:23:04] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:23:05] Plugin file loaded — non-REST | url: /wp-admin/admin.php?page=wc-orders&action=edit&id=22
+[14:23:07] Plugin file loaded — non-REST | url: /wp-content/plugins/woocommerce/assets/js/dompurify/purify.js.map
+[14:23:07] Plugin file loaded — non-REST | url: /.well-known/appspecific/com.chrome.devtools.json
+[14:23:07] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:23:07] Plugin file loaded — non-REST | url: /wp-includes/js/dist/redux.mjs.map
+[14:23:08] Plugin file loaded — non-REST | url: /wp-includes/js/dist/index.module.js.map
+[14:23:08] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/orders?page=1&per_page=1&status%5B0%5D=processing&status%5B1%5D=on-hold&_fields%5B0%5D=id&_locale=user
+[14:23:08] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/reviews?page=1&per_page=1&status=hold&_embed=1&_fields%5B0%5D=id&_locale=user
+[14:23:08] Plugin file loaded — non-REST | url: /wp-json/wc-admin/onboarding/tasks?_locale=user
+[14:23:08] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/count-low-in-stock?status=publish&page=1&per_page=1&_locale=user
+[14:23:08] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:23:08] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/notes
+[14:23:08] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/customer-notes
+[14:23:09] Plugin file loaded — non-REST | url: /wp-json/wc-admin/marketing/misc-recommendations?_locale=user
+[14:23:09] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_ces_tracks_queue&_locale=user
+[14:23:09] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_task_list_reminder_bar_hidden%2Cwoocommerce_admin_transient_notices_queue%2Cwoocommerce_admin_install_timestamp%2Cwoocommerce_allow_tracking%2Cwoocommerce_remote_variant_assignment&_locale=user
+[14:23:09] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/admin/notes?page=1&per_page=25&type=error%2Cupdate&status=unactioned&_locale=user
+[14:23:09] Plugin file loaded — non-REST | url: /favicon.ico
+[14:23:18] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:23:20] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/customer-notes/2/notify
+[2026-04-17 14:23:20] action_scheduler_stored_action fired — action_id: 132
+[2026-04-17 14:23:20] Stored action hook: order_updates_for_woo_send_customer_notification
+[2026-04-17 14:23:20] Firing notification synchronously: order_updates_for_woo_send_customer_notification
+[2026-04-17 14:23:20] order_updates_for_woo_send_customer_notification action fired — payload: {"update_id":1,"note_id":2}
+[2026-04-17 14:23:20] woocommerce_mail_callback filter fired — swapping mailer.
+[2026-04-17 14:23:20] Email intercepted — subject: [WordPress VIP Starter] New update for order #22 | to: avtest@test.com
+[2026-04-17 14:23:20] Email saved to: /var/www/html/wordpress/wp-content/plugins/order-updates-for-woo/tests/output/live-emails/2026-04-17/14-23-20_wordpress-vip-starter-new-update-for-order-22.html
+[2026-04-17 14:23:20] Notification fired and action cancelled.
+[14:23:28] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:23:32] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc
+[14:23:32] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:23:34] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc&s=order_updates_for_woo_send_customer_notification&_wpnonce=d9969be34e&_wp_http_referer=%2Fwp-admin%2Ftools.php%3Fpage%3Daction-scheduler%26order%3Dasc&action=-1&paged=1&action2=-1
+[14:23:35] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc&s=order_updates_for_woo_send_customer_notification&action=-1&paged=1&action2=-1
+[14:23:35] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:23:44] Plugin file loaded — non-REST | url: /wp-admin/tools.php?page=action-scheduler&order=asc&s=order_updates_for_woo_send_customer_notification&action=-1&paged=3&action2=-1
+[14:23:45] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[14:23:55] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:24:13] Plugin file loaded — non-REST | url: /wp-cron.php
+[14:24:13] Plugin file loaded — non-REST | url: /favicon.ico
+[14:24:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:24:50] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:25:28] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:25:56] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:26:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:26:51] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:27:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:43:01] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:59:31] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:59:31] Plugin file loaded — non-REST | url: /wp-login.php?interim-login=1&wp_lang=en_US
+[14:59:36] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[14:59:36] Plugin file loaded — non-REST | url: /wp-login.php?interim-login=1&wp_lang=en_US
+[15:00:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:00:14] Plugin file loaded — non-REST | url: /wp-login.php?interim-login=1&wp_lang=en_US
+[15:00:42] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:00:42] Plugin file loaded — non-REST | url: /wp-login.php?interim-login=1&wp_lang=en_US
+[15:18:34] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:18:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:19:17] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:19:45] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:20:35] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:20:40] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:21:18] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:21:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:22:36] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:22:41] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:23:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:23:48] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:24:37] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:24:42] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:25:20] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:25:48] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:26:38] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:26:43] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:27:21] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:27:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:28:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:28:44] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:29:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:29:50] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:30:40] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:30:45] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:31:23] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:31:51] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:32:37] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:32:41] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:32:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:32:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:32:47] Plugin file loaded — non-REST | url: /wp-login.php
+[15:32:51] Plugin file loaded — non-REST | url: /wp-admin/admin.php?page=wc-orders&action=edit&id=22
+[15:32:52] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[15:32:52] Plugin file loaded — non-REST | url: /wp-json/wc-admin/onboarding/tasks?_locale=user
+[15:32:52] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/count-low-in-stock?status=publish&page=1&per_page=1&_locale=user
+[15:32:52] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/orders?page=1&per_page=1&status%5B0%5D=processing&status%5B1%5D=on-hold&_fields%5B0%5D=id&_locale=user
+[15:32:52] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/reviews?page=1&per_page=1&status=hold&_embed=1&_fields%5B0%5D=id&_locale=user
+[15:32:52] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:32:53] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/notes
+[15:32:53] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/customer-notes
+[15:32:53] Plugin file loaded — non-REST | url: /wp-json/wc-admin/marketing/misc-recommendations?_locale=user
+[15:32:53] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_ces_tracks_queue&_locale=user
+[15:32:53] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_task_list_reminder_bar_hidden%2Cwoocommerce_admin_transient_notices_queue%2Cwoocommerce_admin_install_timestamp%2Cwoocommerce_allow_tracking%2Cwoocommerce_remote_variant_assignment&_locale=user
+[15:32:53] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/admin/notes?page=1&per_page=25&type=error%2Cupdate&status=unactioned&_locale=user
+[15:32:53] Plugin file loaded — non-REST | url: /favicon.ico
+[15:32:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:02] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/reopen
+[15:33:02] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/notes
+[15:33:02] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/customer-notes
+[15:33:02] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:04] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1/notes
+[15:33:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:23] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:25] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/1
+[15:33:28] Plugin file loaded — non-REST | url: /wp-admin/admin.php?page=wc-orders&action=edit&id=22
+[15:33:29] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[15:33:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:29] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/count-low-in-stock?status=publish&page=1&per_page=1&_locale=user
+[15:33:29] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/reviews?page=1&per_page=1&status=hold&_embed=1&_fields%5B0%5D=id&_locale=user
+[15:33:29] Plugin file loaded — non-REST | url: /wp-json/wc-admin/onboarding/tasks?_locale=user
+[15:33:29] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/orders?page=1&per_page=1&status%5B0%5D=processing&status%5B1%5D=on-hold&_fields%5B0%5D=id&_locale=user
+[15:33:30] Plugin file loaded — non-REST | url: /wp-json/wc-admin/marketing/misc-recommendations?_locale=user
+[15:33:30] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_ces_tracks_queue&_locale=user
+[15:33:30] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/admin/notes?page=1&per_page=25&type=error%2Cupdate&status=unactioned&_locale=user
+[15:33:30] Plugin file loaded — non-REST | url: /favicon.ico
+[15:33:30] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_allow_tracking%2Cwoocommerce_task_list_reminder_bar_hidden%2Cwoocommerce_admin_transient_notices_queue%2Cwoocommerce_admin_install_timestamp%2Cwoocommerce_remote_variant_assignment&_locale=user
+[15:33:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:52] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:33:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:07] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates
+[2026-04-17 15:34:07] order_updates_for_woo_after_update_save fired — update_id: 2
+[2026-04-17 15:34:07] action_scheduler_stored_action fired — action_id: 133
+[2026-04-17 15:34:07] Stored action hook: order_updates_for_woo_send_admin_notification
+[2026-04-17 15:34:07] Firing notification synchronously: order_updates_for_woo_send_admin_notification
+[2026-04-17 15:34:07] order_updates_for_woo_send_admin_notification action fired — payload: {"update_id":2}
+[2026-04-17 15:34:07] woocommerce_mail_callback filter fired — swapping mailer.
+[2026-04-17 15:34:07] Email intercepted — subject: [WordPress VIP Starter] New update for #22 | to: admin@example.com
+[2026-04-17 15:34:07] Email saved to: /var/www/html/wordpress/wp-content/plugins/order-updates-for-woo/tests/output/live-emails/2026-04-17/15-34-07_wordpress-vip-starter-new-update-for-22.html
+[2026-04-17 15:34:07] Notification fired and action cancelled.
+[15:34:07] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[15:34:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:33] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2
+[15:34:36] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/assignee-search?query=bob
+[15:34:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:42] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:47] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:34:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:00] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates
+[2026-04-17 15:35:00] order_updates_for_woo_after_update_save fired — update_id: 2
+[2026-04-17 15:35:00] action_scheduler_stored_action fired — action_id: 134
+[2026-04-17 15:35:00] Stored action hook: order_updates_for_woo_send_admin_notification
+[2026-04-17 15:35:00] Firing notification synchronously: order_updates_for_woo_send_admin_notification
+[2026-04-17 15:35:00] order_updates_for_woo_send_admin_notification action fired — payload: {"update_id":2}
+[2026-04-17 15:35:00] woocommerce_mail_callback filter fired — swapping mailer.
+[2026-04-17 15:35:00] Email intercepted — subject: [WordPress VIP Starter] New update for #22 | to: admin@example.com
+[2026-04-17 15:35:00] Email saved to: /var/www/html/wordpress/wp-content/plugins/order-updates-for-woo/tests/output/live-emails/2026-04-17/15-35-00_wordpress-vip-starter-new-update-for-22.html
+[2026-04-17 15:35:00] Notification fired and action cancelled.
+[2026-04-17 15:35:00] action_scheduler_stored_action fired — action_id: 135
+[2026-04-17 15:35:00] Stored action hook: order_updates_for_woo_send_assignee_notification
+[2026-04-17 15:35:00] Firing notification synchronously: order_updates_for_woo_send_assignee_notification
+[2026-04-17 15:35:00] order_updates_for_woo_send_assignee_notification action fired — payload: {"update_id":2,"assignee_user_id":2,"context":"assigned"}
+[2026-04-17 15:35:00] woocommerce_mail_callback filter fired — swapping mailer.
+[2026-04-17 15:35:00] Email intercepted — subject: [WordPress VIP Starter] Order update assigned for #22 | to: bobmerry@email.com
+[2026-04-17 15:35:00] Email saved to: /var/www/html/wordpress/wp-content/plugins/order-updates-for-woo/tests/output/live-emails/2026-04-17/15-35-00_wordpress-vip-starter-order-update-assigned-for-22.html
+[2026-04-17 15:35:00] Notification fired and action cancelled.
+[15:35:00] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[15:35:03] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2
+[15:35:07] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[15:35:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:19] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[15:35:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:26] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2
+[15:35:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:53] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:35:56] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2
+[15:35:59] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates
+[2026-04-17 15:35:59] order_updates_for_woo_after_update_save fired — update_id: 2
+[2026-04-17 15:35:59] action_scheduler_stored_action fired — action_id: 136
+[2026-04-17 15:35:59] Stored action hook: order_updates_for_woo_send_admin_notification
+[2026-04-17 15:35:59] Firing notification synchronously: order_updates_for_woo_send_admin_notification
+[2026-04-17 15:35:59] order_updates_for_woo_send_admin_notification action fired — payload: {"update_id":2}
+[2026-04-17 15:35:59] woocommerce_mail_callback filter fired — swapping mailer.
+[2026-04-17 15:35:59] Email intercepted — subject: [WordPress VIP Starter] New update for #22 | to: admin@example.com
+[2026-04-17 15:35:59] Email saved to: /var/www/html/wordpress/wp-content/plugins/order-updates-for-woo/tests/output/live-emails/2026-04-17/15-35-59_wordpress-vip-starter-new-update-for-22.html
+[2026-04-17 15:35:59] Notification fired and action cancelled.
+[15:35:59] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[15:35:59] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/customer-notes
+[15:35:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:36:01] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[15:36:01] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/customer-notes
+[15:36:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:36:20] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:36:43] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:36:48] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:37:54] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:38:21] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:38:44] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:38:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:39:55] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:40:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:40:45] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:40:50] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:41:56] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:42:23] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:42:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:42:51] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:43:57] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:44:24] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:44:47] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:44:52] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:45:58] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:46:48] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:46:53] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[15:47:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:05:54] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:07:05] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:07:55] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:09:06] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:09:56] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:11:07] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:11:57] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:13:08] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:13:58] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:15:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:15:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:17:10] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:18:00] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:19:11] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:20:01] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:21:12] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:22:02] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:23:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:24:03] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:25:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:26:04] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:27:15] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:28:05] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:29:02] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:29:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:29:16] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:30:06] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:31:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:31:17] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:32:08] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:33:15] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:33:18] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:04] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:08] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:25] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:36] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:47] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:34:58] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:16] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:20] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:31] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:42] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:35:53] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:04] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:15] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:26] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:37] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:48] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:36:59] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:10] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:17] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:20] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:21] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:32] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:43] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:37:54] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:38:05] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:38:10] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:38:16] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:38:27] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:38:38] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:38:49] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:39:00] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:39:11] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:39:21] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:40:11] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:41:12] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:41:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:42:12] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:43:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:43:23] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:44:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:45:24] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:46:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[16:47:26] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[17:04:31] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[17:21:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[17:37:10] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[17:55:00] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[17:57:01] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[17:59:02] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:01:03] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:03:04] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:05:05] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:07:06] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:09:07] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:11:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:13:09] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:15:10] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:17:11] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:19:12] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:21:13] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:23:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:25:15] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:27:16] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:37:40] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:57:18] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[18:59:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:01:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:03:20] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:05:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:07:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:09:24] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:11:24] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:13:25] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:15:26] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:17:27] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:19:28] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:21:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:23:30] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:25:31] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:27:32] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:29:34] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:31:34] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:33:35] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:35:36] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:37:37] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:39:38] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:41:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:43:40] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:45:41] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:47:42] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:49:43] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:51:44] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:53:45] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[19:55:46] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:13:14] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:15:15] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:17:16] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:19:18] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:21:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:23:19] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:25:20] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:27:21] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:29:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:31:23] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:33:24] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:35:25] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:37:26] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:39:27] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:41:28] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:43:29] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:45:30] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:47:31] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:49:32] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:51:33] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:53:35] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:55:35] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:57:37] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[20:59:37] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[21:01:38] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[21:03:39] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[21:05:40] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[21:07:41] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[21:09:42] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[21:11:43] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[07:54:22] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[07:54:26] Plugin file loaded — non-REST | url: /wp-admin/admin.php?page=wc-orders&action=edit&id=22
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wp/v2/users/me?context=edit&_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-admin/onboarding/tasks?_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/reviews?page=1&per_page=1&status=hold&_embed=1&_fields%5B0%5D=id&_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/orders?page=1&per_page=1&status%5B0%5D=processing&status%5B1%5D=on-hold&_fields%5B0%5D=id&_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/products/count-low-in-stock?status=publish&page=1&per_page=1&_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-admin/marketing/misc-recommendations?_locale=user
+[07:54:31] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_ces_tracks_queue&_locale=user
+[07:54:32] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/notes
+[07:54:32] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[07:54:32] Plugin file loaded — non-REST | url: /wp-json/order-updates-for-woo/v1/updates/2/customer-notes
+[07:54:32] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?options=woocommerce_task_list_reminder_bar_hidden%2Cwoocommerce_admin_transient_notices_queue%2Cwoocommerce_admin_install_timestamp%2Cwoocommerce_allow_tracking%2Cwoocommerce_remote_variant_assignment%2Cwoocommerce_ces_shown_for_actions&_locale=user
+[07:54:32] Plugin file loaded — non-REST | url: /wp-json/wc-analytics/admin/notes?page=1&per_page=25&type=error%2Cupdate&status=unactioned&_locale=user
+[07:54:32] Plugin file loaded — non-REST | url: /favicon.ico
+[07:54:32] Plugin file loaded — non-REST | url: /wp-json/wc-admin/options?_locale=user
+[07:54:41] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[07:54:52] Plugin file loaded — non-REST | url: /wp-admin/admin-ajax.php
+[07:55:41] Plugin file loaded — non-REST | url: 
+[07:55:52] Plugin file loaded — non-REST | url: 
+[07:56:14] Plugin file loaded — non-REST | url: 
+[07:56:27] Plugin file loaded — non-REST | url: 
+[07:56:39] Plugin file loaded — non-REST | url: 

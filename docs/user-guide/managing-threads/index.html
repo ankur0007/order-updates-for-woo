@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Managing threads — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html" class="is-active">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				User Guide &nbsp;/&nbsp;
+				Managing threads
+			</p>
+
+			<h1 class="docs-page__title">Managing threads</h1>
+			<p class="docs-page__lede">Once an update is published, it lives on the order page as a card with four tabs and a row of clear action buttons. Everything you need &mdash; status changes, replies, reassignment, resolution &mdash; is one click away.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/02-thread-card.png" alt="A published update card showing the title, status pill, assignee chip, action buttons, and the four tabs.">
+					<p class="docs-row__caption">The update card after publishing.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>The update card</h2>
+					<p>Every update shows up as its own card pinned to the order page. The color stripe matches its status.</p>
+					<h3>Title bar</h3>
+					<p>The title sits in the header alongside a small edit pencil &mdash; click to rename. Renaming is recorded in the tracking log.</p>
+					<h3>Status pill</h3>
+					<p>Click to change. Choices come from <em>Settings &rarr; Statuses</em>. Status changes show up inline in the Customer Notes tab as a system marker.</p>
+					<h3>Assignee chip</h3>
+					<p>Shows the current owner. Click to reassign &mdash; picker searches across admins, shop managers, and editors.</p>
+					<h3>Action bar &amp; notifications toggle</h3>
+					<p>Top-right of the card holds <strong>Mark as solved</strong>, <strong>Delete</strong>, and the <strong>Get notifications</strong> toggle (mutes your emails for this single update).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The four tabs</h2>
+					<p>The body of the card swaps between four views &mdash; all backed by the same update record.</p>
+					<ul>
+						<li><strong>Internal Notes</strong> &mdash; team-only conversation. <code>@mention</code> a teammate to notify them.</li>
+						<li><strong>Customer Notes</strong> &mdash; the customer-facing thread. Each message you send here emails the customer.</li>
+						<li><strong>Participants</strong> &mdash; everyone who&rsquo;s been involved.</li>
+						<li><strong>Tracking Log</strong> &mdash; full lifecycle of the update.</li>
+					</ul>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/02-thread-participants.png" alt="The Participants tab listing the assignee, mentioned users, and anyone who's posted in the thread.">
+					<p class="docs-row__caption">The Participants tab &mdash; one place to see everyone involved.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>Participants tab</h2>
+					<p>Lists everyone who&rsquo;s touched this update. Useful for handoffs: hand the URL to a colleague and they can see who&rsquo;s already involved.</p>
+					<p>Removing someone from Participants stops further emails but preserves their past contributions in the tracking log.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/02-thread-tracking-log.png" alt="The Tracking Log tab showing the full lifecycle of an update with timestamped events.">
+					<p class="docs-row__caption">Tracking Log &mdash; the history record for support QA and team reviews.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>Tracking Log tab</h2>
+					<p>A read-only chronological feed of every meaningful event: created, assigned, notified, status changed, title renamed, solved, reopened, customer rated.</p>
+					<p>Even after an update is deleted, this exact log is preserved in the order&rsquo;s <strong>Deleted Updates</strong> meta box (see below).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/02-thread-deleted-audit.png" alt="The Deleted Updates history meta box showing past deletions with timestamps and the full event trail for each.">
+					<p class="docs-row__caption">Deleted Updates history &mdash; deletions never disappear from the record.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>Deleted-update audit</h2>
+					<p>Even after an update is deleted, a snapshot lives on the same order page in the <strong>Deleted Updates</strong> meta box. Each entry shows when the update was deleted, who deleted it, and the complete tracking-log it had at the time of deletion.</p>
+					<p>The audit log is read-only &mdash; you can&rsquo;t delete it. This is the main &ldquo;what happened on this order, ever?&rdquo; record for support reviews and compliance.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Composer affordances</h2>
+					<p>Both composers share the same surface:</p>
+					<ul>
+						<li>Drag-and-drop files anywhere onto the card to attach them.</li>
+						<li>Emoji picker; <code>:)</code>, <code>:(</code> are converted to proper emoji at save.</li>
+						<li>Toggle <em>Enter = Send</em> to submit with Enter and use Shift+Enter for a newline.</li>
+						<li>Internal notes also accept <code>@</code> mentions inline.</li>
+					</ul>
+				</div>
+			</section>
+
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../user-guide/creating-updates/index.html">
+					<span>Previous</span>
+					Creating updates
+				</a>
+				<a class="next" href="../../user-guide/customer-notes-portal/index.html">
+					<span>Next</span>
+					Customer notes &amp; portal
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

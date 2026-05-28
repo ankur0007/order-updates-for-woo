@@ -1,0 +1,13 @@
+# Apache / SiteGround / cPanel hosting — point any 404 at our themed page.
+#
+# If you deploy this folder as the document root of a subdomain (e.g.
+# docs.example.com → docs/), the ErrorDocument path below works as-is.
+#
+# If you deploy under a sub-path (e.g. example.com/docs/), change the
+# directive to:
+#     ErrorDocument 404 /docs/404.html
+#
+# Netlify uses docs/404.html automatically and ignores this file. The file
+# is harmless on hosts that don't support .htaccess.
+
+ErrorDocument 404 /404.html

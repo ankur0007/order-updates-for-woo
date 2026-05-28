@@ -1,0 +1,61 @@
+/**
+ * General settings tab — visual treatment for the Restricted Features block.
+ *
+ * WC renders a title row as `<h2>{name}</h2><div id="{title-id}-description">
+ * {desc}</div><table class="form-table">...</table>`. The id lives on the
+ * description div, not the heading — so the anchor here is
+ * `#order_updates_for_woo_restricted_section-description` and the table that
+ * follows it. The h2 is reached via `:has()` (modern admin browsers all
+ * support it).
+ */
+
+/* Heading sits above the card and reads as the card's label. */
+.form-table + h2:has(+ #order_updates_for_woo_restricted_section-description),
+h2:has(+ #order_updates_for_woo_restricted_section-description) {
+	margin-top: 32px;
+	margin-bottom: 0;
+	color: #b91c1c;
+	font-weight: 700;
+	font-size: 1.25em;
+}
+
+/* Description div = top half of the red-bordered card. */
+#order_updates_for_woo_restricted_section-description {
+	background: #fef2f2;
+	border: 2px solid #dc2626;
+	border-bottom: none;
+	border-radius: 6px 6px 0 0;
+	padding: 14px 20px;
+	margin-top: 12px;
+	color: #7f1d1d;
+	font-weight: 500;
+}
+
+#order_updates_for_woo_restricted_section-description p {
+	margin: 0;
+}
+
+/* Fields table = bottom half of the same card. */
+#order_updates_for_woo_restricted_section-description + table.form-table {
+	background: #fef2f2;
+	border: 2px solid #dc2626;
+	border-top: none;
+	border-radius: 0 0 6px 6px;
+	margin-top: 0;
+	padding: 8px 16px;
+	box-shadow: 0 6px 14px -8px rgba( 220, 38, 38, 0.3 );
+}
+
+#order_updates_for_woo_restricted_section-description + table.form-table th {
+	color: #7f1d1d;
+	padding-left: 8px;
+}
+
+#order_updates_for_woo_restricted_section-description + table.form-table td {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+#order_updates_for_woo_restricted_section-description + table.form-table .description {
+	color: #991b1b;
+}

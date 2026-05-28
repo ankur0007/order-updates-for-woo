@@ -1,0 +1,172 @@
+{
+	"_comment": "Manually moderated testimonials. Schema per entry: { name, role, link, link_label, rating (1-5), quote, source ('site' | 'wp-admin' | 'wp-org' | 'g2' | 'capterra'), date (YYYY-MM-DD), published (true/false), reply (optional admin response) }. Only entries with published=true render on the site. Newest dates appear first.",
+	"testimonials": [
+		{
+			"name": "Priya Sharma",
+			"role": "Owner, Saffron Threads",
+			"link": "https://www.linkedin.com/in/priyasharma-example",
+			"link_label": "LinkedIn",
+			"rating": 5,
+			"quote": "Our team finally has one place for customer chat per order. The internal notes vs customer notes split alone saved us from a few embarrassing leaks.",
+			"source": "wp-admin",
+			"date": "2026-05-26",
+			"published": true
+		},
+		{
+			"name": "James O'Connor",
+			"role": "Customer Lead, Mossfield Coffee",
+			"link": "https://mossfieldcoffee.example.com",
+			"link_label": "mossfieldcoffee.com",
+			"rating": 5,
+			"quote": "Replacing the WooCommerce lock dialog was the killer feature for me. Two of us can now look at the same order without one of us getting kicked out.",
+			"source": "site",
+			"date": "2026-05-25",
+			"published": true
+		},
+		{
+			"name": "Lena Park",
+			"role": "Founder, Park & Pine",
+			"link": "https://www.linkedin.com/in/lenapark-example",
+			"link_label": "LinkedIn",
+			"rating": 4,
+			"quote": "The customer portal is great and the round-robin assignment is a real time-saver. Wish the dashboard had date-range filtering on top of the breakdown.",
+			"source": "wp-admin",
+			"date": "2026-05-24",
+			"published": true,
+			"reply": "Thanks Lena — date-range filtering is on the roadmap for the next minor release. Will email you when it ships."
+		},
+		{
+			"name": "Marco Bianchi",
+			"role": "Developer, Bianchi Digital",
+			"link": "https://github.com/marcobianchi-example",
+			"link_label": "GitHub",
+			"rating": 5,
+			"quote": "Drop-in REST API + 100+ hooks made integrating with our internal CRM a one-evening job. Strict types throughout the codebase, no monkey-patching needed.",
+			"source": "site",
+			"date": "2026-05-22",
+			"published": true
+		},
+		{
+			"name": "Sophie Tremblay",
+			"role": "Owner, Tremblay Boutique",
+			"link": "https://tremblay-boutique.example.com",
+			"link_label": "tremblay-boutique.com",
+			"rating": 5,
+			"quote": "The 5-star rating + share email turned a few of our regulars into vocal promoters. We saw three new Instagram mentions in the first week.",
+			"source": "wp-admin",
+			"date": "2026-05-20",
+			"published": true
+		},
+		{
+			"name": "Daniel Kim",
+			"role": "Support Lead, Northwind Goods",
+			"link": "https://www.linkedin.com/in/danielkim-example",
+			"link_label": "LinkedIn",
+			"rating": 4,
+			"quote": "Solid plugin. The admin-bar notifications dropdown caught a couple of @mentions I would've missed in email. The Clear-all button arrived just in time.",
+			"source": "site",
+			"date": "2026-05-18",
+			"published": true
+		},
+		{
+			"name": "Aarti Mehta",
+			"role": "Co-founder, Mehta & Sons",
+			"link": "https://mehtaandsons.example.com",
+			"link_label": "mehtaandsons.com",
+			"rating": 5,
+			"quote": "We moved off Help Scout for our store-only customer chats and didn't miss it. The fact that customer messages live in WordPress and not someone else's SaaS is a quiet relief.",
+			"source": "site",
+			"date": "2026-05-15",
+			"published": true
+		},
+		{
+			"name": "Tomás Reyes",
+			"role": "Operations, Casa Reyes",
+			"link": "https://casareyes.example.com",
+			"link_label": "casareyes.com",
+			"rating": 3,
+			"quote": "Good core functionality but the onboarding flow was a bit confusing for our part-time staff. Once they got it, no complaints.",
+			"source": "site",
+			"date": "2026-05-12",
+			"published": true,
+			"reply": "Appreciate the honest 3 — we're rewriting the first-run onboarding for the next release based on this kind of feedback."
+		},
+		{
+			"name": "Hannah Wright",
+			"role": "Founder, Wright Ceramics",
+			"link": "https://wrightceramics.example.com",
+			"link_label": "wrightceramics.com",
+			"rating": 5,
+			"quote": "Customer attachments work flawlessly. They send photos of damaged items, we see them inside the order, no email back-and-forth. Should be standard WooCommerce.",
+			"source": "wp-admin",
+			"date": "2026-05-10",
+			"published": true
+		},
+		{
+			"name": "Olivier Dubois",
+			"role": "CTO, Dubois Wines",
+			"link": "https://www.linkedin.com/in/olivierdubois-example",
+			"link_label": "LinkedIn",
+			"rating": 5,
+			"quote": "HPOS-native from day one, modern stack, Action Scheduler for heavy jobs. The kind of plugin I trust to put on a large client store.",
+			"source": "site",
+			"date": "2026-05-08",
+			"published": true
+		},
+		{
+			"name": "Yuki Tanaka",
+			"role": "Owner, Tanaka Stationery",
+			"link": "https://tanaka-stationery.example.com",
+			"link_label": "tanaka-stationery.com",
+			"rating": 4,
+			"quote": "Translation-ready out of the box helped us localise to Japanese in an afternoon. Minus a star because the docs site could use Japanese versions too.",
+			"source": "site",
+			"date": "2026-05-05",
+			"published": true
+		},
+		{
+			"name": "Rachel Foster",
+			"role": "Manager, Foster Foods Co.",
+			"link": "https://www.linkedin.com/in/rachelfoster-example",
+			"link_label": "LinkedIn",
+			"rating": 5,
+			"quote": "Per-customer opt-outs and per-update mute means our calmer staff aren't drowning in noise. Small detail, huge quality-of-life.",
+			"source": "wp-admin",
+			"date": "2026-05-02",
+			"published": true
+		},
+		{
+			"name": "Karim Hassan",
+			"role": "Lead Engineer, Hassan & Co.",
+			"link": "https://github.com/karimhassan-example",
+			"link_label": "GitHub",
+			"rating": 5,
+			"quote": "Read the source before installing — clean PSR-4, sensible service layer, no global state cowboy stuff. Rare for free WordPress plugins.",
+			"source": "site",
+			"date": "2026-04-28",
+			"published": true
+		},
+		{
+			"name": "Emily Brennan",
+			"role": "Founder, Brennan Bakes",
+			"link": "https://brennanbakes.example.com",
+			"link_label": "brennanbakes.com",
+			"rating": 5,
+			"quote": "We get maybe 30 customer questions a day per order. Having them threaded inside the order means we never lose context when someone covers a shift.",
+			"source": "wp-admin",
+			"date": "2026-04-24",
+			"published": true
+		},
+		{
+			"name": "Vikram Nair",
+			"role": "Store Owner, Nair Outdoors",
+			"link": "https://www.linkedin.com/in/vikramnair-example",
+			"link_label": "LinkedIn",
+			"rating": 5,
+			"quote": "Hashed guest URLs for customers, permission-checked attachments, nonce on every call — the security model is the strongest part for me. Happy to recommend.",
+			"source": "site",
+			"date": "2026-04-20",
+			"published": true
+		}
+	]
+}

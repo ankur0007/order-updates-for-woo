@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Architecture — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html" class="is-active">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				Architecture
+			</p>
+
+			<h1 class="docs-page__title">Architecture</h1>
+			<p class="docs-page__lede">How this plugin is wired end-to-end. Read this first if you&rsquo;re going to write an addon or contribute.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What an &ldquo;update&rdquo; actually is</h2>
+					<p>If you only remember one thing from this page: an order can have many updates, and each update is one conversation about that order. A delivery delay, a refund question, a follow-up to a previous issue &mdash; each gets its own update.</p>
+					<p>An update has:</p>
+					<ul>
+						<li>One <strong>assignee</strong> &mdash; the team member responsible.</li>
+						<li>A <strong>status</strong> &mdash; the colour-coded label (Neutral, Notice, Warning, Resolved, plus whatever you&rsquo;ve added).</li>
+						<li>A <strong>customer-visible flag</strong> &mdash; whether the customer can see this update or not.</li>
+						<li>Two parallel note streams &mdash; internal (team-only) and customer (visible to the customer&rsquo;s portal).</li>
+						<li>Optional <strong>attachments</strong> on any note.</li>
+						<li>Up to one <strong>rating</strong> (1&ndash;5 stars + optional comment) once it&rsquo;s solved.</li>
+						<li>A complete <strong>tracking log</strong> of every meaningful event &mdash; created, assigned, status changed, solved, reopened, rated.</li>
+					</ul>
+					<p>This shape lives across five custom tables. The plugin never modifies WordPress core or WooCommerce tables &mdash; uninstall it and your orders are untouched.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where the code lives</h2>
+					<p>Everything is under <code>src/</code>. PSR-4 namespaced. Six modules:</p>
+					<pre><code class="language-php">src/
+  API/         REST endpoints and the routing trait
+  Admin/       Order meta box, settings, analytics, admin bar, staff-facing emails
+  Frontend/    Customer portal, customer-facing emails, shortcodes
+  Helpers/     Stateless utilities (HposHelper, View, DateHelper, etc.)
+  Shared/      DB layer, attachments, config, validation, notifications
+  Welcome/     First-activation welcome page</code></pre>
+					<p>No top-level <code>templates/</code> or <code>includes/</code> folders. If you&rsquo;re adding code and not sure where it goes, look at the nearest sibling and copy the pattern.</p>
+					<p>The plugin boots from <code>order-updates-for-woo.php</code> into <code>OrderUpdatesForWoo\Plugin::boot()</code>. That method is the master list of every class that runs at runtime &mdash; if you ever wonder &ldquo;wait, what wires this up?&rdquo;, that&rsquo;s the file.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How a request flows</h2>
+					<p>Take a concrete example. A staff member writes a customer note and hits send. Here&rsquo;s the path:</p>
+					<ol>
+						<li>The admin JS sends a <code>POST</code> to <code>/wp-json/order-updates-for-woo/v1/updates/123/customer-notes</code>.</li>
+						<li>WP REST routes it to <code>AddCustomerNoteEndpoint::handle()</code>.</li>
+						<li>The endpoint&rsquo;s <code>can_access()</code> verifies the nonce and the user&rsquo;s capability on the order. If either fails, you get a 403.</li>
+						<li>Otherwise <code>handle()</code> sanitises the note, calls <code>OrderUpdatesDb::create_customer_note()</code>, and queues an Action Scheduler job to email the customer.</li>
+						<li>The plugin fires <code>order_updates_for_woo_after_add_customer_note</code> &mdash; this is where any addon you&rsquo;ve hooked steps in.</li>
+						<li>Endpoint returns the saved note JSON. Admin JS appends it to the DOM and the user sees their message land.</li>
+						<li>A few seconds later, Action Scheduler runs the email job. The plugin&rsquo;s <code>CustomerOrderUpdateEmail</code> (a <code>WC_Email</code> subclass) builds the body and calls <code>wp_mail()</code>.</li>
+					</ol>
+					<p>That&rsquo;s the shape of every mutation: REST endpoint &rarr; DB layer &rarr; sync UI response &rarr; async notification. No magic, no surprise side effects.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The DB layer</h2>
+					<p>One class to know: <code>OrderUpdatesDb</code> in <code>src/Shared/Updates/</code>. It owns four custom tables (updates, internal notes, customer notes, ratings) and a separate <code>AttachmentsDb</code> handles the fifth (attachments). Every read on this class is wrapped in <code>wp_cache_get</code> / <code>wp_cache_set</code> under <code>Constants::CACHE_GROUP</code>. Every write invalidates the relevant cache keys.</p>
+					<p>Two rules: <strong>never read or write these tables from outside <code>OrderUpdatesDb</code></strong>, and <strong>every query that takes user input uses <code>$wpdb->prepare()</code></strong>. The plugin doesn&rsquo;t interpolate user-controlled values into SQL anywhere &mdash; if you find a place that does, that&rsquo;s a bug, please open an issue.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The REST API surface</h2>
+					<p>27 endpoints under <code>/wp-json/order-updates-for-woo/v1/</code>. Same shape across all of them: each endpoint class implements <code>Registrable</code> and uses the <code>VerifiesAccess</code> trait. Every <code>can_access()</code> checks the WP REST nonce first; staff endpoints then check capabilities, customer endpoints check the order key.</p>
+					<p>The admin meta box, the customer portal, and the 30-second poll all talk to this REST API. There&rsquo;s no separate admin-AJAX or custom JSON endpoint elsewhere &mdash; if you want to know what the plugin can do over HTTP, the <a href="../rest-api/index.html">REST API page</a> has the full inventory.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Emails go through Action Scheduler</h2>
+					<p>The plugin never calls <code>wp_mail()</code> from inside a REST handler. Every notification is queued as an Action Scheduler job (via the helper <code>AsyncJob::queue()</code>) and runs a few seconds later. This keeps the admin&rsquo;s &ldquo;Save&rdquo; click from waiting on SMTP &mdash; the page returns immediately, the email arrives shortly after.</p>
+					<p>Every email is a <code>WC_Email</code> subclass extending <code>OrderUpdateEmailBase</code>. Nine email classes total. Subject and body are customisable through the standard WooCommerce email customiser; deeper changes (markup, layout) go through theme overrides. See <a href="../email-customisation/index.html">Email customisation</a> for the full picture.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Realtime is polling (for v1.0)</h2>
+					<p>The customer portal polls <code>/customer-thread/poll</code> every 30 seconds. The admin meta box uses WP Heartbeat for the admin-bar badge. No WebSockets in the core plugin &mdash; that&rsquo;s a deliberate scope decision for v1.0.</p>
+					<p>The poll endpoint is cache-friendly: responses are keyed by <code>order_id + since_note_id</code> and cached for 15 seconds in a transient. Two customers watching the same order share one DB query.</p>
+					<p>If you need true realtime, hook <code>order_updates_for_woo_realtime_config</code> and inject your driver (Pusher, Ably, your own WebSocket service). The customer JS will use your driver and fall back to polling automatically if your connection drops. See the <a href="../hooks/index.html">Hooks page</a> for the worked example.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>HPOS and classic storage</h2>
+					<p>The plugin declares HPOS compatibility and works on both storage modes. The rule: <strong>every order touch goes through WooCommerce&rsquo;s API</strong> &mdash; <code>wc_get_order()</code>, <code>$order-&gt;get_meta()</code>, <code>$order-&gt;update_meta_data()</code>, <code>$order-&gt;save()</code>. Never <code>get_post_meta()</code> on an order ID, never <code>WP_Query</code> against <code>shop_order</code>.</p>
+					<p>For admin URLs that link to the orders list, use <code>HposHelper::orders_list_url()</code> &mdash; it returns the right URL for both storage modes. Hardcoding <code>edit.php?post_type=shop_order</code> 404s on HPOS-only stores.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How wiring works</h2>
+					<p>There&rsquo;s no DI container. <code>Plugin::boot()</code> is a long, flat list of <code>new ClassName( $dep1, $dep2 )</code> calls. That&rsquo;s the trade-off: less abstraction means easier to read for someone new, harder to wire complex object graphs.</p>
+					<p>For an addon, do the same thing &mdash; bootstrap in a single <code>boot()</code> method on a top-level class, wire your own dependencies inline. Don&rsquo;t introduce a container just for your addon; it&rsquo;ll feel out of place against the rest of the codebase.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../user-guide/analytics/index.html">
+					<span>Previous</span>
+					Analytics
+				</a>
+				<a class="next" href="../../developer-guide/file-structure/index.html">
+					<span>Next</span>
+					File structure
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

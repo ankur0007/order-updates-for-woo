@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAQ — Customer side — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes &amp; portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings &amp; feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow &amp; @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses &amp; colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings &mdash; General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings &mdash; Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings &mdash; Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings &mdash; Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings &mdash; Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings &mdash; API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings &mdash; Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings &mdash; Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html" class="is-active">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email &amp; notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				FAQ &nbsp;/&nbsp;
+				Customer side
+			</p>
+
+			<h1 class="docs-page__title">Customer side</h1>
+			<p class="docs-page__lede">Everything from the customer&rsquo;s side &mdash; what they see, how they get to the portal, what they can and can&rsquo;t do, and how things differ for a logged-in customer vs a guest who checked out without an account.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What does a logged-in customer see on their order page?</h2>
+					<p>When the customer opens <strong>My Account &rarr; Orders &rarr; (their order)</strong>, the plugin shows an <em>Order Updates</em> section under the order summary. Every customer-visible update on that order is listed there, with the title, the current status pill, any colour you set, and the full customer-notes thread.</p>
+					<p>If a thread is still open, a reply box sits at the bottom &mdash; the customer types, attaches files (if you&rsquo;ve allowed attachments), and posts. The reply shows up in your admin view right away, and the assignee gets an email.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How does a guest customer (no account) reach the portal?</h2>
+					<p>Through a secure, single-use link inside every customer-facing email the plugin sends. The link uses the order&rsquo;s WooCommerce order key (the same secret WooCommerce uses for its own &ldquo;view order&rdquo; emails), so it lets them in without a login. The page looks the same as the logged-in version.</p>
+					<p>Guests can do everything logged-in customers can do on that order &mdash; read updates, reply, attach files, rate solved updates &mdash; without ever making an account. The link only works for that one order; even if it&rsquo;s shared, it can&rsquo;t open anything else on your store.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can my customers open updates themselves, or only reply?</h2>
+					<p>Off by default &mdash; turn it on under <strong>Settings &rarr; Customer &rarr; Allow customers to create updates</strong>.</p>
+					<p>When it&rsquo;s on, a small &ldquo;Need help with this order?&rdquo; box shows up in the customer&rsquo;s portal. The customer types a title and a first message; the plugin opens a new update on the order, sets the status to your chosen <em>default status for customer-opened updates</em>, and routes it to the next team member in the assignment rotation list. The site admin also gets a heads-up email (turn it on under <strong>Settings &rarr; Admin Only</strong>).</p>
+					<p>Even with this off, customers can always reply to updates you&rsquo;ve already opened &mdash; replies never need this setting on.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Logged-in vs the email link &mdash; is the experience different?</h2>
+					<p>The portal looks and works the same way for both. The only real difference: a logged-in customer can switch between orders from the &ldquo;My Orders&rdquo; tab, while a guest&rsquo;s email link only opens one order. There&rsquo;s no &ldquo;guest mode with fewer features&rdquo; &mdash; replies, attachments, ratings, all of it works the same.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can a customer reply to a thread that&rsquo;s been marked solved?</h2>
+					<p>Not directly &mdash; once an update is solved, the reply box is replaced with the rating widget. But the rating widget has a <strong>Still has issue?</strong> button that hands the thread back to the customer. Clicking it sets the update back to open, swaps the rating widget out for the reply box, and the conversation picks up again.</p>
+					<p>This is on purpose. Asking the customer to choose &ldquo;rate now or click Still has issue&rdquo; gives you a clear signal &mdash; if they reopened instead of rating, something really wasn&rsquo;t fixed.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can a customer rate the same update twice?</h2>
+					<p>No &mdash; one rating per update is the rule, on purpose. The rating row is unique on <code>update_id</code> in the database, so the system makes sure of it. Once sent, the rating is final, the widget shrinks to a thank-you message, and the update card becomes read-only on the admin side too.</p>
+					<p>If a rating was really left by mistake, you&rsquo;d need to delete the rating row from the database directly &mdash; there&rsquo;s no admin button to wipe a rating, on purpose, because if ratings could be undone they wouldn&rsquo;t mean much.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What happens if the customer types a reply but I&rsquo;ve already marked the update solved?</h2>
+					<p>The customer&rsquo;s portal page checks for changes every 30 seconds, so within half a minute their reply box will switch over to the rating widget on its own &mdash; their draft text isn&rsquo;t lost (it stays in the textarea), but the post button changes.</p>
+					<p>If they hit <em>Post</em> in the short window between &ldquo;you marked solved&rdquo; and &ldquo;their browser checked again&rdquo;, the REST endpoint sees the mismatch and quietly reopens the update. The customer&rsquo;s reply lands as a normal customer note, the rating widget goes away, and you&rsquo;re back in conversation. No error message, no lost text.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can customers attach files to their replies?</h2>
+					<p>Yes &mdash; if attachments are turned on under <strong>Settings &rarr; Attachments</strong>. The reply box in the customer portal has the same drag-and-drop upload area your team gets. The allowed file types, max file size, and max files per note are the same limits you set for staff. Each file is checked for double-extension tricks and saved under <code>wp-content/uploads/order-updates-for-woo/</code> with a random filename.</p>
+					<p>Customers can also remove their own attachments before posting &mdash; standard upload form behaviour. After posting, customers can&rsquo;t delete their own attachments from the portal; only your team can.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can customers stop the email notifications?</h2>
+					<p>Yes. At the bottom of every customer-update email there&rsquo;s a one-click <em>Unsubscribe from update emails for this order</em> link. Clicking it saves a per-order preference (stored on the order itself for guests, on user-meta for logged-in customers), and from then on the customer stops getting notification emails for that order&rsquo;s updates.</p>
+					<p>The thread keeps moving normally on your end &mdash; the customer just won&rsquo;t get email alerts. They can still read everything if they log in or use the original portal link. They can also turn the emails back on from inside the portal page if they change their mind.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s the share link in the customer email actually pointing at?</h2>
+					<p>It points to the customer&rsquo;s order page on your own site, with the order key in the URL. For logged-in customers it&rsquo;s their <code>/my-account/view-order/{order_id}/</code> URL. For guests it&rsquo;s the standard WooCommerce <code>/order-received/{order_id}/?key={order_key}</code> URL &mdash; the same URL pattern WooCommerce uses for its built-in order receipt email.</p>
+					<p>That means the link works on whatever WooCommerce theme you&rsquo;re running, picks up any theme tweaks you&rsquo;ve made to the order view page, and uses the same access rules you&rsquo;ve already set on My Account.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Do customers see when I edit an internal note?</h2>
+					<p>No &mdash; internal notes are never shown to customers, so edits to them never reach the customer portal or any customer-facing email.</p>
+					<p>Edits to <em>customer notes</em> are different: the new text replaces the original in the customer portal, and an &ldquo;edited&rdquo; marker shows when it was changed. Old versions are kept in the <code>{prefix}order_updates_for_woo_customer_note_history</code> table for the record, but only your team can see the version history.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Do customers see status changes?</h2>
+					<p>The status pill on each update card is shown to the customer &mdash; whatever status you set is what they see. If you change the status (say, from <em>Open</em> to <em>Awaiting customer</em>), the customer&rsquo;s portal page picks it up on the next check (within 30 seconds).</p>
+					<p>Status changes don&rsquo;t send an email on their own. The customer only gets emailed when a customer-visible <em>note</em> is added, when the update is marked solved, or when a rating email fires. Pure status changes are quiet on the customer side &mdash; useful for sorting moves your team makes without wanting to fill the customer&rsquo;s inbox.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can my customers see the team member&rsquo;s name on a reply?</h2>
+					<p>Each customer note shows the name the author wrote it under &mdash; that&rsquo;s the only staff label the customer ever sees. The assignee field is a separate thing, and is hidden by default; turn on <strong>Settings &rarr; Customer &rarr; Show assignee to customers</strong> if you want the assigned team member&rsquo;s display name shown as well.</p>
+					<p>Emails, usernames, roles, @mention names, and internal-note author names are never shown to customers under any setting.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What is the &ldquo;Embed in page builders&rdquo; feature for?</h2>
+					<p>It&rsquo;s for stores that don&rsquo;t use the default WooCommerce My Account page &mdash; for example, custom Elementor or Gutenberg checkout flows that build their own &ldquo;order details&rdquo; page from scratch. Drop the shortcode or Gutenberg block on whichever page you&rsquo;re building, and the full customer portal shows up there, picking up the order from a URL parameter or the logged-in customer&rsquo;s latest order.</p>
+					<p>See <a href="../../user-guide/embed-in-builders/index.html">User Guide &rarr; Embed in page builders</a> for the shortcode reference and block usage examples.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What does the customer see if you delete an update?</h2>
+					<p>If the update was customer-visible, the customer is emailed a short notice (&ldquo;Your update on order #1234 has been closed by the store team&rdquo;) so they aren&rsquo;t left wondering where the thread went. The update is removed from their portal on the next check.</p>
+					<p>If the update was internal-only (never customer-visible), the customer sees nothing &mdash; no email, no portal change, since they never saw the thread in the first place. Either way, your team gets a note in the activity log so deletions can be reviewed later.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../general/index.html">
+					<span>Previous</span>
+					FAQ &rarr; General
+				</a>
+				<a class="next" href="../email-notifications/index.html">
+					<span>Next</span>
+					FAQ &rarr; Email &amp; notifications
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

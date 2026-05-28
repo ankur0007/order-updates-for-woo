@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>File structure — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html" class="is-active">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				File structure
+			</p>
+
+			<h1 class="docs-page__title">File structure</h1>
+			<p class="docs-page__lede">Where everything lives, and where new code goes. The table at the bottom is the cheat-sheet.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The top-level tree</h2>
+					<p>Open the plugin folder and you&rsquo;ll see this:</p>
+					<pre><code class="language-bash">order-updates-for-woo/
+├── order-updates-for-woo.php   # entry file; HPOS declaration; boots Plugin
+├── readme.txt                  # what WordPress.org shows on the listing page
+├── languages/                  # .pot file lives here; translations land here
+├── assets/
+│   ├── Admin/{css,js,images}/
+│   └── Frontend/{css,js}/
+├── src/                        # all PHP, PSR-4, namespaced
+├── tests/                      # PHPUnit suite
+├── scripts/                    # dev utilities (sample-data seeder, email previewer)
+└── docs/                       # this documentation site (excluded from plugin zip)</code></pre>
+					<p>Only <code>src/</code>, <code>assets/</code>, <code>languages/</code>, the entry file, and <code>readme.txt</code> ship in the plugin zip. Tests, scripts, and these docs are dev-only &mdash; excluded via <code>.distignore</code>.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Inside src/</h2>
+					<p>Six modules, one purpose each:</p>
+					<pre><code class="language-bash">src/
+├── API/
+│   ├── Concerns/     VerifiesAccess, RendersCardHtml (traits)
+│   ├── Contracts/    Registrable (interface)
+│   └── Endpoints/    27 REST endpoint classes + Analytics/ sub-folder
+├── Admin/
+│   ├── AdminBar/                Heartbeat-driven mention/assignment badge
+│   ├── Analytics/               Analytics page controller + views
+│   ├── Notifications/Emails/    AdminOrderUpdateEmail, AssigneeOrderUpdateEmail, etc.
+│   ├── Orders/                  Meta box, deleted-update audit
+│   └── Settings/                9 settings tab controllers
+├── Frontend/
+│   ├── Notifications/Emails/    CustomerOrderUpdateEmail, CustomerRatingFollowupEmail, etc.
+│   └── OrderUpdates/            Customer portal view, shortcode, controllers
+├── Helpers/                     26 stateless utility classes
+├── Shared/
+│   ├── Attachments/             AttachmentService, AttachmentsDb, AttachmentSigner, AttachmentStorage
+│   ├── Audit/                   Deleted-update log
+│   ├── Config/                  Constants, Variables
+│   ├── Language/                JS string registry
+│   ├── Notifications/           OrderUpdateEmailBase + dispatch pipeline
+│   ├── Updates/                 OrderUpdatesDb, UpdatesTable, NoteActionPolicy
+│   └── Validation/              Validator
+└── Welcome/                     First-activation welcome page</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where to put new code</h2>
+					<p>The fastest path to writing something new: find the nearest sibling and mirror it. Use this table to figure out which folder.</p>
+					<table>
+						<thead><tr><th>What you&rsquo;re adding</th><th>Goes in</th><th>Look at this for the pattern</th></tr></thead>
+						<tbody>
+							<tr><td>A REST endpoint</td><td><code>src/API/Endpoints/</code></td><td><code>AddCustomerNoteEndpoint.php</code> &mdash; clean <code>can_access</code> + <code>handle</code> split</td></tr>
+							<tr><td>An admin email</td><td><code>src/Admin/Notifications/Emails/</code></td><td><code>AssigneeOrderUpdateEmail.php</code></td></tr>
+							<tr><td>A customer email</td><td><code>src/Frontend/Notifications/Emails/</code></td><td><code>CustomerOrderUpdateEmail.php</code></td></tr>
+							<tr><td>A settings tab</td><td><code>src/Admin/Settings/Controllers/</code></td><td>Any existing controller &mdash; they all share the same shape</td></tr>
+							<tr><td>A stateless utility</td><td><code>src/Helpers/</code></td><td><code>DateHelper.php</code> or <code>UpdateState.php</code></td></tr>
+							<tr><td>A view partial (theme-overridable)</td><td>Inside a <code>Templates/</code> sub-folder under the feature</td><td><code>Admin/Orders/Templates/card/header.php</code></td></tr>
+							<tr><td>Hooking an existing surface &mdash; new file isn&rsquo;t needed</td><td>Your own addon</td><td>See <a href="../hooks/index.html">Hooks</a> for the action/filter to use</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Why Templates/ folders matter</h2>
+					<p>Anywhere you see a <code>Templates/</code> sub-folder &mdash; <code>src/Admin/Orders/Templates/card/</code>, <code>src/Frontend/Notifications/Templates/</code>, etc. &mdash; those files are theme-overridable. Copy them into <code>your-theme/order-updates-for-woo/&lt;path-after-Templates/&gt;</code> and your version wins automatically.</p>
+					<p>If you&rsquo;re adding a view that should be customisable without forking the plugin, drop it inside a <code>Templates/</code> sub-folder and call it through <code>View::render()</code>. Never use raw <code>include</code> for views &mdash; you lose the override path. See <a href="../theme-overrides/index.html">Theme overrides</a> for the full mechanism.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Naming conventions</h2>
+					<table>
+						<tbody>
+							<tr><td>PHP namespace</td><td><code>OrderUpdatesForWoo\&lt;Module&gt;\&lt;Sub&gt;</code></td></tr>
+							<tr><td>Hook names</td><td><code>order_updates_for_woo_*</code></td></tr>
+							<tr><td>Constants</td><td><code>OrderUpdatesForWoo\Shared\Config\Constants::*</code></td></tr>
+							<tr><td>Admin CSS classes</td><td><code>awts_*</code></td></tr>
+							<tr><td>Admin-bar CSS classes</td><td><code>awts-ab-*</code></td></tr>
+							<tr><td>Customer-portal CSS classes</td><td><code>awts_cou_*</code></td></tr>
+							<tr><td>JS data attributes</td><td><code>data-awts-*</code></td></tr>
+							<tr><td>Database tables</td><td><code>wp_awts_*</code> (prefix respects <code>$wpdb->prefix</code>)</td></tr>
+						</tbody>
+					</table>
+					<p>If your addon adds anything that ends up in the DOM or the database, prefix it with something obviously yours &mdash; not <code>awts_*</code>. That namespace is taken.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/architecture/index.html">
+					<span>Previous</span>
+					Architecture
+				</a>
+				<a class="next" href="../../developer-guide/hooks/index.html">
+					<span>Next</span>
+					Hooks
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

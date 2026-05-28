@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ratings &amp; feedback — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html" class="is-active">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				User Guide &nbsp;/&nbsp;
+				Ratings &amp; feedback
+			</p>
+
+			<h1 class="docs-page__title">Ratings &amp; feedback</h1>
+			<p class="docs-page__lede">Solved updates collect customer ratings &mdash; star scores, optional comments, branched follow-up emails for promoters vs detractors. Everything you need to close the feedback loop without bolting on a separate survey tool.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/04-rating-solved-admin.png" alt="An update marked as solved on the admin order edit page.">
+					<p class="docs-row__caption">Admin view after marking an update solved.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>Marking solved on the admin side</h2>
+					<p>Click <strong>Mark as solved</strong>. If the update is customer-visible, you&rsquo;ll be asked whether to notify the customer or do it silently.</p>
+					<p>Once solved, the status pill flips to your &ldquo;solved&rdquo; status, and a <strong>Re-open</strong> button appears. The reopen button is hidden once the customer has rated.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/04-rating-widget.png" alt="The customer-facing rating widget with 5 stars and an optional comment field, plus a 'Still has issue?' button.">
+					<p class="docs-row__caption">Customer rating widget &mdash; stars, optional comment, escape hatch.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>The customer&rsquo;s rating widget</h2>
+					<p>When you mark a customer-visible update as solved, the customer&rsquo;s portal hides the reply composer and shows the rating widget instead.</p>
+					<p>The <strong>Still has issue?</strong> button gives the customer an escape hatch &mdash; re-opens the update without staff involvement.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/04-rating-rated-customer.png" alt="The customer-side view after a rating has been submitted, showing the star count and a thank-you message.">
+					<p class="docs-row__caption">Customer view after rating &mdash; thanks message + the chosen star count.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>After the customer rates</h2>
+					<p>The widget collapses into a &ldquo;Thanks for your feedback!&rdquo; confirmation. Thread becomes closed.</p>
+					<p>4&ndash;5 star raters get a promoter follow-up email. 1&ndash;3 star raters get a detractor empathy email; site admin also gets an alert.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/04-rating-rated-admin.png" alt="The admin view of a rated update, showing the star count, comment, and that the thread is now read-only.">
+					<p class="docs-row__caption">Admin view of a rated update &mdash; rating + comment shown on the card.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>The rated update on the admin side</h2>
+					<p>The card shows the star count and comment. The card becomes read-only &mdash; rated updates can&rsquo;t be reopened, on purpose. For a similar new issue, open a new update.</p>
+					<p>Ratings are logged into the tracking log and power per-team-member analytics.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/04-rating-promoter-email.png" alt="The promoter follow-up email body with a thanks message, the customer's comment, and four social share buttons.">
+					<p class="docs-row__caption">Promoter follow-up email &mdash; share buttons for Facebook, X, LinkedIn, WhatsApp.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>Promoter share email</h2>
+					<p>4 and 5 star ratings trigger this follow-up a few minutes after the rating. Quotes the customer&rsquo;s comment back to them, then asks if they&rsquo;d share their experience.</p>
+					<p>Share buttons take them straight to a pre-filled share dialog on Facebook, X, LinkedIn, or WhatsApp. Configure the share text and target URL (Google review, WooCommerce.com listing, etc.) under <em>Settings &rarr; General &rarr; Ratings</em>. <code>{site_name}</code> and <code>{site_url}</code> tokens are supported in the share text.</p>
+					<p>Detractor ratings (1&ndash;3 stars) get a different email &mdash; a warm &ldquo;we&rsquo;ll do better&rdquo; note with a direct reply link, no share buttons.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Configuring the rating flow</h2>
+					<p>Under <em>Settings &rarr; General &rarr; Ratings</em> you can:</p>
+					<ul>
+						<li>Turn ratings on/off entirely.</li>
+						<li>Toggle the optional comment field.</li>
+						<li>Configure the promoter share URL and the share text.</li>
+						<li>Toggle the admin alert on detractor ratings.</li>
+					</ul>
+				</div>
+			</section>
+
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../user-guide/customer-notes-portal/index.html">
+					<span>Previous</span>
+					Customer notes &amp; portal
+				</a>
+				<a class="next" href="../../user-guide/team-workflow/index.html">
+					<span>Next</span>
+					Team workflow &amp; @mentions
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

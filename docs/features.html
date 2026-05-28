@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Features — Order Updates for WooCommerce</title>
+	<meta name="description" content="Every feature in Order Updates for WooCommerce — two-thread conversations, customer portal, ratings, team workflow, analytics, REST API, privacy and security — all free, in one plugin.">
+	<meta name="robots" content="index, follow">
+
+	<link rel="canonical" href="https://orderupdatesforwoo.com/features.html">
+
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://orderupdatesforwoo.com/features.html">
+	<meta property="og:title" content="Features — Order Updates for WooCommerce">
+	<meta property="og:description" content="Every feature in Order Updates for WooCommerce, in one place. Free, open-source.">
+	<meta property="og:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="assets/styles.css">
+	<link rel="stylesheet" href="assets/landing.css">
+
+
+	<!-- HTML partials (nav + footer) — must load before mobile-nav + mega-menu. -->
+	<script src="assets/partials.js" defer></script>	<script src="assets/mobile-nav.js" defer></script>
+	<script src="assets/mega-menu.js" defer></script>
+	<script src="assets/lightbox.js" defer></script>
+	<script src="assets/features-slider.js" defer></script>
+</head>
+<body class="landing">
+
+<div data-include="partials/nav.html"></div>
+
+<!-- Page header -->
+<section class="features-header">
+	<div class="features-header__inner">
+		<p class="landing__eyebrow">Every feature, one page</p>
+		<h1 class="features-header__title">A <span class="landing__hl landing__hl--start">complete help-desk</span> &mdash; built into WooCommerce</h1>
+		<p class="features-header__lede">Two-thread conversations, customer portal, ratings &amp; share, team workflow, analytics, REST API, privacy and security. <strong>All free. One plugin. No upsell.</strong></p>
+	</div>
+</section>
+
+<!-- Deep-dive feature rows -->
+<section class="landing__section landing__section--features">
+	<div class="landing__section__inner">
+
+		<!-- Row 1 — Two threads -->
+		<article id="threads" class="landing__feature-row">
+			<div class="landing__feature-row__body">
+				<p class="landing__feature-row__kicker">Two-thread conversations</p>
+				<h2 class="landing__feature-row__title">Two threads, one update</h2>
+				<p class="landing__feature-row__lede">Internal notes for your team. Customer notes for your customers. Side by side on the same update card &mdash; you write to whichever audience needs it.</p>
+				<ul class="landing__feature-row__bullets">
+					<li><strong>@mentions</strong> in internal notes email and admin-bar your teammates &mdash; the customer never sees a thing.</li>
+					<li><strong>Customer notes</strong> mirror what shows up in the customer portal. What you write is what they see.</li>
+					<li><strong>Two database tables</strong>, two REST endpoints, zero crossover &mdash; internal stays internal under every setting.</li>
+				</ul>
+			</div>
+			<div class="landing__feature-row__media landing__zoom">
+				<img src="images/02-thread-card.png" alt="An Order Updates card with the Internal Notes tab on the left and the Customer Notes tab on the right." loading="lazy" width="900" height="600">
+			</div>
+		</article>
+
+		<!-- Row 2 — Customer portal -->
+		<article id="portal" class="landing__feature-row landing__feature-row--reverse">
+			<div class="landing__feature-row__body">
+				<p class="landing__feature-row__kicker">Customer portal</p>
+				<h2 class="landing__feature-row__title">A real customer portal, inside your store</h2>
+				<p class="landing__feature-row__lede">Customers see their updates inside WooCommerce&rsquo;s My Account page. Guests get a secure single-use link in every email. Either way, they reply, attach files, and rate solved threads &mdash; without leaving your site.</p>
+				<ul class="landing__feature-row__bullets">
+					<li>Works the same for <strong>logged-in customers and guests</strong> &mdash; same features, same UI.</li>
+					<li>Portal checks for updates every 30 seconds &mdash; no manual refresh needed.</li>
+					<li>Drops into any page via the <code>[order_updates_for_woo]</code> shortcode or Gutenberg block.</li>
+				</ul>
+			</div>
+			<div class="landing__feature-row__media landing__zoom">
+				<img src="images/03-customer-portal.png" alt="The customer portal on a WooCommerce order page, showing an open update thread with the reply box at the bottom." loading="lazy" width="900" height="600">
+			</div>
+		</article>
+
+		<!-- Row 3 — Lock banner -->
+		<article id="lock-banner" class="landing__feature-row">
+			<div class="landing__feature-row__body">
+				<p class="landing__feature-row__kicker">Lock without blocking</p>
+				<h2 class="landing__feature-row__title">Your team chats while WooCommerce&rsquo;s blocker stays out of the way</h2>
+				<p class="landing__feature-row__lede">WooCommerce&rsquo;s default &ldquo;X is currently editing this order&rdquo; modal hides the whole screen &mdash; including your notes thread. We swap it for a soft banner at the top, dim the order fields, and keep the Order Updates panel fully alive underneath.</p>
+				<ul class="landing__feature-row__bullets">
+					<li>Order data stays <strong>protected</strong> &mdash; fields stay locked until someone clicks <em>Take over</em>.</li>
+					<li>Live <strong>handover detection</strong> &mdash; if a teammate takes the lock, the page reloads into the new state.</li>
+					<li>Built on top of <strong>WooCommerce&rsquo;s own EditLock service</strong> &mdash; no parallel lock store, no drift.</li>
+				</ul>
+			</div>
+			<div class="landing__feature-row__media landing__zoom">
+				<img src="images/06-order-lock-banner.png" alt="The Order Updates lock banner at the top of an order edit page, dimming the order fields but leaving the notes thread fully interactive." loading="lazy" width="900" height="600">
+			</div>
+		</article>
+
+		<!-- Row 4 — Analytics -->
+		<article id="analytics" class="landing__feature-row landing__feature-row--reverse">
+			<div class="landing__feature-row__body">
+				<p class="landing__feature-row__kicker">Analytics at a glance</p>
+				<h2 class="landing__feature-row__title">See how your support team is doing &mdash; in one place</h2>
+				<p class="landing__feature-row__lede">A built-in dashboard tells you what&rsquo;s open, what&rsquo;s solved, how fast your team is responding, and who&rsquo;s carrying the load. No spreadsheets, no external SaaS &mdash; the numbers come straight from your own database.</p>
+				<ul class="landing__feature-row__bullets">
+					<li>Open vs solved, <strong>median time to solve</strong>, and unresolved threads up top.</li>
+					<li>Per-team-member <strong>throughput and rating averages</strong>, so you can spot who needs help.</li>
+					<li>Backed by a <strong>lookup table</strong> &mdash; stays fast even with hundreds of thousands of orders.</li>
+				</ul>
+			</div>
+			<div class="landing__feature-row__media landing__zoom">
+				<img src="images/07-analytics-dashboard.png" alt="The Order Updates analytics dashboard showing open vs solved counts, time-to-solve metrics, and a per-team-member breakdown." loading="lazy" width="900" height="600">
+			</div>
+		</article>
+	</div>
+</section>
+
+<!-- Bento grid — five more features in a magazine layout -->
+<section id="bento" class="landing__section landing__section--bento">
+	<div class="landing__section__inner">
+		<div class="landing__bento">
+			<header class="landing__bento__header">
+				<p class="landing__eyebrow">Five more, built right in</p>
+				<h2 class="landing__bento__title">More than chat, all on one page</h2>
+			</header>
+
+			<div class="landing__bento__grid">
+
+				<article class="landing__bento__tile landing__bento__tile--ratings landing__zoom">
+					<div class="landing__bento__tile__body">
+						<p class="landing__bento__tile__kicker">Ratings &amp; feedback</p>
+						<h3 class="landing__bento__tile__title">5-star ratings with built-in social share</h3>
+						<p class="landing__bento__tile__lede">Solved updates turn into a 5-star widget. Promoters get a thank-you with one-tap share for Facebook, X, LinkedIn and WhatsApp. Detractors get a warm follow-up &mdash; never a dead end.</p>
+					</div>
+					<div class="landing__bento__tile__media landing__bento__tile__media--pair">
+						<img src="images/04-rating-widget.png" alt="The customer-facing 5-star rating widget." loading="lazy">
+						<img src="images/04-rating-promoter-email.png" alt="The promoter thank-you email with social share buttons." loading="lazy">
+					</div>
+				</article>
+
+				<!-- Round-robin: visual rotation list. No screenshot — this is
+				     a settings-driven rotation, the story is the ordered list. -->
+				<article class="landing__bento__tile landing__bento__tile--round-robin">
+					<div class="landing__bento__tile__body">
+						<p class="landing__bento__tile__kicker">Round-robin assignment</p>
+						<h3 class="landing__bento__tile__title">New customer threads go to the top of your list</h3>
+						<p class="landing__bento__tile__lede">Set the order once in settings. The plugin rotates customer-opened threads through your team &mdash; one at a time, top of list first, then back to the bottom.</p>
+					</div>
+					<div class="landing__bento__tile__rotation" aria-hidden="true">
+						<p class="landing__bento__tile__rotation__label">Next assignee &mdash; in order</p>
+						<ol class="landing__bento__tile__rotation__list">
+							<li><span class="landing__bento__tile__rotation__chip" data-color="amber">AT</span>Alice T. <span class="landing__bento__tile__rotation__hint">&larr; next</span></li>
+							<li><span class="landing__bento__tile__rotation__chip" data-color="blue">BM</span>Bob M.</li>
+							<li><span class="landing__bento__tile__rotation__chip" data-color="emerald">CR</span>Carlos R.</li>
+							<li><span class="landing__bento__tile__rotation__chip" data-color="violet">DN</span>Dana N.</li>
+						</ol>
+						<div class="landing__bento__tile__rotation__arrow" title="Rotates back to top after the last assignee">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+							<span>rotates</span>
+						</div>
+					</div>
+				</article>
+
+				<!-- Admin bar inbox: dedicated tile with the screenshot. -->
+				<article class="landing__bento__tile landing__bento__tile--adminbar landing__zoom">
+					<div class="landing__bento__tile__body">
+						<p class="landing__bento__tile__kicker">Admin-bar inbox</p>
+						<h3 class="landing__bento__tile__title">Unread assignments &amp; @mentions follow you everywhere</h3>
+						<p class="landing__bento__tile__lede">A live count in the WordPress admin bar &mdash; on every page, refreshed every heartbeat tick. One-click Clear-all for crowded inboxes.</p>
+					</div>
+					<div class="landing__bento__tile__media">
+						<img src="images/05-team-admin-bar.png" alt="The WordPress admin bar with the Order Updates badge open, showing unread @mentions and assignments." loading="lazy">
+					</div>
+				</article>
+
+				<a class="landing__bento__tile landing__bento__tile--devs landing__bento__tile--link" href="developer-guide/rest-api/index.html">
+					<div class="landing__bento__tile__body">
+						<p class="landing__bento__tile__kicker">Built for developers</p>
+						<h3 class="landing__bento__tile__title">REST API + 100+ hooks</h3>
+						<p class="landing__bento__tile__lede">Pipe events into a CRM, push to Slack, wire to a SaaS &mdash; without forking. Strict types, PSR-4, HPOS-native, Action Scheduler for heavy jobs.</p>
+					</div>
+					<div class="landing__bento__tile__icon-stage" aria-hidden="true">
+						<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+						<div class="landing__bento__tile__icon-chips">
+							<span>/wp-json/awts/v1/updates</span>
+							<span>order_updates_for_woo_after_create</span>
+							<span>+ 98 more</span>
+						</div>
+					</div>
+					<span class="landing__bento__tile__link-cta">
+						Read the REST API reference
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+					</span>
+				</a>
+
+				<article class="landing__bento__tile landing__bento__tile--statuses landing__zoom">
+					<div class="landing__bento__tile__body">
+						<p class="landing__bento__tile__kicker">Statuses &amp; audit</p>
+						<h3 class="landing__bento__tile__title">Custom statuses, full audit trail</h3>
+						<p class="landing__bento__tile__lede">Rename, recolour, reorder &mdash; or add new statuses to match your team. Every change is logged with a timestamp.</p>
+					</div>
+					<div class="landing__bento__tile__media">
+						<img src="images/02-thread-tracking-log.png" alt="The Tracking Log tab on an update card." loading="lazy">
+					</div>
+				</article>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Privacy section — given its own dedicated space because security
+     guarantees are the kind of message that shouldn't share a tile. -->
+<section id="privacy" class="landing__section landing__section--privacy">
+	<div class="landing__section__inner">
+		<header class="landing__privacy__header">
+			<span class="landing__privacy__badge" aria-hidden="true">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+			</span>
+			<p class="landing__eyebrow">Privacy &amp; security</p>
+			<h2 class="landing__privacy__title">We care about privacy</h2>
+			<p class="landing__privacy__lede">Customer conversations belong to your customers. We treat them that way &mdash; every guest link signed, every attachment gated, every REST call validated. None of it phones home.</p>
+		</header>
+
+		<ul class="landing__privacy__guarantees" aria-label="Security guarantees">
+			<li>
+				<span class="landing__privacy__guarantees__icon" aria-hidden="true">
+					<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+				</span>
+				<h3>Hashed guest URLs</h3>
+				<p>Per-order signature, validated server-side on every request. No replay across orders, no reuse after rotation.</p>
+			</li>
+			<li>
+				<span class="landing__privacy__guarantees__icon" aria-hidden="true">
+					<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+				</span>
+				<h3>Permission-checked attachments</h3>
+				<p>Random filenames, never a public uploads URL. Served only after the request passes the same capability checks as the parent thread.</p>
+			</li>
+			<li>
+				<span class="landing__privacy__guarantees__icon" aria-hidden="true">
+					<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+				</span>
+				<h3>Nonce + capability + validation</h3>
+				<p>Every REST endpoint, staff and customer paths included. Input validated, output sanitised &mdash; no exceptions.</p>
+			</li>
+			<li>
+				<span class="landing__privacy__guarantees__icon" aria-hidden="true">
+					<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"></path><path d="M9 3v18M3 9h18"></path></svg>
+				</span>
+				<h3>Audit-preserving deletes</h3>
+				<p>Customer-facing notes are never wiped &mdash; an edit history is kept instead so the trail of the conversation stays intact.</p>
+			</li>
+			<li>
+				<span class="landing__privacy__guarantees__icon" aria-hidden="true">
+					<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"></path><path d="M3 4v5h5"></path><line x1="9" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="13" y2="16"></line></svg>
+				</span>
+				<h3>Your data, your database</h3>
+				<p>Everything lives in your WordPress &mdash; no SaaS dependency, no shared cloud, no third-party data processor. You own the records.</p>
+			</li>
+			<li>
+				<span class="landing__privacy__guarantees__icon" aria-hidden="true">
+					<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path><line x1="12" y1="16" x2="12" y2="18"></line></svg>
+				</span>
+				<h3>Customer-controlled email</h3>
+				<p>Per-customer unsubscribe link in every email. Per-update mute on the staff side. No one is forced to stay opted in.</p>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<!-- Horizontal slider — showcase carousel with prev/next buttons + dots -->
+<section id="emails" class="landing__section landing__section--slider">
+	<div class="landing__section__inner">
+		<header class="landing__slider__header">
+			<div>
+				<p class="landing__eyebrow">Notifications &amp; emails</p>
+				<h2 class="landing__slider__title">Every important moment lands in your inbox</h2>
+				<p class="landing__slider__lede">Customer replies, team @mentions, assignments, ratings, follow-ups, deletions &mdash; nothing slips through. Branded, well-formatted, and opt-out friendly.</p>
+			</div>
+			<div class="landing__slider__controls">
+				<button type="button" class="landing__slider__btn" data-slider-prev aria-label="Previous slide">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+				</button>
+				<button type="button" class="landing__slider__btn" data-slider-next aria-label="Next slide">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+				</button>
+			</div>
+		</header>
+
+		<div class="landing__slider" data-slider>
+			<div class="landing__slider__track" data-slider-track>
+
+				<article class="landing__slide landing__zoom">
+					<div class="landing__slide__media">
+						<img src="images/05-team-assignee-email.png" alt="The email a teammate receives when they are assigned a new update." loading="lazy">
+					</div>
+					<div class="landing__slide__body">
+						<p class="landing__slide__kicker">Assignment email</p>
+						<h3 class="landing__slide__title">Your teammates know the moment something needs them</h3>
+						<p class="landing__slide__lede">Branded HTML email with the order, the customer message, and a one-click link to the update.</p>
+					</div>
+				</article>
+
+				<article class="landing__slide landing__zoom">
+					<div class="landing__slide__media">
+						<img src="images/05-team-mention-email.png" alt="The email a teammate receives when they are @mentioned in an internal note." loading="lazy">
+					</div>
+					<div class="landing__slide__body">
+						<p class="landing__slide__kicker">@mention email</p>
+						<h3 class="landing__slide__title">@mention a teammate without leaving the thread</h3>
+						<p class="landing__slide__lede">Internal-only. Customers never see it. Recipient gets a separate email with the mentioning note and a deep link.</p>
+					</div>
+				</article>
+
+				<article class="landing__slide landing__zoom">
+					<div class="landing__slide__media">
+						<img src="images/03-customer-email.png" alt="The customer notification email with the update title, staff message, and a button to the portal." loading="lazy">
+					</div>
+					<div class="landing__slide__body">
+						<p class="landing__slide__kicker">Customer reply email</p>
+						<h3 class="landing__slide__title">Customers get the update, never a notification dump</h3>
+						<p class="landing__slide__lede">One clean message per customer-facing reply. Direct deep-link into the portal. Every email has a per-customer unsubscribe.</p>
+					</div>
+				</article>
+
+				<article class="landing__slide landing__zoom">
+					<div class="landing__slide__media">
+						<img src="images/04-rating-promoter-email.png" alt="The promoter thank-you email with one-tap social share buttons." loading="lazy">
+					</div>
+					<div class="landing__slide__body">
+						<p class="landing__slide__kicker">Promoter follow-up</p>
+						<h3 class="landing__slide__title">Happy customers get the easiest social-share path</h3>
+						<p class="landing__slide__lede">Pre-filled tweets, LinkedIn posts, Facebook shares, WhatsApp messages. One tap from the email to a public recommendation.</p>
+					</div>
+				</article>
+
+				<article class="landing__slide landing__zoom">
+					<div class="landing__slide__media">
+						<img src="images/05-team-customer-rated-email.png" alt="The email staff get when a customer rates an update, with the star count and free-form feedback." loading="lazy">
+					</div>
+					<div class="landing__slide__body">
+						<p class="landing__slide__kicker">Rating received</p>
+						<h3 class="landing__slide__title">The team sees every star &mdash; with the comment</h3>
+						<p class="landing__slide__lede">Star count, optional comment, link back to the update. Admins get a heads-up email when low ratings come in.</p>
+					</div>
+				</article>
+
+				<article class="landing__slide landing__zoom">
+					<div class="landing__slide__media">
+						<img src="images/05-team-internal-reply.png" alt="An internal staff reply on an update thread." loading="lazy">
+					</div>
+					<div class="landing__slide__body">
+						<p class="landing__slide__kicker">Internal thread</p>
+						<h3 class="landing__slide__title">Participants get every internal reply</h3>
+						<p class="landing__slide__lede">Anyone who&rsquo;s commented on the thread stays in the loop. Per-update mute keeps inboxes calm for those who don&rsquo;t need it.</p>
+					</div>
+				</article>
+			</div>
+
+			<div class="landing__slider__dots" data-slider-dots aria-hidden="true"></div>
+		</div>
+	</div>
+</section>
+
+<!-- Masonry gallery — every other surface, click any to popup -->
+<section id="gallery" class="landing__section landing__section--gallery-section">
+	<div class="landing__section__inner">
+		<div class="landing__gallery landing__zoom">
+			<header class="landing__gallery__header">
+				<p class="landing__eyebrow">Tap any thumbnail to zoom</p>
+				<h2 class="landing__gallery__title">And there&rsquo;s a lot more</h2>
+				<p class="landing__gallery__lede">Customer-facing screens, internal replies, every settings tab, every email &mdash; the rest of the plugin, in one place.</p>
+			</header>
+			<div class="landing__gallery__grid">
+				<figure class="landing__gallery__item">
+					<img src="images/03-customer-tab.png" alt="The Customer Notes tab on an update card, where staff write the customer-facing thread." loading="lazy">
+					<figcaption>Customer notes tab</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/03-customer-admin-reply.png" alt="A staff member replying to a customer thread." loading="lazy">
+					<figcaption>Admin reply view</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/04-rating-rated-customer.png" alt="The customer-side view after submitting a rating." loading="lazy">
+					<figcaption>Customer after rating</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/04-rating-rated-admin.png" alt="The admin-side view once a customer has rated an update." loading="lazy">
+					<figcaption>Admin after rating</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/04-rating-solved-admin.png" alt="The admin-side view of a solved update, with the rating panel waiting on feedback." loading="lazy">
+					<figcaption>Admin solved view</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/02-thread-participants.png" alt="The Participants tab on an update card." loading="lazy">
+					<figcaption>Participants tab</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/02-thread-deleted-audit.png" alt="The deleted-updates audit panel on the order edit page." loading="lazy">
+					<figcaption>Deleted audit</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-general.png" alt="The General settings tab covering page placement, polling cadence, and customer portal toggles." loading="lazy">
+					<figcaption>General settings</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-customer.png" alt="The Customer settings tab with rating options, share text, opt-ins." loading="lazy">
+					<figcaption>Customer settings</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-attachments.png" alt="The Attachments settings tab." loading="lazy">
+					<figcaption>Attachment limits</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-admin-only.png" alt="The Admin Only settings tab." loading="lazy">
+					<figcaption>Admin-only toggles</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-cache.png" alt="The Cache settings tab showing the current cache backend." loading="lazy">
+					<figcaption>Cache controls</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-members.png" alt="The Members settings tab showing per-role capabilities and the round-robin assignee pool." loading="lazy">
+					<figcaption>Members &amp; roles</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-emails.png" alt="The Emails settings tab with toggles for each transactional email." loading="lazy">
+					<figcaption>Email controls</figcaption>
+				</figure>
+				<figure class="landing__gallery__item">
+					<img src="images/settings-shortcodes.png" alt="The Shortcodes settings tab." loading="lazy">
+					<figcaption>Shortcodes &amp; block</figcaption>
+				</figure>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Also included strip -->
+<section class="landing__section landing__section--also">
+	<div class="landing__section__inner">
+		<div class="landing__also">
+			<header class="landing__also__header">
+				<p class="landing__eyebrow">Under the hood</p>
+				<h2 class="landing__also__title">Built on a modern WordPress stack</h2>
+				<p class="landing__also__lede">Strict types, HPOS-native, Action Scheduler for heavy jobs, cache-backend aware, 215+ unit tests &mdash; the kind of foundation you&rsquo;d expect from a paid plugin, in a free one.</p>
+			</header>
+			<ul class="landing__also__list">
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+					<span><strong>HPOS-ready</strong> &mdash; works with WooCommerce&rsquo;s new high-performance order storage.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+					<span><strong>Translation-ready</strong> &mdash; standard WordPress <code>.pot</code> file, works with Polylang &amp; WPML.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+					<span><strong>Per-customer opt-outs</strong> &mdash; unsubscribe link in every customer email.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+					<span><strong>Cache-backend aware</strong> &mdash; auto-detects Redis, Memcached, or any object cache to keep things fast.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+					<span><strong>Tested in real codepaths</strong> &mdash; 215+ unit tests covering DB, attachments, security, and edge cases.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><polyline points="13 6 21 12 13 18"></polyline></svg>
+					<span><strong>One-click Clear All</strong> in the admin-bar notifications &mdash; wipe a crowded inbox without clicking each row.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h18v18H3z"></path><path d="M3 9h18M9 21V9"></path></svg>
+					<span><strong>Action Scheduler</strong> &mdash; heavy jobs (emails, ratings, follow-ups) run in the background, never block your admin.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"></path></svg>
+					<span><strong>Nine focused settings tabs</strong> &mdash; configure customer copy, members, emails, caches, attachments, shortcodes, and the REST API.</span>
+				</li>
+				<li>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+					<span><strong>Per-update mute switch</strong> &mdash; staff can silence email + admin-bar for any one thread, one click.</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+<!-- CTA to download / demo -->
+<section class="landing__section landing__section--cta">
+	<div class="landing__section__inner landing__section__inner--narrow">
+		<h2 class="landing__cta__title">Ready to try it?</h2>
+		<p class="landing__cta__lede">All this is free &mdash; one plugin, one install, no upgrade tier.</p>
+		<div class="landing__cta__btns">
+			<a class="landing__btn landing__btn--primary landing__btn--large" href="index.html#demo">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+				Launch a live demo
+			</a>
+			<a class="landing__btn landing__btn--ghost landing__btn--large" href="index.html#download">Download</a>
+		</div>
+	</div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+
+<script>
+	document.getElementById( 'features-year' ).textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

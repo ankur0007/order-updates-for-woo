@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAQ — Email &amp; notifications — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes &amp; portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings &amp; feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow &amp; @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses &amp; colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings &mdash; General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings &mdash; Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings &mdash; Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings &mdash; Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings &mdash; Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings &mdash; API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings &mdash; Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings &mdash; Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html" class="is-active">Email &amp; notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				FAQ &nbsp;/&nbsp;
+				Email &amp; notifications
+			</p>
+
+			<h1 class="docs-page__title">Email &amp; notifications</h1>
+			<p class="docs-page__lede">Who gets emailed on which action, when admin-bar markers show up, how to turn emails on and off, where templates live, and how delivery modes affect things. The rules are exact &mdash; if you read this page end-to-end you can predict every email the plugin will send.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Who gets emailed when a new update is created?</h2>
+					<p>It depends on who created it and what was attached:</p>
+					<ul>
+						<li><strong>The creator never gets emailed about their own action.</strong> They just did it &mdash; they know.</li>
+						<li><strong>The assignee</strong> (if one was picked when the update was created) gets an &ldquo;assigned to you&rdquo; email. The note body is included only if a note was written when the update was created; otherwise the email is just the basic info plus a link.</li>
+						<li><strong>The customer</strong> gets emailed if the update is customer-visible. Same rule on the body &mdash; only included if a customer note was attached at creation.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Why doesn&rsquo;t the creator get emailed about their own actions?</h2>
+					<p>Because they did the action &mdash; sending them a confirmation email about something they just did is just noise. This rule holds everywhere: post a customer note, get no email. Mark an update solved, get no email. Reassign it, get no email. The plugin assumes if you just clicked a button, you don&rsquo;t need an inbox copy of it.</p>
+					<p>The one exception is the &ldquo;auto-reopen on customer reply&rdquo; case &mdash; if the customer&rsquo;s reply reopens a solved update, your team still gets the participant email because the customer caused it, not you.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Who&rsquo;s notified when I add a customer note?</h2>
+					<p>Three groups, minus you (the one who posted the note):</p>
+					<ul>
+						<li><strong>The customer.</strong> Always. The customer note body is the whole point of the email, so it&rsquo;s included.</li>
+						<li><strong>Every participant on the update.</strong> Participants = creator + current assignee + everyone ever @mentioned on this update + every staff member who&rsquo;s posted a note here. You (the poster) are skipped; anyone who muted the update is also skipped.</li>
+						<li><strong>The assignee.</strong> The assignee is always a participant, so they&rsquo;re covered as part of the group above.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Who&rsquo;s notified when I add an internal note?</h2>
+					<p>Two groups, minus you (the one who posted the note):</p>
+					<ul>
+						<li><strong>@mentioned teammates</strong> get a dedicated mention email with the note body and a link straight to the update card.</li>
+						<li><strong>Other participants</strong> (creator + assignee + people who already replied, minus the @mentioned in this note, minus you, minus anyone who muted the update) get a participant email with the note body.</li>
+						<li><strong>The customer gets nothing.</strong> Internal notes never reach the customer in any way &mdash; not by email, not in the portal, not in any export.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s a &ldquo;participant&rdquo;?</h2>
+					<p>A participant is anyone who is involved in a particular update. The list is built fresh every time an email is sent: the creator, the current assignee, every staff member ever @mentioned on this update, and every staff member who has posted a note here. It grows as the thread grows &mdash; reply to a thread once and you&rsquo;re a participant from then on.</p>
+					<p>The participants list also shows up in the &ldquo;Participants&rdquo; tab on the update card (avatar + name + role tag), so you can see at a glance who&rsquo;s following the thread. Reassigning to a new person doesn&rsquo;t remove the old assignee from the participant list &mdash; they stay on as a past assignee, which is useful for hand-offs.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What about status changes &mdash; do those send emails?</h2>
+					<p>Yes, but the email is short &mdash; just the event line, no note body:</p>
+					<ul>
+						<li><strong>Assignee</strong> gets a &ldquo;status changed&rdquo; email so they know things changed.</li>
+						<li><strong>Customer</strong> gets a &ldquo;status changed&rdquo; email if the update is customer-visible.</li>
+						<li><strong>Creator</strong> (if they changed the status themselves) gets nothing &mdash; they did it.</li>
+					</ul>
+					<p>If you want a status change to also explain what changed, post a customer note at the same time &mdash; that&rsquo;s the &ldquo;here&rsquo;s what changed and why&rdquo; pattern.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What about assignee changes?</h2>
+					<p>Both the old assignee and the new assignee get an email &mdash; the old one so they know the update is no longer theirs, the new one so they know it&rsquo;s now on them. The customer gets <strong>no</strong> email; instead they see a small &ldquo;reassigned&rdquo; marker in their portal&rsquo;s customer-notes thread, so they aren&rsquo;t surprised if a new name shows up on the next reply.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What happens when I flip an update from hidden to customer-visible?</h2>
+					<p>The first time an update goes from hidden to customer-visible, the customer gets one &ldquo;a new update is now visible on your order&rdquo; email. Later toggles (visible &rarr; hidden &rarr; visible again) don&rsquo;t send the email again &mdash; the plugin remembers whether the update was ever visible, so the customer&rsquo;s inbox doesn&rsquo;t fill up if you toggle visibility while sorting things out.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What about when I delete an update?</h2>
+					<p>You&rsquo;re asked to choose: <em>Silently delete</em> (saves the deletion in the activity log, no email) or <em>Notify customer</em> (sends a short notice that the thread has been closed, then deletes). It&rsquo;s a two-button dialog on purpose because either choice can be the right one depending on what happened &mdash; the plugin won&rsquo;t pick for you.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can staff mute a noisy update?</h2>
+					<p>Yes. On the update card there&rsquo;s a per-user <strong>Get notifications</strong> switch. Turn it off and you&rsquo;ll stop getting both the email <em>and</em> the admin-bar markers for that one update &mdash; one switch controls both.</p>
+					<p>The mute is saved per-user-per-update (in user-meta), so it&rsquo;s personal &mdash; muting an update for yourself doesn&rsquo;t affect your teammates. Other emails (@mentions, assignments) still come through; only the back-and-forth chatter on the muted update is skipped.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s the difference between &ldquo;Send immediately&rdquo; and &ldquo;Send in background&rdquo;?</h2>
+					<p>Three modes under <strong>Settings &rarr; Emails &rarr; Delivery mode</strong>:</p>
+					<ul>
+						<li><strong>Automatic</strong> (recommended). The plugin checks whether your host&rsquo;s Action Scheduler is working and uses background mode if it is, immediate mode if not. Best default for most stores.</li>
+						<li><strong>Send immediately.</strong> Every email goes out right away, inside the request that caused it. Admin pages take a bit longer (they wait for SMTP), but emails never get stuck &mdash; if SMTP is working, the email goes.</li>
+						<li><strong>Send in background.</strong> Emails are added to a queue and sent on the next WP cron run. Admin pages load fast. But if WP cron is broken on your host (common on cheap shared hosting), the queue just sits there. Only pick this if you&rsquo;ve checked that cron works.</li>
+					</ul>
+					<p>If customers report missing emails, the first thing to try is switching to <em>Send immediately</em> &mdash; that rules out the queue as the cause.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where do I edit the email subjects, recipients, or copy?</h2>
+					<p>Per-email settings live under <strong>WooCommerce &rarr; Settings &rarr; Emails</strong> &mdash; the same place where you edit every other WooCommerce email. Each of the plugin&rsquo;s emails (nine of them) shows up as a row, and clicking opens the WC email editor for that one email: on/off toggle, subject line, heading, recipient (where it makes sense), and the template file to override.</p>
+					<p>The <strong>Order Updates &rarr; Emails</strong> tab is a focused list of just <em>your</em> emails with quick toggles and direct links into each editor &mdash; useful when you don&rsquo;t want to scroll through twenty WooCommerce emails to find the four you want to change.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How do I override an email template?</h2>
+					<p>The same way you override any WooCommerce template. Copy a template from <code>plugins/order-updates-for-woo/Templates/emails/</code> into <code>your-theme/woocommerce/emails/order-updates-for-woo/</code>. WooCommerce will find your copy first and use it instead of the original.</p>
+					<p>For a step-by-step walkthrough, see <a href="../../developer-guide/email-customisation/index.html">Developer Guide &rarr; Email customisation</a>. That page lists which template to copy for which email, the variables you get to use in each, and the plugin&rsquo;s email-render helpers if you&rsquo;re building a fully custom template.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can I disable a specific email type entirely?</h2>
+					<p>Yes &mdash; every one of the nine emails has its own on/off switch (the standard WooCommerce email switch). Common example: turn off the &ldquo;customer rating follow-up&rdquo; emails if you don&rsquo;t want the second round of promoter / detractor messages, but keep all the regular customer-update emails on. You can switch each email on or off on its own &mdash; it isn&rsquo;t all-or-nothing.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What are the promoter and detractor follow-up emails for?</h2>
+					<p>After a customer rates a solved update, a second email goes out based on the score:</p>
+					<ul>
+						<li><strong>Promoter follow-up (4&ndash;5 stars):</strong> a thank-you with four social-share buttons (Facebook, X, LinkedIn, WhatsApp), each pre-filled with a share message you can edit. Goal: turn a happy customer&rsquo;s rating into a public mention of your store.</li>
+						<li><strong>Detractor follow-up (1&ndash;3 stars):</strong> a warm, helpful message with a button straight back to the update so the customer can keep talking with your team. The site admin also gets a heads-up email so a senior team member can step in quickly.</li>
+					</ul>
+					<p>You can change the promoter / detractor cutoff under <strong>Settings &rarr; Customer &rarr; Follow-up email after rating</strong>. Either follow-up can be turned off on its own.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does the plugin email anyone outside my install?</h2>
+					<p>No. Every email is sent through your site&rsquo;s own <code>wp_mail()</code> &mdash; the same path WordPress and WooCommerce use for every other email. No part of the plugin sends to any outside service to deliver a notification.</p>
+					<p>The only outgoing request to a non-WP destination is the newsletter subscribe form, and only if you, the admin, actually type your email and click subscribe. That request goes to a Cloudflare Worker run by the plugin author, and it sends nothing about your customers or orders &mdash; just the admin email you typed.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../customer-side/index.html">
+					<span>Previous</span>
+					FAQ &rarr; Customer side
+				</a>
+				<a class="next" href="../attachments/index.html">
+					<span>Next</span>
+					FAQ &rarr; Attachments
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

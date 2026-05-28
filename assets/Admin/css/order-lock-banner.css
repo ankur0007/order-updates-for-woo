@@ -1,0 +1,150 @@
+/**
+ * Sticky warning banner + dimming overlay shown when another team member
+ * is editing the same order. The Order Updates meta box is raised above
+ * the overlay so customer/internal notes still work.
+ *
+ * Hides WC's default blocking modal in favour of this non-blocking UX.
+ */
+
+/* Suppress WooCommerce's blocking edit-lock modal on every order edit
+   page. PHP adds `awts-order-edit-screen` to body whenever the user is
+   on an order edit screen, regardless of who currently holds the lock.
+   Hiding it always — instead of only when we render our banner — keeps
+   WC's dialog from flashing during the brief window between heartbeat
+   detecting a takeover and our JS reloading into the banner state. */
+body.awts-order-edit-screen #post-lock-dialog.order-lock-dialog,
+body.awts-order-edit-screen #post-lock-dialog.order-lock-dialog .notification-dialog-background {
+	display: none !important;
+}
+
+/* Full-page dim layer. Sits below the admin bar and below our banner +
+   notes panel, but above everything else, so clicks on order fields are
+   blocked while clicks on the chat still go through. */
+.awts_order_lock_overlay {
+	position: fixed;
+	top: 32px;        /* under the WP admin bar (desktop) */
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(15, 23, 42, 0.32);
+	z-index: 9990;
+	cursor: not-allowed;
+}
+
+@media (max-width: 782px) {
+	.awts_order_lock_overlay {
+		top: 46px;    /* mobile admin bar is taller */
+	}
+}
+
+.folded .awts_order_lock_overlay {
+	/* No change needed — admin bar height is the same when sidebar folds. */
+}
+
+/* Sticky warning banner — yellow, sits just under the WP admin bar. */
+.awts_order_lock_banner {
+	position: fixed;
+	top: 32px;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 12px 24px;
+	background: #fef3c7;
+	color: #78350f;
+	border-bottom: 1px solid #fde68a;
+	box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10);
+	font-size: 14px;
+}
+
+@media (max-width: 782px) {
+	.awts_order_lock_banner {
+		top: 46px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+		padding: 12px 16px;
+	}
+}
+
+.awts_order_lock_banner__main {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.awts_order_lock_banner__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 999px;
+	background: #fde68a;
+	color: #78350f;
+	flex-shrink: 0;
+}
+
+.awts_order_lock_banner__avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 999px;
+	flex-shrink: 0;
+}
+
+.awts_order_lock_banner__text {
+	min-width: 0;
+}
+
+.awts_order_lock_banner__msg {
+	margin: 0;
+	font-weight: 500;
+	color: #78350f;
+	line-height: 1.4;
+}
+
+.awts_order_lock_banner__hint {
+	display: inline-block;
+	margin-left: 6px;
+	font-weight: 400;
+	color: #92400e;
+}
+
+.awts_order_lock_banner__footnote {
+	margin: 4px 0 0;
+	font-size: 12px;
+	font-weight: 400;
+	color: #92400e;
+	opacity: 0.85;
+	line-height: 1.35;
+}
+
+.awts_order_lock_banner__actions {
+	display: flex;
+	gap: 8px;
+	flex-shrink: 0;
+}
+
+/* Push the WP admin content down so the sticky banner doesn't cover the page. */
+body.awts-order-locked #wpbody {
+	padding-top: 64px;
+}
+
+@media (max-width: 782px) {
+	body.awts-order-locked #wpbody {
+		padding-top: 120px;
+	}
+}
+
+/* The Order Updates meta box stays clickable — raised above the overlay. */
+body.awts-order-locked #order-updates-for-woo-meta-box {
+	position: relative;
+	z-index: 9991;
+	box-shadow: 0 8px 30px rgba(15, 23, 42, 0.15);
+	border-radius: 8px;
+}

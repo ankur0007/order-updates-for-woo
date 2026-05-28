@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>REST API — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html" class="is-active">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				REST API
+			</p>
+
+			<h1 class="docs-page__title">REST API</h1>
+			<p class="docs-page__lede">Every operation the plugin exposes over HTTP, with the request, the response, and the hooks you can use to alter or extend each one. Cookbook-style.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The basics</h2>
+					<table>
+						<tbody>
+							<tr><td>Base URL</td><td><code>/wp-json/order-updates-for-woo/v1/</code></td></tr>
+							<tr><td>Auth header (staff)</td><td><code>X-WP-Nonce</code> from <code>wp_create_nonce('wp_rest')</code></td></tr>
+							<tr><td>Auth query (guest customer)</td><td><code>?order_key=&lt;wc_order_key&gt;</code></td></tr>
+							<tr><td>Errors</td><td><code>WP_Error</code> with code <code>order_updates_for_woo_*</code> + HTTP status</td></tr>
+						</tbody>
+					</table>
+					<p>Every endpoint shares the same auth pattern: nonce-verify first, then either capability-check for staff or order-key-check for customers. If you&rsquo;re writing your own endpoint, copy <code>OrderUpdatesForWoo\API\Concerns\VerifiesAccess</code> &mdash; same shape everywhere.</p>
+					<div class="docs-callout">
+						<strong>Postman ready.</strong> Every example below is a cURL command. Open Postman &rarr; <em>New &rarr; Import &rarr; Raw text</em>, paste the cURL block, hit Import &mdash; the request, headers, and body all populate automatically. Swap <code>yoursite.com</code> for your store&rsquo;s URL and <code>YOUR_NONCE_HERE</code> for a nonce minted via <code>wp_create_nonce('wp_rest')</code>.
+					</div>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Auth pattern (every endpoint follows this)</h2>
+					<pre><code class="language-php">public function can_access( WP_REST_Request $request ): bool|WP_Error {
+    if ( $error = $this-&gt;verify_nonce( $request ) ) {
+        return $error;
+    }
+
+    // Staff path
+    if ( $this-&gt;is_authorized_for_order( $order_id ) ) {
+        return true;
+    }
+
+    // Customer path (only on customer-facing endpoints)
+    if ( $this-&gt;viewer_service-&gt;is_acting_as_customer( $order_id, $order_key ) ) {
+        return true;
+    }
+
+    return $this-&gt;forbidden_error( 'You are not allowed.' );
+}</code></pre>
+					<p>If you&rsquo;re calling from your own JS, mint the nonce via <code>wp_create_nonce('wp_rest')</code> and pass it as <code>X-WP-Nonce</code>. If you&rsquo;re calling from a guest customer flow, pass the WooCommerce <code>order_key</code> as a body parameter or a query string. The plugin will accept either or both.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Create an update</h2>
+					<p>You want to programmatically open a new update on an order &mdash; from a CRM webhook, a Slack-to-update bridge, an automated flow that creates a ticket when a high-value order ships, anything.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "order_id":         42,
+      "title":            "Refund process discussion",
+      "assignee_user_id": 5,
+      "internal_note":    "@bob please look into this.",
+      "customer_note":    "Hi James, we&#39;re looking into this. Back to you soon.",
+      "status":           "notice"
+  }'</code></pre>
+					<h4>Response</h4>
+					<pre><code class="language-json">{
+    "cardHtml":  "&lt;li class=&quot;awts_card&quot;&gt;...&lt;/li&gt;",
+    "updateId":  123,
+    "isEdit":    false,
+    "message":   "Update created.",
+    "noteId":    456
+}</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_update_save</code> &mdash; runs before the DB write. Return a <code>WP_Error</code> to cancel.</li>
+						<li><code>order_updates_for_woo_after_update_save</code> &mdash; runs after success. <code>$is_edit</code> is <code>false</code> here.</li>
+						<li><code>order_updates_for_woo_save_update_response</code> &mdash; filter the JSON response shape.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>Only <code>order_id</code> and <code>title</code> are required. Leave everything else off for a minimal stub.</p>
+					<p>If you pass a <code>customer_note</code>, the plugin auto-flips <code>customer_visible</code> to true and queues the customer notification email. Skip it to keep the update internal until later.</p>
+					<p>The <code>internal_note</code> field accepts <code>@username</code> mentions inline &mdash; mentioned users get the standard mention email and admin-bar badge.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Edit an existing update</h2>
+					<p>Change any field on an update &mdash; title, assignee, status, customer-visibility &mdash; in one call. Same endpoint as create; just pass <code>update_id</code>.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "update_id":        123,
+      "title":            "Refund -- partially issued",
+      "assignee_user_id": 7,
+      "status":           "warning"
+  }
+  
+  // Returns the same shape as create, with isEdit: true.</code></pre>
+  					<h4>Related hooks</h4>
+  <ul>
+  						<li><code>order_updates_for_woo_before_update_save</code> &mdash; runs before the DB write. <code>$is_edit</code> is true.</li>
+  						<li><code>order_updates_for_woo_after_update_save</code> &mdash; runs after. Use this for &ldquo;something changed&rdquo; webhooks.</li>
+  						<li><code>order_updates_for_woo_save_update_response</code> &mdash; filter the response.</li>
+  					</ul>
+  					<h4>Things worth knowing</h4>
+  <p>Only include the fields you want to change. Anything you leave out keeps its current value.</p>
+  					<p>Renaming the title is recorded in the tracking log. If the update is customer-visible and the new title is very different, the customer is <em>not</em> emailed again &mdash; renames are silent on purpose. Pass <code>notify_customer: 1</code> as a body parameter if you want the customer to be emailed about the rename.</p>
+  				</div>
+  			</section>
+  			<section class="docs-row">
+  				<div class="docs-row__media"></div>
+  				<div class="docs-row__body">
+  					<h2>Change just the update title</h2>
+  					<p>Subset of the edit-update operation, but worth calling out: if your addon syncs ticket titles from an external system (Linear, Jira, etc.), this is your operation.</p>
+  					<h4>The call</h4>
+  					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "update_id":        123,
+        "title":            "New title"
+    }'</code></pre>
+  					<h4>Related hooks</h4>
+  <ul>
+  						<li>Same hooks as &ldquo;Edit an existing update&rdquo; above.</li>
+  					</ul>
+  					<h4>Things worth knowing</h4>
+  <p>If you&rsquo;re syncing titles bidirectionally with an external system, dedupe carefully &mdash; the <code>after_update_save</code> hook fires whether the title actually changed or not, so a naive sync loop will ping-pong forever. Compare the new title to the previous one inside your hook handler and bail when they match.</p>
+  				</div>
+  			</section>
+  			<section class="docs-row">
+  				<div class="docs-row__media"></div>
+  				<div class="docs-row__body">
+  					<h2>Change status</h2>
+  					<p>Standalone endpoint specifically for status changes &mdash; this is what the admin&rsquo;s inline status pill click hits. Use this when you only want to flip the colour without touching anything else.</p>
+  					<h4>The call</h4>
+  					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/status' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "status": "warning"
+    }
+    
+    // Returns: { cardHtml, updateId }'</code></pre>
+  					<h4>Related hooks</h4>
+  <ul>
+  						<li><code>order_updates_for_woo_change_status_response</code> &mdash; filter the JSON response.</li>
+  						<li><code>order_updates_for_woo_status_changed</code> &mdash; fires whenever the status actually changes (skipped if old and new are the same).</li>
+  						<li><code>order_updates_for_woo_update_changed</code> &mdash; generic "anything was edited" action, fires here too.</li>
+  					</ul>
+  					<h4>Things worth knowing</h4>
+  <p>The status string must match a key from <em>Settings &rarr; General &rarr; Statuses</em> (default: <code>neutral</code>, <code>notice</code>, <code>warning</code>, <code>resolved</code>). Passing an unknown key returns a 400.</p>
+  					<p>Changing the status posts a system marker into the customer-notes thread (visible to the customer) so they see the progress inline. If you want to suppress that &mdash; an automated status sync that shouldn&rsquo;t notify &mdash; you currently can&rsquo;t. Open an issue if you need that.</p>
+  				</div>
+  			</section>
+  			<section class="docs-row">
+  				<div class="docs-row__media"></div>
+  				<div class="docs-row__body">
+  					<h2>Change assignee</h2>
+  					<p>Reassign an update. Same endpoint as &ldquo;edit an update&rdquo; with only the assignee field passed.</p>
+  					<h4>The call</h4>
+  					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "update_id":        123,
+        "assignee_user_id": 7   // 0 = unassign
+    }'</code></pre>
+  					<h4>Related hooks</h4>
+  <ul>
+  						<li><code>order_updates_for_woo_before_update_save</code> / <code>_after_update_save</code> &mdash; lifecycle pair.</li>
+  						<li><code>order_updates_for_woo_update_changed</code> &mdash; generic mutation hook.</li>
+  					</ul>
+  					<h4>Things worth knowing</h4>
+  <p>The new assignee gets the standard assignee notification email. The old assignee is not emailed about losing the assignment &mdash; if you want to notify them too, hook <code>after_update_save</code>, compare <code>$update['assignee_user_id']</code> to the previous value via your own bookkeeping, and queue your own email.</p>
+  					<p>Passing <code>0</code> unassigns the update.</p>
+  				</div>
+  			</section>
+  			<section class="docs-row">
+  				<div class="docs-row__media"></div>
+  				<div class="docs-row__body">
+  					<h2>Add a participant — there&rsquo;s no endpoint, and that&rsquo;s on purpose</h2>
+  					<p>If you searched for an &ldquo;add participant&rdquo; endpoint and found nothing, that&rsquo;s expected. Participants aren&rsquo;t a separate concept you maintain &mdash; the plugin computes the participant list automatically from the people who&rsquo;ve actually touched the update:</p>
+  					<ul>
+  						<li>The user who <strong>created</strong> the update</li>
+  						<li>The current <strong>assignee</strong></li>
+  						<li>Every user who has <strong>posted a note</strong> (internal or customer-facing) on it</li>
+  						<li>Every user who&rsquo;s been <strong>@mentioned</strong> in an internal note</li>
+  					</ul>
+  					<p>So &ldquo;adding a participant&rdquo; means doing one of those things. To programmatically add someone:</p>
+  					<ul>
+  						<li><strong>Make them the assignee</strong> &mdash; use the change-assignee endpoint above.</li>
+  						<li><strong>Have them post a note</strong> &mdash; use the add-internal-note or add-customer-note endpoint as that user.</li>
+  						<li><strong>Mention them in an internal note</strong> &mdash; include <code>@username</code> in the note body when you POST <code>/updates/{id}/notes</code>.</li>
+  					</ul>
+  					<p>Need the current participant list for your own logic? Use the <code>ParticipantResolver</code> helper from your PHP code (see <a href="../helper-classes/index.html">Helper classes</a>) rather than calling REST. There&rsquo;s no public REST endpoint that returns the resolved list &mdash; it&rsquo;s rendered into the update card&rsquo;s Participants tab on the server side.</p>
+  				</div>
+  			</section>
+  			<section class="docs-row">
+  				<div class="docs-row__media"></div>
+  				<div class="docs-row__body">
+  					<h2>Add an internal note</h2>
+  					<p>Post a team-only note to an update&rsquo;s internal notes tab. Customers never see this.</p>
+  					<h4>The call</h4>
+  					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/notes' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "note": "I&#39;ll look at this tomorrow. @sarah ping me if it&#39;s urgent."
+    }''</code></pre>
+					<h4>Response</h4>
+					<pre><code class="language-json">{
+    "id":          789,
+    "update_id":   123,
+    "note":        "...",
+    "created_by":  5,
+    "created_at":  "May 22, 3:00 PM",
+    "mentions":    [ { "user_id": 7, "name": "sarah" } ]
+}</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_add_internal_note</code> / <code>_after_add_internal_note</code> &mdash; lifecycle pair, four args.</li>
+						<li><code>order_updates_for_woo_internal_note_payload</code> &mdash; filter the note text before it&rsquo;s saved (good place to strip secrets, expand macros, etc.).</li>
+						<li><code>order_updates_for_woo_add_internal_note_response</code> &mdash; filter the response.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p><code>@username</code> mentions are parsed at save. Mentioned users get a separate mention email (different subject so they can filter it apart from generic notifications) and a count badge in the WordPress admin bar.</p>
+					<p>Mentions bypass the per-update mute toggle &mdash; if someone tags you explicitly, you hear about it even if you&rsquo;ve muted the thread. That&rsquo;s deliberate.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Edit an internal note</h2>
+					<p>Fix a typo or update the content of an internal note. Edits are preserved &mdash; the original text is kept in the revision history.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X PATCH 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/notes/789' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "note": "Updated content."
+  }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_update_internal_note</code> / <code>_after_update_internal_note</code>.</li>
+						<li><code>order_updates_for_woo_update_internal_note_response</code> &mdash; response filter.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>Notes are only editable within the configured window after creation (default: 60 minutes), and only by the author. Both rules are enforced server-side &mdash; bypassing them via a direct REST call still returns 403.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Delete an internal note</h2>
+					<p>Remove an internal note entirely. The plugin&rsquo;s settings can lock this down &mdash; check <em>Settings &rarr; Admin Only &rarr; Allow internal note deletion</em>.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X DELETE 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/notes/789' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_delete_internal_note</code> / <code>_after_delete_internal_note</code>.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>If &ldquo;allow internal note deletion&rdquo; is off in settings, this endpoint returns 403 for everyone except site admins. Don&rsquo;t fight that gate &mdash; the deletion-locked mode is a deliberate audit-trail decision for stores that need one.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Add a customer note (as staff)</h2>
+					<p>Post a message that the customer will see in their portal and receive as an email. The cornerstone of customer-facing communication.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/customer-notes' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "note":            "Your refund has been processed. 3-5 business days.",
+      "notify_customer": 1
+  }
+  
+  // Returns the saved note + a customer_visible_changed flag (true on first customer note).'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_add_customer_note</code> / <code>_after_add_customer_note</code> &mdash; lifecycle pair.</li>
+						<li><code>order_updates_for_woo_customer_note_payload</code> &mdash; filter the note text before save.</li>
+						<li><code>order_updates_for_woo_add_customer_note_response</code> &mdash; response filter.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>Posting the first customer note on an update auto-flips <code>customer_visible</code> to true &mdash; the customer can now see the whole update, not just this note.</p>
+					<p><code>notify_customer: 0</code> saves the note silently. Use this if you&rsquo;re backfilling messages from another system and don&rsquo;t want to spam the customer with old emails. The note still appears in the customer&rsquo;s portal the next time they visit; only the email is suppressed.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Add a customer note (as the customer)</h2>
+					<p>Same endpoint, called from the customer&rsquo;s portal JS or a guest replying to the email link. The only difference is auth: pass <code>order_key</code> instead of a staff capability.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/customer-notes' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "note":      "Thanks, I still don&#39;t see the refund in my account.",
+      "order_key": "wc_order_AbCdEf123"
+  }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li>Same hooks as the staff-side call.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>The endpoint figures out automatically whether the request is staff or customer based on auth. The hooks fire identically &mdash; you can&rsquo;t tell the difference from <code>after_add_customer_note</code> alone. If you need to branch, check the current user&rsquo;s capability inside your handler (no <code>edit_shop_order</code> = customer).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Edit a customer note</h2>
+					<p>Fix a typo on a recently-posted customer note. Subject to the configured edit window (default: 5 minutes for customers, 60 for staff).</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X PATCH 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/customer-notes/789' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "note":      "Corrected: refund in 5-7 business days.",
+      "order_key": "wc_order_AbCdEf123"
+  }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_update_customer_note</code> / <code>_after_update_customer_note</code>.</li>
+						<li><code>order_updates_for_woo_update_customer_note_response</code>.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>Every revision is preserved. Fetch the history via <code>GET /updates/{id}/customer-notes/{note_id}/history</code> &mdash; useful if you want to show a diff or audit the rewrite.</p>
+					<p>Once a newer note arrives in the thread (from staff or the customer), the edit window closes for the older note. This keeps the history record clean.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Re-notify the customer about a customer note</h2>
+					<p>Manually re-send the email for a customer note. Use this if the original email bounced and you&rsquo;ve since updated the customer&rsquo;s address, or if you want to nudge them about a message they haven&rsquo;t responded to.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/customer-notes/789/notify' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_notify_customer</code> / <code>_after_notify_customer</code>.</li>
+						<li><code>order_updates_for_woo_notify_customer_response</code>.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>This bypasses the customer&rsquo;s per-order email preference. If they&rsquo;ve opted out, that&rsquo;s usually for a reason &mdash; check with them before forcing a notification through.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Upload an attachment</h2>
+					<p>Attach a file to a note or to a new note you&rsquo;re about to create. Multipart form data, served back through a signed URL.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/attachments' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d 'Content-Type: multipart/form-data
+  
+  file:        &lt;binary&gt;
+  update_id:   123
+  note_id:     789           // optional -- attach to an existing note
+  note_type:   customer      // or "internal"
+  order_key:   wc_order_...  // for customer-side uploads'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_upload_attachment</code> / <code>_after_upload_attachment</code>.</li>
+						<li><code>order_updates_for_woo_attachment_upload_context</code> &mdash; filter the upload context (storage path, MIME allowlist).</li>
+						<li><code>order_updates_for_woo_attachment_storage_handler</code> &mdash; replace the storage backend entirely (S3, Cloudinary, etc.).</li>
+						<li><code>order_updates_for_woo_upload_attachment_response</code> &mdash; response filter.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>MIME types are validated against the active allowlist (configurable under <em>Settings &rarr; General &rarr; Attachments</em>). Executable types are blocked server-side regardless of settings.</p>
+					<p>Files are stored under <code>wp-content/uploads/order-updates-for-woo/orders/{order_id}/{update_id}/{note_id}/</code> with UUID filenames. The customer&rsquo;s original filename is preserved in the database as a display name; it never appears in the storage path or URL.</p>
+					<p>Downloads are gated &mdash; staff via REST nonce + capability, customers via a short-lived HMAC-signed URL. Direct filesystem access is blocked by <code>.htaccess</code> + <code>index.html</code> guards at every directory level.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Delete an attachment</h2>
+					<p>Remove a previously-uploaded file. Cleans up both the database row and the on-disk file.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X DELETE 'https://yoursite.com/wp-json/order-updates-for-woo/v1/attachments/42' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_attachment_before_delete</code> &mdash; fires before the DB row + file go.</li>
+						<li><code>order_updates_for_woo_before_delete_attachment</code> / <code>_after_delete_attachment</code> &mdash; the standard before/after pair.</li>
+						<li><code>order_updates_for_woo_attachment_delete</code> &mdash; filter that lets you take over the deletion (return <code>true</code> to skip the plugin&rsquo;s default cleanup).</li>
+						<li><code>order_updates_for_woo_delete_attachment_response</code> &mdash; response filter.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>If the delete leaves the note dir, update dir, or order dir empty, the plugin walks up and prunes those directories too &mdash; no hollow folders left behind.</p>
+					<p>If your addon stores attachments in an external service via <code>attachment_storage_handler</code>, also hook <code>attachment_delete</code> to clean up the remote copy.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Mark an update as solved</h2>
+					<p>Close out an update. Triggers the customer rating widget (if customer-visible) and the standard resolution flow.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/solve' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "notify_customer": 1
+  }
+  
+  // Returns: { cardHtml, updateId, isEdit: true }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_mark_solved</code> / <code>_after_mark_solved</code>.</li>
+						<li><code>order_updates_for_woo_mark_solved_response</code>.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>If the update is customer-visible, you must pick &ldquo;silent solve&rdquo; or &ldquo;notify and solve&rdquo; via the <code>notify_customer</code> flag. Silent solves skip the customer email but still expose the rating widget on the portal.</p>
+					<p>The status flips to your designated &ldquo;solved&rdquo; status (default: <code>resolved</code>). <code>solved_at</code> is set to the current UTC time.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Re-open a solved update</h2>
+					<p>Bring a solved update back to life. Fires whether the admin clicks Re-open or the customer hits &ldquo;Still has issue?&rdquo;.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/reopen' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "order_key": "wc_order_AbCdEf123"   // optional -- only when the customer initiates
+  }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_reopen_update</code> / <code>_after_reopen_update</code>.</li>
+						<li><code>order_updates_for_woo_reopen_update_response</code>.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>To tell staff reopens from customer reopens inside your hook, check whether <code>order_key</code> is present in the request (customer-side requests always carry it; staff requests don&rsquo;t).</p>
+					<p>Reopening an update that already has a rating is currently blocked &mdash; rated updates are treated as closed. If you want a customer-initiated &ldquo;I rated but it&rsquo;s still broken&rdquo; flow, the right pattern is a new update on the same order.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Submit a customer rating</h2>
+					<p>Customer endpoint &mdash; called from the rating widget on the customer&rsquo;s portal.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/rating' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "stars":     4,
+      "comment":   "Fast response, all sorted.",
+      "order_key": "wc_order_AbCdEf123"
+  }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_customer_rating</code> / <code>_after_customer_rating</code>.</li>
+						<li><code>order_updates_for_woo_customer_rating_response</code>.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>One rating per update, ever. Re-submitting returns a 409. If you need to update a rating (manual correction, say), do it via direct database access from your addon &mdash; the public REST API doesn&rsquo;t allow it.</p>
+					<p>4 and 5 star ratings trigger the promoter follow-up email (with social share buttons). 1, 2, and 3 star ratings trigger the detractor empathy email + a low-rating alert to the site admin.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Delete an update</h2>
+					<p>Remove an update entirely. Preserves a snapshot in the order&rsquo;s deletion audit log for compliance.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X DELETE 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "notify_customer": 0
+  }'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_before_delete_update</code> / <code>_after_delete_update</code> &mdash; <code>$update</code> contains the snapshot, the DB row is gone after.</li>
+						<li><code>order_updates_for_woo_delete_update_response</code>.</li>
+						<li><code>order_updates_for_woo_update_deleted</code> &mdash; lower-level &ldquo;something was deleted&rdquo; action.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>The plugin writes a complete snapshot to the order&rsquo;s deletion-audit table before this hook fires &mdash; the deletion isn&rsquo;t lost, even if the live row is.</p>
+					<p>Attachments belonging to the deleted update are scheduled for cleanup right after the hook. If your addon archives data to S3, mirror in this handler before the files are gone.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Inject a custom notification into the admin bar</h2>
+					<p>The admin bar badge shows unread mentions and assignments. You can push your own items into it &mdash; CRM tasks, escalations, anything time-sensitive your team should see on every admin page.</p>
+					<h4>The call</h4>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\AdminBarNotificationStore;
+
+AdminBarNotificationStore::push( $user_id, [
+    'id'    =&gt; 'my-addon-escalation-' . $escalation_id,
+    'type'  =&gt; 'escalation',
+    'label' =&gt; sprintf( __( 'New escalation on order #%s', 'my-addon' ), $order_number ),
+    'href'  =&gt; admin_url( 'admin.php?page=wc-orders&action=edit&id=' . $order_id ),
+    'at'    =&gt; current_time( 'mysql', true ),
+] );</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_admin_bar_mention</code> &mdash; fires whenever an item is pushed. Hook this if you want to mirror to Slack or webhooks.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>This isn&rsquo;t a REST endpoint &mdash; it&rsquo;s a server-side helper that adds an item to the user&rsquo;s pending-notification queue. The next time the admin bar Heartbeat runs (within 30 seconds), they&rsquo;ll see the badge count increment and your item in the dropdown.</p>
+					<p><code>id</code> must be unique per-user; pushing the same id twice does nothing (the user already has it). Items are removed when the user clicks through to the linked page, so use the URL as the &ldquo;where to find this&rdquo;.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>List updates on an order</h2>
+					<p>Get the full list of updates for an order, with notes, ratings, attachments inline.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X GET 'https://yoursite.com/wp-json/order-updates-for-woo/v1/order-updates?order_id=42'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_order_updates_list_response</code> &mdash; filter the JSON response.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>Used by the admin meta box on page load. The response is cache-friendly &mdash; later calls inside the cache window are served from <code>wp_cache</code>.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Get a single update</h2>
+					<p>Refresh one specific update without re-fetching the whole order&rsquo;s list.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X GET 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123'</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_single_update_response</code> &mdash; response filter.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>Useful when your addon&rsquo;s JS needs a fresh card after some mutation. Returns the same shape as the create/edit endpoints &mdash; <code>{ update, cardHtml }</code>.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Poll the customer thread for new messages</h2>
+					<p>The customer portal hits this every 30 seconds to pick up new staff replies without a page refresh. Returns any new or edited notes since a cursor.</p>
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X GET 'https://yoursite.com/wp-json/order-updates-for-woo/v1/customer-thread/poll?order_id=42&amp;since_note_id=789&amp;since_time=2026-05-22T15:00:00Z&amp;order_key=wc_order_...'</code></pre>
+					<h4>Response</h4>
+					<pre><code class="language-json">{
+    "notes":              [ /* new or edited notes */ ],
+    "resolved_update_ids":[ 123, 456 ],
+    "open_update_ids":    [ 789 ],
+    "latest_update_id":   1234,
+    "server_time":        "2026-05-22T15:00:30Z"
+}</code></pre>
+					<h4>Related hooks</h4>
+<ul>
+						<li><code>order_updates_for_woo_poll_customer_thread_response</code> &mdash; response filter.</li>
+						<li><code>order_updates_for_woo_poll_interval_min</code> / <code>_mid</code> / <code>_max</code> &mdash; filter the adaptive backoff intervals.</li>
+					</ul>
+					<h4>Things worth knowing</h4>
+<p>The endpoint is short-cache friendly &mdash; responses are keyed by <code>order_id + since_note_id</code> and cached for 15 seconds in a transient. Two customers watching the same order share one DB query.</p>
+					<p>If you&rsquo;ve replaced polling with WebSockets via <code>order_updates_for_woo_realtime_config</code>, the customer JS skips this endpoint entirely while the WebSocket is connected, then falls back to it if the socket drops.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Toggle notifications for a single update</h2>
+					<p>The &ldquo;Get notifications&rdquo; switch in the upper-right of each update card writes to user-meta, scoped to that update only. Use this endpoint to flip it programmatically &mdash; for example, an addon that auto-mutes you out of updates assigned to other team members.</p>
+
+					<h4>The call</h4>
+					<pre><code class="language-bash">curl -X POST 'https://yoursite.com/wp-json/order-updates-for-woo/v1/updates/123/staff-email-preference' \
+  -H 'X-WP-Nonce: YOUR_NONCE_HERE' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "muted": true
+  }
+  
+  // Returns: { muted: true }'</code></pre>
+
+					<h4>Related hooks</h4>
+					<ul>
+						<li><code>order_updates_for_woo_before_save_staff_email_preference</code> / <code>_after_save_staff_email_preference</code> &mdash; lifecycle pair around the mute toggle.</li>
+						<li><code>order_updates_for_woo_save_staff_email_preference_response</code> &mdash; filter the JSON response.</li>
+					</ul>
+
+					<h4>Things worth knowing</h4>
+					<p>The mute applies to <em>your own</em> emails on this update only. Other team members&rsquo; preferences are untouched. @mentions skip the mute on purpose &mdash; if someone <code>@</code>-tags you on a muted thread, you still get the mention email. That&rsquo;s the rule; if your add-on queues its own emails, follow the same exception.</p>
+					<p>For the per-customer per-order opt-out (the customer-facing equivalent), call <code>POST /customer-email-preference</code> with <code>{ order_id, enabled }</code>. Same auth pattern (customer via <code>order_key</code> or staff via capability), same hook shape (<code>before_save_customer_email_preference</code> / <code>after</code>).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The remaining endpoints</h2>
+					<p>The operations above cover the common cases. The full inventory &mdash; analytics endpoints, settings save endpoints, attachment-history endpoints, etc. &mdash; is in <a href="../../reference/endpoints-all/index.html">Reference &rarr; All REST endpoints</a> with the request/response shape for each.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/hooks/index.html">
+					<span>Previous</span>
+					Hooks
+				</a>
+				<a class="next" href="../../developer-guide/helper-classes/index.html">
+					<span>Next</span>
+					Helper classes
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

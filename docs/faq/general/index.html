@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAQ — General — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes &amp; portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings &amp; feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow &amp; @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses &amp; colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings &mdash; General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings &mdash; Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings &mdash; Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings &mdash; Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings &mdash; Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings &mdash; API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings &mdash; Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings &mdash; Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html" class="is-active">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email &amp; notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				FAQ &nbsp;/&nbsp;
+				General
+			</p>
+
+			<h1 class="docs-page__title">General</h1>
+			<p class="docs-page__lede">What the plugin is, how an update goes from opened to rated, and the admin-side features that hold it all together &mdash; statuses, colours, assignment, mentions, ratings, analytics. Read this page and you understand how the plugin fits together.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What does this plugin actually do?</h2>
+					<p>It gives every WooCommerce order its own full help-desk, built right into your store. Each order can have as many <em>updates</em> as you need &mdash; an update is a ticket that stands on its own, linked to that order, with its own status, assignee, internal-notes thread, customer-notes thread, attachments, rating, and analytics row.</p>
+					<p>Almost every feature you&rsquo;d expect from a stand-alone help-desk is here: custom statuses you can rename and re-colour, colour pills to help you sort fast, team-member assignment with round-robin rotation, @mentions, customer-portal replies that fire email, customer-opened threads, 5-star ratings with promoter / detractor follow-ups, file uploads with MIME type control, permissions tied to user roles, a fast analytics dashboard, admin-bar notifications, per-customer and per-staff unsubscribe options, and a full REST API plus 100+ hooks for add-ons. All of it runs inside your own WordPress admin and your own database &mdash; no separate app, no outside service, no per-seat fees.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where do I find this inside the admin?</h2>
+					<p>Open any order &mdash; <strong>WooCommerce &rarr; Orders &rarr; (click an order)</strong>. The Order Updates panel sits on the same screen, below the standard WooCommerce panels. That&rsquo;s where you create updates, post notes, assign, mark solved, see the customer&rsquo;s replies, and so on.</p>
+					<p>For configuration, head to <strong>WooCommerce &rarr; Settings &rarr; Order Updates</strong>. For the dashboard, <strong>WooCommerce &rarr; Order Updates</strong> (top-level menu under WooCommerce&rsquo;s analytics section).</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s the lifecycle of an update?</h2>
+					<p>Every update moves through the same fixed list of steps, whether your team opened it or the customer did:</p>
+					<ol>
+						<li><strong>Created.</strong> Your team opens one from the order edit screen, or the customer opens one from their order page (if you&rsquo;ve allowed that). Either way, the new update starts with a title, a status, an optional colour, an optional assignee, and the first note.</li>
+						<li><strong>Conversation.</strong> Team members add internal notes; customer-visible notes go to the customer&rsquo;s portal; the customer replies and those replies come back as customer notes. Statuses can change as things change.</li>
+						<li><strong>Solved.</strong> When the issue is fixed, mark the update as solved. The customer (if the update is customer-visible) gets a rating prompt.</li>
+						<li><strong>Rated.</strong> The customer leaves stars and an optional comment. 4&ndash;5 stars send a promoter follow-up email; 1&ndash;3 stars send a detractor follow-up and email the site admin. Once rated, the update is closed for good &mdash; rated updates can&rsquo;t be reopened.</li>
+					</ol>
+					<p>An unrated update can be reopened at any time &mdash; either by you, or by the customer clicking <em>Still has issue?</em> from the rating widget.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s the difference between an &ldquo;internal note&rdquo; and a &ldquo;customer note&rdquo;?</h2>
+					<p>Two side-by-side threads on the same update, with very different readers:</p>
+					<ul>
+						<li><strong>Internal notes</strong> are team-only. They sit on the left side of the update card, never reach the customer, and support <code>@mentions</code> to notify a teammate.</li>
+						<li><strong>Customer notes</strong> are the half the customer sees in their portal. The right side of the update card matches the customer&rsquo;s view. Each customer note sends an email to the customer (unless you tick the silent-post option).</li>
+					</ul>
+					<p>You write in whichever side fits. Most updates have lots of internal notes and a few customer notes &mdash; the team works things out together, then sends one clear message to the customer.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What are statuses, and why are they customisable?</h2>
+					<p>A status is a short label on each update &mdash; <em>Open</em>, <em>Investigating</em>, <em>Awaiting customer</em>, <em>Notice</em>, etc. They&rsquo;re what your team scans when sorting the dashboard.</p>
+					<p>The plugin comes with a sensible default set, but every store has its own words for things, so you can rename, recolour, reorder, or add brand-new statuses under <strong>Settings &rarr; General &rarr; Statuses</strong>. There&rsquo;s also one special status &mdash; the <em>default status for customer-opened updates</em> &mdash; that sets the status on new updates a customer opens (since customers don&rsquo;t see the status picker).</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What are the colours for?</h2>
+					<p>Visual scanning. Each update can have a highlight colour (set on its own, not tied to status), and the order list in WooCommerce shows that colour as a pill next to the order number when an update is open. That way you can glance at the orders page and spot &ldquo;there&rsquo;s a red urgent update on this order&rdquo; without clicking through.</p>
+					<p>Each status also has its own colour, used for the status pill on the update card. Status colour and update colour can be the same or different &mdash; they&rsquo;re two separate settings.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How does assignment work?</h2>
+					<p>Every update can have one assignee &mdash; the team member who is responsible for that thread. The assignee gets the assignee email, sees the update in their admin bar, and shows up in analytics as the person who solved it (if they mark it solved).</p>
+					<p>You can pick an assignee by hand when you create or edit the update. Or you can let the plugin pick for customer-opened updates &mdash; see assignment rotation below.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What is &ldquo;assignment rotation&rdquo; and when does it run?</h2>
+					<p>Customers don&rsquo;t pick an assignee when they open an update &mdash; they don&rsquo;t know who&rsquo;s available. So the plugin rotates through a list of team members and gives each new customer-opened update to the next person in line.</p>
+					<p>Set the rotation list under <strong>Settings &rarr; Members</strong> &mdash; drag handles set the order, checkboxes set who&rsquo;s included. If the list is empty, every customer update goes to the first administrator on the site. Rotation only runs for customer-opened updates &mdash; updates your team opens are assigned by hand.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How do @mentions work?</h2>
+					<p>Inside an internal note, type <code>@</code> followed by a teammate&rsquo;s name and pick them from the dropdown. When you save the note, that teammate gets an email and a marker in the admin bar so they know they were tagged.</p>
+					<p>Only members of the team roles you set under <strong>Settings &rarr; Members &rarr; Internal team roles</strong> show up in the dropdown. @mentions only work in internal notes &mdash; customer notes don&rsquo;t have a mention dropdown because customers shouldn&rsquo;t see staff usernames.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can my customers see internal notes? Ever?</h2>
+					<p>No. Internal notes live in a different database table (<code>{prefix}order_updates_for_woo_internal_notes</code>), are never put into customer emails, and aren&rsquo;t served by any customer-facing REST endpoint. The customer portal and the customer-update emails only ever read from the <em>customer notes</em> table.</p>
+					<p>The one place where staff names <em>do</em> show up to customers is the assignee field, and only if you turn on <strong>Settings &rarr; Customer &rarr; Show assignee to customers</strong> (off by default). Even then, only the assignee&rsquo;s display name is shown &mdash; never their email or username.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s the customer &ldquo;portal&rdquo;?</h2>
+					<p>It&rsquo;s the customer-side view of an order&rsquo;s update threads. Logged-in customers see it inside their WooCommerce <strong>My Account &rarr; View Order</strong> page; guests open it through a secure single-use link in the email they receive.</p>
+					<p>In the portal the customer sees: every customer-visible update on the order, the customer-notes thread on each, a reply box, the rating widget on solved updates, and (if you turn it on) the assignee&rsquo;s name. You can also drop the same view into a Gutenberg block or Elementor widget &mdash; see <a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a>.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>When does the rating prompt appear for the customer?</h2>
+					<p>The moment you (or another team member) mark a customer-visible update as solved. The reply box in the customer portal goes away and a 5-star rating widget takes its place. The customer can leave stars, an optional comment, or click <em>Still has issue?</em> to reopen the thread.</p>
+					<p>Once they rate, the widget shrinks down to a thank-you message, the update card becomes read-only on the admin side, and the matching follow-up email goes out.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What&rsquo;s the difference between a promoter and a detractor?</h2>
+					<p>The two names come from NPS surveys. A customer who rates 4 or 5 stars is a <em>promoter</em> &mdash; happy enough to recommend you. They get a follow-up email that thanks them and offers social share buttons (Facebook, X, LinkedIn, WhatsApp), each pre-filled with a share message you can edit. The goal is to turn that good rating into a public mention of your store.</p>
+					<p>A customer who rates 1, 2 or 3 stars is a <em>detractor</em> &mdash; unhappy enough that you want to know fast. They get a follow-up email with warm, helpful copy and a button back to the update, so they can keep talking with your team. The site admin also gets a heads-up email so a senior team member can step in.</p>
+					<p>You can change the cutoff between promoter and detractor under <strong>Settings &rarr; Customer &rarr; Follow-up email after rating</strong>. Both follow-up emails can be turned off if you don&rsquo;t want the second round of emails.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does this replace WooCommerce&rsquo;s built-in &ldquo;Order notes&rdquo;?</h2>
+					<p>No &mdash; it sits next to them. Order notes (the panel on the right of the order edit screen, the one with <em>Private note</em> and <em>Note to customer</em>) are WooCommerce&rsquo;s built-in feature and this plugin doesn&rsquo;t touch them. They&rsquo;re fine for short one-off notes (&ldquo;refund sent&rdquo;, &ldquo;tracking added&rdquo;).</p>
+					<p>Order Updates is built for what order notes can&rsquo;t handle: <em>several conversations at once on the same order</em>, with statuses, assignments, customer ratings, separate internal vs customer threads, and a real customer-facing UI. If you only ever leave one note per order, you don&rsquo;t need this plugin. If you often have two or three separate threads going on the same order, you do.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What does the Analytics dashboard show me?</h2>
+					<p>Under <strong>WooCommerce &rarr; Order Updates</strong>. It shows the numbers that matter for support: open vs solved counts, average time to solve, how many each team member has solved, the spread of customer ratings, and how long the slowest open updates have been sitting.</p>
+					<p>It reads from a separate pre-built lookup table (<code>{prefix}order_updates_for_woo_analytics_lookup</code>) that&rsquo;s updated one row at a time on every update change &mdash; so the dashboard stays fast even as your store grows to millions of orders. Date filters and chart data all come from that table.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where does my data live?</h2>
+					<p>All of it lives in your own WordPress database, in eight custom tables that start with <code>{prefix}order_updates_for_woo*</code> (where <code>{prefix}</code> is your site&rsquo;s <code>$wpdb-&gt;prefix</code>, usually <code>wp_</code>). Files attached to updates live on your own disk under <code>wp-content/uploads/order-updates-for-woo/</code>.</p>
+					<p>Nothing is sent to the plugin author or any outside service. There&rsquo;s one optional outgoing request: the newsletter subscribe form on the welcome page sends to a Cloudflare Worker the plugin author runs &mdash; and only if you, the admin, actually subscribe. Skip the subscribe and zero outgoing requests are made.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What happens to my data if I uninstall?</h2>
+					<p>Deactivating the plugin leaves everything in place &mdash; tables, options, attachments &mdash; so you can switch the plugin off for a while and come back. <em>Uninstalling</em> (the &ldquo;Delete&rdquo; action on the <strong>Plugins</strong> page) also leaves your data alone by default &mdash; losing months of customer threads to one wrong click would be bad.</p>
+					<p>If you really want to wipe everything, there&rsquo;s a separate <strong>Settings &rarr; Cache &rarr; Reset all data</strong> action that drops the eight tables, deletes plugin options, and removes the attachments folder. That one can&rsquo;t be undone &mdash; take a database backup first.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../reference/database-schema/index.html">
+					<span>Previous</span>
+					Database schema
+				</a>
+				<a class="next" href="../customer-side/index.html">
+					<span>Next</span>
+					FAQ &rarr; Customer side
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

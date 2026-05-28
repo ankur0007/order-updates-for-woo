@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Settings — Emails — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html" class="is-active">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				User Guide &nbsp;/&nbsp;
+				Settings — Emails
+			</p>
+
+			<h1 class="docs-page__title">Settings — Emails</h1>
+			<p class="docs-page__lede">Quick-access list of every email this plugin sends, each linking through to the standard WooCommerce email customiser.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/settings-emails.png" alt="The Settings → Emails tab listing every plugin-sent email type with enable/disable toggles.">
+					<p class="docs-row__caption">The Emails tab.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>What this tab does</h2>
+					<p>Every email the plugin sends &mdash; assignee notifications, @mention emails, customer notes, rating requests, rating follow-ups, deletion notices &mdash; is enumerated here with an enable/disable toggle. Click any email to deep-link into the matching WooCommerce email customiser for subject + body editing.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Available options</h2>
+					<h3>Assignee notification</h3>
+					<p>Sent when a user is assigned an update or a customer rates an update they own.</p>
+					<h3>@Mention notification</h3>
+					<p>Sent when a user is @mentioned in an internal note. Bypasses per-update mutes.</p>
+					<h3>Participant notification</h3>
+					<p>Sent to participants when a new note is added to a thread they&rsquo;ve participated in.</p>
+					<h3>Customer notification</h3>
+					<p>Sent to the customer when a customer-visible note is added (or on the &ldquo;Notify customer&rdquo; choice on solve/delete).</p>
+					<h3>Customer rating request</h3>
+					<p>Optional &mdash; sent to the customer after an update is solved, prompting them to rate.</p>
+					<h3>Customer rating follow-up (promoter)</h3>
+					<p>Sent to 4&ndash;5 star raters with share buttons.</p>
+					<h3>Customer rating follow-up (detractor)</h3>
+					<p>Sent to 1&ndash;3 star raters with an empathy message and a reply link.</p>
+					<h3>Admin low-rating alert</h3>
+					<p>Sent to the site admin email on detractor ratings.</p>
+					<h3>Customer-update-deleted notice</h3>
+					<p>Sent to the customer when an update they could see was deleted (only if &ldquo;Notify&rdquo; was chosen).</p>
+					<h3>Creator-update-deleted notice</h3>
+					<p>Sent to the staff member who created an update when another staff member deletes it.</p>
+				</div>
+			</section>
+
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../user-guide/settings-members/index.html">
+					<span>Previous</span>
+					Settings — Members
+				</a>
+				<a class="next" href="../../user-guide/settings-attachments/index.html">
+					<span>Next</span>
+					Settings — Attachments
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

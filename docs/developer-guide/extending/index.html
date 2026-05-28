@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Extending the plugin — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html" class="is-active">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				Extending the plugin
+			</p>
+
+			<h1 class="docs-page__title">Extending the plugin</h1>
+			<p class="docs-page__lede">Five patterns for real-world addons. Class-based handlers, named functions, no closures.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Before you start</h2>
+					<p>If you find yourself reaching for a fork, stop. The plugin&rsquo;s built around the idea that addons should never need to fork &mdash; if there&rsquo;s a surface you want to extend and no hook exists for it, that&rsquo;s a bug. Open an issue. Missing hooks get added.</p>
+					<p>Two ground rules for any addon code you write:</p>
+					<ul>
+						<li><strong>Never read or write the plugin&rsquo;s database tables directly.</strong> Always go through <code>OrderUpdatesDb</code> or <code>AttachmentsDb</code>. The schemas can change between versions; the public API on those classes is what stays stable.</li>
+						<li><strong>Use named functions or class methods, never anonymous closures.</strong> A closure attached with <code>add_action</code> can&rsquo;t be removed with <code>remove_action()</code>, can&rsquo;t be overridden by a child addon, and is hard to test. The five-second saving costs you hours later.</li>
+					</ul>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Bootstrapping a new addon</h2>
+					<p>Standard WordPress plugin structure. Bootstrap on <code>plugins_loaded</code> at priority 20 (or later) so the core plugin&rsquo;s classes are guaranteed to be loaded. Always check the core plugin is active before doing anything &mdash; if it&rsquo;s deactivated, you don&rsquo;t want fatal errors.</p>
+					<pre><code class="language-php">&lt;?php
+/**
+ * Plugin Name: My Addon for Order Updates
+ * Description: Integrates Order Updates for WooCommerce with our CRM.
+ * Version:     1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+add_action( 'plugins_loaded', 'my_addon_boot', 20 );
+
+function my_addon_boot(): void {
+    if ( ! class_exists( 'OrderUpdatesForWoo\\Plugin' ) ) {
+        // Core plugin not active. Bail silently.
+        return;
+    }
+
+    My_Addon\Bootstrap::init();
+}</code></pre>
+					<p>From there, <code>Bootstrap::init()</code> wires up your hooks and classes &mdash; same pattern as the core plugin&rsquo;s own <code>Plugin::boot()</code>.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 1 — Add a custom settings tab</h2>
+					<p>Most addons need somewhere to store configuration &mdash; toggles, API keys, custom defaults. Don&rsquo;t add a new top-level WP admin page; piggyback on the plugin&rsquo;s settings instead. Your tab appears in the same row as General, Customer, Emails, etc. The example below wires up a CRM integration tab, but the pattern works for anything &mdash; Slack credentials, a feature-flag panel, a custom field-mapping editor.</p>
+					<h3>Register your custom tab</h3>
+					<pre><code class="language-php">// my-addon/my-addon.php
+
+add_filter( 'order_updates_for_woo_settings_section_controllers', 'my_addon_register_settings_tab' );
+
+function my_addon_register_settings_tab( array $controllers ): array {
+    $controllers[] = new My_Addon\Settings\IntegrationTabController();
+    return $controllers;
+}</code></pre>
+
+					<h3>Add fields and validation</h3>
+					<p>Four fields covering the common types: a password input (API key), a URL with custom validation, a checkbox, and a select. Each field declares its own <code>sanitize_callback</code> — WordPress runs them automatically when the form posts.</p>
+					<pre><code class="language-php">// my-addon/src/Settings/IntegrationTabController.php
+
+declare(strict_types=1);
+
+namespace My_Addon\Settings;
+
+class IntegrationTabController {
+
+    private const OPTION_GROUP = 'my_addon_integration';
+    private const SECTION      = 'my_addon_integration_main';
+
+    public function slug(): string {
+        return 'my-addon-integration';
+    }
+
+    public function label(): string {
+        return __( 'CRM integration', 'my-addon' );
+    }
+
+    public function register(): void {
+        register_setting( self::OPTION_GROUP, 'my_addon_crm_api_key', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => '',
+        ] );
+
+        register_setting( self::OPTION_GROUP, 'my_addon_crm_endpoint', [
+            'type'              => 'string',
+            'sanitize_callback' => [ $this, 'sanitize_endpoint' ],
+            'default'           => '',
+        ] );
+
+        register_setting( self::OPTION_GROUP, 'my_addon_crm_enabled', [
+            'type'              => 'boolean',
+            'sanitize_callback' => 'rest_sanitize_boolean',
+            'default'           => false,
+        ] );
+
+        register_setting( self::OPTION_GROUP, 'my_addon_crm_default_pipeline', [
+            'type'              => 'string',
+            'sanitize_callback' => [ $this, 'sanitize_pipeline' ],
+            'default'           => 'support',
+        ] );
+
+        add_settings_section(
+            self::SECTION,
+            __( 'Connection', 'my-addon' ),
+            [ $this, 'render_section_intro' ],
+            self::OPTION_GROUP
+        );
+
+        add_settings_field( 'my_addon_crm_api_key',          __( 'API key',      'my-addon' ), [ $this, 'render_api_key' ],   self::OPTION_GROUP, self::SECTION );
+        add_settings_field( 'my_addon_crm_endpoint',         __( 'Endpoint URL', 'my-addon' ), [ $this, 'render_endpoint' ],  self::OPTION_GROUP, self::SECTION );
+        add_settings_field( 'my_addon_crm_enabled',          __( 'Enabled',      'my-addon' ), [ $this, 'render_enabled' ],   self::OPTION_GROUP, self::SECTION );
+        add_settings_field( 'my_addon_crm_default_pipeline', __( 'Pipeline',     'my-addon' ), [ $this, 'render_pipeline' ],  self::OPTION_GROUP, self::SECTION );
+    }
+
+    /**
+     * Reject non-HTTPS URLs. On failure, keep the previous value and show
+     * an inline error notice at the top of the form.
+     */
+    public function sanitize_endpoint( $value ): string {
+        $clean = esc_url_raw( (string) $value );
+
+        if ( '' !== $clean && 0 !== strpos( $clean, 'https://' ) ) {
+            add_settings_error(
+                'my_addon_crm_endpoint',
+                'insecure',
+                __( 'The endpoint URL must use HTTPS.', 'my-addon' )
+            );
+            return (string) get_option( 'my_addon_crm_endpoint', '' );
+        }
+
+        return $clean;
+    }
+
+    public function sanitize_pipeline( $value ): string {
+        $allowed = [ 'support', 'sales', 'success' ];
+        $value   = sanitize_key( (string) $value );
+        return in_array( $value, $allowed, true ) ? $value : 'support';
+    }
+
+    public function render_section_intro(): void {
+        echo '&lt;p&gt;' . esc_html__( 'Configure how this site talks to your CRM.', 'my-addon' ) . '&lt;/p&gt;';
+    }
+
+    public function render_api_key(): void {
+        printf(
+            '&lt;input type=&quot;password&quot; name=&quot;my_addon_crm_api_key&quot; value=&quot;%s&quot; class=&quot;regular-text&quot; autocomplete=&quot;off&quot;&gt;',
+            esc_attr( (string) get_option( 'my_addon_crm_api_key', '' ) )
+        );
+    }
+
+    public function render_endpoint(): void {
+        printf(
+            '&lt;input type=&quot;url&quot; name=&quot;my_addon_crm_endpoint&quot; value=&quot;%s&quot; class=&quot;regular-text&quot;&gt;',
+            esc_attr( (string) get_option( 'my_addon_crm_endpoint', '' ) )
+        );
+    }
+
+    public function render_enabled(): void {
+        $checked = (bool) get_option( 'my_addon_crm_enabled', false );
+        printf(
+            '&lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;my_addon_crm_enabled&quot; value=&quot;1&quot; %s&gt; %s&lt;/label&gt;',
+            checked( $checked, true, false ),
+            esc_html__( 'Enable mirroring to CRM', 'my-addon' )
+        );
+    }
+
+    public function render_pipeline(): void {
+        $current = (string) get_option( 'my_addon_crm_default_pipeline', 'support' );
+        $options = [
+            'support' => __( 'Support', 'my-addon' ),
+            'sales'   => __( 'Sales',   'my-addon' ),
+            'success' => __( 'Success', 'my-addon' ),
+        ];
+
+        echo '&lt;select name=&quot;my_addon_crm_default_pipeline&quot;&gt;';
+        foreach ( $options as $value => $label ) {
+            printf(
+                '&lt;option value=&quot;%s&quot; %s&gt;%s&lt;/option&gt;',
+                esc_attr( $value ),
+                selected( $current, $value, false ),
+                esc_html( $label )
+            );
+        }
+        echo '&lt;/select&gt;';
+    }
+
+    /**
+     * Renders the tab body. The plugin's outer settings page handles the
+     * &lt;form&gt;, nonce, and capability gate — this just emits fields.
+     * The wp_die() is defence in depth in case anyone reaches render() directly.
+     */
+    public function render(): void {
+        if ( ! current_user_can( 'manage_woocommerce' ) ) {
+            wp_die( esc_html__( 'You do not have permission to view these settings.', 'my-addon' ) );
+        }
+
+        settings_fields( self::OPTION_GROUP );
+        do_settings_sections( self::OPTION_GROUP );
+        submit_button();
+    }
+}</code></pre>
+
+					<h3>Field types you can use</h3>
+					<p>The pattern above uses a text input, a URL, a checkbox, and a select. WordPress&rsquo;s settings API supports anything you can render in HTML. The common types and their sanitize callbacks:</p>
+					<table>
+						<thead><tr><th>Field</th><th>Input</th><th>Sanitize callback</th><th>Notes</th></tr></thead>
+						<tbody>
+							<tr><td>Text</td><td><code>&lt;input type=&quot;text&quot;&gt;</code></td><td><code>sanitize_text_field</code></td><td>Strips tags, normalises whitespace.</td></tr>
+							<tr><td>Password</td><td><code>&lt;input type=&quot;password&quot;&gt;</code></td><td><code>sanitize_text_field</code></td><td>Same sanitiser; pair with <code>autocomplete=&quot;off&quot;</code>.</td></tr>
+							<tr><td>URL</td><td><code>&lt;input type=&quot;url&quot;&gt;</code></td><td><code>esc_url_raw</code></td><td>Add your own callback to enforce HTTPS, allowed hosts, etc.</td></tr>
+							<tr><td>Email</td><td><code>&lt;input type=&quot;email&quot;&gt;</code></td><td><code>sanitize_email</code></td><td>Returns empty string if invalid.</td></tr>
+							<tr><td>Number</td><td><code>&lt;input type=&quot;number&quot;&gt;</code></td><td><code>absint</code> / <code>intval</code> / <code>floatval</code></td><td>Pick based on whether you allow negatives or decimals.</td></tr>
+							<tr><td>Checkbox</td><td><code>&lt;input type=&quot;checkbox&quot;&gt;</code></td><td><code>rest_sanitize_boolean</code></td><td>Accepts &ldquo;1&rdquo;, &ldquo;true&rdquo;, &ldquo;yes&rdquo;, etc.</td></tr>
+							<tr><td>Select</td><td><code>&lt;select&gt;</code></td><td>custom whitelist check</td><td>Reject anything outside your <code>$allowed</code> array.</td></tr>
+							<tr><td>Radio</td><td><code>&lt;input type=&quot;radio&quot;&gt;</code></td><td>custom whitelist check</td><td>Same as Select.</td></tr>
+							<tr><td>Textarea</td><td><code>&lt;textarea&gt;</code></td><td><code>sanitize_textarea_field</code></td><td>Preserves line breaks, strips tags.</td></tr>
+							<tr><td>Rich text</td><td><code>wp_editor()</code></td><td><code>wp_kses_post</code></td><td>Allow safe HTML; for content fields, not credentials.</td></tr>
+							<tr><td>Colour</td><td><code>&lt;input type=&quot;color&quot;&gt;</code></td><td><code>sanitize_hex_color</code></td><td>Returns null on invalid hex.</td></tr>
+							<tr><td>Date</td><td><code>&lt;input type=&quot;date&quot;&gt;</code></td><td>custom <code>DateTime</code> check</td><td>Validate the parsed date matches the input string.</td></tr>
+							<tr><td>Multi-select</td><td><code>&lt;select multiple&gt;</code></td><td>array_map over a whitelist</td><td>Store as a serialised array or comma-separated string.</td></tr>
+							<tr><td>File upload</td><td>media library picker</td><td>store the attachment ID</td><td>Don&rsquo;t accept raw file uploads via settings &mdash; use the media library.</td></tr>
+						</tbody>
+					</table>
+					<p>For every type, the <code>sanitize_callback</code> on <code>register_setting</code> is the security gate. Always declare one; WordPress won&rsquo;t guess.</p>
+
+					<h3>What you get for free</h3>
+					<ul>
+						<li><strong>Capability gating</strong> — the outer settings page already requires <code>manage_woocommerce</code>; the <code>wp_die</code> inside <code>render()</code> is defence in depth.</li>
+						<li><strong>Sanitization on every save</strong> — each <code>register_setting</code> declares its own <code>sanitize_callback</code>; WordPress runs them automatically.</li>
+						<li><strong>Inline validation errors</strong> — when <code>sanitize_endpoint</code> rejects a value, it calls <code>add_settings_error()</code> and returns the previous value. The form re-renders with a red notice at the top, the user's old value still in place.</li>
+						<li><strong>Output escaping everywhere</strong> — every value rendered into the form goes through <code>esc_attr</code> or <code>esc_html</code>. Standard WP VIP rule.</li>
+						<li><strong>i18n built in</strong> — every label uses <code>__()</code> with your add-on's text domain. Run <code>wp i18n make-pot</code> in your add-on folder to ship a <code>.pot</code>.</li>
+					</ul>
+					<p>For a production-grade example with grouped fields and conditional rendering, read <code>src/Admin/Settings/Controllers/GeneralTabController.php</code> in the core plugin source.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 2 — Add a custom button to the update card</h2>
+					<p>You&rsquo;ve got the CRM credentials saved. Next step: give the team a one-click way to push an update into the CRM on demand. Put the button in the card&rsquo;s action bar so it sits next to Mark Solved and Delete &mdash; native, no extra navigation.</p>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_update_card_actions', 'my_addon_render_sync_button' );
+
+function my_addon_render_sync_button( array $update ): void {
+    if ( ! current_user_can( 'manage_woocommerce' ) ) {
+        return;
+    }
+
+    $update_id = (int) $update['id'];
+
+    printf(
+        '&lt;button type=&quot;button&quot; class=&quot;button awts_card__action&quot; data-my-addon-sync=&quot;%1$d&quot; data-nonce=&quot;%2$s&quot;&gt;%3$s&lt;/button&gt;',
+        $update_id,
+        esc_attr( wp_create_nonce( 'my_addon_sync_' . $update_id ) ),
+        esc_html__( 'Sync to CRM', 'my-addon' )
+    );
+}</code></pre>
+					<p>The click handler lives in your addon&rsquo;s JS &mdash; enqueue your own script on the order edit page, bind a delegated click on <code>[data-my-addon-sync]</code>, POST to your own REST endpoint with the nonce. Use <code>OrderUpdatesForWoo\API\Concerns\VerifiesAccess</code> as a template for the endpoint&rsquo;s <code>can_access()</code> &mdash; same nonce check, same capability check, drop-in.</p>
+					<p>Three details that matter: capability-check inside the handler (the card itself is gated, but your button may need stricter rules); use <code>awts_card__action</code> if you want the button to match the existing buttons&rsquo; styling; never inline the click handler in markup &mdash; use a delegated event listener so the JS stays out of every rendered card.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 3 — Listen for update lifecycle events</h2>
+					<p>The on-demand button is nice, but most teams want every solve, every customer note, every rating mirrored automatically. The pattern: a class with one <code>init()</code> method that registers handlers, one method per event you care about.</p>
+					<pre><code class="language-php">declare(strict_types=1);
+
+namespace My_Addon\Crm;
+
+class EventMirror {
+
+    public static function init(): void {
+        add_action( 'order_updates_for_woo_after_mark_solved',     [ self::class, 'on_solved' ],  10, 3 );
+        add_action( 'order_updates_for_woo_after_add_customer_note', [ self::class, 'on_note' ],   10, 4 );
+        add_action( 'order_updates_for_woo_after_customer_rating',   [ self::class, 'on_rated' ],  10, 4 );
+    }
+
+    public static function on_solved( int $update_id, array $update, \WP_REST_Request $request ): void {
+        self::send( 'update.solved', [
+            'update_id' =&gt; $update_id,
+            'order_id'  =&gt; (int) $update['order_id'],
+            'solver_id' =&gt; get_current_user_id(),
+        ] );
+    }
+
+    public static function on_note( int $note_id, int $update_id, string $note, \WP_REST_Request $request ): void {
+        self::send( 'note.added', [
+            'note_id'   =&gt; $note_id,
+            'update_id' =&gt; $update_id,
+            'body'      =&gt; $note,
+        ] );
+    }
+
+    public static function on_rated( int $update_id, int $order_id, array $rating, \WP_REST_Request $request ): void {
+        self::send( 'update.rated', [
+            'update_id' =&gt; $update_id,
+            'order_id'  =&gt; $order_id,
+            'stars'     =&gt; (int) $rating['stars'],
+            'comment'   =&gt; (string) $rating['comment'],
+        ] );
+    }
+
+    private static function send( string $event, array $payload ): void {
+        wp_remote_post( My_Addon\Config::endpoint(), [
+            'headers' =&gt; [ 'Content-Type' =&gt; 'application/json', 'Authorization' =&gt; 'Bearer ' . My_Addon\Config::api_key() ],
+            'body'    =&gt; wp_json_encode( [ 'event' =&gt; $event ] + $payload ),
+            'timeout' =&gt; 5,
+        ] );
+    }
+}
+
+EventMirror::init();</code></pre>
+					<p>Why a class? Three reasons. You can unregister specific handlers later (<code>remove_action( ..., [ EventMirror::class, 'on_solved' ], 10 )</code>) without affecting the others. A child addon can extend <code>EventMirror</code> and override <code>send()</code> to add retry logic. You can unit-test the methods individually.</p>
+					<p>Keep <code>timeout</code> low &mdash; these handlers run inside the REST request, so a slow CRM means a slow admin page. If the CRM is sometimes flaky, push the <code>send()</code> call into an Action Scheduler job and return immediately.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 4 — A new tab on the update card</h2>
+					<p>The button works for &ldquo;sync this thing now&rdquo;, but what about showing CRM activity inline? A new tab next to Internal Notes / Customer Notes / Participants / Tracking Log is the right home. You get a dedicated panel with its own content.</p>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_update_card_tabs',         'my_addon_render_crm_tab_button' );
+add_action( 'order_updates_for_woo_update_card_after_details', 'my_addon_render_crm_tab_panel' );
+
+function my_addon_render_crm_tab_button( array $update ): void {
+    printf(
+        '&lt;li class=&quot;awts_card__tab&quot; data-tab=&quot;my-addon-crm&quot;&gt;%s&lt;/li&gt;',
+        esc_html__( 'CRM activity', 'my-addon' )
+    );
+}
+
+function my_addon_render_crm_tab_panel( array $update ): void {
+    printf(
+        '&lt;div class=&quot;awts_card__panel&quot; data-tab-panel=&quot;my-addon-crm&quot; hidden&gt;'
+        . '  &lt;p&gt;%1$s&lt;/p&gt;'
+        . '  &lt;ul class=&quot;my-addon-crm-list&quot; data-update=&quot;%2$d&quot;&gt;&lt;/ul&gt;'
+        . '&lt;/div&gt;',
+        esc_html__( 'Loading CRM activity...', 'my-addon' ),
+        (int) $update['id']
+    );
+}</code></pre>
+					<p>The <code>data-tab</code> on the button and <code>data-tab-panel</code> on the content have to match exactly &mdash; that&rsquo;s how the card&rsquo;s JS knows what to show when the tab is clicked. Lazy-load the panel content: render an empty <code>&lt;ul&gt;</code> server-side, then fetch the actual CRM data via REST when the tab is first clicked. If the panel is never opened, you&rsquo;ve saved a DB hit.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 5 — Replace polling with WebSockets</h2>
+					<p>If your customers complain that updates feel laggy (the 30-second poll is the default), this is the pattern. You wire up Pusher (or Ably, or your own driver), the customer JS uses it instead of polling, and polling becomes the fallback if the WebSocket drops.</p>
+					<pre><code class="language-php">declare(strict_types=1);
+
+namespace My_Addon\Realtime;
+
+class PusherDriver {
+
+    public static function init(): void {
+        add_filter( 'order_updates_for_woo_realtime_config', [ self::class, 'inject_config' ], 10, 2 );
+        add_action( 'order_updates_for_woo_after_add_customer_note', [ self::class, 'publish_note_added' ], 10, 4 );
+    }
+
+    public static function inject_config( array $config, int $order_id ): array {
+        return array_merge( $config, [
+            'driver'  =&gt; 'pusher',
+            'app_key' =&gt; getenv( 'PUSHER_APP_KEY' ),
+            'cluster' =&gt; 'eu',
+            'channel' =&gt; "order-{$order_id}",
+        ] );
+    }
+
+    public static function publish_note_added( int $note_id, int $update_id, string $note, \WP_REST_Request $request ): void {
+        \My_Addon\Pusher::publish(
+            "order-{$update_id}",
+            'customer-note.added',
+            [ 'note_id' =&gt; $note_id ]
+        );
+    }
+}
+
+PusherDriver::init();</code></pre>
+					<p>You also need to enqueue your driver JS that subscribes to the Pusher channel and calls the customer page&rsquo;s realtime callbacks (<code>appendNote</code>, <code>updateNote</code>, <code>reloadPage</code>) &mdash; those are exposed on <code>window.AWTS_COU_DRIVER_CALLBACKS</code> for exactly this purpose.</p>
+					<p>Test the failure path. Most addons that swap in WebSockets work fine on the happy path and silently break when the connection drops. Disable your network mid-session and confirm polling actually kicks back in &mdash; that&rsquo;s the harder test.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 6 — Add your own emoji shortcuts</h2>
+					<p>The plugin&rsquo;s <code>EmoticonConverter</code> handles common text emoticons (<code>:)</code> &rarr; 🙂, <code>&lt;3</code> &rarr; ❤️) at note save time. The conversion map is private &mdash; you can&rsquo;t plug new entries into it directly. Hook the note payload filter instead and do your own pass first.</p>
+					<pre><code class="language-php">add_filter( 'order_updates_for_woo_internal_note_payload', 'my_addon_expand_emoji', 5, 3 );
+add_filter( 'order_updates_for_woo_customer_note_payload', 'my_addon_expand_emoji', 5, 3 );
+
+function my_addon_expand_emoji( string $note, int $update_id, \WP_REST_Request $request ): string {
+    $map = [
+        ':shrug:'   =&gt; "\u{1F937}",
+        ':thinking:' =&gt; "\u{1F914}",
+        ':rocket:'  =&gt; "\u{1F680}",
+        ':fire:'    =&gt; "\u{1F525}",
+    ];
+
+    return str_replace( array_keys( $map ), array_values( $map ), $note );
+}</code></pre>
+					<p>Priority <code>5</code> runs your conversion <em>before</em> the plugin&rsquo;s own (which is at priority 10). That means your shortcuts get expanded before the plugin&rsquo;s converter sees the text &mdash; useful if your custom shortcut starts with characters the plugin would otherwise mistake for one of its built-ins.</p>
+					<p>Hook both internal and customer payload filters if you want the shortcuts to work everywhere. Skip one if you want shortcuts that only apply on one side (e.g., team-only project codes that shouldn&rsquo;t leak to customers).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 7 — Override the email templates</h2>
+					<p>If you want to change the HTML structure of the emails &mdash; colours, header logo, footer copy &mdash; copy the template into your theme and edit it there. Same theme-override pattern WooCommerce uses for its own emails.</p>
+					<p>Full walkthrough with copy-paste shell commands lives on the <a href="../theme-overrides/index.html">Theme overrides</a> page. Short version:</p>
+					<pre><code class="language-bash">cp wp-content/plugins/order-updates-for-woo/src/Frontend/Notifications/Templates/order-update-notification.php \
+   wp-content/themes/your-theme/order-updates-for-woo/frontend/notifications/order-update-notification.php</code></pre>
+					<p>Edit your copy, reload. <code>View::render()</code> picks up the override automatically &mdash; no filter to register, no settings to flip. Delete the override to revert.</p>
+					<p>If you only want different wording (not different HTML), skip the override entirely and use <em>WooCommerce &rarr; Settings &rarr; Emails &rarr; &lt;your email&gt;</em>. Faster and survives plugin updates.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 8 — Tune or invalidate the cache</h2>
+					<p>The plugin caches every read on <code>OrderUpdatesDb</code> under <code>Constants::CACHE_GROUP</code> with a configurable TTL. Two scenarios where you&rsquo;d want to intervene:</p>
+					<p><strong>Change the TTL.</strong> Settings UI: <em>WooCommerce &rarr; Settings &rarr; Order Updates &rarr; Cache</em>. Programmatic: set <code>order_updates_for_woo_cache_ttl</code> on the WordPress option directly.</p>
+					<pre><code class="language-php">// Set TTL to 5 minutes (in seconds). Defaults to 600.
+update_option( 'order_updates_for_woo_cache_ttl', 300 );</code></pre>
+					<p><strong>Invalidate the cache from your addon.</strong> If your addon writes directly to update-related data (e.g., a background sync that touches order meta), the plugin&rsquo;s internal cache won&rsquo;t know. Bust it through the WordPress object cache &mdash; the plugin uses the same group:</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Shared\Config\Constants;
+
+// Bust the cache for one update.
+wp_cache_delete( "update_{$update_id}", Constants::CACHE_GROUP );
+
+// Bust everything in the order's update list.
+wp_cache_delete( "order_updates_{$order_id}", Constants::CACHE_GROUP );</code></pre>
+					<p>The plugin uses cache <em>versions</em> internally to invalidate groups of keys (so it doesn&rsquo;t have to enumerate every key). If you&rsquo;ve done a bulk write and want to nuke everything for an order, increment the version counter:</p>
+					<pre><code class="language-php">$version_key = "order_updates_ver_{$order_id}";
+$current = (int) wp_cache_get( $version_key, Constants::CACHE_GROUP );
+wp_cache_set( $version_key, $current + 1, Constants::CACHE_GROUP );</code></pre>
+					<p>One thing to know: if you&rsquo;re on a host that uses a persistent object cache (Redis, Memcached), changes are global. On a host without persistent cache, WP&rsquo;s default in-memory cache resets on every request anyway, so most of this matters less. The Settings &rarr; Cache page shows which cache backend you&rsquo;re using.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 9 — Inject custom events into the tracking log</h2>
+					<p>The tracking log captures every meaningful event on an update &mdash; created, assigned, status changed, reopened, rated. The DB method that writes these is public, so your addon can call it directly for custom events (CRM sync started, escalation triggered, refund issued, etc.).</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Shared\Config\Constants;
+
+function my_addon_log_crm_sync( int $update_id ): void {
+    OrderUpdatesForWoo\Plugin::db()-&gt;log_lifecycle_event(
+        $update_id,
+        'crm_synced',                                  // your custom kind
+        sprintf( 'Synced to CRM (%s)', My_Addon\Crm::name() ),
+        get_current_user_id(),
+        current_time( 'mysql', true )
+    );
+}</code></pre>
+					<p>The event lands in the same <code>customer_notes</code> table the built-in events use, with your custom <code>kind</code> string. <strong>Heads up on a current limitation:</strong> the tracking-log SELECT query filters by a fixed list of kinds (<code>status_change</code>, <code>title_change</code>, <code>reopen</code>, <code>rating</code>). Custom kinds won&rsquo;t show up in the rendered tracking log until that filter accepts your kind.</p>
+					<p>If you need custom events visible in the UI today, the workarounds are: (1) write your event as a regular internal note with a recognisable prefix, or (2) post a status-change event using one of the built-in kinds. The longer-term fix is a filter on the SELECT &mdash; open an issue if you&rsquo;re hitting this in production, it&rsquo;s a small change with real value.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Pattern 10 — Add your own REST endpoint</h2>
+					<p>The plugin&rsquo;s built-in endpoints cover most things, but you&rsquo;ll often want your own &mdash; a &ldquo;sync this update to my CRM&rdquo; trigger, a custom analytics aggregator, a webhook receiver. Register the endpoint under <em>your</em> REST namespace (not the plugin&rsquo;s), and mirror the plugin&rsquo;s auth pattern.</p>
+
+					<h3>The full skeleton</h3>
+					<pre><code class="language-php">// my-addon/src/API/Endpoints/SyncToCrmEndpoint.php
+
+declare(strict_types=1);
+
+namespace My_Addon\API\Endpoints;
+
+use OrderUpdatesForWoo\API\Concerns\VerifiesAccess;
+use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
+
+class SyncToCrmEndpoint {
+
+    use VerifiesAccess; // reuses the plugin's nonce + capability helpers
+
+    private const NAMESPACE = 'my-addon/v1';
+    private const ROUTE     = '/updates/(?P<update_id>\d+)/sync-to-crm';
+
+    public function __construct( private OrderUpdatesDb $order_updates_db ) {}
+
+    public function register(): void {
+        register_rest_route(
+            self::NAMESPACE,
+            self::ROUTE,
+            [
+                'methods'             => WP_REST_Server::CREATABLE,         // POST
+                'callback'            => [ $this, 'handle' ],
+                'permission_callback' => [ $this, 'can_access' ],
+                'args'                => [
+                    'update_id' => [
+                        'required' => true,
+                        'type'     => 'integer',
+                    ],
+                    'pipeline'  => [
+                        'required' => false,
+                        'type'     => 'string',
+                        'enum'     => [ 'support', 'sales', 'success' ],
+                        'default'  => 'support',
+                    ],
+                ],
+            ]
+        );
+    }
+
+    /**
+     * Auth. Verify the nonce, then check the user can edit the order this
+     * update belongs to. Returns WP_Error on failure so REST returns 403.
+     */
+    public function can_access( WP_REST_Request $request ): bool|WP_Error {
+        if ( $error = $this->verify_nonce( $request ) ) {
+            return $error;
+        }
+
+        $update = $this->order_updates_db->get_update( absint( $request->get_param( 'update_id' ) ) );
+        $order_id = (int) ( $update['order_id'] ?? 0 );
+
+        if ( ! $order_id || ! $this->is_authorized_for_order( $order_id ) ) {
+            return new WP_Error(
+                'my_addon_forbidden',
+                __( 'You cannot sync this update.', 'my-addon' ),
+                [ 'status' => 403 ]
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * The work. Inputs are already validated by the args schema above; cast
+     * to the right types and run.
+     */
+    public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        $update_id = absint( $request->get_param( 'update_id' ) );
+        $pipeline  = sanitize_key( (string) $request->get_param( 'pipeline' ) );
+
+        $update = $this->order_updates_db->get_update( $update_id );
+        if ( ! $update ) {
+            return new WP_Error( 'my_addon_not_found', __( 'Update not found.', 'my-addon' ), [ 'status' => 404 ] );
+        }
+
+        do_action( 'my_addon_before_sync_to_crm', $update_id, $pipeline );
+
+        try {
+            $result = My_Addon\Crm::sync_update( $update, $pipeline );
+        } catch ( \Throwable $e ) {
+            return new WP_Error( 'my_addon_sync_failed', $e->getMessage(), [ 'status' => 502 ] );
+        }
+
+        do_action( 'my_addon_after_sync_to_crm', $update_id, $pipeline, $result );
+
+        return rest_ensure_response( [
+            'update_id' => $update_id,
+            'pipeline'  => $pipeline,
+            'crm_id'    => $result['id'] ?? null,
+            'synced_at' => current_time( 'mysql', true ),
+        ] );
+    }
+}
+
+// In your addon's bootstrap:
+add_action( 'rest_api_init', 'my_addon_register_endpoints' );
+
+function my_addon_register_endpoints(): void {
+    $endpoint = new My_Addon\API\Endpoints\SyncToCrmEndpoint(
+        // Grab the plugin's DB singleton.
+        OrderUpdatesForWoo\Plugin::db()
+    );
+    $endpoint->register();
+}</code></pre>
+
+					<h3>What you&rsquo;re inheriting from the plugin</h3>
+					<p>By using the <code>VerifiesAccess</code> trait you get three methods for free:</p>
+					<ul>
+						<li><code>verify_nonce( $request )</code> — checks the <code>X-WP-Nonce</code> header against <code>wp_rest</code>. Returns <code>null</code> on success, <code>WP_Error</code> on failure.</li>
+						<li><code>is_authorized_for_order( $order_id )</code> — checks the user has <code>edit_shop_order</code> or <code>manage_woocommerce</code> on that order. HPOS-safe.</li>
+						<li><code>is_acting_as_customer( $order_id, $order_key )</code> — for guest-customer endpoints, validates the order_key.</li>
+					</ul>
+					<p>If your endpoint needs different auth (admin-only, role-gated, etc.), write your own <code>permission_callback</code> instead of using these.</p>
+
+					<h3>Things to get right</h3>
+					<ul>
+						<li><strong>Use your own namespace.</strong> The example uses <code>my-addon/v1</code>. Don&rsquo;t register under <code>order-updates-for-woo/v1</code> &mdash; that&rsquo;s the plugin&rsquo;s namespace and reserved for its endpoints.</li>
+						<li><strong>Declare your args schema.</strong> The <code>args</code> array tells WP REST to validate inputs before your callback even fires. Use <code>type</code>, <code>enum</code>, <code>required</code>, <code>default</code>. Saves you a layer of manual validation.</li>
+						<li><strong>Sanitise inside <code>handle()</code> too.</strong> The args schema validates shape; you still <code>absint()</code> / <code>sanitize_key()</code> before using values. Defence in depth.</li>
+						<li><strong>Wrap mutations in your own action hooks.</strong> Fire <code>my_addon_before_*</code> and <code>my_addon_after_*</code> around the work &mdash; gives extensibility to anyone consuming your addon.</li>
+						<li><strong>Return <code>WP_Error</code> with a meaningful status code.</strong> 400 for bad input, 403 for auth, 404 for missing resource, 500 for unexpected, 502 for downstream failures (your CRM was down).</li>
+					</ul>
+
+					<h3>Calling your endpoint from JS</h3>
+					<pre><code class="language-javascript">fetch( '/wp-json/my-addon/v1/updates/123/sync-to-crm', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce':   awtsData.nonce, // the plugin's nonce works fine for your endpoint
+    },
+    body: JSON.stringify( { pipeline: 'sales' } ),
+} )
+    .then( function ( r ) { return r.json(); } )
+    .then( function ( body ) {
+        console.log( 'Synced:', body );
+    } );</code></pre>
+					<p>The same <code>X-WP-Nonce</code> the plugin&rsquo;s JS uses works for your endpoint too &mdash; it&rsquo;s a generic <code>wp_rest</code> nonce, not plugin-scoped.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The rules</h2>
+					<ul>
+						<li>Don&rsquo;t access the plugin&rsquo;s DB tables directly. Go through <code>OrderUpdatesDb</code> / <code>AttachmentsDb</code>.</li>
+						<li>Register REST endpoints under your own namespace, not the plugin&rsquo;s.</li>
+						<li>Use named functions or class methods. No closures attached to <code>add_action</code> / <code>add_filter</code>.</li>
+						<li>Sanitise, escape, nonce-verify. Match the security baseline in <code>src/API/Concerns/VerifiesAccess.php</code>.</li>
+						<li>Test on both HPOS and classic order storage. The core plugin supports both; your addon should too.</li>
+					</ul>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/email-customisation/index.html">
+					<span>Previous</span>
+					Email customisation
+				</a>
+				<a class="next" href="../../index.html">
+					<span>Next</span>
+					Documentation home
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

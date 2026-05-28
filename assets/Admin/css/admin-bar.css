@@ -1,0 +1,124 @@
+#wpadminbar #wp-admin-bar-awts_assigned_updates > .ab-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* Submenu container — wider, with breathing room */
+#wpadminbar #wp-admin-bar-awts_assigned_updates .ab-submenu {
+	min-width: 320px;
+	padding: 4px 0;
+}
+
+/* Section header rows — small, dim, not clickable */
+#wpadminbar .awts-ab-section-header,
+#wpadminbar #wp-admin-bar-awts_admin_bar_assigned_header,
+#wpadminbar #wp-admin-bar-awts_admin_bar_mentions_header {
+	pointer-events: none;
+}
+
+#wpadminbar .awts-ab-section-header > .ab-item,
+#wpadminbar #wp-admin-bar-awts_admin_bar_assigned_header > .ab-item,
+#wpadminbar #wp-admin-bar-awts_admin_bar_mentions_header > .ab-item {
+	cursor: default;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	opacity: 0.55;
+	padding: 10px 14px 4px !important;
+	height: auto !important;
+	line-height: 1 !important;
+}
+
+#wpadminbar .awts-ab-section-header > .ab-item:hover,
+#wpadminbar #wp-admin-bar-awts_admin_bar_assigned_header > .ab-item:hover,
+#wpadminbar #wp-admin-bar-awts_admin_bar_mentions_header > .ab-item:hover {
+	background: transparent;
+	color: inherit;
+}
+
+/* Two-line rows */
+#wpadminbar #wp-admin-bar-awts_assigned_updates .awts-ab-row-item > .ab-item {
+	height: auto !important;
+	line-height: 1.35 !important;
+	padding: 8px 14px !important;
+	white-space: normal;
+}
+
+#wpadminbar .awts-ab-row {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	max-width: 320px;
+}
+
+#wpadminbar .awts-ab-row-title {
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.35;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#wpadminbar .awts-ab-row-meta {
+	font-size: 11px;
+	line-height: 1.3;
+	opacity: 0.65;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* View-all footer */
+#wpadminbar #wp-admin-bar-awts_view_all_orders > .ab-item {
+	margin-top: 4px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	font-style: italic;
+	font-size: 12px;
+	opacity: 0.85;
+}
+
+/* Clear-all footer — sits at the bottom of the dropdown when at least one
+   notification is present. Visually offset from rows above so it reads as
+   an action, not another notification. */
+#wpadminbar .awts-ab-clear-all > .ab-item {
+	margin-top: 4px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	font-size: 12px;
+	text-align: center;
+	opacity: 0.75;
+}
+
+#wpadminbar .awts-ab-clear-all > .ab-item:hover,
+#wpadminbar .awts-ab-clear-all > .ab-item:focus {
+	opacity: 1;
+}
+
+/* Hide the root node when there are no notifications.
+   The JS removes this class and updates the count when a heartbeat brings new data. */
+#wpadminbar #wp-admin-bar-awts_assigned_updates.awts-no-notifications {
+	display: none;
+}
+
+/* Hidden placeholder node — keeps .ab-sub-wrapper in the DOM on page load */
+#wpadminbar .awts-ab-placeholder {
+	display: none;
+}
+
+/* Top-bar count badge */
+#wpadminbar .awts-ab-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 5px;
+	border-radius: 9px;
+	background: #d63638;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 1;
+}

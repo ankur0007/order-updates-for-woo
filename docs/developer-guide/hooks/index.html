@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hooks — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html" class="is-active">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				Hooks
+			</p>
+
+			<h1 class="docs-page__title">Hooks</h1>
+			<p class="docs-page__lede">Real scenarios, real code. Each hook gets a use case, an arg table, working code, and the tradeoffs you only learn the hard way.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How to read this page</h2>
+					<p>This page covers the hooks you&rsquo;ll actually reach for. Each one starts with the kind of problem you&rsquo;d use it to solve, then walks through what fires it, what you get to work with, and a real working example. The complete A&ndash;Z list with every hook&rsquo;s signature lives in <a href="../../reference/hooks-all/index.html">Reference &rarr; All hooks</a>.</p>
+					<p>A word on style: every example here uses a named function or a class method. Anonymous closures attached with <code>add_action</code> are an anti-pattern in WordPress plugin code &mdash; you can&rsquo;t un-register them with <code>remove_action()</code>, they&rsquo;re awkward to test, and a child addon can&rsquo;t override them. The few seconds you save writing a closure cost you hours when something needs to change later.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when an update is created or edited</h2>
+					<h3><code>order_updates_for_woo_after_update_save</code></h3>
+					<p>You run support through a shared Slack channel and you want the team to see every new update the moment it&rsquo;s opened &mdash; without piling more email into people&rsquo;s inboxes. This hook fires the instant an update is saved, whether it was created from the admin meta box, the customer portal, or a custom REST call.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>Someone publishes the &ldquo;Add new update&rdquo; modal, or edits an existing one.</li>
+						<li>The plugin writes the row to the database, sets up the assignee, and queues any notification emails.</li>
+						<li>Right before returning the REST response, this hook fires.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The ID of the update that was just saved.</td></tr>
+							<tr><td><code>$update</code></td><td><code>array</code></td><td>The full update record after save &mdash; title, status, assignee, customer-visible flag, all of it.</td></tr>
+							<tr><td><code>$is_edit</code></td><td><code>bool</code></td><td><code>true</code> if this was an edit of an existing update, <code>false</code> on first creation.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating REST request &mdash; useful if you need the raw input.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_after_update_save', 'my_addon_post_to_slack', 10, 4 );
+
+function my_addon_post_to_slack( int $update_id, array $update, bool $is_edit, WP_REST_Request $request ): void {
+    // Edits don&#39;t need a Slack ping -- only new updates.
+    if ( $is_edit ) {
+        return;
+    }
+
+    $order  = wc_get_order( (int) $update['order_id'] );
+    $title  = (string) $update['title'];
+    $admin  = admin_url( 'admin.php?page=wc-orders&action=edit&id=' . (int) $update['order_id'] );
+
+    My_Addon\Slack::post( '#support', sprintf(
+        ":envelope: New update on order #%s: *%s* (%s)\n%s",
+        $order ? $order-&gt;get_order_number() : $update['order_id'],
+        $title,
+        get_userdata( get_current_user_id() )-&gt;display_name,
+        $admin
+    ) );
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>The <code>$is_edit</code> flag is your friend.</strong> Without that check, every status change, title rename, or visibility flip would re-ping Slack. Most teams find that noisy. If you want edits to ping too &mdash; useful for assignment changes, say &mdash; flip the condition.</p>
+					<p><strong>Slack throwing means the REST request waits.</strong> If your Slack workspace is having a bad day and the HTTP call takes 8 seconds, the admin saving the update sees an 8-second spinner. Either keep the Slack call fast or move it to its own Action Scheduler job. <code>AsyncJob::queue()</code> is right there.</p>
+					<p><strong>Use this for &ldquo;just created&rdquo; events.</strong> For &ldquo;just resolved&rdquo;, &ldquo;just rated&rdquo;, or &ldquo;just reassigned&rdquo;, there are more specific hooks below &mdash; they fire at the right moment with the right context.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when an update is marked solved</h2>
+					<h3><code>order_updates_for_woo_after_mark_solved</code></h3>
+					<p>Your boss wants weekly numbers: how fast is the team closing tickets? The plugin tracks <em>when</em> an update was created and <em>when</em> it was solved, but not the gap. Fire-and-forget the duration to your analytics system whenever a solve happens.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>An admin clicks <strong>Mark as solved</strong> on the update card, or a customer reopens-then-resolves via the portal, or a script POSTs to <code>/updates/{id}/solve</code>.</li>
+						<li>The plugin flips <code>is_resolved=1</code>, sets <code>solved_at</code>, queues the resolution email (if &ldquo;notify customer&rdquo; was picked), and logs a status-change row in the tracking log.</li>
+						<li>This hook fires.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The update that just got solved.</td></tr>
+							<tr><td><code>$update</code></td><td><code>array</code></td><td>The full update record after the solve. <code>created_at</code> and <code>solved_at</code> are both populated.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating request.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">class My_Addon_Resolution_Tracker {
+
+    public static function init(): void {
+        add_action( 'order_updates_for_woo_after_mark_solved', [ self::class, 'on_solved' ], 10, 3 );
+    }
+
+    public static function on_solved( int $update_id, array $update, WP_REST_Request $request ): void {
+        $created = strtotime( (string) $update['created_at'] );
+        $solved  = strtotime( (string) $update['solved_at'] );
+
+        if ( ! $created || ! $solved ) {
+            return;
+        }
+
+        My_Addon\Analytics::send( 'update.resolution_time_minutes', round( ( $solved - $created ) / 60 ), [
+            'update_id'  =&gt; $update_id,
+            'order_id'   =&gt; (int) $update['order_id'],
+            'assignee'   =&gt; (int) $update['assignee_user_id'],
+            'solver'     =&gt; get_current_user_id(),
+        ] );
+    }
+}
+
+My_Addon_Resolution_Tracker::init();</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Class methods over standalone functions.</strong> For anything more than a one-liner, wrap your handler in a class. You get auto-namespacing (no <code>my_addon_</code> prefix wars), it&rsquo;s easier to unit-test, and a child addon can extend the class to override behaviour.</p>
+					<p><strong>Reopens-then-solves count too.</strong> If a customer reopens via &ldquo;Still has issue?&rdquo; and then the team resolves again, this hook fires again. You&rsquo;ll get two data points for the same update id. That&rsquo;s usually what you want for resolution-time tracking &mdash; the second solve is a separate cycle.</p>
+					<p><strong>The customer&rsquo;s rating arrives later.</strong> If you want to correlate resolution time with customer satisfaction, hook <code>after_customer_rating</code> as well and join by <code>update_id</code> in your analytics warehouse.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when an update is re-opened</h2>
+					<h3><code>order_updates_for_woo_after_reopen_update</code></h3>
+					<p>A customer hitting &ldquo;Still has issue?&rdquo; after you marked a ticket solved is a signal worth catching. It usually means the team thought it was done but the customer doesn&rsquo;t agree. You want eyes on it within the hour.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>An admin clicks <strong>Re-open</strong>, <em>or</em> the customer clicks <strong>Still has issue?</strong> on their portal.</li>
+						<li>The plugin flips <code>is_resolved=0</code>, logs a system row in the tracking log, and (if the original solve queued a rating-request email) wipes that email&rsquo;s pending state.</li>
+						<li>This hook fires.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The reopened update.</td></tr>
+							<tr><td><code>$update</code></td><td><code>array</code></td><td>Full record after reopen. <code>is_resolved</code> is now <code>0</code>; <code>solved_at</code> is preserved so you can see the original solve time.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating request &mdash; check this to tell admin reopens from customer ones.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_after_reopen_update', 'my_addon_page_oncall_on_customer_reopen', 10, 3 );
+
+function my_addon_page_oncall_on_customer_reopen( int $update_id, array $update, WP_REST_Request $request ): void {
+    // Only page when the customer reopened. Admin reopens are usually planned.
+    $is_customer_action = (bool) $request-&gt;get_param( 'order_key' );
+
+    if ( ! $is_customer_action ) {
+        return;
+    }
+
+    My_Addon\PagerDuty::trigger( 'customer-reopen', sprintf(
+        'Customer reopened update %d on order %d. Last solved %s.',
+        $update_id,
+        (int) $update['order_id'],
+        (string) $update['solved_at']
+    ) );
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>How to tell admin from customer.</strong> Customer-side requests always carry an <code>order_key</code> parameter &mdash; that&rsquo;s the credential guests use. Staff requests don&rsquo;t. Checking for it is the cleanest way to branch.</p>
+					<p><strong>The reopen email pipeline.</strong> The plugin does <em>not</em> automatically email the assignee on a reopen &mdash; it just shows up in the tracking log. If you want an email, queue your own via <code>AsyncJob::queue()</code> or hook <code>order_updates_for_woo_after_add_customer_note</code> (a customer-initiated reopen always includes a note).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when an update is deleted</h2>
+					<h3><code>order_updates_for_woo_after_delete_update</code></h3>
+					<p>Compliance team wants a 7-year archive of every customer interaction, even ones you&rsquo;ve cleaned out of the live database. The plugin already keeps a snapshot on the order&rsquo;s edit page (Deleted Updates meta box), but that lives in WordPress &mdash; if the order itself gets deleted, the audit goes with it. Mirroring to S3 (or whatever you use) gets you out of that bind.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>Someone clicks <strong>Delete</strong> on an update card, or POSTs to <code>DELETE /updates/{id}</code>.</li>
+						<li>The plugin removes the row from the live tables and writes a snapshot to the order&rsquo;s deletion-audit log.</li>
+						<li>This hook fires. The DB row is gone &mdash; but <code>$update</code> still has the full pre-delete record for you.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The deleted update&rsquo;s ID.</td></tr>
+							<tr><td><code>$update</code></td><td><code>array</code></td><td>The snapshot taken just before deletion. Use this &mdash; not a fresh DB lookup, the row is gone.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating request.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_after_delete_update', 'my_addon_archive_to_s3', 10, 3 );
+
+function my_addon_archive_to_s3( int $update_id, array $update, WP_REST_Request $request ): void {
+    $key = sprintf( 'order-updates/%d/%d-%s.json',
+        (int) $update['order_id'],
+        $update_id,
+        gmdate( 'Y-m-d-His' )
+    );
+
+    My_Addon\S3::put( $key, wp_json_encode( [
+        'update'     =&gt; $update,
+        'deleted_by' =&gt; get_current_user_id(),
+        'deleted_at' =&gt; current_time( 'mysql', true ),
+    ], JSON_PRETTY_PRINT ) );
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Don&rsquo;t try to query the DB for the update.</strong> By the time this hook fires the row is gone. The <code>$update</code> snapshot is the only source of truth &mdash; grab whatever you need from it.</p>
+					<p><strong>Attachments are still on disk &mdash; briefly.</strong> The plugin schedules an attachment cleanup right after this hook. If your archive needs the files, you have to copy them inside this handler. Hesitate and they&rsquo;re gone.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when an internal note is added (@mentions)</h2>
+					<h3><code>order_updates_for_woo_after_add_internal_note</code></h3>
+					<p>Your team works in Slack more than in WordPress. Email mentions are fine, but a Slack DM gets seen faster. Forward any internal note that mentions a teammate directly to their DM.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>An admin posts an internal note via the Internal Notes tab, or POSTs to <code>/updates/{id}/notes</code>.</li>
+						<li>The plugin saves the note, scans for <code>@username</code> mentions, queues mention emails, and updates each mentioned user&rsquo;s admin-bar badge.</li>
+						<li>This hook fires.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$note_id</code></td><td><code>int</code></td><td>The new note&rsquo;s ID.</td></tr>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The update it&rsquo;s attached to.</td></tr>
+							<tr><td><code>$note</code></td><td><code>string</code></td><td>The note body, post-sanitization. Mentions are inline as <code>@username</code>.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating request.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_after_add_internal_note', 'my_addon_slack_dm_mentions', 10, 4 );
+
+function my_addon_slack_dm_mentions( int $note_id, int $update_id, string $note, WP_REST_Request $request ): void {
+    // Pull every @username from the note body.
+    if ( ! preg_match_all( '/@([a-z0-9_-]+)/i', $note, $matches ) ) {
+        return;
+    }
+
+    foreach ( array_unique( $matches[1] ) as $username ) {
+        $user = get_user_by( 'login', $username );
+        if ( ! $user ) {
+            continue;
+        }
+
+        $slack_id = (string) get_user_meta( $user-&gt;ID, 'my_addon_slack_id', true );
+        if ( '' === $slack_id ) {
+            continue;
+        }
+
+        My_Addon\Slack::dm( $slack_id, sprintf(
+            'You were mentioned on order update %d by %s:&gt; %s',
+            $update_id,
+            wp_get_current_user()-&gt;display_name,
+            wp_trim_words( wp_strip_all_tags( $note ), 30 )
+        ) );
+    }
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Match the plugin&rsquo;s mention syntax.</strong> The plugin recognises <code>@username</code> where <code>username</code> is the WP login. Match anything looser and you&rsquo;ll DM people who weren&rsquo;t actually tagged.</p>
+					<p><strong>Map WP users to Slack IDs ahead of time.</strong> The example stores the Slack member ID in user meta &mdash; build a small settings screen where each user pastes theirs in once. Don&rsquo;t try to email-lookup at runtime; Slack&rsquo;s API rate-limits get angry fast.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when a customer note is added</h2>
+					<h3><code>order_updates_for_woo_after_add_customer_note</code></h3>
+					<p>You run support in WordPress but the sales team lives in a CRM. Every customer-facing message your team sends should show up on the contact&rsquo;s timeline in the CRM too &mdash; in addition to the email, not instead of it.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>An admin posts a customer note in the Customer Notes tab, or a customer replies from their portal, or a script POSTs to <code>/updates/{id}/customer-notes</code>.</li>
+						<li>The plugin saves the note and queues an Action Scheduler job to email the customer.</li>
+						<li>This hook fires &mdash; immediately, not after the email sends.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$note_id</code></td><td><code>int</code></td><td>The new note&rsquo;s ID.</td></tr>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The update it&rsquo;s attached to.</td></tr>
+							<tr><td><code>$note</code></td><td><code>string</code></td><td>The note body, post-sanitization.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating request.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_after_add_customer_note', 'my_addon_mirror_to_crm', 10, 4 );
+
+function my_addon_mirror_to_crm( int $note_id, int $update_id, string $note, WP_REST_Request $request ): void {
+    $order = wc_get_order( (int) $request-&gt;get_param( 'order_id' ) );
+    if ( ! $order ) {
+        return;
+    }
+
+    My_Addon\Crm::add_engagement( [
+        'contact_email' =&gt; $order-&gt;get_billing_email(),
+        'order_number'  =&gt; $order-&gt;get_order_number(),
+        'direction'     =&gt; 'outbound',
+        'body'          =&gt; $note,
+        'sent_at'       =&gt; current_time( 'mysql', true ),
+    ] );
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>This fires for both directions.</strong> Staff-to-customer messages and customer-to-staff replies both hit this hook. If you only want one, branch on the current user being a customer (no <code>edit_shop_order</code> capability).</p>
+					<p><strong>You&rsquo;re inside the REST request.</strong> If the CRM is slow, the admin saving the note sees the spinner. If that matters &mdash; usually it does &mdash; queue your work via <code>AsyncJob::queue()</code> or schedule it directly with Action Scheduler.</p>
+					<p><strong>If you need the order context.</strong> Customer-side requests pass <code>order_id</code> as a parameter; admin-side requests don&rsquo;t (the order is inferred from the update). The robust path is to load the update via <code>OrderUpdatesDb::get_update()</code> and pull <code>order_id</code> from there.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Run code when a customer rates an update</h2>
+					<h3><code>order_updates_for_woo_after_customer_rating</code></h3>
+					<p>A 1-, 2-, or 3-star rating is your early-warning system for an unhappy customer. The plugin already sends an admin alert email, but you want richer routing &mdash; a Zap that opens a ticket in your helpdesk, pings #escalations, and assigns it to a senior rep.</p>
+
+					<h4>When it fires</h4>
+					<ol>
+						<li>A customer submits a star rating (1&ndash;5) from the portal&rsquo;s rating widget.</li>
+						<li>The plugin saves the rating row, kicks off the follow-up email (promoter share or detractor empathy), and if it&rsquo;s a low rating, queues the admin alert email.</li>
+						<li>This hook fires.</li>
+					</ol>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update_id</code></td><td><code>int</code></td><td>The rated update.</td></tr>
+							<tr><td><code>$order_id</code></td><td><code>int</code></td><td>The order it&rsquo;s on.</td></tr>
+							<tr><td><code>$rating</code></td><td><code>array</code></td><td><code>stars</code>, <code>comment</code>, <code>created_by_name</code>, <code>created_at</code>.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The originating request.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_after_customer_rating', 'my_addon_zap_on_detractor', 10, 4 );
+
+function my_addon_zap_on_detractor( int $update_id, int $order_id, array $rating, WP_REST_Request $request ): void {
+    if ( (int) $rating['stars'] &gt; 3 ) {
+        return; // Promoters and neutrals don&#39;t need paging.
+    }
+
+    $order = wc_get_order( $order_id );
+
+    wp_remote_post( MY_ADDON_ZAPIER_HOOK_URL, [
+        'headers' =&gt; [ 'Content-Type' =&gt; 'application/json' ],
+        'body'    =&gt; wp_json_encode( [
+            'stars'        =&gt; (int) $rating['stars'],
+            'comment'      =&gt; (string) $rating['comment'],
+            'update_id'    =&gt; $update_id,
+            'order_number' =&gt; $order ? $order-&gt;get_order_number() : (string) $order_id,
+            'customer'     =&gt; $order ? $order-&gt;get_billing_email() : '',
+            'admin_url'    =&gt; admin_url( 'admin.php?page=wc-orders&amp;action=edit&amp;id=' . $order_id ),
+        ] ),
+        'timeout' =&gt; 5,
+    ] );
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>3 stars is a soft line.</strong> The plugin treats 1&ndash;3 as detractors and 4&ndash;5 as promoters. Some teams move that line to 2/3 (treating 3 as &ldquo;OK&rdquo; rather than &ldquo;bad&rdquo;) &mdash; your call. Just be consistent inside your handler.</p>
+					<p><strong><code>wp_remote_post</code> with a tight timeout.</strong> The customer is waiting on the response to their rating submission. A 30-second hang on Zapier&rsquo;s end means a 30-second spinner on the rating page. Keep the timeout low; if Zapier is down, fail silently and rely on the plugin&rsquo;s built-in admin email as the backstop.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Add custom fields to a REST response</h2>
+					<h3><code>order_updates_for_woo_save_update_response</code></h3>
+					<p>You&rsquo;ve added a custom button to the update card (see &ldquo;UI insertion points&rdquo; below). When the admin clicks it, your JS needs a nonce to call your own REST endpoint. The cleanest place to mint that nonce is when the update is saved &mdash; right when your JS already has fresh data in hand.</p>
+
+					<h4>When it fires</h4>
+					<p>Right before <code>POST /updates</code> returns its JSON response. Same shape as every other <code>*_response</code> filter on this plugin&rsquo;s endpoints &mdash; learn the pattern once, use it everywhere.</p>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$response</code></td><td><code>array</code></td><td>The response array. Default keys: <code>cardHtml</code>, <code>updateId</code>, <code>isEdit</code>, <code>message</code>, <code>noteId</code>.</td></tr>
+							<tr><td><code>$request</code></td><td><code>WP_REST_Request</code></td><td>The request that produced this response.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_filter( 'order_updates_for_woo_save_update_response', 'my_addon_attach_action_nonce', 10, 2 );
+
+function my_addon_attach_action_nonce( array $response, WP_REST_Request $request ): array {
+    $update_id = (int) ( $response['updateId'] ?? 0 );
+    if ( ! $update_id ) {
+        return $response;
+    }
+
+    $response['my_addon'] = [
+        'sync_endpoint' =&gt; rest_url( 'my-addon/v1/updates/' . $update_id . '/sync' ),
+        'nonce'         =&gt; wp_create_nonce( 'my_addon_sync_' . $update_id ),
+    ];
+
+    return $response;
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>The same pattern works for every endpoint.</strong> <code>order_updates_for_woo_delete_update_response</code>, <code>order_updates_for_woo_mark_solved_response</code>, <code>order_updates_for_woo_poll_customer_thread_response</code> &mdash; same two arguments, same return convention. Pick the one your JS will see and append your data there.</p>
+					<p><strong>Don&rsquo;t clobber existing keys.</strong> Always namespace under your own root key (<code>my_addon</code> in the example) so a future plugin version can add new top-level fields without colliding with yours.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Register or alter a settings tab</h2>
+					<h3><code>order_updates_for_woo_settings_section_controllers</code></h3>
+					<p>Your addon has its own settings &mdash; API keys for the CRM, a list of channels to mirror to, on/off toggles. You could put them in their own top-level WP admin page, but the natural home is alongside the plugin&rsquo;s built-in tabs. One settings screen, one mental model.</p>
+
+					<h4>When it fires</h4>
+					<p>Once per page load, when the plugin builds its list of settings tabs. You append your controller; the plugin renders your tab in the same row as General, Customer, Members, etc.</p>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$controllers</code></td><td><code>array</code></td><td>Existing tab controller objects. Each implements the same small shape: slug, label, <code>register()</code>, <code>render()</code>.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_filter( 'order_updates_for_woo_settings_section_controllers', 'my_addon_register_settings_tab' );
+
+function my_addon_register_settings_tab( array $controllers ): array {
+    $controllers[] = new My_Addon\Settings\IntegrationTabController();
+    return $controllers;
+}
+
+// my-addon/src/Settings/IntegrationTabController.php
+namespace My_Addon\Settings;
+
+class IntegrationTabController {
+
+    public function slug(): string {
+        return 'my-addon-integration';
+    }
+
+    public function label(): string {
+        return __( 'CRM integration', 'my-addon' );
+    }
+
+    public function register(): void {
+        register_setting( 'my_addon_integration', 'my_addon_crm_api_key', 'sanitize_text_field' );
+    }
+
+    public function render(): void {
+        settings_fields( 'my_addon_integration' );
+        // ... your &lt;input&gt; fields here ...
+        submit_button();
+    }
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Copy a built-in controller&rsquo;s shape.</strong> Open <code>src/Admin/Settings/Controllers/GeneralTabController.php</code> in the plugin source. Your controller needs the same four methods (slug, label, register, render). Copy-paste-rename is the fastest start.</p>
+					<p><strong>Use WP&rsquo;s settings API, not your own.</strong> <code>register_setting()</code> + <code>settings_fields()</code> + <code>add_settings_field()</code> have been tested for years across millions of sites. Don&rsquo;t roll your own form handling &mdash; you&rsquo;ll just re-invent every input edge case the WP team already solved.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Add a custom button to the update card</h2>
+					<h3><code>order_updates_for_woo_update_card_actions</code></h3>
+					<p>You want a one-click action on each update &mdash; &ldquo;Sync to CRM now&rdquo;, &ldquo;Open in Linear&rdquo;, &ldquo;Mark as escalated&rdquo;. The card&rsquo;s action bar is the right home. Sits alongside Mark Solved and Delete, looks native, no extra navigation.</p>
+
+					<h4>When it fires</h4>
+					<p>Every time the plugin renders an update card &mdash; on first page load and after every save/edit. Your handler echoes markup into the action bar; the plugin doesn&rsquo;t care what you put there.</p>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update</code></td><td><code>array</code></td><td>The full update record being rendered.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_update_card_actions', 'my_addon_render_sync_button' );
+
+function my_addon_render_sync_button( array $update ): void {
+    if ( ! current_user_can( 'manage_woocommerce' ) ) {
+        return;
+    }
+
+    $update_id = (int) $update['id'];
+
+    printf(
+        '&lt;button type=&quot;button&quot; class=&quot;button awts_card__action&quot; data-my-addon-sync=&quot;%1$d&quot; data-nonce=&quot;%2$s&quot;&gt;%3$s&lt;/button&gt;',
+        $update_id,
+        esc_attr( wp_create_nonce( 'my_addon_sync_' . $update_id ) ),
+        esc_html__( 'Sync to CRM', 'my-addon' )
+    );
+}</code></pre>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Capability-check before rendering.</strong> The plugin already gates the card itself behind <code>edit_shop_order</code>, but your action might need stricter rules. Bailing inside the handler is harmless &mdash; the bar just doesn&rsquo;t render your button for users who can&rsquo;t use it.</p>
+					<p><strong>Use the plugin&rsquo;s CSS classes if you want native styling.</strong> <code>awts_card__action</code> matches the look of Mark Solved / Delete. If you want to stand out (a red &ldquo;Escalate&rdquo; button, say), add your own class on top.</p>
+					<p><strong>Don&rsquo;t inline the click handler.</strong> The example uses a <code>data-</code> attribute the JS picks up via event delegation. That keeps your handler out of every rendered card, plays nicely with the plugin&rsquo;s own JS, and tests cleanly.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Add your own tab to the update card</h2>
+					<h3><code>order_updates_for_woo_update_card_tabs</code></h3>
+					<p>You&rsquo;re building a deeper integration &mdash; maybe a panel showing the CRM contact history for this order, or a list of Linear tickets linked to the update. A new tab next to Internal Notes / Customer Notes is the right home; you get your own panel without crowding the existing ones.</p>
+
+					<h4>When it fires</h4>
+					<p>Each time the card&rsquo;s tab strip renders. You echo a <code>&lt;li&gt;</code> with a <code>data-tab</code> attribute; the plugin&rsquo;s JS handles the click-to-switch behaviour. You separately mount your panel content via your own hook (typically into <code>order_updates_for_woo_update_card_after_details</code>) and toggle it based on the <code>data-tab</code> value.</p>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$update</code></td><td><code>array</code></td><td>The full update record being rendered.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">add_action( 'order_updates_for_woo_update_card_tabs',         'my_addon_render_crm_tab_button' );
+add_action( 'order_updates_for_woo_update_card_after_details', 'my_addon_render_crm_tab_panel' );
+
+function my_addon_render_crm_tab_button( array $update ): void {
+    printf(
+        '&lt;li class=&quot;awts_card__tab&quot; data-tab=&quot;my-addon-crm&quot;&gt;%s&lt;/li&gt;',
+        esc_html__( 'CRM activity', 'my-addon' )
+    );
+}
+
+function my_addon_render_crm_tab_panel( array $update ): void {
+    $update_id = (int) $update['id'];
+
+    printf(
+        '&lt;div class=&quot;awts_card__panel&quot; data-tab-panel=&quot;my-addon-crm&quot; hidden&gt;'
+        . '  &lt;p&gt;%1$s&lt;/p&gt;'
+        . '  &lt;ul class=&quot;my-addon-crm-list&quot; data-update=&quot;%2$d&quot;&gt;&lt;/ul&gt;'
+        . '&lt;/div&gt;',
+        esc_html__( 'Loading CRM activity...', 'my-addon' ),
+        $update_id
+    );
+}</code></pre>
+					<p>Then in your addon&rsquo;s JS, listen for tab switches and fetch the panel data from your own REST endpoint the first time it&rsquo;s shown.</p>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Match the <code>data-tab</code> values exactly.</strong> The button&rsquo;s <code>data-tab="my-addon-crm"</code> has to match the panel&rsquo;s <code>data-tab-panel="my-addon-crm"</code>. Typos here mean the click happens but nothing shows.</p>
+					<p><strong>Lazy-load your panel content.</strong> Don&rsquo;t render the full CRM history server-side on every card &mdash; if the panel never gets opened, that&rsquo;s a wasted DB hit. Render an empty container, then fetch the actual data via REST when the tab is first clicked.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Replace 30-second polling with WebSockets (Pusher, Ably, etc.)</h2>
+					<h3><code>order_updates_for_woo_realtime_config</code></h3>
+					<p>The plugin uses a 30-second poll for v1.0 &mdash; good enough for most stores but visibly laggy on busy ones. If you&rsquo;re comfortable wiring up Pusher (or Ably, or your own WebSocket), you can replace the poll entirely while keeping it as a fallback.</p>
+
+					<h4>When it fires</h4>
+					<p>Once per customer-portal page load. The plugin&rsquo;s JS reads the returned config and decides which realtime driver to use. The default config is empty &mdash; the JS falls back to polling. Populate the config from this filter and the JS uses your driver instead.</p>
+
+					<h4>What you get</h4>
+					<table>
+						<thead><tr><th>Argument</th><th>Type</th><th>What it is</th></tr></thead>
+						<tbody>
+							<tr><td><code>$config</code></td><td><code>array</code></td><td>Empty by default. Whatever you return ends up in <code>window.AWTS_COU_CONFIG.realtimeConfig</code>.</td></tr>
+							<tr><td><code>$order_id</code></td><td><code>int</code></td><td>The order whose thread is being rendered. Use this to scope your WebSocket channel.</td></tr>
+					</tbody>
+					</table>
+
+					<h4>The code</h4>
+					<pre><code class="language-php">// Server side -- inject the Pusher config the JS will read.
+add_filter( 'order_updates_for_woo_realtime_config', 'my_addon_pusher_config', 10, 2 );
+
+function my_addon_pusher_config( array $config, int $order_id ): array {
+    return array_merge( $config, [
+        'driver'  =&gt; 'pusher',
+        'app_key' =&gt; getenv( 'PUSHER_APP_KEY' ),
+        'cluster' =&gt; 'eu',
+        'channel' =&gt; "order-{$order_id}",
+    ] );
+}
+
+// Server side -- publish to the channel when a customer note is added.
+add_action( 'order_updates_for_woo_after_add_customer_note', 'my_addon_publish_to_pusher', 10, 4 );
+
+function my_addon_publish_to_pusher( int $note_id, int $update_id, string $note, WP_REST_Request $request ): void {
+    $update = OrderUpdatesForWoo\Plugin::db()-&gt;get_update( $update_id );
+    if ( ! $update ) {
+        return;
+    }
+
+    My_Addon\Pusher::publish( "order-{$update['order_id']}", 'customer-note.added', [
+        'note_id'   =&gt; $note_id,
+        'update_id' =&gt; $update_id,
+    ] );
+}</code></pre>
+					<p>Then enqueue your driver JS that subscribes to the Pusher channel and calls the customer page&rsquo;s realtime callbacks (<code>appendNote</code>, <code>updateNote</code>, <code>reloadPage</code>). Those callbacks are exposed on <code>window.AWTS_COU_DRIVER_CALLBACKS</code> for exactly this purpose.</p>
+
+					<h4>Things worth knowing</h4>
+					<p><strong>Polling stays as a fallback.</strong> If your WebSocket connection drops mid-page (subway tunnel, dodgy hotel wifi), the JS notices and resumes the 30s poll automatically. The customer doesn&rsquo;t see broken realtime &mdash; they see a slightly slower one.</p>
+					<p><strong>Public Pusher app keys are public on purpose.</strong> Don&rsquo;t freak out that you&rsquo;re leaking the app key into the customer&rsquo;s page source &mdash; Pusher app keys are designed to be public. Your server&rsquo;s app <em>secret</em> is what matters; never inject that into the config.</p>
+					<p><strong>Test the failure path.</strong> Most addons that swap realtime work great on the happy path and silently die when the WebSocket can&rsquo;t connect. Disable your network mid-session and confirm polling actually kicks back in &mdash; that&rsquo;s the harder test.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Everything else</h2>
+					<p>The hooks covered above are the ones that come up most often. The rest &mdash; <code>before_*</code> partners for every <code>after_*</code> shown here, response filters per endpoint, attachment-storage hooks, label/string filters, customer-portal injection points, all 50+ of them &mdash; live in <a href="../../reference/hooks-all/index.html">Reference &rarr; All hooks</a> with their signatures.</p>
+					<p>If you&rsquo;re trying to do something and can&rsquo;t find a hook for it, that&rsquo;s a bug. Open an issue &mdash; missing hooks get added.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/file-structure/index.html">
+					<span>Previous</span>
+					File structure
+				</a>
+				<a class="next" href="../../developer-guide/rest-api/index.html">
+					<span>Next</span>
+					REST API
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

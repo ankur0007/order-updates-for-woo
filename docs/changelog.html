@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Changelog &amp; known issues — Order Updates for WooCommerce</title>
+	<meta name="description" content="Every release of Order Updates for WooCommerce, with what changed and a live list of known open issues — pulled directly from GitHub.">
+	<meta name="robots" content="index, follow">
+
+	<link rel="canonical" href="https://orderupdatesforwoo.com/changelog.html">
+
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://orderupdatesforwoo.com/changelog.html">
+	<meta property="og:title" content="Changelog &amp; known issues — Order Updates for WooCommerce">
+	<meta property="og:description" content="Every release with notes + live open bugs from GitHub.">
+	<meta property="og:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+	<meta property="og:site_name" content="Order Updates for WooCommerce">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Changelog &amp; known issues — Order Updates for WooCommerce">
+	<meta name="twitter:description" content="Every release with notes + live open bugs from GitHub.">
+	<meta name="twitter:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="assets/styles.css">
+	<link rel="stylesheet" href="assets/landing.css">
+
+
+	<!-- HTML partials (nav + footer) — must load before mobile-nav + mega-menu. -->
+	<script src="assets/partials.js" defer></script>	<script src="assets/mobile-nav.js" defer></script>
+	<script src="assets/mega-menu.js" defer></script>
+	<script src="assets/changelog.js" defer></script>
+</head>
+<body class="landing">
+
+<div data-include="partials/nav.html"></div>
+
+<section class="features-header">
+	<div class="features-header__inner">
+		<p class="landing__eyebrow">Changelog &amp; known issues</p>
+		<h1 class="features-header__title">What changed, and what&rsquo;s still broken</h1>
+		<p class="features-header__lede">Every release with full notes, plus a live list of open bugs &mdash; both pulled directly from GitHub. Nothing curated, nothing hidden.</p>
+	</div>
+</section>
+
+<!-- Known issues — open bugs from GitHub Issues with the `bug` label. -->
+<section class="landing__section landing__section--known-issues">
+	<div class="landing__section__inner">
+		<header class="landing__section__header">
+			<p class="landing__eyebrow">Known issues</p>
+			<h2 class="landing__section__title">Open bugs we&rsquo;re working on</h2>
+			<p class="landing__section__lede">If something you&rsquo;re hitting isn&rsquo;t in this list, <a href="https://github.com/ankur0007/order-updates-for-woo/issues/new" target="_blank" rel="noopener">open a new issue on GitHub</a>. Live counts straight from the repo.</p>
+		</header>
+
+		<div class="changelog__issues" data-issues-list>
+			<p class="changelog__loading">Loading open issues from GitHub&hellip;</p>
+		</div>
+
+		<div class="changelog__issues__empty" data-issues-empty hidden>
+			<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+			<h3>No open bugs right now</h3>
+			<p>Either we&rsquo;ve cleaned the queue, or you&rsquo;re the first to spot one &mdash; <a href="https://github.com/ankur0007/order-updates-for-woo/issues/new" target="_blank" rel="noopener">report it on GitHub</a>.</p>
+		</div>
+
+		<div class="changelog__issues__error" data-issues-error hidden>
+			<p>Couldn&rsquo;t reach GitHub right now. View the issue list directly on <a href="https://github.com/ankur0007/order-updates-for-woo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+		</div>
+	</div>
+</section>
+
+<!-- Release history — GitHub Releases for the repo. -->
+<section class="landing__section landing__section--changelog">
+	<div class="landing__section__inner">
+		<header class="landing__section__header">
+			<p class="landing__eyebrow">Releases</p>
+			<h2 class="landing__section__title">Every version, every change</h2>
+			<p class="landing__section__lede">Newest first. Tap any version to read the full notes on GitHub.</p>
+		</header>
+
+		<div class="changelog__list" data-releases-list>
+			<p class="changelog__loading">Loading releases from GitHub&hellip;</p>
+		</div>
+
+		<div class="changelog__list__empty" data-releases-empty hidden>
+			<p>No releases tagged yet. The first version goes here once it&rsquo;s shipped &mdash; follow <a href="https://github.com/ankur0007/order-updates-for-woo/releases" target="_blank" rel="noopener">the repo</a> for updates.</p>
+		</div>
+
+		<div class="changelog__list__error" data-releases-error hidden>
+			<p>Couldn&rsquo;t reach GitHub right now. View releases directly on <a href="https://github.com/ankur0007/order-updates-for-woo/releases" target="_blank" rel="noopener">GitHub</a>.</p>
+		</div>
+	</div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+
+<script>
+	document.getElementById( 'changelog-year' ).textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

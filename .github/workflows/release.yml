@@ -1,0 +1,44 @@
+name: Release plugin
+
+# Cut a release by pushing a version tag, e.g. `git tag v1.0.1 && git push --tags`.
+# Builds both zips and attaches them to the GitHub Release:
+#   - order-updates-for-woo.zip        → customer download (includes the GitHub updater)
+#   - order-updates-for-woo-wporg.zip  → upload this one to WordPress.org (updater stripped)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Build customer zip (with GitHub updater)
+        run: bash scripts/build-dist.sh "$GITHUB_WORKSPACE/build"
+
+      - name: Build WordPress.org zip (updater stripped)
+        run: bash scripts/build-dist.sh --wporg "$GITHUB_WORKSPACE/build"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            build/order-updates-for-woo.zip
+            build/order-updates-for-woo-wporg.zip

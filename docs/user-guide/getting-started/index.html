@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Getting started — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html" class="is-active">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				User Guide &nbsp;/&nbsp;
+				Getting started
+			</p>
+
+			<h1 class="docs-page__title">Getting started</h1>
+			<p class="docs-page__lede">If you&rsquo;ve just installed the plugin, you can be up and running in three minutes. Activate it, look over the settings, and create your first update. The default settings are good &mdash; you can change them as you go.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>1. Activate the plugin</h2>
+					<p>Install from WordPress.org or upload the zip under <em>Plugins &rarr; Add New &rarr; Upload</em>. Activate it. On first activation the plugin redirects you to a welcome page with quick links into the rest of the admin.</p>
+					<p>The plugin creates its own database tables on activation &mdash; one for updates, one for notes, one for attachments, one for ratings. No WordPress core or WooCommerce tables are touched.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/settings-general.png" alt="The Settings → General tab with the main feature toggles.">
+					<p class="docs-row__caption">Settings &rarr; General &mdash; the most-used tab.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>2. Look over the settings (optional)</h2>
+					<p>Find the settings under <em>WooCommerce &rarr; Settings &rarr; Order Updates</em>. Defaults are set up for a small team running a single store, so you can leave most of it alone for your first update. There are nine sub-tabs &mdash; the Settings section in this guide has its own page for each one.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/01-create-update.png" alt="The Add New Update modal on an order edit screen.">
+					<p class="docs-row__caption">The Add New Update modal &mdash; one form, no wizard.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>3. Create your first update</h2>
+					<p>Open any order and look for the <strong>Order Updates</strong> panel. Click <strong>Add new update</strong>, write a short title, pick an assignee, and hit publish. If you want the customer to see it, write a customer note too &mdash; they&rsquo;ll get an email with a secure link to view and reply.</p>
+					<p>Detailed walkthrough on the next page: <a href="../creating-updates/index.html">Creating updates &rarr;</a></p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media">
+					<img src="../../images/03-customer-email.png" alt="The customer notification email body.">
+					<p class="docs-row__caption">What the customer receives &mdash; clean layout, secure link.</p>
+				</div>
+				<div class="docs-row__body">
+					<h2>4. Confirm emails are reaching the customer</h2>
+					<p>The plugin uses WooCommerce&rsquo;s built-in email system. If WooCommerce emails are landing in inboxes, this plugin&rsquo;s emails will too. If you&rsquo;ve had trouble getting WooCommerce emails through in the past, install an SMTP plugin (we recommend WP Mail SMTP) before you start using customer-note emails.</p>
+					<div class="docs-callout">
+						<strong>Quick test:</strong> Create an update on a test order and write a customer note. Check the customer&rsquo;s billing email inbox &mdash; you should receive a message with a link to the thread.
+					</div>
+				</div>
+			</section>
+
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../index.html">
+					<span>Previous</span>
+					Documentation home
+				</a>
+				<a class="next" href="../../user-guide/creating-updates/index.html">
+					<span>Next</span>
+					Creating updates
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

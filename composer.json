@@ -1,0 +1,51 @@
+{
+  "name": "ankurvishwakarma/order-updates-for-woocommerce",
+  "description": "Customer-facing and internal order updates for WooCommerce.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": "^8.0 || ^8.1 || ^8.2 || ^8.3"
+  },
+  "require-dev": {
+    "automattic/vipwpcs": "^3.0",
+    "brain/monkey": "^2.6",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.1",
+    "dg/bypass-finals": "^1.9",
+    "php-stubs/woocommerce-stubs": "^10.6",
+    "php-stubs/wordpress-stubs": "^6.9",
+    "phpunit/phpunit": "^10.0",
+    "wp-coding-standards/wpcs": "^3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "OrderUpdatesForWoo\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OrderUpdatesForWoo\\Tests\\": "tests/php/"
+    }
+  },
+  "scripts": {
+    "lint": "vendor/bin/phpcs --standard=phpcs.xml.dist order-updates-for-woo.php src",
+    "test": "vendor/bin/phpunit",
+    "test:unit": "vendor/bin/phpunit --testsuite unit",
+    "test:int": "vendor/bin/phpunit --testsuite integration",
+    "test:regression": "vendor/bin/phpunit --group regression",
+    "create-sample-updates": "bash ./create-sample-updates.sh",
+    "create-email-previews": "bash ./create-email-previews.sh"
+  },
+  "archive": {
+    "exclude": [
+      "/tests",
+      "/create-sample-updates.sh",
+      "/create-email-previews.sh"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

@@ -1,0 +1,28 @@
+# Cloudflare Pages headers config.
+#
+# Sets security + cache headers for the deployed site. CF Pages reads
+# this file at deploy time; the .htaccess at the root is ignored by CF
+# but kept for Apache fallbacks (SiteGround, cPanel, etc).
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# HTML pages — short cache so deploys propagate quickly.
+/*.html
+  Cache-Control: public, max-age=300, must-revalidate
+
+# JSON data — never cache (testimonials may be moderated mid-day).
+/*.json
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# CSS / JS — longer cache; you'll re-deploy when these change anyway.
+/assets/*
+  Cache-Control: public, max-age=86400
+
+# Images — long cache (rarely change post-launch).
+/images/*
+  Cache-Control: public, max-age=604800

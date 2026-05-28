@@ -1,0 +1,2316 @@
+.awts_container {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	background: #fff;
+	font-size: 13px;
+}
+
+/* Header */
+
+.awts_header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.awts_header h3 {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+/* Onboarding */
+
+.awts_onboarding {
+	background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+	border: 1px solid #bfdbfe;
+	border-radius: 8px;
+	padding: 16px;
+	margin-bottom: 16px;
+	position: relative;
+}
+
+.awts_onboarding_header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 6px;
+}
+
+.awts_onboarding_header h3 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d4ed8;
+}
+
+.awts_onboarding_header .awts_onboarding_dismiss {
+	background: none;
+	border: none;
+	font-size: 18px;
+	color: #9ca3af;
+	cursor: pointer;
+	padding: 0 4px;
+	line-height: 1;
+}
+
+.awts_onboarding_header .awts_onboarding_dismiss:hover {
+	color: #374151;
+}
+
+.awts_onboarding_intro {
+	margin: 0 0 12px;
+	font-size: 12px;
+	color: #374151;
+	line-height: 1.5;
+}
+
+.awts_onboarding_steps {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	margin-bottom: 14px;
+}
+
+.awts_onboarding_step {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.awts_onboarding_step_num {
+	flex-shrink: 0;
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #2563eb;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	border-radius: 50%;
+}
+
+.awts_onboarding_step strong {
+	display: block;
+	font-size: 12px;
+	color: #1d2327;
+	margin-bottom: 2px;
+}
+
+.awts_onboarding_step p {
+	margin: 0;
+	font-size: 11px;
+	color: #6b7280;
+	line-height: 1.45;
+}
+
+button.awts_onboarding_dismiss {
+	font-size: 12px;
+}
+
+@media (max-width: 782px) {
+	.awts_onboarding_steps {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Card */
+
+.awts_card {
+	position: relative;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	padding: 14px 14px 14px 18px;
+	margin-bottom: 12px;
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+	transition: box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+}
+
+.awts_card--highlight {
+	border-color: #2563eb;
+	background: #eff6ff;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.awts_card_left_border {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 4px;
+	border-radius: 8px 0 0 8px;
+}
+
+.awts_card_content {
+	min-width: 0;
+}
+
+/* Top row: title + actions */
+
+.awts_card_top {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+/* Rotate the chevron when the card is expanded so the icon points down,
+ * giving a visual cue without needing a separate icon for each state. */
+.awts_card_collapse_toggle .dashicons {
+	transition: transform 0.15s ease-out;
+}
+
+.awts_card:not(.awts_card--collapsed) .awts_card_collapse_toggle .dashicons {
+	transform: rotate(180deg);
+}
+
+.awts_title {
+	font-weight: 600;
+	font-size: 13px;
+	color: #1d2327;
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	/* Wrap long titles onto multiple lines instead of truncating with
+	 * ellipsis. With "Mark as solved" sitting next to the title, an
+	 * ellipsis cutoff hid useful context — wrapping keeps the full title
+	 * visible at the cost of a slightly taller header on long titles. */
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+.awts_title_text {
+	/* Natural width only — the parent flex container takes the remaining
+	 * space. Previously this used `flex: 1 1 auto` which pushed the edit
+	 * pencil to the far right of the title row instead of sitting flush
+	 * next to the title text. */
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
+.awts_notes_count_badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1px 6px;
+	background: #2563eb;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	border-radius: 10px;
+	flex-shrink: 0;
+	white-space: nowrap;
+}
+
+/* Title badge duplicates the per-tab badges that are already visible when
+ * the card is open — hide it there, keep it for collapsed cards where the
+ * tabs are not on screen. */
+.awts_card:not(.awts_card--collapsed) .awts_notes_count_badge {
+	display: none;
+}
+
+.awts_tab_count_badge {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	margin-left: 6px;
+	padding: 0 6px;
+	min-width: 16px;
+	height: 16px;
+	background: #2563eb;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 1;
+	border-radius: 8px;
+	white-space: nowrap;
+}
+
+.awts_tab_count_badge[data-awts-count]:not([data-awts-count="0"]) {
+	display: inline-flex;
+}
+
+/* Status pill — sits next to the title to show the admin-configured
+ * status label. Background is a tinted version of the status color
+ * (added via inline style with "1a" alpha suffix) so each pill is
+ * visually distinct without burning a custom palette. */
+.awts_status_pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 2px 9px;
+	margin-left: 8px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.4;
+	border-radius: 999px;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+}
+
+.awts_status_pill_dot {
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+}
+
+/* Footer status picker — mirrors the assignee affordance. Closed state is
+ * a pill button (current status) with a small edit icon; click reveals the
+ * inline <select> that submits on change. Same shape as Assignee so the
+ * two footer controls feel related at a glance. */
+.awts_status_item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.awts_edit_status {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.awts_status_item .awts_status_pill {
+	margin-left: 0;
+}
+
+.awts_inline_status_wrap {
+	display: inline-flex;
+}
+
+/* HTML's `hidden` attribute equals `display: none` in the UA stylesheet,
+ * but the rule above (inline-flex) outranks it because of specificity.
+ * This explicit override puts hidden state back in charge — without it,
+ * the closed pill button and the inline <select> render side-by-side. */
+.awts_inline_status_wrap[hidden] {
+	display: none;
+}
+
+.awts_status_picker {
+	padding: 2px 6px;
+	font-size: 12px;
+	min-height: 24px;
+	border-radius: 4px;
+}
+
+/* System note marker — rendered for status-change rows in customer
+ * threads. Compact centered line so it doesn't compete visually with the
+ * actual messages above and below. */
+.awts_customer_note_item--system {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 6px 12px;
+	margin: 6px auto;
+	background: transparent;
+	font-size: 12px;
+	color: #6b7280;
+}
+
+.awts_system_note_dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.awts_system_note_text {
+	font-weight: 600;
+}
+
+.awts_system_note_meta {
+	color: #9ca3af;
+}
+
+/* Action icon buttons */
+
+.awts_card_actions {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 0 0 auto;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.awts_inline_confirm {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.awts_inline_confirm__prompt {
+	font-size: 12px;
+	color: #6b7280;
+}
+
+.awts_text_action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 30px;
+	padding: 0 10px;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	background: #fff;
+	color: #374151;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1;
+	cursor: pointer;
+	transition: background 0.1s, border-color 0.1s, color 0.1s;
+	white-space: nowrap;
+}
+
+.awts_text_action:hover {
+	background: #f9fafb;
+	border-color: #9ca3af;
+	color: #111827;
+}
+
+.awts_text_action_primary {
+	background: #2563eb;
+	border-color: #2563eb;
+	color: #fff;
+}
+
+.awts_text_action_primary:hover {
+	background: #1d4ed8;
+	border-color: #1d4ed8;
+	color: #fff;
+}
+
+.awts_text_action_reopen {
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	color: #1d4ed8;
+}
+
+.awts_text_action_reopen:hover {
+	background: #dbeafe;
+	border-color: #93c5fd;
+	color: #1d4ed8;
+}
+
+.awts_text_action_danger {
+	background: #fff5f5;
+	border-color: #fecaca;
+	color: #dc2626;
+}
+
+.awts_text_action_danger:hover {
+	background: #fee2e2;
+	border-color: #fca5a5;
+	color: #b91c1c;
+}
+
+.awts_action_btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	color: #9ca3af;
+	cursor: pointer;
+	transition: background 0.1s, color 0.1s;
+}
+
+.awts_action_btn:hover {
+	background: #f3f4f6;
+	color: #374151;
+}
+
+.awts_action_btn_danger:hover {
+	background: #fef2f2;
+	color: #b91c1c;
+}
+
+.awts_action_btn_reopen:hover {
+	background: #eff6ff;
+	color: #2271b1;
+}
+
+/* Resolved / collapsed card */
+
+.awts_card--resolved {
+	opacity: 0.8;
+}
+
+.awts_card--resolved:hover {
+	opacity: 1;
+}
+
+.awts_card--collapsed .awts_card_body,
+.awts_card--collapsed .awts_card_tabs,
+.awts_card--collapsed .awts_card_tab_panel {
+	display: none !important;
+}
+
+/* Tab strip */
+
+.awts_card_tabs {
+	display: flex;
+	gap: 0;
+	margin-top: 12px;
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.awts_card_tab {
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid transparent;
+	padding: 8px 12px;
+	margin-bottom: -1px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #6b7280;
+	cursor: pointer;
+	letter-spacing: 0.02em;
+	transition: color 0.15s, border-color 0.15s;
+}
+
+.awts_card_tab:hover {
+	color: #111827;
+}
+
+.awts_card_tab:focus {
+	outline: 2px solid #2563eb;
+	outline-offset: -2px;
+}
+
+.awts_card_tab--active {
+	color: #111827;
+	border-bottom-color: #2563eb;
+}
+
+.awts_card_tab_panel[hidden] {
+	display: none !important;
+}
+
+.awts_card_tab_panel {
+	margin-top: 12px;
+	padding-top: 12px;
+}
+
+.awts_card_collapse_toggle {
+	/* Promote the chevron to look like an actual button so new users
+	 * notice it. The base `.awts_inline_edit_btn` is intentionally subtle
+	 * (sits next to body text); the collapse toggle is the primary "open
+	 * / close" affordance for the whole card and needs more visual weight. */
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #f3f4f6;
+	transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.awts_card_collapse_toggle:hover,
+.awts_card_collapse_toggle:focus {
+	background: #e5e7eb;
+}
+
+.awts_card_collapse_toggle .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+	color: #4b5563;
+}
+
+.awts_card--collapsed .awts_card_collapse_toggle {
+	transform: rotate(-90deg);
+}
+
+/* Notify button — already notified state */
+
+.awts_action_btn_notified {
+	color: #2563eb;
+}
+
+.awts_card_top .awts_action_btn {
+	flex-shrink: 0;
+}
+
+/* Tags */
+
+.awts_card_tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 10px;
+}
+
+.awts_tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	background: rgba(15, 23, 42, 0.05);
+	color: #475569;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	padding: 3px 9px 3px 7px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	line-height: 1.4;
+}
+
+.awts_tag::before {
+	content: '';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: currentColor;
+	opacity: 0.7;
+	flex: 0 0 auto;
+}
+
+.awts_tag_customer_visible {
+	background: rgba(22, 163, 74, 0.12);
+	color: #15803d;
+}
+
+.awts_tag_notified {
+	background: rgba(37, 99, 235, 0.08);
+	color: #1d4ed8;
+}
+
+.awts_tag_rating--requested {
+	background: rgba(245, 158, 11, 0.12);
+	color: #b45309;
+}
+
+.awts_tag_rating--sent {
+	background: rgba(139, 92, 246, 0.12);
+	color: #6d28d9;
+}
+
+.awts_tag_rating--received {
+	background: rgba(22, 163, 74, 0.12);
+	color: #15803d;
+}
+
+/* Notes */
+
+.awts_note_internal {
+	margin: 10px 0 0;
+	font-size: 13px;
+	color: #374151;
+	line-height: 1.55;
+}
+
+/* Customer note */
+
+.awts_note_customer {
+	margin: 8px 0 0;
+	padding: 9px 12px;
+	background: #f9fafb;
+	border: 1px solid #e5e7eb;
+	border-left: 3px solid #d1d5db;
+	border-radius: 4px;
+	font-size: 12px;
+	color: #6b7280;
+	line-height: 1.55;
+}
+
+/* Footer */
+
+.awts_footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 16px;
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid #f3f4f6;
+	font-size: 12px;
+	color: #6b7280;
+}
+
+.awts_footer_item {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.awts_footer_label {
+	color: #9ca3af;
+}
+
+.awts_footer_sep {
+	color: #d1d5db;
+}
+
+.awts_footer_solved {
+	color: #16a34a;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.awts_footer_solved .dashicons {
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
+	line-height: 1;
+}
+
+/* Inline history */
+
+.awts_history_label {
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #9ca3af;
+}
+
+.awts_history_inline {
+	display: flex;
+	flex-direction: column;
+}
+
+.awts_history_item_inline {
+	padding: 6px 0;
+	font-size: 12px;
+	color: #374151;
+	border-bottom: 1px solid #f3f4f6;
+	line-height: 1.5;
+}
+
+.awts_history_item_inline:last-child {
+	border-bottom: 0;
+}
+
+.awts_history_loading {
+	font-size: 12px;
+	color: #9ca3af;
+	margin: 0;
+}
+
+/* Inline notes */
+
+.awts_notes_label {
+	display: flex;
+	align-items: center;
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	color: #6b7280;
+}
+
+/* Panel backgrounds — internal vs customer get distinct identities so
+ * staff knows at a glance which surface they're on. A 3px accent stripe
+ * down the left edge is the loud signal (immediately readable); the
+ * background tint is subtle ambient context behind the bubble thread.
+ *
+ * Internal = violet — matches the plugin's purple/WC brand, reads as
+ * "private team space."
+ * Customer = teal/cyan — fresh, outward-facing, reads as "chat with the
+ * customer." */
+.awts_notes_wrap {
+	background-color: var(--awts-internal-bg, #f8fafc);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%23475569' stroke-width='1.2' opacity='0.13'%3E%3Cpath d='M20 22 h32 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-32 a3 3 0 0 1 -3 -3 v-22 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M24 30 h24 M24 36 h20 M24 42 h16' stroke-linecap='round'/%3E%3Cpath d='M88 20 a14 14 0 1 0 0 28 a14 14 0 1 0 0 -28 m4 6 c-2 -2 -6 -2 -8 0 c-2 2 -2 5 0 7 l4 4 l4 -4 c2 -2 2 -5 0 -7 c-2 -2 -2 1 -4 1 c-2 0 -2 -3 -4 -1' stroke-linecap='round'/%3E%3Cpath d='M140 24 h44 a3 3 0 0 1 3 3 v14 a3 3 0 0 1 -3 3 h-24 l-8 8 v-8 h-12 a3 3 0 0 1 -3 -3 v-14 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M146 32 h22 M146 38 h16' stroke-linecap='round'/%3E%3Cpath d='M28 102 h36 v32 h-36 z M28 102 l18 14 l18 -14'/%3E%3Cpath d='M100 96 h44 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-26 l-7 6 v-6 h-11 a3 3 0 0 1 -3 -3 v-22 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M108 108 h28 M108 114 h22 M108 120 h18' stroke-linecap='round'/%3E%3Cpath d='M170 100 a14 14 0 1 0 0 28 a14 14 0 1 0 0 -28'/%3E%3Cpath d='M170 108 v8 m0 4 v0.5' stroke-linecap='round'/%3E%3Cpath d='M22 162 h44 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-28 l-8 8 v-8 h-8 a3 3 0 0 1 -3 -3 v-22 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M30 174 h28 M30 180 h22' stroke-linecap='round'/%3E%3Cpath d='M104 168 h32 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-32 a3 3 0 0 1 -3 -3 v-22 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M108 178 h12 v3 h-12 z M108 186 h12 v3 h-12 z'/%3E%3Cpath d='M170 160 h32 v32 h-32 z'/%3E%3Cpath d='M178 170 l-4 4 l4 4 M194 170 l4 4 l-4 4 M188 168 l-4 12' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+	background-repeat: repeat;
+	border: 1px solid #e2e8f0;
+	border-left: 3px solid #475569;
+	border-radius: 6px;
+	padding: 14px 14px 14px 16px;
+}
+
+.awts_customer_notes_wrap {
+	background-color: var(--awts-customer-bg, #f0fdfa);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%2314b8a6' stroke-width='1.2' opacity='0.13'%3E%3Cpath d='M18 24 h36 a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h-36 a2 2 0 0 1 -2 -2 v-18 a2 2 0 0 1 2 -2 z M16 26 l20 12 l20 -12'/%3E%3Cpath d='M88 22 a16 16 0 0 1 32 0 v8 h-4 v-8 a12 12 0 0 0 -24 0 v8 h-4 z M88 30 h6 v14 h-6 a2 2 0 0 1 -2 -2 v-10 a2 2 0 0 1 2 -2 z M116 30 h6 a2 2 0 0 1 2 2 v10 a2 2 0 0 1 -2 2 h-6 z M112 44 a4 4 0 0 1 -4 4 h-6'/%3E%3Cpath d='M148 22 h40 a3 3 0 0 1 3 3 v18 a3 3 0 0 1 -3 3 h-22 l-8 8 v-8 h-10 a3 3 0 0 1 -3 -3 v-18 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M154 30 h28 M154 36 h22' stroke-linecap='round'/%3E%3Cpath d='M22 96 h44 v32 h-44 z M22 100 l22 14 l22 -14'/%3E%3Cpath d='M100 96 h44 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-26 l-7 6 v-6 h-11 a3 3 0 0 1 -3 -3 v-22 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M108 108 h28 M108 114 h22 M108 120 h18' stroke-linecap='round'/%3E%3Cpath d='M170 100 h32 v32 h-32 z'/%3E%3Cpath d='M180 110 a6 6 0 0 1 12 0 c0 4 -4 4 -4 8 v2 M186 124 v2' stroke-linecap='round'/%3E%3Cpath d='M22 162 h36 a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h-36 a2 2 0 0 1 -2 -2 v-18 a2 2 0 0 1 2 -2 z M20 164 l20 12 l20 -12'/%3E%3Cpath d='M88 162 a16 16 0 0 1 32 0 v8 h-4 v-8 a12 12 0 0 0 -24 0 v8 h-4 z M88 170 h6 v14 h-6 a2 2 0 0 1 -2 -2 v-10 a2 2 0 0 1 2 -2 z M116 170 h6 a2 2 0 0 1 2 2 v10 a2 2 0 0 1 -2 2 h-6 z M112 184 a4 4 0 0 1 -4 4 h-6'/%3E%3Cpath d='M150 162 h44 a3 3 0 0 1 3 3 v22 a3 3 0 0 1 -3 3 h-26 l-7 6 v-6 h-11 a3 3 0 0 1 -3 -3 v-22 a3 3 0 0 1 3 -3 z'/%3E%3Cpath d='M158 174 h28 M158 180 h22' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E");
+	background-repeat: repeat;
+	border: 1px solid #e5e7eb;
+	border-left: 3px solid #14b8a6;
+	border-radius: 6px;
+	padding: 14px 14px 14px 16px;
+}
+
+.awts_notes_thread {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 10px;
+	max-height: 420px;
+	overflow-y: auto;
+	/* Let scroll chain to the outer page once the thread reaches its top or
+	   bottom. The previous `contain` value trapped wheel/touch scroll inside
+	   the thread — annoying when staff was reading a card mid-page. Inner
+	   thread still scrolls first; only the spill-over reaches the page. */
+	overscroll-behavior: auto;
+	/* Hidden scrollbar, modern look — wheel + touch still scroll. */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.awts_notes_thread::-webkit-scrollbar {
+	display: none;
+}
+
+/* Internal notes — bubbles for consistency with the customer-thread look,
+   no left/right flip (everyone here is staff). Bubble sizes to its own
+   content; the row never spans more than 75% of the thread. */
+.awts_notes_item {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+	width: fit-content;
+	max-width: 75%;
+}
+
+.awts_notes_item_avatar {
+	flex: 0 0 28px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	margin-bottom: 2px;
+	object-fit: cover;
+}
+
+.awts_notes_item_bubble {
+	flex: 0 1 auto;
+	min-width: 0;
+	padding: 8px 10px;
+	background: #f9fafb;
+	border-radius: 10px;
+	border: 1px solid #e5e7eb;
+	border-bottom-left-radius: 4px;
+}
+
+.awts_notes_item_meta {
+	margin: 0 0 4px;
+	font-size: 11px;
+	color: #6b7280;
+}
+
+.awts_notes_item_text {
+	margin: 0;
+	font-size: 14px;
+	color: #374151;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.awts_notes_item_text.awts_truncated {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.awts_show_more {
+	background: none;
+	border: none;
+	padding: 0;
+	font-size: 11px;
+	color: #2563eb;
+	cursor: pointer;
+	font-family: inherit;
+	margin-top: 2px;
+}
+
+.awts_show_more:hover {
+	text-decoration: underline;
+}
+
+.awts_load_previous_notes {
+	display: block;
+	margin: 0 auto 8px;
+	background: #f3f4f6;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	padding: 4px 12px;
+	font-size: 11.5px;
+	color: #374151;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+.awts_load_previous_notes:hover {
+	background: #e5e7eb;
+	color: #111827;
+}
+
+.awts_load_previous_notes[disabled] {
+	opacity: 0.6;
+	cursor: default;
+}
+
+/* Briefly highlight notes that just arrived via "Load previous". The
+   highlight sits on the ROW (behind the bubble) rather than on the
+   bubble itself so it's visible around the bubble against the thread
+   background. Box-shadow + amber background give a clear glow around
+   the bubble without recolouring it. The class is dropped after 2s
+   by the JS. */
+.awts_notes_item--just_loaded,
+.awts_customer_note_item.awts_notes_item--just_loaded {
+	background: #fde68a;
+	box-shadow: 0 0 0 6px #fde68a;
+	border-radius: 10px;
+	transition: background 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
+.awts_notes_empty,
+.awts_notes_loading,
+.awts_notes_error {
+	font-size: 12px;
+	color: #9ca3af;
+	margin: 0;
+}
+
+.awts_notes_error {
+	color: #dc2626;
+}
+
+/* New-item highlight applies to the inner bubble now that the outer item
+   is a flex row (avatar + bubble) with no background of its own. */
+.awts_notes_item--new .awts_notes_item_bubble,
+.awts_customer_note_item--new .awts_customer_note_bubble {
+	border-color: #2563eb;
+	box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+.awts_mark_customer_notes_read,
+.awts_get_notifications {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	color: #646970;
+	cursor: pointer;
+	user-select: none;
+	/* Soft divider so the switch reads as a separate concern from the
+	 * primary action buttons sitting to its left. Without this, the
+	 * label sits flush against "Delete Update" / "Mark as solved" and
+	 * the eye groups them together. */
+	margin-left: 4px;
+	padding-left: 10px;
+	border-left: 1px solid #e5e7eb;
+}
+
+.awts_get_notifications__input {
+	/* Visually hidden but kept focusable for keyboard + screen readers — the
+	 * track + thumb below are the visible affordance. */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	border: 0;
+}
+
+.awts_get_notifications__track {
+	position: relative;
+	display: inline-block;
+	width: 30px;
+	height: 16px;
+	background: #c3c4c7;
+	border-radius: 999px;
+	transition: background 0.15s ease;
+	flex-shrink: 0;
+}
+
+.awts_get_notifications__thumb {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 12px;
+	height: 12px;
+	background: #fff;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	transition: transform 0.15s ease;
+}
+
+.awts_get_notifications__input:checked + .awts_get_notifications__track {
+	background: #2563eb;
+}
+
+.awts_get_notifications__input:checked + .awts_get_notifications__track .awts_get_notifications__thumb {
+	transform: translateX(14px);
+}
+
+.awts_get_notifications__input:focus-visible + .awts_get_notifications__track {
+	outline: 2px solid #2563eb;
+	outline-offset: 2px;
+}
+
+.awts_get_notifications__label {
+	line-height: 1;
+}
+
+/* Participants tab — avatar + name + role chip rows. */
+.awts_participants_wrap {
+	padding: 12px 4px 4px;
+}
+
+.awts_participants_empty {
+	margin: 0;
+	color: #646970;
+	font-size: 13px;
+	font-style: italic;
+}
+
+.awts_participants_list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.awts_participant_row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 8px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
+
+.awts_participant_avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.awts_participant_name {
+	flex: 1;
+	font-size: 13px;
+	color: #1d2327;
+}
+
+.awts_participant_role {
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #e5e7eb;
+	color: #4b5563;
+}
+
+.awts_participant_role--creator {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+
+.awts_participant_role--assignee {
+	background: #dcfce7;
+	color: #15803d;
+}
+
+.awts_participant_role--tagged {
+	background: #fef3c7;
+	color: #b45309;
+}
+
+/* Customer rating block — sits below the footer row when the customer has
+ * left a rating. Star icons + score + optional comment. */
+.awts_footer_rating {
+	margin-top: 10px;
+	padding: 10px 12px;
+	background: #f6f7f7;
+	border-radius: 4px;
+	border-left: 3px solid #f59e0b;
+}
+
+.awts_footer_rating__row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.awts_footer_rating__label {
+	font-size: 12px;
+	color: #646970;
+}
+
+.awts_footer_rating__stars {
+	display: inline-flex;
+	gap: 1px;
+	font-size: 16px;
+	line-height: 1;
+}
+
+.awts_footer_rating__star {
+	color: #d1d5db;
+}
+
+.awts_footer_rating__star--filled {
+	color: #f59e0b;
+}
+
+.awts_footer_rating__score {
+	font-size: 12px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.awts_footer_rating__comment {
+	margin: 8px 0 0;
+	font-size: 13px;
+	color: #1d2327;
+	font-style: italic;
+	line-height: 1.5;
+}
+
+.awts_customer_email_pref {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 0 6px;
+	margin-bottom: 6px;
+	border-bottom: 1px solid #f0f0f0;
+	font-size: 11px;
+	color: #646970;
+}
+
+.awts_customer_email_pref__toggle {
+	background: none;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	padding: 1px 7px;
+	font-size: 11px;
+	cursor: pointer;
+	line-height: 1.5;
+}
+
+.awts_customer_email_pref__toggle--on {
+	border-color: #00a32a;
+	color: #00a32a;
+}
+
+.awts_customer_email_pref__toggle--off {
+	border-color: #d63638;
+	color: #d63638;
+}
+
+.awts_customer_email_pref__toggle:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.awts_mark_notes_read,
+.awts_mark_customer_notes_read {
+	display: block;
+	margin: 0 0 6px auto;
+	background: none;
+	border: none;
+	padding: 0;
+	font-size: 11px;
+	color: #2563eb;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.awts_mark_notes_read:hover,
+.awts_mark_customer_notes_read:hover {
+	color: #1d4ed8;
+}
+
+.awts_notes_badge_new {
+	display: inline-block;
+	margin-bottom: 4px;
+	padding: 1px 6px;
+	background: #2563eb;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 600;
+	border-radius: 3px;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+}
+
+.awts_notes_input_wrap,
+.awts_customer_notes_input_wrap {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	border: 1px dashed transparent;
+	border-radius: 6px;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.awts_notes_input_wrap.awts_dropzone_active,
+.awts_customer_notes_input_wrap.awts_dropzone_active {
+	border-color: #2271b1;
+	background-color: rgba( 34, 113, 177, 0.05 );
+}
+
+.awts_notes_input_wrap.awts_dropzone_active *,
+.awts_customer_notes_input_wrap.awts_dropzone_active * {
+	pointer-events: none;
+}
+
+.awts_drop_overlay {
+	position: absolute;
+	inset: 0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba( 34, 113, 177, 0.08 );
+	border-radius: 6px;
+	z-index: 2;
+}
+
+.awts_drop_overlay span {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	background: #2271b1;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	border-radius: 999px;
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.12 );
+}
+
+.awts_notes_input_wrap.awts_dropzone_active .awts_drop_overlay,
+.awts_customer_notes_input_wrap.awts_dropzone_active .awts_drop_overlay {
+	display: flex;
+}
+
+.awts_notes_input_actions,
+.awts_customer_notes_input_actions {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.awts_drop_supported_hint {
+	flex: 1;
+	font-size: 11px;
+	color: #757575;
+	font-style: italic;
+}
+
+.awts_enter_to_send {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 11.5px;
+	color: #4b5563;
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap;
+}
+
+.awts_enter_to_send input {
+	margin: 0;
+}
+
+.awts_notes_input {
+	flex: 1;
+	min-height: 60px;
+	resize: vertical;
+	font-size: 14px;
+	padding: 6px 8px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	line-height: 1.5;
+}
+
+.awts_assignee_avatar img{
+	width: 30px;
+    height: 30px;
+    border-radius: 20px;
+}
+.awts_notes_input:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 2px rgba(37,99,235,.15);
+}
+
+.awts_notes_submit {
+	white-space: nowrap;
+	font-size: 12px;
+	padding: 5px 10px;
+}
+
+/* Customer notes panel */
+
+.awts_customer_notes_label {
+	display: flex;
+	align-items: center;
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	color: #6b7280;
+}
+
+.awts_customer_notes_warning {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 10px;
+	margin-bottom: 8px;
+	background: #fffbeb;
+	border: 1px solid #fde68a;
+	border-radius: 4px;
+	font-size: 11.5px;
+	color: #92400e;
+}
+
+.awts_customer_notes_warning svg,
+.awts_customer_notes_warning .dashicons {
+	flex-shrink: 0;
+	color: #92400e;
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
+	line-height: 1;
+}
+
+/* "Hidden from customer" variant — stronger visual so the admin notices
+ * before typing into a thread the customer will never see. */
+.awts_customer_notes_warning--hidden {
+	background: #fef2f2;
+	border-color: #fecaca;
+	color: #991b1b;
+}
+
+.awts_customer_notes_warning--hidden svg,
+.awts_customer_notes_warning--hidden .dashicons {
+	color: #991b1b;
+}
+
+.awts_guest_customer_notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 10px 12px;
+	margin-bottom: 10px;
+	background: #fef3c7;
+	border: 1px solid #f59e0b;
+	border-radius: 4px;
+	font-size: 12.5px;
+	line-height: 1.45;
+	color: #78350f;
+}
+
+.awts_guest_customer_notice svg,
+.awts_guest_customer_notice .dashicons {
+	flex-shrink: 0;
+	margin-top: 1px;
+	color: #b45309;
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	line-height: 1;
+}
+
+.awts_guest_customer_notice strong {
+	font-weight: 600;
+}
+
+.awts_customer_notes_thread {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 10px;
+	max-height: 420px;
+	overflow-y: auto;
+	/* Mirrors `.awts_notes_thread` — see the comment there. Scroll chains
+	   to the outer page after the thread hits its own top/bottom. */
+	overscroll-behavior: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.awts_customer_notes_thread::-webkit-scrollbar {
+	display: none;
+}
+
+/* Customer-thread notes (admin view) — chat-style left/right flip.
+   Staff (us) on the right with the green tint, customer on the left
+   with the blue tint, mirroring the customer-side alignment.
+   Bubble sizes to content; the row never spans more than 75% of
+   the thread. */
+.awts_customer_note_item {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+	width: fit-content;
+	max-width: 75%;
+}
+
+.awts_customer_note_item--from_staff {
+	margin-left: auto;
+	flex-direction: row-reverse;
+}
+
+.awts_customer_note_avatar {
+	flex: 0 0 28px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	margin-bottom: 2px;
+	object-fit: cover;
+}
+
+.awts_customer_note_bubble {
+	flex: 0 1 auto;
+	min-width: 0;
+	padding: 8px 10px;
+	background: #f0fdf4;
+	border-radius: 10px;
+	border: 1px solid #bbf7d0;
+	border-bottom-right-radius: 4px;
+}
+
+.awts_customer_note_item--from_customer .awts_customer_note_bubble {
+	background: #eff6ff;
+	border-color: #bfdbfe;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 4px;
+}
+
+.awts_customer_note_meta {
+	margin: 0 0 4px;
+	font-size: 11px;
+	color: #6b7280;
+}
+
+.awts_customer_note_badge {
+	display: inline-block;
+	margin-right: 6px;
+	padding: 1px 6px;
+	background: #dbeafe;
+	color: #1d4ed8;
+	border-radius: 10px;
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.awts_customer_note_text {
+	margin: 0 0 6px;
+	font-size: 14px;
+	color: #374151;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.awts_customer_note_text.awts_truncated {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.awts_customer_note_actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.awts_view_customer_note_history {
+	background: rgba(37, 99, 235, 0.08);
+	border: 1px solid rgba(37, 99, 235, 0.25);
+	border-radius: 999px;
+	padding: 1px 8px;
+	font-size: 10.5px;
+	font-weight: 500;
+	font-style: italic;
+	color: #1d4ed8;
+	cursor: pointer;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.awts_view_customer_note_history:hover,
+.awts_view_customer_note_history:focus {
+	background: rgba(37, 99, 235, 0.18);
+	border-color: rgba(37, 99, 235, 0.45);
+}
+
+.awts_customer_note_history {
+	margin-top: 8px;
+	padding: 8px 10px;
+	background: #f8fafc;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
+	font-size: 11.5px;
+}
+
+.awts_customer_note_history_heading {
+	margin: 0 0 6px;
+	font-weight: 600;
+	color: #334155;
+}
+
+.awts_customer_note_history_list {
+	margin: 0;
+	padding-left: 18px;
+	list-style: decimal;
+}
+
+.awts_customer_note_history_item + .awts_customer_note_history_item {
+	margin-top: 6px;
+	padding-top: 6px;
+	border-top: 1px dashed #e2e8f0;
+}
+
+.awts_customer_note_history_meta {
+	margin: 0 0 3px;
+	color: #6b7280;
+	font-size: 10.5px;
+}
+
+.awts_customer_note_history_body {
+	margin: 0;
+	padding: 0 0 0 8px;
+	border-left: 3px solid #cbd5e1;
+	color: #1e293b;
+	white-space: pre-wrap;
+}
+
+.awts_customer_notes_empty,
+.awts_customer_notes_loading,
+.awts_customer_notes_error {
+	font-size: 12px;
+	color: #9ca3af;
+	margin: 0;
+}
+
+.awts_customer_notes_error {
+	color: #dc2626;
+}
+
+.awts_notify_customer_note {
+	background: none;
+	border: 1px solid #16a34a;
+	border-radius: 3px;
+	padding: 2px 8px;
+	font-size: 11px;
+	color: #16a34a;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+.awts_notify_customer_note:hover:not(:disabled) {
+	background: #f0fdf4;
+}
+
+.awts_notify_customer_note:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.awts_delete_customer_note,
+.awts_delete_note {
+	background: none;
+	border: 1px solid #d1d5db;
+	border-radius: 3px;
+	padding: 2px 8px;
+	font-size: 11px;
+	color: #6b7280;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+.awts_note_icon_action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 50%;
+	color: #6b7280;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+.awts_note_icon_action:hover:not(:disabled) {
+	border-color: #2563eb;
+	color: #2563eb;
+	background: #eff6ff;
+}
+
+.awts_delete_customer_note:hover:not(:disabled),
+.awts_delete_note:hover:not(:disabled) {
+	border-color: #dc2626;
+	color: #dc2626;
+	background: #fef2f2;
+}
+
+.awts_delete_customer_note:disabled,
+.awts_delete_note:disabled,
+.awts_note_icon_action:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.awts_customer_note_sent {
+	font-size: 11px;
+	color: #16a34a;
+	font-weight: 600;
+}
+
+.awts_customer_notes_input {
+	flex: 1;
+	min-height: 60px;
+	resize: vertical;
+	font-size: 14px;
+	padding: 6px 8px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	line-height: 1.5;
+}
+
+.awts_customer_notes_input:focus {
+	outline: none;
+	border-color: #16a34a;
+	box-shadow: 0 0 0 2px rgba(22,163,74,.15);
+}
+
+.awts_customer_notes_submit {
+	white-space: nowrap;
+	font-size: 12px;
+	padding: 5px 10px;
+}
+
+/* Toast */
+
+.awts_toast {
+	padding: 8px 14px;
+	border-radius: 6px;
+	font-size: 13px;
+	font-weight: 500;
+	margin-bottom: 12px;
+	animation: awts_toast_in 0.25s ease;
+}
+
+.awts_toast_success {
+	background: #f0fdf4;
+	border: 1px solid #bbf7d0;
+	color: #166534;
+}
+
+.awts_toast_error {
+	background: #fef2f2;
+	border: 1px solid #fecaca;
+	color: #991b1b;
+}
+
+@keyframes awts_toast_in {
+	from { opacity: 0; transform: translateY(-6px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Brief flash on the target update card or note when the admin clicks an
+   admin-bar notification while already on the relevant order-edit page. */
+.awts-ab-focus-flash {
+	animation: awts_focus_flash 1.6s ease-out;
+}
+
+@keyframes awts_focus_flash {
+	0%   { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.55); }
+	30%  { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.45); }
+	100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* Form trigger */
+
+.awts_form_trigger {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 4px;
+}
+
+/* Refresh button */
+
+.awts_refresh_updates {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	background: #fff;
+	color: #6b7280;
+	cursor: pointer;
+	transition: color 0.15s, border-color 0.15s;
+}
+
+.awts_refresh_updates:hover {
+	color: #374151;
+	border-color: #9ca3af;
+}
+
+.awts_refresh_updates .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	line-height: 1;
+}
+
+.awts_refresh_updates.awts_spinning svg,
+.awts_refresh_updates.awts_spinning .dashicons {
+	animation: awts_spin 0.8s linear infinite;
+}
+
+@keyframes awts_spin {
+	from { transform: rotate(0deg); }
+	to   { transform: rotate(360deg); }
+}
+
+/* Emoji picker */
+
+.awts_emoji_trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border: none;
+	background: none;
+	color: #9ca3af;
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 0;
+	transition: color 0.15s;
+}
+
+.awts_emoji_trigger:hover {
+	color: #374151;
+	background: #f3f4f6;
+}
+
+.awts_emoji_trigger__glyph {
+	font-size: 18px;
+	line-height: 1;
+	filter: grayscale(0);
+}
+
+.awts_emoji_picker {
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	z-index: 100;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0,0,0,.12);
+	padding: 10px;
+	width: 260px;
+	max-height: 240px;
+	overflow-y: auto;
+	margin-bottom: 4px;
+}
+
+.awts_emoji_group_label {
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+	color: #9ca3af;
+	margin: 6px 0 4px;
+}
+
+.awts_emoji_group_label:first-child {
+	margin-top: 0;
+}
+
+.awts_emoji_grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+}
+
+.awts_emoji_item {
+	width: 30px;
+	height: 30px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-size: 18px;
+	border-radius: 4px;
+	padding: 0;
+	line-height: 1;
+}
+
+.awts_emoji_item:hover {
+	background: #f3f4f6;
+}
+
+.awts_notes_input_actions,
+.awts_customer_notes_input_actions {
+	position: relative;
+}
+
+/* Color select */
+
+.awts_color_select {
+	width: 100%;
+}
+
+/* Buttons */
+
+.awts_btn {
+	border: 1px solid #d1d5db;
+	background: #f9fafb;
+	padding: 7px 14px;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 13px;
+	font-family: inherit;
+	color: #374151;
+}
+
+@media (max-width: 782px) {
+	/* Stop the card from extending past the viewport on mobile. The pattern
+	 * panels + action row buttons can push content wider than the parent
+	 * meta box, which then cuts off the right edge with no horizontal
+	 * scroll surface. Box-sizing on the panels keeps padding inside the
+	 * width budget; overflow-x: hidden clips any stragglers cleanly. */
+	.awts_card,
+	.awts_notes_wrap,
+	.awts_customer_notes_wrap,
+	.awts_history_wrap,
+	.awts_participants_wrap {
+		max-width: 100%;
+		box-sizing: border-box;
+		overflow-x: hidden;
+	}
+
+	/* Bubbles should never exceed the panel width. Default desktop max
+	 * is 75%; on narrow screens bump to 100% so long messages wrap inside
+	 * the container instead of spilling out. */
+	.awts_notes_item,
+	.awts_customer_note_item,
+	.awts_notes_item_bubble,
+	.awts_customer_note_bubble {
+		max-width: 100%;
+		word-break: break-word;
+	}
+
+	/* Stack title + actions vertically on narrow screens. Without this,
+	 * the title flex child gets squeezed to ~0 width by the actions row
+	 * and the title text wraps one character per line ("N\ne\nw\n..."). */
+	.awts_card_top {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 8px;
+	}
+
+	.awts_card_actions {
+		width: 100%;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+
+	.awts_card_menu_wrap {
+		margin-left: 0;
+	}
+
+	/* Tabs: allow horizontal scroll instead of wrapping each label onto
+	 * two lines when there are 4+ tabs (Internal / Customer / Participants
+	 * / Tracking Log). Hides the scrollbar on touch; tap-and-swipe still
+	 * works to reach the rightmost tabs. */
+	.awts_card_tabs {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.awts_card_tabs::-webkit-scrollbar {
+		display: none;
+	}
+	.awts_card_tab {
+		flex: 0 0 auto;
+		white-space: nowrap;
+	}
+
+	/* Footer row: let assigned-to + status + solved-date items wrap onto
+	 * multiple lines instead of squeezing into one row that collides. */
+	.awts_footer {
+		flex-wrap: wrap;
+		row-gap: 6px;
+	}
+
+	/* System events ("Assigned to X · by Y at Z") render as a single
+	 * flex item — on narrow screens, let them break onto the next line
+	 * instead of crushing the meta column. */
+	.awts_card_tab_panel .awts_notes_item_meta,
+	.awts_card_tab_panel .awts_customer_note_meta {
+		flex-wrap: wrap;
+	}
+
+	/* Prevent iOS auto-zoom on tablets: inputs must be >= 16px */
+	.awts_notes_input,
+	.awts_customer_notes_input {
+		font-size: 16px;
+	}
+}
+
+.awts_btn:hover {
+	background: #f3f4f6;
+}
+
+.awts_btn_light {
+	background: #fff;
+}
+
+.awts_btn_primary {
+	background: #2271b1;
+	color: #fff;
+	border-color: #2271b1;
+}
+
+.awts_btn_primary:hover {
+	background: #135e96;
+	border-color: #135e96;
+}
+
+/* Load more */
+
+.awts_load_more_updates {
+	width: 100%;
+	margin-bottom: 12px;
+	text-align: center;
+}
+
+/* Empty state */
+
+.awts_empty {
+	color: #6b7280;
+	font-size: 13px;
+	margin: 0 0 16px;
+}
+
+/* Inline edit */
+
+.awts_inline_edit_btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.awts_inline_edit_btn svg,
+.awts_inline_edit_btn .dashicons {
+	color: #9ca3af;
+	opacity: 1;
+	transition: opacity 0.15s;
+	flex-shrink: 0;
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
+	line-height: 1;
+}
+
+.awts_card:hover .awts_edit_title svg,
+.awts_card:hover .awts_edit_title .dashicons,
+.awts_inline_edit_btn:hover svg,
+.awts_inline_edit_btn:hover .dashicons,
+.awts_inline_edit_btn:focus svg,
+.awts_inline_edit_btn:focus .dashicons {
+	opacity: 1;
+}
+
+.awts_edit_title {
+	flex-shrink: 0;
+}
+
+.awts_inline_title_input {
+	font-size: 13px;
+	font-weight: 600;
+	color: #1d2327;
+	border: 1px solid #2563eb;
+	border-radius: 4px;
+	padding: 2px 6px;
+	width: 100%;
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(37,99,235,.15);
+}
+
+.awts_edit_assignee {
+	border-bottom: 1px dashed #d1d5db;
+}
+
+.awts_edit_assignee:hover {
+	border-bottom-color: #2563eb;
+}
+
+.awts_inline_assignee_wrap {
+	position: relative;
+}
+
+.awts_inline_assignee_input {
+	font-size: 12px;
+	border: 1px solid #2563eb;
+	border-radius: 4px;
+	padding: 3px 8px;
+	width: 160px;
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(37,99,235,.15);
+}
+
+.awts_inline_assignee_wrap .awts_suggestions {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 100;
+	margin: 2px 0 0;
+	padding: 0;
+	list-style: none;
+	background: #fff;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	min-width: 200px;
+	max-height: 180px;
+	overflow-y: auto;
+}
+
+.awts_inline_assignee_wrap .awts_suggestion_item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 10px;
+	cursor: pointer;
+	font-size: 12px;
+	color: #374151;
+}
+
+.awts_inline_assignee_wrap .awts_suggestion_item:hover,
+.awts_inline_assignee_wrap .awts_suggestion_item:focus {
+	background: #f3f4f6;
+}
+
+.awts_inline_assignee_wrap .awts_suggestion_avatar {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+}
+
+.awts_inline_assignee_wrap .awts_suggestion_name {
+	font-weight: 500;
+}
+
+/* Attachments */
+
+.awts_attach_trigger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border: none;
+	background: none;
+	color: #9ca3af;
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 0;
+	transition: color 0.15s, background 0.15s;
+}
+
+.awts_attach_trigger:hover {
+	color: #374151;
+	background: #f3f4f6;
+}
+
+.awts_pending_attachments {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 6px 8px 0;
+}
+
+.awts_pending_attachment {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: #f3f4f6;
+	border: 1px solid #e5e7eb;
+	border-radius: 14px;
+	padding: 2px 4px 2px 10px;
+	font-size: 12px;
+	color: #374151;
+	max-width: 100%;
+}
+
+.awts_pending_attachment_name {
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 180px;
+}
+
+.awts_pending_attachment_size {
+	color: #6b7280;
+	font-size: 11px;
+}
+
+.awts_pending_attachment_remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	border: none;
+	background: none;
+	color: #6b7280;
+	cursor: pointer;
+	border-radius: 50%;
+	font-size: 16px;
+	line-height: 1;
+	padding: 0;
+}
+
+.awts_pending_attachment_remove:hover {
+	color: #b91c1c;
+	background: #fee2e2;
+}
+
+.awts_attachments {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.awts_attachment {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	background: #f9fafb;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	padding: 4px 6px;
+	font-size: 12px;
+	color: #374151;
+	max-width: 100%;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.awts_attachment:hover {
+	background: #f3f4f6;
+	border-color: #d1d5db;
+}
+
+.awts_attachment_link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: inherit;
+	text-decoration: none;
+	min-width: 0;
+}
+
+.awts_attachment_link:hover {
+	color: #111827;
+}
+
+.awts_attachment_thumb {
+	width: 32px;
+	height: 32px;
+	object-fit: cover;
+	border-radius: 4px;
+	flex-shrink: 0;
+}
+
+.awts_attachment_icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 4px;
+	color: #6b7280;
+	flex-shrink: 0;
+}
+
+.awts_attachment_meta {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.awts_attachment_name {
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 180px;
+}
+
+.awts_attachment_size {
+	color: #6b7280;
+	font-size: 11px;
+}
+
+.awts_attachment_remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	border: none;
+	background: none;
+	color: #9ca3af;
+	cursor: pointer;
+	border-radius: 50%;
+	font-size: 16px;
+	line-height: 1;
+	padding: 0;
+	margin-left: 2px;
+}
+
+.awts_attachment_remove:hover {
+	color: #b91c1c;
+	background: #fee2e2;
+}
+
+.awts_attachment_remove:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.awts_mention_dropdown {
+	position: absolute;
+	z-index: 100000;
+	min-width: 240px;
+	max-width: 320px;
+	max-height: 240px;
+	overflow-y: auto;
+	background: #ffffff;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12), 0 4px 10px rgba(15, 23, 42, 0.06);
+	padding: 4px;
+	margin: 0;
+	font-size: 13px;
+}
+
+.awts_mention_item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	border-radius: 6px;
+	cursor: pointer;
+	color: #1f2937;
+}
+
+.awts_mention_item--active,
+.awts_mention_item:hover {
+	background: #eef2ff;
+	color: #1e3a8a;
+}
+
+.awts_mention_avatar {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	object-fit: cover;
+	background: #e5e7eb;
+}
+
+.awts_mention_avatar--placeholder {
+	display: inline-block;
+}
+
+.awts_mention_meta {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	flex: 1;
+}
+
+.awts_mention_name {
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.awts_mention_email {
+	color: #6b7280;
+	font-size: 11px;
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.awts_notes_item_mentions {
+	display: none;
+}
+
+.awts_mention_token {
+	display: inline-flex;
+	align-items: center;
+	padding: 1px 8px;
+	background: #eef2ff;
+	color: #1e3a8a;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.awts_mention_inline {
+	display: inline;
+	padding: 0 4px;
+	background: rgba(99, 102, 241, 0.12);
+	color: #4338ca;
+	border-radius: 3px;
+	font-weight: 600;
+}

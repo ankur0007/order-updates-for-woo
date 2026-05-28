@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAQ — Attachments — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes &amp; portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings &amp; feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow &amp; @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses &amp; colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings &mdash; General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings &mdash; Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings &mdash; Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings &mdash; Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings &mdash; Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings &mdash; API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings &mdash; Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings &mdash; Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email &amp; notifications</a></li>
+				<li><a href="../../faq/attachments/index.html" class="is-active">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				FAQ &nbsp;/&nbsp;
+				Attachments
+			</p>
+
+			<h1 class="docs-page__title">Attachments</h1>
+			<p class="docs-page__lede">Where files are saved, what types are allowed, the size and count limits, what customers can and can&rsquo;t upload, and how the plugin keeps uploads safe on disk.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Where do attachments live on disk?</h2>
+					<p>All uploads go to <code>wp-content/uploads/order-updates-for-woo/</code> on your own server. The folder is created on the first upload. Inside, each file is saved with a random filename (the original name is kept only in the database, never on disk), and the folder includes an <code>.htaccess</code> file plus an empty <code>index.html</code> to stop the contents being listed publicly.</p>
+					<p>The details for each file &mdash; original name, MIME type, size, who uploaded it, which update and note it belongs to &mdash; live in the <code>{prefix}order_updates_for_woo_attachments</code> table. The disk file holds the actual content; the database row links it to your data.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Which file types can be uploaded?</h2>
+					<p>By default: PNG, JPG, GIF, WebP, PDF, plain text, CSV, ZIP, and a few common Office formats (DOCX, XLSX). The full default list is on <a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a>.</p>
+					<p>You can change which types are allowed under <strong>Settings &rarr; Attachments &rarr; Allowed file types</strong>. Pick from the dropdown of every type the plugin knows about, or add custom MIME types with the <code>order_updates_for_woo_default_mime_types</code> filter (for add-ons that need to allow site-specific formats).</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How big can a file be, and how many per note?</h2>
+					<p>Two limits, both editable under <strong>Settings &rarr; Attachments</strong>:</p>
+					<ul>
+						<li><strong>Max file size per upload</strong> &mdash; default 10 MB. Setting this higher than your PHP <code>upload_max_filesize</code> or your web server&rsquo;s body-size limit won&rsquo;t help &mdash; the upload will fail at the host level before the plugin sees it.</li>
+						<li><strong>Max files per note</strong> &mdash; default 5. Both staff and customers share this limit. The upload area blocks adding a sixth file before you post.</li>
+					</ul>
+					<p>If you raise the file size limit, also raise your hosting&rsquo;s PHP and Nginx/Apache limits to match. Otherwise the form will accept the file in the browser and then fail on the server, which is a confusing error for users.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can customers upload files too?</h2>
+					<p>Yes. If attachments are turned on, the customer&rsquo;s reply box in the portal has the same drag-and-drop upload area your team gets. The same allowed-types list, max size, and max files apply to both staff and customers &mdash; there&rsquo;s no separate &ldquo;customer files&rdquo; setting.</p>
+					<p>Customers can drop, drag, or paste images directly into the reply box (paste-from-clipboard works for screenshots). Each file is checked for double-extension tricks (e.g. <code>invoice.pdf.exe</code>) and rejected before upload if the type doesn&rsquo;t match what the file claims.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can someone guess the file URL and download it?</h2>
+					<p>No &mdash; or at least, guessing isn&rsquo;t the way in. The file&rsquo;s name on disk is a random 32-character string, so a guessed URL won&rsquo;t match anything. But the bigger point is that direct disk URLs aren&rsquo;t the way files are served at all: every download goes through the <code>/wp-json/order-updates-for-woo/v1/attachment/{id}</code> REST endpoint, which checks the user&rsquo;s permission to see the parent update before sending the file back.</p>
+					<p>Staff need the order capability; customers need to be logged in as the order owner or have a valid <code>order_key</code>. Either way, the permission check happens before any file content leaves your server.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What happens to attachments when I delete an update?</h2>
+					<p>Both the database rows and the files on disk are removed in the same step. Deleting an update goes through every note on the update, finds every attachment row for those notes, deletes the row, and removes the file from disk. After it&rsquo;s done, nothing about that update is left &mdash; in the database or on the filesystem.</p>
+					<p>The same happens when you delete a single note: every attachment that belongs to that note is removed cleanly. No leftover files to worry about.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What if I find empty folders left over from old updates?</h2>
+					<p>The plugin runs a cleanup task once a day that removes any per-update folder with no files inside. So even if a deletion left an empty folder behind in an older version, the cleanup will catch up within 24 hours.</p>
+					<p>If you want to clean up right away, deactivate and reactivate the plugin &mdash; activation runs the same cleanup at the start, so empty folders are gone on the next request.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How do staff or customers delete a file?</h2>
+					<p>Hover the attachment in the note bubble and click the small trash icon. A confirm dialog shows up before the file is actually deleted &mdash; once you confirm, both the database row and the disk file are removed and the note redraws without that attachment.</p>
+					<p>Staff can delete any attachment on any update they have access to. Customers can only delete attachments they uploaded themselves, and only on customer notes they wrote.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Should I include the attachments folder in my site backups?</h2>
+					<p>Yes &mdash; treat it the same way you treat <code>wp-content/uploads/</code> in general. The folder holds the actual files for every customer screenshot, PDF, and document attached to an update. Without it, restoring a backup would leave you with a database that points to missing files.</p>
+					<p>Most well-known WordPress backup plugins include all of <code>wp-content/uploads/</code> by default, so unless you&rsquo;ve added an exclude rule, you&rsquo;re already covered.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How does the &ldquo;safe file check&rdquo; work?</h2>
+					<p>On every upload, before the file is moved into the attachments folder, the plugin runs WordPress&rsquo;s <code>wp_check_filetype_and_ext</code> &mdash; the same check WordPress uses for Media Library uploads. It looks at the file&rsquo;s actual MIME type (by reading the first few bytes) and makes sure it matches what the file extension claims. If they don&rsquo;t match, the upload is rejected.</p>
+					<p>It also blocks files with double extensions (<code>image.gif.php</code>, <code>doc.pdf.exe</code>) and files whose extension isn&rsquo;t in your allowed list. The goal isn&rsquo;t to be a full virus scanner &mdash; if you need that, run one at the host level &mdash; but to make the common attacker tricks fail on their own.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can I disable attachments entirely?</h2>
+					<p>Yes &mdash; set <strong>Max files per note</strong> to <code>0</code> under <strong>Settings &rarr; Attachments</strong>. The upload area is hidden from every reply box (staff and customer), the REST upload endpoint rejects all calls, and existing attachments stay viewable but no new ones can be added.</p>
+					<p>This is useful for stores on hosting with strict rules where the upload feature is more risk than benefit. Customers can still describe issues in text, and your team can still send screenshots through a separate channel if needed.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What types are blocked even when I add them to &ldquo;allowed&rdquo;?</h2>
+					<p>Code-runnable file types are blocked by WordPress itself, no matter what the &ldquo;allowed file types&rdquo; setting says: <code>.php</code>, <code>.phtml</code>, <code>.exe</code>, <code>.js</code> (as a hosted file), <code>.sh</code>, and similar. WordPress&rsquo;s own upload check rejects them, and the plugin doesn&rsquo;t override that. So even if you somehow get <code>application/x-php</code> into the allowed list, the upload will still be rejected by WordPress.</p>
+					<p>This is on purpose &mdash; letting people upload code into a public uploads folder would be a serious security hole.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../email-notifications/index.html">
+					<span>Previous</span>
+					FAQ &rarr; Email &amp; notifications
+				</a>
+				<a class="next" href="../compatibility/index.html">
+					<span>Next</span>
+					FAQ &rarr; Compatibility
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

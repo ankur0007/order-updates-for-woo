@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAQ — Troubleshooting — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes &amp; portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings &amp; feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow &amp; @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses &amp; colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings &mdash; General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings &mdash; Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings &mdash; Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings &mdash; Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings &mdash; Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings &mdash; API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings &mdash; Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings &mdash; Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email &amp; notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html" class="is-active">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				FAQ &nbsp;/&nbsp;
+				Troubleshooting
+			</p>
+
+			<h1 class="docs-page__title">Troubleshooting</h1>
+			<p class="docs-page__lede">The common things that go wrong, what to try first, and how to find useful clues in the debug log before asking for help.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Customers say they aren&rsquo;t getting emails. What do I check first?</h2>
+					<p>Check these things, in order:</p>
+					<ol>
+						<li><strong>Is WooCommerce sending its own emails?</strong> If you place a test order and the &ldquo;order received&rdquo; email doesn&rsquo;t arrive either, the problem is your host&rsquo;s mail setup, not this plugin. Fix that first &mdash; install an SMTP plugin (WP Mail SMTP, FluentSMTP) if you haven&rsquo;t.</li>
+						<li><strong>Is the email type enabled?</strong> Go to <strong>WooCommerce &rarr; Settings &rarr; Emails</strong> and check that &ldquo;Order updates &mdash; customer&rdquo; is enabled. Each of the nine emails has its own switch.</li>
+						<li><strong>Did the customer turn off notifications?</strong> Customers can unsubscribe from update emails using a link in any email we sent them. Check the customer&rsquo;s email preference for that order &mdash; if it shows &ldquo;off&rdquo;, that&rsquo;s why.</li>
+						<li><strong>Are you using &ldquo;Send in background&rdquo; mode?</strong> If your host&rsquo;s WordPress cron is broken, queued emails never go out. Switch <strong>Settings &rarr; Emails &rarr; Delivery mode</strong> to &ldquo;Send immediately&rdquo; as a test. If emails now arrive, your cron is the problem.</li>
+						<li><strong>Check the customer&rsquo;s spam folder.</strong> Email systems can flag automated mail as spam, especially on a new domain.</li>
+					</ol>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The admin bar notification dot isn&rsquo;t showing new updates.</h2>
+					<p>The notification dot updates from a poll every 30 seconds, not in real time. So a brand-new update may not light up the dot until the next poll. Try refreshing.</p>
+					<p>If it still doesn&rsquo;t show:</p>
+					<ul>
+						<li>Make sure you&rsquo;re a member of one of the <strong>Internal team roles</strong> set under <strong>Settings &rarr; Members</strong>. Users outside those roles don&rsquo;t get admin-bar notifications &mdash; they&rsquo;re not on the team.</li>
+						<li>Check whether you muted the update (the <strong>Get notifications</strong> switch on the update card). Muted updates skip both email and admin-bar entries.</li>
+						<li>Check whether your browser is blocking the heartbeat AJAX call &mdash; some privacy plugins do this. Open the browser developer tools, look for failed requests to <code>admin-ajax.php</code> with action <code>heartbeat</code>.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The customer portal page is broken or looks wrong.</h2>
+					<p>Usually a CSS or JavaScript conflict with the theme or another plugin. Try this:</p>
+					<ol>
+						<li>Switch to a default WordPress theme (Twenty Twenty-Five or similar). If the portal looks right with the default theme, the issue is in your theme&rsquo;s CSS.</li>
+						<li>If still broken, disable all other plugins except WooCommerce and this one. If it looks right now, re-enable plugins one at a time until you find the one that breaks the layout.</li>
+						<li>Open the browser developer tools console while loading the page. JavaScript errors from another plugin or theme can stop our scripts from running &mdash; the error message in the console will name the file the error came from.</li>
+					</ol>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>I see a database error in my error log.</h2>
+					<p>If the error mentions one of the plugin&rsquo;s tables (e.g. <code>{prefix}order_updates_for_woo</code> or any of the seven sibling tables), and says the table doesn&rsquo;t exist, the table creation didn&rsquo;t finish during plugin activation.</p>
+					<p>Fix: deactivate the plugin, then activate it again. Activation runs the database setup step every time. If the error happens during activation itself, your database user may not have <code>CREATE TABLE</code> permission &mdash; check with your host.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>I see a white screen or a fatal PHP error.</h2>
+					<p>A fatal PHP error in this plugin means there&rsquo;s a bug, and we want to know about it. To find out what happened:</p>
+					<ol>
+						<li>Turn on debug logging. Edit <code>wp-config.php</code> and set:
+<pre><code class="language-php">define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_DISPLAY', false );</code></pre>
+						</li>
+						<li>Repeat what caused the error.</li>
+						<li>Open <code>wp-content/debug.log</code> &mdash; the most recent error at the bottom of the file will name the file and line.</li>
+					</ol>
+					<p>If the error is from this plugin (the file path includes <code>plugins/order-updates-for-woo/</code>), please share the relevant lines from the log when you ask for help.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The analytics dashboard is loading slowly.</h2>
+					<p>This is rare &mdash; the dashboard reads from a pre-built lookup table that&rsquo;s kept in sync as updates change, so a store with 100k+ updates should still load in under a second.</p>
+					<p>If yours is slow:</p>
+					<ul>
+						<li>Try clearing the cache &mdash; <strong>Settings &rarr; Cache &rarr; Clear all cache</strong>. A stale cache key can cause repeat queries.</li>
+						<li>Check the date range you&rsquo;ve picked. A range covering several years across millions of updates will be slower than a one-month view.</li>
+						<li>If the slowness only started after a recent update, ask your host to look at MySQL slow-query logs around that time &mdash; an index may need adding by the next plugin update.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>One of my team members can&rsquo;t see updates on an order.</h2>
+					<p>Two things to check:</p>
+					<ul>
+						<li><strong>Their role.</strong> The user needs WooCommerce&rsquo;s <em>edit shop orders</em> capability, which by default belongs to <em>administrator</em> and <em>shop_manager</em>. Custom roles need that cap added.</li>
+						<li><strong>The internal team roles setting.</strong> Open <strong>Settings &rarr; Members &rarr; Internal team roles</strong> and confirm the user&rsquo;s role is checked. If the role isn&rsquo;t in the team list, the user can still edit orders but won&rsquo;t appear in the assignee picker or get @mention emails.</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>How do I turn on the plugin&rsquo;s debug log?</h2>
+					<p>The plugin doesn&rsquo;t have a separate debug log &mdash; it uses WordPress&rsquo;s standard <code>debug.log</code>. Turn it on by editing <code>wp-config.php</code>:</p>
+<pre><code class="language-php">define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_DISPLAY', false );</code></pre>
+					<p>After that, any warning or error from the plugin (and from WordPress and your other plugins) will be written to <code>wp-content/debug.log</code>. The file may already be large &mdash; if it is, delete it (it&rsquo;ll get re-created on the next error) and then repeat the action you&rsquo;re troubleshooting.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>After updating the plugin to a new version, a feature stopped working.</h2>
+					<p>First, deactivate and reactivate the plugin. Reactivation runs the database migration step, which sometimes needs to add a new column for a new feature &mdash; if that didn&rsquo;t run, the feature can&rsquo;t work.</p>
+					<p>If the problem persists, check <code>wp-content/debug.log</code> for a fresh error from the plugin. The error will name the file and line that broke.</p>
+					<p>If you need to roll back to the previous version while you investigate, download the old version from <a href="https://wordpress.org/plugins/order-updates-for-woo/advanced/">WordPress.org &rarr; Advanced</a> and upload it. Your data stays in place during a downgrade &mdash; the eight tables don&rsquo;t get touched on plugin update or downgrade.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What should I include when opening a support ticket?</h2>
+					<p>Help us help you faster by including these up front:</p>
+					<ul>
+						<li>WordPress, WooCommerce, and PHP versions (find these under <strong>Tools &rarr; Site Health &rarr; Info</strong>).</li>
+						<li>The plugin version (<strong>Plugins</strong> page).</li>
+						<li>What you did, and what you expected to happen.</li>
+						<li>What actually happened (screenshot helps).</li>
+						<li>The last 50 lines of <code>wp-content/debug.log</code> if there&rsquo;s an error in there.</li>
+						<li>Whether the problem still happens when you switch to a default theme and turn off other plugins.</li>
+					</ul>
+					<p>Open the ticket on the plugin&rsquo;s <a href="https://wordpress.org/support/plugin/order-updates-for-woo/">WordPress.org support forum</a>. We read every post and respond in 1&ndash;2 business days.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>I think I found a bug. Where do I report it?</h2>
+					<p>The <a href="https://wordpress.org/support/plugin/order-updates-for-woo/">WordPress.org support forum</a> for short reports. For deeper issues with logs, screenshots, or steps to reproduce, you can also email the plugin author directly &mdash; the contact form is linked from the plugin&rsquo;s WordPress.org page.</p>
+					<p>If you&rsquo;re a developer and can reproduce the bug, the most useful report includes the steps to reproduce, the relevant lines from <code>debug.log</code>, and (if a JavaScript bug) any console errors from the browser developer tools.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../compatibility/index.html">
+					<span>Previous</span>
+					FAQ &rarr; Compatibility
+				</a>
+				<a class="next" href="../../index.html">
+					<span>Next</span>
+					Docs home
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

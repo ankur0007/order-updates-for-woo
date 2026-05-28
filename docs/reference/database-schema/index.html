@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Database schema — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html" class="is-active">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Reference &nbsp;/&nbsp;
+				Database schema
+			</p>
+
+			<h1 class="docs-page__title">Database schema</h1>
+			<p class="docs-page__lede">8 custom tables. <code>{prefix}</code> is your site's <code>$wpdb->prefix</code> (usually <code>wp_</code>). Use these <code>CREATE TABLE</code> blocks as the authoritative shape when you write addons that read directly &mdash; but prefer <code>OrderUpdatesDb</code> for everything you can.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<p>The plugin owns eight custom tables. No WordPress core or WooCommerce tables are touched. Each <code>CREATE TABLE</code> below is extracted verbatim from <code>src/Shared/Updates/UpdatesTable.php</code>, <code>src/Shared/Attachments/AttachmentsTable.php</code>, and <code>src/Shared/Analytics/AnalyticsLookupTable.php</code> &mdash; the source of truth for columns, types, indexes, and constraints.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Tables at a glance</h2>
+					<table>
+						<thead><tr><th>Table</th><th>Purpose</th></tr></thead>
+						<tbody>
+							<tr><td><code>{prefix}order_updates_for_woo</code></td><td>One row per update. Title, status, assignee, customer-visible flag, timestamps.</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_assignees</code></td><td>Assignment history per update &mdash; current and past assignees, useful for the participant list.</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_internal_notes</code></td><td>Internal notes (team-only). Belongs to an update.</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_customer_notes</code></td><td>Customer-visible notes plus system markers (status changes, reopens, rating requests).</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_customer_note_history</code></td><td>Revision snapshots for edited customer notes.</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_ratings</code></td><td>One row per rated update &mdash; stars, comment, timestamps.</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_attachments</code></td><td>Attachment metadata &mdash; pointer to the file on disk, MIME type, order / update / note bindings.</td></tr>
+							<tr><td><code>{prefix}order_updates_for_woo_analytics_lookup</code></td><td>Denormalized per-update row driving the analytics dashboard. Read-only fast path.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Don&rsquo;t read or write directly</h2>
+					<p>Even though the schema is documented here, addon code should never <code>$wpdb-&gt;query()</code> these tables directly. Use <code>OrderUpdatesDb</code> or <code>AttachmentsDb</code>:</p>
+					<ul>
+						<li>The methods on those classes handle caching and invalidation. Direct queries skip both.</li>
+						<li>Schema details can change between minor versions. The public API on those classes stays stable.</li>
+						<li>If your addon needs data the public API doesn&rsquo;t expose, open an issue &mdash; a missing accessor method is a bug.</li>
+					</ul>
+				</div>
+			</section>
+
+						<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			order_id BIGINT(20) UNSIGNED NOT NULL,
+			title VARCHAR(191) NOT NULL,
+			status VARCHAR(50) NOT NULL DEFAULT '',
+			customer_visible TINYINT(1) NOT NULL DEFAULT 0,
+			color VARCHAR(20) NOT NULL DEFAULT '#dca100',
+			created_by BIGINT(20) UNSIGNED NOT NULL,
+			last_updated_by BIGINT(20) UNSIGNED NULL,
+			solved_by BIGINT(20) UNSIGNED NULL,
+			is_resolved TINYINT(1) NOT NULL DEFAULT 0,
+			solved_at DATETIME NULL,
+			created_at DATETIME NOT NULL,
+			last_updated_at DATETIME NULL,
+			assignee_since_note_id BIGINT(20) UNSIGNED NULL,
+			previous_assignee_name VARCHAR(100) NULL,
+			PRIMARY KEY  (id),
+			KEY order_id (order_id),
+			KEY title (title),
+			KEY order_title (order_id, title),
+			KEY order_created_at (order_id, created_at),
+			KEY resolved_order (is_resolved, order_id),
+			KEY created_at (created_at),
+			KEY resolved_created_at (is_resolved, created_at)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_assignees</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_assignees (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			update_id BIGINT(20) UNSIGNED NOT NULL,
+			assignee_user_id BIGINT(20) UNSIGNED NOT NULL,
+			assigned_by BIGINT(20) UNSIGNED NOT NULL,
+			assigned_at DATETIME NOT NULL,
+			notified_at DATETIME NULL,
+			is_active TINYINT(1) NOT NULL DEFAULT 1,
+			unassigned_at DATETIME NULL,
+			unassigned_by BIGINT(20) UNSIGNED NULL,
+			last_updated_at DATETIME NULL,
+			PRIMARY KEY  (id),
+			KEY update_id (update_id),
+			KEY assignee_user_id (assignee_user_id),
+			KEY is_active (is_active),
+			KEY assigned_by (assigned_by),
+			KEY update_assignee (update_id, assignee_user_id),
+			KEY update_active (update_id, is_active),
+			KEY update_assigned_at (update_id, assigned_at)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_internal_notes</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_internal_notes (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			update_id BIGINT(20) UNSIGNED NOT NULL,
+			note VARCHAR(500) NOT NULL,
+			mentioned_user_ids VARCHAR(191) NOT NULL DEFAULT '',
+			created_by BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			created_by_name VARCHAR(191) NOT NULL DEFAULT '',
+			created_at DATETIME NOT NULL,
+			edited_at DATETIME NULL,
+			PRIMARY KEY  (id),
+			KEY update_id (update_id)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_ratings</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_ratings (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			update_id BIGINT(20) UNSIGNED NOT NULL,
+			order_id BIGINT(20) UNSIGNED NOT NULL,
+			stars TINYINT(1) UNSIGNED NULL,
+			comment VARCHAR(500) NOT NULL DEFAULT '',
+			created_by BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			created_by_name VARCHAR(191) NOT NULL DEFAULT '',
+			requested_at DATETIME NULL,
+			request_notified_at DATETIME NULL,
+			created_at DATETIME NULL,
+			PRIMARY KEY  (id),
+			UNIQUE KEY update_id (update_id),
+			KEY order_id (order_id),
+			KEY stars (stars)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_customer_notes</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_customer_notes (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			update_id BIGINT(20) UNSIGNED NOT NULL,
+			note VARCHAR(500) NOT NULL,
+			kind VARCHAR(20) NOT NULL DEFAULT 'note',
+			queued_at DATETIME NULL,
+			notified_at DATETIME NULL,
+			created_by BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			created_by_name VARCHAR(191) NOT NULL DEFAULT '',
+			created_at DATETIME NOT NULL,
+			edited_at DATETIME NULL,
+			PRIMARY KEY  (id),
+			KEY update_id (update_id),
+			KEY update_notified (update_id, notified_at)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_customer_note_history</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_customer_note_history (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			note_id BIGINT(20) UNSIGNED NOT NULL,
+			prior_note VARCHAR(500) NOT NULL,
+			edited_by BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			edited_by_name VARCHAR(191) NOT NULL DEFAULT '',
+			edited_at DATETIME NOT NULL,
+			PRIMARY KEY  (id),
+			KEY note_id (note_id)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_attachments</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_attachments (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			order_id BIGINT(20) UNSIGNED NOT NULL,
+			update_id BIGINT(20) UNSIGNED NOT NULL,
+			note_id BIGINT(20) UNSIGNED NOT NULL,
+			note_type VARCHAR(20) NOT NULL DEFAULT 'internal',
+			file_name VARCHAR(255) NOT NULL,
+			original_name VARCHAR(255) NOT NULL,
+			mime_type VARCHAR(100) NOT NULL,
+			file_size BIGINT(20) UNSIGNED NOT NULL,
+			uploaded_by BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			uploaded_at DATETIME NOT NULL,
+			PRIMARY KEY  (id),
+			KEY order_id (order_id),
+			KEY update_id (update_id),
+			KEY note_lookup (note_id, note_type)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>{prefix}order_updates_for_woo_analytics_lookup</h2>
+					<pre><code class="language-sql">CREATE TABLE {prefix}order_updates_for_woo_analytics_lookup (
+			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			update_id BIGINT(20) UNSIGNED NOT NULL,
+			order_id BIGINT(20) UNSIGNED NOT NULL,
+			created_at DATETIME NOT NULL,
+			created_date DATE NOT NULL,
+			solved_at DATETIME NULL,
+			solved_date DATE NULL,
+			resolution_seconds INT UNSIGNED NULL,
+			assignee_user_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			created_by_user_id BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+			is_customer_initiated TINYINT(1) NOT NULL DEFAULT 0,
+			customer_visible TINYINT(1) NOT NULL DEFAULT 0,
+			rating TINYINT(1) UNSIGNED NULL,
+			rating_at DATETIME NULL,
+			has_rating_comment TINYINT(1) NOT NULL DEFAULT 0,
+			product_id BIGINT(20) UNSIGNED NULL,
+			PRIMARY KEY  (id),
+			UNIQUE KEY update_id (update_id),
+			KEY order_id (order_id),
+			KEY created_date (created_date),
+			KEY solved_date (solved_date),
+			KEY assignee_created (assignee_user_id, created_date),
+			KEY rating (rating),
+			KEY product_id (product_id)
+		) {charset_collate};</code></pre>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../settings-all/index.html">
+					<span>Previous</span>
+					All settings
+				</a>
+				<a class="next" href="../../faq/general/index.html">
+					<span>Next</span>
+					FAQ → General
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

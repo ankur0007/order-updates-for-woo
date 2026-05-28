@@ -1,0 +1,46 @@
+# Files and directories excluded from `wp dist-archive` builds.
+# Plugin Check still flags these against the live dev tree; running
+# `wp plugin check` against a built zip is the truer signal.
+
+# VCS / OS / IDE
+.git
+.gitignore
+.gitattributes
+.github
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+.claude
+
+# Dev configs
+.distignore
+.editorconfig
+.phpunit.result.cache
+phpcs.xml.dist
+phpunit.xml
+jest.config.js
+package.json
+package-lock.json
+composer.json
+composer.lock
+node_modules
+
+# Dev / test
+tests
+scripts
+docs
+create-email-previews.sh
+create-sample-updates.sh
+
+# Docs (readme.txt is the user-facing one; ARCHITECTURE / CLAUDE are dev)
+README.md
+ARCHITECTURE.md
+CLAUDE.md
+SMOKE_TEST.md
+change_log.md
+
+# Memory / agent artefacts (not part of the plugin)
+memory
+.cursorrules
+AI_RULES.md

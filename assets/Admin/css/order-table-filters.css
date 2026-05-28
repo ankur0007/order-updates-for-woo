@@ -1,0 +1,39 @@
+.awts-col {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.awts-col span {
+	display: block;
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.awts-col-none {
+	color: #a0a5aa;
+}
+
+.awts-col-count {
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.awts-col-assignee {
+	color: #2271b1;
+}
+
+.awts-col-unsolved {
+	color: #b32d2e;
+	font-weight: 600;
+}
+
+.awts-col-visible {
+	color: #646970;
+	font-style: italic;
+}
+
+/* Give the column a reasonable fixed width */
+.column-awts_updates {
+	width: 120px;
+}

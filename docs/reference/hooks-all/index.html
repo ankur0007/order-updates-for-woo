@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>All hooks — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html" class="is-active">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Reference &nbsp;/&nbsp;
+				All hooks
+			</p>
+
+			<h1 class="docs-page__title">All hooks</h1>
+			<p class="docs-page__lede">Complete alphabetical listing of every action and filter the plugin declares. 53 actions, 71 filters.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<p>Every action and filter the plugin declares, A&ndash;Z. Actions come first, then filters. Each row shows the hook name, the arguments passed to the callback, and the file where it fires.</p>
+					<p>For worked examples and use cases, see <a href="../../developer-guide/hooks/index.html">Developer Guide &rarr; Hooks</a>. This page is the bare reference.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Actions (53)</h2>
+					<table>
+						<thead><tr><th>Hook</th><th>Arguments</th><th>Fires from</th></tr></thead>
+						<tbody>
+							<tr><td><code>order_updates_for_woo_admin_bar_assigned</code></td><td><code>$update_id, (int) ( $current['order_id'] ?? 0 ), (string) ( $current['title'] …</code></td><td><code>Shared/Updates/OrderUpdatesDb.php:495</code></td></tr>
+							<tr><td><code>order_updates_for_woo_admin_bar_mention</code></td><td><code>$update_id, $order_id, $note_id, $snippet, $mentioned_user_id</code></td><td><code>Shared/Updates/UpdateNoteService.php:77</code></td></tr>
+							<tr><td><code>order_updates_for_woo_admin_bar_staff_reply</code></td><td><code>$update_id, $order_id, $note_id, $note_author['name'], (int) $note_author['id'…</code></td><td><code>API/Endpoints/SubmitCustomerUpdateEndpoint.php:439</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_add_customer_note</code></td><td><code>(int) $created['id'], $update_id, $note, $request</code></td><td><code>API/Endpoints/AddCustomerNoteEndpoint.php:103</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_add_internal_note</code></td><td><code>(int) $created['id'], $update_id, $note, $request</code></td><td><code>API/Endpoints/AddUpdateNoteEndpoint.php:98</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_customer_rating</code></td><td><code>$update_id, $order_id, $rating, $request</code></td><td><code>API/Endpoints/SubmitRatingEndpoint.php:216</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_customer_submit</code></td><td><code>$update_id, $note_id, array( 'order_id' => $order_id, 'order' => $order, 'note…</code></td><td><code>API/Endpoints/SubmitCustomerUpdateEndpoint.php:465</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_default_form_fields</code></td><td><code>$settings</code></td><td><code>Admin/Orders/Views/OrderUpdateFormView.php:89</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_delete_attachment</code></td><td><code>$attachment_id, $record, $request</code></td><td><code>API/Endpoints/DeleteAttachmentEndpoint.php:68</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_delete_internal_note</code></td><td><code>$note_id, $update_id, $note, $request</code></td><td><code>API/Endpoints/DeleteUpdateNoteEndpoint.php:103</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_delete_update</code></td><td><code>$update_id, $update, $request</code></td><td><code>API/Endpoints/DeleteUpdateEndpoint.php:100</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_mark_solved</code></td><td><code>$update_id, $solved_update, $request</code></td><td><code>API/Endpoints/MarkSolvedEndpoint.php:89</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_notify_customer</code></td><td><code>$update_id, $note_id, $queued_at_utc, $request</code></td><td><code>API/Endpoints/NotifyCustomerEndpoint.php:99</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_reopen_update</code></td><td><code>$update_id, $reopened_update, $request</code></td><td><code>API/Endpoints/ReopenUpdateEndpoint.php:117</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_save_customer_email_preference</code></td><td><code>$order_id, $customer_id, $enabled, $request</code></td><td><code>API/Endpoints/SaveEmailPreferenceEndpoint.php:79</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_save_staff_email_preference</code></td><td><code>$update_id, $user_id, $muted, $request</code></td><td><code>API/Endpoints/SaveStaffEmailPreferenceEndpoint.php:64</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_update_customer_note</code></td><td><code>$note_id, $update_id, $note, $request</code></td><td><code>API/Endpoints/UpdateCustomerNoteEndpoint.php:161</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_update_internal_note</code></td><td><code>$note_id, $update_id, $note, $request</code></td><td><code>API/Endpoints/UpdateUpdateNoteEndpoint.php:124</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_update_save</code></td><td><code>$update_id, $saved_payload, $update_data, $request, $existing</code></td><td><code>API/Endpoints/SaveUpdateEndpoint.php:170</code></td></tr>
+							<tr><td><code>order_updates_for_woo_after_upload_attachment</code></td><td><code>$stored, $context, $request</code></td><td><code>API/Endpoints/UploadAttachmentEndpoint.php:93</code></td></tr>
+							<tr><td><code>order_updates_for_woo_assignee_rotation_after_member</code></td><td><code>$member, $is_active</code></td><td><code>Admin/Settings/Fields/AssigneeRotationField.php:200</code></td></tr>
+							<tr><td><code>order_updates_for_woo_attachment_before_delete</code></td><td><code>$record, $attachment_id</code></td><td><code>Shared/Attachments/AttachmentService.php:267</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_add_customer_note</code></td><td><code>$update_id, $note, $request</code></td><td><code>API/Endpoints/AddCustomerNoteEndpoint.php:90</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_add_internal_note</code></td><td><code>$update_id, $note, $request</code></td><td><code>API/Endpoints/AddUpdateNoteEndpoint.php:90</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_customer_rating</code></td><td><code>$update_id, $order_id, $stars, $comment, $request</code></td><td><code>API/Endpoints/SubmitRatingEndpoint.php:132</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_customer_submit</code></td><td><code>$order_id, $order, $note_author, $is_reply, $request</code></td><td><code>API/Endpoints/SubmitCustomerUpdateEndpoint.php:211</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_default_form_fields</code></td><td><code>$settings</code></td><td><code>Admin/Orders/Views/OrderUpdateFormView.php:42</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_delete_attachment</code></td><td><code>$attachment_id, $record, $request</code></td><td><code>API/Endpoints/DeleteAttachmentEndpoint.php:60</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_delete_internal_note</code></td><td><code>$note_id, $update_id, $note, $request</code></td><td><code>API/Endpoints/DeleteUpdateNoteEndpoint.php:97</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_delete_update</code></td><td><code>$update_id, $update, $request</code></td><td><code>API/Endpoints/DeleteUpdateEndpoint.php:82</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_guest_create_access</code></td><td><code>$order_id, $order_key</code></td><td><code>API/Endpoints/SubmitCustomerUpdateEndpoint.php:128</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_mark_solved</code></td><td><code>$update_id, $update, $request</code></td><td><code>API/Endpoints/MarkSolvedEndpoint.php:73</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_notify_customer</code></td><td><code>$update_id, $note_id, $note, $request</code></td><td><code>API/Endpoints/NotifyCustomerEndpoint.php:85</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_reopen_update</code></td><td><code>$update_id, $update, $request</code></td><td><code>API/Endpoints/ReopenUpdateEndpoint.php:89</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_save_customer_email_preference</code></td><td><code>$order_id, $customer_id, $enabled, $request</code></td><td><code>API/Endpoints/SaveEmailPreferenceEndpoint.php:75</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_save_staff_email_preference</code></td><td><code>$update_id, $user_id, $muted, $request</code></td><td><code>API/Endpoints/SaveStaffEmailPreferenceEndpoint.php:60</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_serve_attachment</code></td><td><code>(int) ( $record['id'] ?? 0 ), $record, $request</code></td><td><code>API/Endpoints/ServeAttachmentEndpoint.php:88</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_update_customer_note</code></td><td><code>$note_id, $update_id, $note, $request</code></td><td><code>API/Endpoints/UpdateCustomerNoteEndpoint.php:142</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_update_internal_note</code></td><td><code>$note_id, $update_id, $note, $request</code></td><td><code>API/Endpoints/UpdateUpdateNoteEndpoint.php:118</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_update_save</code></td><td><code>$validated, $update_data, $request</code></td><td><code>API/Endpoints/SaveUpdateEndpoint.php:128</code></td></tr>
+							<tr><td><code>order_updates_for_woo_before_upload_attachment</code></td><td><code>$validated, $context, $request</code></td><td><code>API/Endpoints/UploadAttachmentEndpoint.php:85</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_notes_before_thread</code></td><td><code>$update_id</code></td><td><code>Admin/Orders/Templates/card/note-thread.php:68</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_order_summary_after</code></td><td><code>$summary</code></td><td><code>Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:107</code></td></tr>
+							<tr><td><code>order_updates_for_woo_email_action</code></td><td><code>—</code></td><td><code>Frontend/Notifications/Templates/order-update-notification.php:141</code></td></tr>
+							<tr><td><code>order_updates_for_woo_form_meta</code></td><td><code>$settings</code></td><td><code>Admin/Orders/Views/OrderUpdateFormView.php:96</code></td></tr>
+							<tr><td><code>order_updates_for_woo_rating_followup_email_action</code></td><td><code>$is_promoter, $stars, $order</code></td><td><code>Frontend/Notifications/Templates/rating-followup.php:81</code></td></tr>
+							<tr><td><code>order_updates_for_woo_status_changed</code></td><td><code>$update_id, $old_status_key, $new_status_key, $changed_by, $note_id</code></td><td><code>Shared/Updates/OrderUpdatesDb.php:406</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_card_actions</code></td><td><code>$raw, $settings</code></td><td><code>Admin/Orders/Templates/card/header.php:58</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_card_after_details</code></td><td><code>$raw, $settings</code></td><td><code>Admin/Orders/Views/OrderUpdateCardViewModern.php:156</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_card_before_details</code></td><td><code>$raw, $settings</code></td><td><code>Admin/Orders/Views/OrderUpdateCardViewModern.php:144</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_card_tabs</code></td><td><code>$raw, $settings</code></td><td><code>Admin/Orders/Templates/card/tabs.php:92</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_changed</code></td><td><code>$insert_id</code></td><td><code>Shared/Updates/OrderUpdatesDb.php:200</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_deleted</code></td><td><code>$update_id</code></td><td><code>Shared/Updates/OrderUpdatesDb.php:724</code></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Filters (71)</h2>
+					<table>
+						<thead><tr><th>Hook</th><th>Arguments</th><th>Fires from</th></tr></thead>
+						<tbody>
+							<tr><td><code>order_updates_for_woo_action_history_response</code></td><td><code>$response, $update_id, $request</code></td><td><code>API/Endpoints/UpdateActionHistoryEndpoint.php:59</code></td></tr>
+							<tr><td><code>order_updates_for_woo_add_customer_note_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/AddCustomerNoteEndpoint.php:162</code></td></tr>
+							<tr><td><code>order_updates_for_woo_add_internal_note_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/AddUpdateNoteEndpoint.php:138</code></td></tr>
+							<tr><td><code>order_updates_for_woo_admin_email_detail_rows</code></td><td><code>[ [ 'label' => __('Assigned to', 'order-updates-for-woo'), 'value' => Assignee…</code></td><td><code>Admin/Notifications/Emails/AdminOrderUpdateEmail.php:127</code></td></tr>
+							<tr><td><code>order_updates_for_woo_admin_labels</code></td><td><code>$labels</code></td><td><code>Shared/Language/Labels/strings.php:143</code></td></tr>
+							<tr><td><code>order_updates_for_woo_admin_strings</code></td><td><code>$this->get_labels(</code></td><td><code>Admin/Orders/Services/OrderEditorPanelService.php:145</code></td></tr>
+							<tr><td><code>order_updates_for_woo_analytics_assignees_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/Analytics/GetAnalyticsAssigneesEndpoint.php:41</code></td></tr>
+							<tr><td><code>order_updates_for_woo_analytics_by_date_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/Analytics/GetAnalyticsByDateEndpoint.php:41</code></td></tr>
+							<tr><td><code>order_updates_for_woo_analytics_products_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/Analytics/GetAnalyticsProductsEndpoint.php:41</code></td></tr>
+							<tr><td><code>order_updates_for_woo_analytics_summary_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/Analytics/GetAnalyticsSummaryEndpoint.php:41</code></td></tr>
+							<tr><td><code>order_updates_for_woo_api_endpoint_params</code></td><td><code>$params, $path, $methods</code></td><td><code>Admin/Settings/Services/ApiSettingsService.php:191</code></td></tr>
+							<tr><td><code>order_updates_for_woo_api_endpoint_summary</code></td><td><code>'', $path, $methods</code></td><td><code>Admin/Settings/Services/ApiSettingsService.php:212</code></td></tr>
+							<tr><td><code>order_updates_for_woo_assigned_line</code></td><td><code>__('Not assigned yet', 'order-updates-for-woo'), $resolved_update</code></td><td><code>Helpers/AssigneeHelper.php:35</code></td></tr>
+							<tr><td><code>order_updates_for_woo_assignee_email_detail_rows</code></td><td><code>$detail_rows, $this->order_update, $this->order, $this</code></td><td><code>Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:274</code></td></tr>
+							<tr><td><code>order_updates_for_woo_assignee_rotation_member</code></td><td><code>$member, $is_active</code></td><td><code>Admin/Settings/Fields/AssigneeRotationField.php:171</code></td></tr>
+							<tr><td><code>order_updates_for_woo_assignee_search_response</code></td><td><code>array(), $query, $request</code></td><td><code>API/Endpoints/AssigneeSearchEndpoint.php:83</code></td></tr>
+							<tr><td><code>order_updates_for_woo_attachment_delete</code></td><td><code>false, $record, $attachment_id</code></td><td><code>Shared/Attachments/AttachmentService.php:269</code></td></tr>
+							<tr><td><code>order_updates_for_woo_attachment_storage_handler</code></td><td><code>null, $file, $context</code></td><td><code>Shared/Attachments/AttachmentService.php:151</code></td></tr>
+							<tr><td><code>order_updates_for_woo_attachment_upload_context</code></td><td><code>$context, $validated, $request</code></td><td><code>API/Endpoints/UploadAttachmentEndpoint.php:83</code></td></tr>
+							<tr><td><code>order_updates_for_woo_attachment_url</code></td><td><code>self::build_url( $id, $context ), $row, $context</code></td><td><code>Helpers/AttachmentPresenter.php:19</code></td></tr>
+							<tr><td><code>order_updates_for_woo_change_status_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/ChangeUpdateStatusEndpoint.php:133</code></td></tr>
+							<tr><td><code>order_updates_for_woo_color_icon</code></td><td><code>'', $resolved_update</code></td><td><code>Helpers/UpdatePresentationHelper.php:12</code></td></tr>
+							<tr><td><code>order_updates_for_woo_created_line</code></td><td><code>$created_line, $resolved_update</code></td><td><code>Helpers/UpdateAuthorHelper.php:71</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_creator_label</code></td><td><code>__('Customer', 'order-updates-for-woo'), $resolved_update</code></td><td><code>Helpers/UpdateAuthorHelper.php:20</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_email_detail_rows</code></td><td><code>$base_detail_rows, $this->order_update, $this->order, $this</code></td><td><code>Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:122</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_note_author_label</code></td><td><code>$author_label, $note, $is_staff, $customer_user_id</code></td><td><code>Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:236</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_note_payload</code></td><td><code>$note, $update_id, $request</code></td><td><code>API/Endpoints/UpdateCustomerNoteEndpoint.php:129</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_order_summary</code></td><td><code>$summary, $order</code></td><td><code>Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:415</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_rating_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/SubmitRatingEndpoint.php:225</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_reply_admin_bar_recipients</code></td><td><code>$recipients, $update_id, $context</code></td><td><code>Admin/AdminBar/AdminBarNotifications.php:104</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_submit_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/SubmitCustomerUpdateEndpoint.php:501</code></td></tr>
+							<tr><td><code>order_updates_for_woo_customer_update_line</code></td><td><code>__('Customer - hidden, notified at -', 'order-updates-for-woo'), $resolved_upd…</code></td><td><code>Helpers/CustomerHelper.php:24</code></td></tr>
+							<tr><td><code>order_updates_for_woo_delete_attachment_response</code></td><td><code>array( 'deleted' => true, 'id' => $attachment_id ), $record, $request</code></td><td><code>API/Endpoints/DeleteAttachmentEndpoint.php:70</code></td></tr>
+							<tr><td><code>order_updates_for_woo_delete_internal_note_response</code></td><td><code>array( 'message' => __( 'Note deleted.', 'order-updates-for-woo' ), 'noteId' =…</code></td><td><code>API/Endpoints/DeleteUpdateNoteEndpoint.php:106</code></td></tr>
+							<tr><td><code>order_updates_for_woo_delete_update_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/DeleteUpdateEndpoint.php:107</code></td></tr>
+							<tr><td><code>order_updates_for_woo_get_customer_note_history_response</code></td><td><code>$response, $note_id, $request</code></td><td><code>API/Endpoints/GetCustomerNoteHistoryEndpoint.php:92</code></td></tr>
+							<tr><td><code>order_updates_for_woo_get_customer_notes_response</code></td><td><code>$response, $update_id, $request</code></td><td><code>API/Endpoints/GetCustomerNotesEndpoint.php:94</code></td></tr>
+							<tr><td><code>order_updates_for_woo_get_update_notes_response</code></td><td><code>$response, $update_id, $request</code></td><td><code>API/Endpoints/GetUpdateNotesEndpoint.php:100</code></td></tr>
+							<tr><td><code>order_updates_for_woo_heartbeat_admin_bar_response</code></td><td><code>array( 'count' => count( $notifications ), 'items' => $this->build_items_for_j…</code></td><td><code>Admin/AdminBar/AdminBarNotifications.php:475</code></td></tr>
+							<tr><td><code>order_updates_for_woo_heartbeat_notes_response</code></td><td><code>$result, $since_map</code></td><td><code>Admin/Orders/AdminHeartbeatHandler.php:141</code></td></tr>
+							<tr><td><code>order_updates_for_woo_internal_note_payload</code></td><td><code>$note, $update_id, $request</code></td><td><code>API/Endpoints/AddUpdateNoteEndpoint.php:86</code></td></tr>
+							<tr><td><code>order_updates_for_woo_mark_solved_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/MarkSolvedEndpoint.php:97</code></td></tr>
+							<tr><td><code>order_updates_for_woo_mention_email_detail_rows</code></td><td><code>[ [ 'label' => __( 'Created by', 'order-updates-for-woo' ), 'value' => UpdateA…</code></td><td><code>Admin/Notifications/Emails/InternalMentionEmail.php:61</code></td></tr>
+							<tr><td><code>order_updates_for_woo_notify_customer_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/NotifyCustomerEndpoint.php:111</code></td></tr>
+							<tr><td><code>order_updates_for_woo_order_updates_list_response</code></td><td><code>$response, $order_id, $request</code></td><td><code>API/Endpoints/OrderUpdatesListEndpoint.php:90</code></td></tr>
+							<tr><td><code>order_updates_for_woo_participant_email_detail_rows</code></td><td><code>array( array( 'label' => __( 'Assigned to', 'order-updates-for-woo' ), 'value'…</code></td><td><code>Admin/Notifications/Emails/ParticipantUpdateEmail.php:89</code></td></tr>
+							<tr><td><code>order_updates_for_woo_poll_customer_thread_response</code></td><td><code>$cached, $order_id, $request</code></td><td><code>API/Endpoints/PollCustomerThreadEndpoint.php:104</code></td></tr>
+							<tr><td><code>order_updates_for_woo_poll_interval_max</code></td><td><code>Constants::POLL_INTERVAL_MAX_SECONDS</code></td><td><code>Frontend/OrderUpdates/OrderUpdatesShortcode.php:214</code></td></tr>
+							<tr><td><code>order_updates_for_woo_poll_interval_mid</code></td><td><code>Constants::POLL_INTERVAL_MID_SECONDS</code></td><td><code>Frontend/OrderUpdates/OrderUpdatesShortcode.php:213</code></td></tr>
+							<tr><td><code>order_updates_for_woo_poll_interval_min</code></td><td><code>Constants::POLL_INTERVAL_MIN_SECONDS</code></td><td><code>Frontend/OrderUpdates/OrderUpdatesShortcode.php:212</code></td></tr>
+							<tr><td><code>order_updates_for_woo_previous_customer_notes_response</code></td><td><code>$response, $update_id, $request</code></td><td><code>API/Endpoints/GetPreviousCustomerNotesEndpoint.php:90</code></td></tr>
+							<tr><td><code>order_updates_for_woo_rating_followup_promoter_threshold</code></td><td><code>(int) get_option( Constants::RATING_FOLLOWUP_PROMOTER_MIN_OPTION, Constants::R…</code></td><td><code>Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:62</code></td></tr>
+							<tr><td><code>order_updates_for_woo_rating_request_email_detail_rows</code></td><td><code>array(), $this->order_update, $this->order, $this</code></td><td><code>Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:51</code></td></tr>
+							<tr><td><code>order_updates_for_woo_rating_share_links</code></td><td><code>$links, $site_name, $site_url, $share_text</code></td><td><code>Helpers/RatingShareLinks.php:68</code></td></tr>
+							<tr><td><code>order_updates_for_woo_realtime_config</code></td><td><code>array(), $order_id</code></td><td><code>Frontend/OrderUpdates/OrderUpdatesShortcode.php:215</code></td></tr>
+							<tr><td><code>order_updates_for_woo_reopen_update_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/ReopenUpdateEndpoint.php:125</code></td></tr>
+							<tr><td><code>order_updates_for_woo_save_customer_email_preference_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/SaveEmailPreferenceEndpoint.php:83</code></td></tr>
+							<tr><td><code>order_updates_for_woo_save_staff_email_preference_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/SaveStaffEmailPreferenceEndpoint.php:68</code></td></tr>
+							<tr><td><code>order_updates_for_woo_save_update_response</code></td><td><code>$response, $updated_record, $request</code></td><td><code>API/Endpoints/SaveUpdateEndpoint.php:190</code></td></tr>
+							<tr><td><code>order_updates_for_woo_settings_section_controllers</code></td><td><code>$this->sections</code></td><td><code>Admin/Settings/OrderUpdatesSettingsController.php:186</code></td></tr>
+							<tr><td><code>order_updates_for_woo_single_update_response</code></td><td><code>$response, $update_id, $request</code></td><td><code>API/Endpoints/SingleOrderUpdateEndpoint.php:72</code></td></tr>
+							<tr><td><code>order_updates_for_woo_solved_line</code></td><td><code>$solved_line, $resolved_update</code></td><td><code>Helpers/UpdateStatusHelper.php:41</code></td></tr>
+							<tr><td><code>order_updates_for_woo_solved_line_formatted</code></td><td><code>$solved_line, $resolved_update</code></td><td><code>Helpers/UpdateStatusHelper.php:72</code></td></tr>
+							<tr><td><code>order_updates_for_woo_staff_reply_admin_bar_recipients</code></td><td><code>$recipients, $update_id, $sender_user_id</code></td><td><code>Admin/AdminBar/AdminBarNotifications.php:126</code></td></tr>
+							<tr><td><code>order_updates_for_woo_template_override_candidates</code></td><td><code>$candidates, $view, $relative</code></td><td><code>Helpers/View.php:108</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_card_variables</code></td><td><code>[ 'raw' => $order_update, 'formatted' => $formatted, 'rating' => $rating, 'par…</code></td><td><code>Shared/Updates/UpdateCardVariableParser.php:33</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_customer_note_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/UpdateCustomerNoteEndpoint.php:168</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_data</code></td><td><code>array( 'order_id' => $validated['order_id'], 'title' => $validated['title'], '…</code></td><td><code>API/Endpoints/SaveUpdateEndpoint.php:116</code></td></tr>
+							<tr><td><code>order_updates_for_woo_update_internal_note_response</code></td><td><code>$response, $request</code></td><td><code>API/Endpoints/UpdateUpdateNoteEndpoint.php:144</code></td></tr>
+							<tr><td><code>order_updates_for_woo_upload_attachment_response</code></td><td><code>$response, $stored, $request</code></td><td><code>API/Endpoints/UploadAttachmentEndpoint.php:99</code></td></tr>
+							<tr><td><code>order_updates_for_woo_validation_rules</code></td><td><code>$update_rules</code></td><td><code>Shared/Validation/validationRules.php:48</code></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/extending/index.html">
+					<span>Previous</span>
+					Extending the plugin
+				</a>
+				<a class="next" href="../endpoints-all/index.html">
+					<span>Next</span>
+					All REST endpoints
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

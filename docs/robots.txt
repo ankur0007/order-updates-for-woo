@@ -1,0 +1,8 @@
+# Order Updates for WooCommerce — robots.txt
+# Allow all crawlers. Point them at the sitemap.
+
+User-agent: *
+Allow: /
+
+# REPLACE the host with your live domain after deploy
+Sitemap: https://orderupdatesforwoo.com/sitemap.xml

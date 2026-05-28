@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Primary meta tags -->
+	<title>Order Updates for WooCommerce — A full help-desk for every order</title>
+	<meta name="description" content="Free, open-source WooCommerce plugin that turns every order into a support thread. Custom statuses, customer portal, team @mentions, 5-star ratings, attachments, analytics — all inside your own WordPress.">
+	<meta name="keywords" content="WooCommerce, WordPress, plugin, help-desk, order updates, customer support, support tickets, customer notes, ratings, HPOS">
+	<meta name="author" content="Order Updates for WooCommerce">
+	<meta name="robots" content="index, follow">
+
+	<!-- Canonical URL — REPLACE with your live domain after deploy -->
+	<link rel="canonical" href="https://orderupdatesforwoo.com/">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://orderupdatesforwoo.com/">
+	<meta property="og:title" content="Order Updates for WooCommerce — A full help-desk for every order">
+	<meta property="og:description" content="Free, open-source WooCommerce plugin that turns every order into a support thread. Custom statuses, customer portal, team @mentions, 5-star ratings, attachments, analytics.">
+	<meta property="og:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+	<meta property="og:site_name" content="Order Updates for WooCommerce">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Order Updates for WooCommerce — A full help-desk for every order">
+	<meta name="twitter:description" content="Free, open-source WooCommerce plugin. Custom statuses, customer portal, team @mentions, ratings, attachments, analytics — all inside WordPress.">
+	<meta name="twitter:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+
+	<!-- Google Search Console verification — REPLACE the content value with the token Google gives you -->
+	<meta name="google-site-verification" content="REPLACE_WITH_YOUR_GSC_VERIFICATION_TOKEN">
+
+	<!-- Structured data for the plugin (SoftwareApplication schema) -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareApplication",
+		"name": "Order Updates for WooCommerce",
+		"description": "A full help-desk for every WooCommerce order. Custom statuses, customer portal, team mentions, ratings, attachments, analytics.",
+		"applicationCategory": "BusinessApplication",
+		"applicationSubCategory": "Customer Support",
+		"operatingSystem": "WordPress",
+		"url": "https://orderupdatesforwoo.com/",
+		"image": "https://orderupdatesforwoo.com/images/02-thread-card.png",
+		"offers": {
+			"@type": "Offer",
+			"price": "0",
+			"priceCurrency": "USD"
+		},
+		"softwareRequirements": "WordPress 6.2+, WooCommerce 8.0+, PHP 8.0+",
+		"author": {
+			"@type": "Organization",
+			"name": "Order Updates for WooCommerce"
+		}
+	}
+	</script>
+
+	<!-- Stylesheets -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="assets/styles.css">
+	<link rel="stylesheet" href="assets/landing.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+
+	<!-- Mobile nav (hamburger + slide-out) -->
+
+	<!-- HTML partials (nav + footer) — must load before mobile-nav + mega-menu. -->
+	<script src="assets/partials.js" defer></script>
+	<script src="assets/mobile-nav.js" defer></script>
+	<script src="assets/stepper.js" defer></script>
+
+	<!-- Anchored mega-menu (Product / Resources dropdowns) -->
+	<script src="assets/mega-menu.js" defer></script>
+
+	<!-- Click-to-zoom for screenshots -->
+	<script src="assets/lightbox.js" defer></script>
+
+	<!-- Contact + download form handlers (Web3Forms relay) -->
+	<script src="assets/landing-forms.js" defer></script>
+
+	<!-- WordPress.org reviews widget — reveals only after first real review. -->
+	<script src="assets/wporg-reviews.js" defer></script>
+
+	<!-- Slider controls (used by the testimonials slider on home). -->
+	<script src="assets/features-slider.js" defer></script>
+
+	<!-- Curated testimonial cards from testimonials.json. -->
+	<script src="assets/testimonials.js" defer></script>
+
+	<!-- Google Analytics 4 — REPLACE G-XXXXXXXXXX with your actual GA4 measurement ID -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-XXXXXXXXXX');
+	</script>
+</head>
+<body class="landing">
+
+<div data-include="partials/nav.html"></div>
+
+<section class="landing__hero">
+	<div class="landing__hero__inner">
+		<div class="landing__hero__body">
+			<span class="landing__hero__badge">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+				Free &amp; open source
+			</span>
+			<h1 class="landing__hero__title">A full help-desk for every <span class="landing__hero__accent">WooCommerce order</span></h1>
+			<p class="landing__hero__lede">Turn every order into a support thread. Custom statuses, customer portal, team @mentions, 5-star ratings, attachments, analytics &mdash; all inside your own WordPress. No separate app, no per-seat fees.</p>
+
+			<ul class="landing__hero__pills">
+				<li>WordPress 6.2+</li>
+				<li>WooCommerce 8.0+</li>
+				<li>PHP 8.0+</li>
+				<li>HPOS-ready</li>
+				<li>Multisite</li>
+			</ul>
+
+			<div class="landing__hero__ctas">
+				<!-- REPLACE with your real InstaWP / TasteWP demo URL once the sandbox is set up -->
+				<a class="landing__btn landing__btn--primary" href="https://app.instawp.io/launch?t=YOUR_BLUEPRINT_TOKEN" target="_blank" rel="noopener">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+					Try the live demo
+				</a>
+				<a class="landing__btn landing__btn--secondary" href="#download">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+					Download
+				</a>
+			</div>
+		</div>
+
+		<div class="landing__hero__media">
+			<div class="landing__hero__frame landing__zoom">
+				<img src="images/02-thread-card.png" alt="An Order Updates card on a WooCommerce order edit page showing internal notes, the customer-notes thread, status pill, assignee, and the action bar." loading="eager" width="900" height="600">
+
+				<!-- Floating screenshot cards layered on top of the hero image -->
+				<div class="landing__hero__floater landing__hero__floater--top landing__zoom">
+					<img src="images/05-team-mention-email.png" alt="The @mention email a teammate receives when they are tagged in an internal note." loading="eager" width="320" height="200">
+				</div>
+
+				<div class="landing__hero__floater landing__hero__floater--bottom landing__zoom">
+					<img src="images/04-rating-widget.png" alt="The customer rating widget with five stars, an optional comment field, and a 'Still has issue?' button." loading="eager" width="320" height="220">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="landing__section landing__section--steps">
+	<div class="landing__section__inner">
+		<header class="landing__section__header">
+			<p class="landing__eyebrow">The delivery loop</p>
+			<h2 class="landing__section__title">Seven steps from <span class="landing__hl landing__hl--start">install</span> to <span class="landing__hl landing__hl--end">happy repeated customers</span></h2>
+			<p class="landing__section__lede">A complete cycle &mdash; activate the plugin, talk to the customer through the order, get a 5-star rating, and watch the same customer come back. Then round again.</p>
+		</header>
+
+		<!-- Auto-rotating stepper. Left side: numbered dots positioned
+		     along an arc, click to jump. Right side: the active step's
+		     content + image, swaps when the active step changes. JS
+		     auto-advances every ~5s; manual clicks pause the autoplay. -->
+		<div class="landing__stepper" data-stepper>
+			<div class="landing__stepper__rail" role="tablist" aria-label="The delivery loop">
+				<button type="button" class="landing__stepper__dot is-active" data-stepper-dot="1" role="tab" aria-selected="true">
+					<span class="landing__stepper__dot__num">1</span>
+					<span class="landing__stepper__dot__label">Install</span>
+				</button>
+				<button type="button" class="landing__stepper__dot" data-stepper-dot="2" role="tab" aria-selected="false">
+					<span class="landing__stepper__dot__num">2</span>
+					<span class="landing__stepper__dot__label">Start a thread</span>
+				</button>
+				<button type="button" class="landing__stepper__dot" data-stepper-dot="3" role="tab" aria-selected="false">
+					<span class="landing__stepper__dot__num">3</span>
+					<span class="landing__stepper__dot__label">Communicate</span>
+				</button>
+				<button type="button" class="landing__stepper__dot" data-stepper-dot="4" role="tab" aria-selected="false">
+					<span class="landing__stepper__dot__num">4</span>
+					<span class="landing__stepper__dot__label">Deliver, hassle-free</span>
+				</button>
+				<button type="button" class="landing__stepper__dot" data-stepper-dot="5" role="tab" aria-selected="false">
+					<span class="landing__stepper__dot__num">5</span>
+					<span class="landing__stepper__dot__label">Get rated</span>
+				</button>
+				<button type="button" class="landing__stepper__dot" data-stepper-dot="6" role="tab" aria-selected="false">
+					<span class="landing__stepper__dot__num">6</span>
+					<span class="landing__stepper__dot__label">Watch the team</span>
+				</button>
+				<button type="button" class="landing__stepper__dot" data-stepper-dot="7" role="tab" aria-selected="false">
+					<span class="landing__stepper__dot__num">7</span>
+					<span class="landing__stepper__dot__label">Repeat customer</span>
+				</button>
+			</div>
+
+			<div class="landing__stepper__stage">
+				<article class="landing__stepper__panel is-active" data-stepper-panel="1" role="tabpanel">
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 1</p>
+						<h3 class="landing__stepper__panel__title">Install in 30 seconds</h3>
+						<p class="landing__stepper__panel__desc">Upload the <code>.zip</code> through <em>Plugins &rarr; Add New &rarr; Upload</em>, or pull it from GitHub. Database tables are created on activation. No setup wizard, no first-run questions.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__stepper__panel__media--art" aria-hidden="true">
+						<!-- Inline SVG illustration — a download chevron landing into
+						     a soft platform, with a checkmark badge on the corner.
+						     No third-party marks, fully on-brand colours. -->
+						<svg class="landing__stepper__install-art" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plugin installed">
+							<defs>
+								<linearGradient id="installGradBox" x1="0" y1="0" x2="1" y2="1">
+									<stop offset="0%" stop-color="#6366f1"/>
+									<stop offset="100%" stop-color="#2563eb"/>
+								</linearGradient>
+								<linearGradient id="installGradGlow" x1="0" y1="0" x2="0" y2="1">
+									<stop offset="0%" stop-color="#c7d2fe" stop-opacity="0.6"/>
+									<stop offset="100%" stop-color="#c7d2fe" stop-opacity="0"/>
+								</linearGradient>
+							</defs>
+
+							<!-- Soft glow behind the icon -->
+							<ellipse cx="160" cy="230" rx="120" ry="20" fill="url(#installGradGlow)"/>
+
+							<!-- Download arrow pointing into the box -->
+							<g stroke="#94a3b8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+								<line x1="160" y1="40" x2="160" y2="130"/>
+								<polyline points="125,100 160,135 195,100"/>
+							</g>
+
+							<!-- Plugin "box" — represents the installed plugin sitting on a platform -->
+							<rect x="80" y="150" width="160" height="110" rx="18" fill="url(#installGradBox)"/>
+							<rect x="80" y="150" width="160" height="110" rx="18" fill="none" stroke="#1e40af" stroke-width="1" opacity="0.3"/>
+
+							<!-- "Plugin card" lines inside the box -->
+							<rect x="100" y="175" width="80" height="8" rx="4" fill="#ffffff" opacity="0.85"/>
+							<rect x="100" y="195" width="120" height="6" rx="3" fill="#ffffff" opacity="0.55"/>
+							<rect x="100" y="210" width="60" height="6" rx="3" fill="#ffffff" opacity="0.55"/>
+							<rect x="100" y="230" width="44" height="14" rx="7" fill="#ffffff" opacity="0.95"/>
+
+							<!-- Checkmark badge top-right of the box -->
+							<circle cx="232" cy="158" r="22" fill="#10b981"/>
+							<polyline points="222,158 230,166 244,150" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+							<!-- Platform line under the box -->
+							<line x1="60" y1="270" x2="260" y2="270" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
+						</svg>
+					</div>
+				</article>
+
+				<article class="landing__stepper__panel" data-stepper-panel="2" role="tabpanel" hidden>
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 2</p>
+						<h3 class="landing__stepper__panel__title">Open your first update</h3>
+						<p class="landing__stepper__panel__desc">On any order, click <strong>Add new update</strong>, write a title, pick an assignee. Done. Send a customer-visible note from the same form &mdash; the customer gets an email with a secure link.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__zoom">
+						<img src="images/01-create-update.png" alt="The Add New Update form on a WooCommerce order page, with fields for title, status, color, assignee, internal note, and customer note." loading="lazy" width="700" height="500">
+					</div>
+				</article>
+
+				<article class="landing__stepper__panel" data-stepper-panel="3" role="tabpanel" hidden>
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 3</p>
+						<h3 class="landing__stepper__panel__title">Communicate — internal and customer-facing, side by side</h3>
+						<p class="landing__stepper__panel__desc">Internal notes for the team, customer notes for the customer. Same thread, same order. <strong>@mention</strong> a teammate, attach a file, change the status &mdash; nothing leaks between sides.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__zoom">
+						<img src="images/02-thread-card.png" alt="Two-thread conversation card with Internal Notes and Customer Notes side by side." loading="lazy" width="700" height="500">
+					</div>
+				</article>
+
+				<article class="landing__stepper__panel" data-stepper-panel="4" role="tabpanel" hidden>
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 4</p>
+						<h3 class="landing__stepper__panel__title">Deliver, hassle-free</h3>
+						<p class="landing__stepper__panel__desc">Customer reads the email, replies from their order page, attaches photos if needed. You carry the conversation through to <em>solved</em> &mdash; no email chains, no back-and-forth across tools.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__zoom">
+						<img src="images/03-customer-email.png" alt="Customer notification email with a deep link back to the order conversation." loading="lazy" width="700" height="500">
+					</div>
+				</article>
+
+				<article class="landing__stepper__panel" data-stepper-panel="5" role="tabpanel" hidden>
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 5</p>
+						<h3 class="landing__stepper__panel__title">Get rated &mdash; turn solved into 5-star</h3>
+						<p class="landing__stepper__panel__desc">Mark the thread solved and the reply box becomes a 5-star widget. Happy customers get a thank-you with social share. Unhappy ones get a warm follow-up &mdash; and your admin gets a heads-up.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__zoom">
+						<img src="images/04-rating-widget.png" alt="Customer 5-star rating widget that replaces the reply box on a solved update." loading="lazy" width="700" height="500">
+					</div>
+				</article>
+
+				<article class="landing__stepper__panel" data-stepper-panel="6" role="tabpanel" hidden>
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 6</p>
+						<h3 class="landing__stepper__panel__title">Watch the team &mdash; analytics, at a glance</h3>
+						<p class="landing__stepper__panel__desc">A built-in dashboard tells you open vs. solved, median time to solve, who&rsquo;s carrying the load, and which products generate the most threads. Spot bottlenecks early, reward your fastest responders.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__zoom">
+						<img src="images/07-analytics-dashboard.png" alt="Analytics dashboard showing open vs solved counts, time-to-solve, and per-team-member breakdown." loading="lazy" width="700" height="500">
+					</div>
+				</article>
+
+				<article class="landing__stepper__panel" data-stepper-panel="7" role="tabpanel" hidden>
+					<div class="landing__stepper__panel__text">
+						<p class="landing__stepper__panel__kicker">Step 7 &middot; and round again</p>
+						<h3 class="landing__stepper__panel__title">Repeat customer &mdash; the loop closes</h3>
+						<p class="landing__stepper__panel__desc">Happy customer = next order. They&rsquo;ve seen you actually answer, actually deliver, actually care &mdash; so they come back. Every new order kicks off the next thread, and the cycle begins again.</p>
+					</div>
+					<div class="landing__stepper__panel__media landing__zoom">
+						<img src="images/04-rating-promoter-email.png" alt="Promoter thank-you email with social share buttons that bring new customers in." loading="lazy" width="700" height="500">
+					</div>
+				</article>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="features" class="landing__section landing__section--features">
+	<div class="landing__section__inner">
+		<header class="landing__section__header">
+			<p class="landing__eyebrow">What you get</p>
+			<h2 class="landing__section__title">A <span class="landing__hl landing__hl--start">complete help-desk</span> &mdash; built into WooCommerce</h2>
+			<p class="landing__section__lede">Two-thread conversations, customer portal, ratings &amp; share, team workflow, analytics, REST API, privacy and security &mdash; all in one plugin.</p>
+		</header>
+
+		<p class="landing__free-callout">Everything below ships <strong>free, in one plugin</strong>. No upgrade tier. No per-seat pricing. No tracking.</p>
+
+		<div class="landing__feature-teaser">
+			<a class="landing__feature-teaser__card" href="features.html#threads">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+				</div>
+				<h3>Two threads, one update</h3>
+				<p>Internal notes for staff, customer notes for customers &mdash; side by side, no crossover.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#portal">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+				</div>
+				<h3>Customer portal</h3>
+				<p>Logged-in or guest, same UI. Reply, attach files, rate &mdash; without leaving your store.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#lock-banner">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+				</div>
+				<h3>Non-blocking lock banner</h3>
+				<p>Two teammates can chat about an order while it&rsquo;s locked. WC&rsquo;s default modal stays out.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#analytics">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+				</div>
+				<h3>Analytics at a glance</h3>
+				<p>Open vs solved, time to solve, per-team-member throughput &mdash; all in one dashboard.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#bento">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				</div>
+				<h3>Ratings &amp; social share</h3>
+				<p>5-star widget on solved updates. Promoters get a one-tap share to FB, X, LinkedIn, WhatsApp.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#bento">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+				</div>
+				<h3>Team workflow</h3>
+				<p>Round-robin assignment, admin-bar inbox, one-click Clear All, per-update mute switch.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#bento">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+				</div>
+				<h3>REST API + 100+ hooks</h3>
+				<p>Wire to a CRM, push to Slack, build on top &mdash; without forking. Modern coding standards throughout.</p>
+			</a>
+			<a class="landing__feature-teaser__card" href="features.html#bento">
+				<div class="landing__feature-teaser__icon" aria-hidden="true">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+				</div>
+				<h3>Privacy &amp; security first</h3>
+				<p>Hashed guest URLs, permission-checked attachments, nonce + capability on every endpoint.</p>
+			</a>
+		</div>
+
+		<div class="landing__feature-teaser__cta">
+			<a class="landing__btn landing__btn--primary landing__btn--large" href="features.html">
+				Explore all features
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+			</a>
+			<p class="landing__feature-teaser__cta-sub">Full deep-dives, screenshots of every screen, and a slider with every email.</p>
+		</div>
+
+
+	</div>
+</section>
+
+<!-- Testimonials — empty-but-honest. No fake quotes; the JS fetch hook
+     populates the WordPress.org rating widget once the plugin is live. -->
+<section id="reviews" class="landing__section landing__section--reviews">
+	<div class="landing__section__inner">
+
+		<!-- Editorial 2-column pull-quote — intro + controls on the left,
+		     one big quote on the right. testimonials.js fills the slider
+		     track; features-slider.js wires prev/next + dots. -->
+		<div class="landing__testi-2col" data-slider hidden data-testimonials-wrapper>
+			<div class="landing__testi-2col__intro">
+				<p class="landing__eyebrow">Reviews</p>
+				<h2 class="landing__testi-2col__title">From our<br>community.</h2>
+				<p class="landing__testi-2col__lede">Honest words from store owners and developers using Order Updates in their own WooCommerce stores.</p>
+
+				<div class="landing__testi-2col__controls">
+					<button type="button" class="landing__slider__btn" data-slider-prev aria-label="Previous review">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+					</button>
+					<button type="button" class="landing__slider__btn" data-slider-next aria-label="Next review">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+					</button>
+				</div>
+
+				<p class="landing__testi-2col__see-all" data-testimonials-see-all hidden>
+					<a href="reviews.html">See all reviews &rarr;</a>
+				</p>
+			</div>
+
+			<div class="landing__testi-2col__stage">
+				<div class="landing__testimonials landing__testimonials--pullquote" data-testimonials-grid data-slider-track></div>
+				<div class="landing__slider__dots landing__testi-2col__dots" data-slider-dots aria-hidden="true"></div>
+			</div>
+		</div>
+
+		<!-- WP.org rating widget — separate from the pull-quote, only
+		     shows when api.wordpress.org returns real review data. -->
+		<div class="landing__reviews__wporg" data-wporg-slug="order-updates-for-woo" hidden>
+			<div class="landing__reviews__wporg__stars" aria-hidden="true">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+			</div>
+			<p class="landing__reviews__wporg__rating">
+				<strong data-wporg-rating>0.0</strong>
+				out of 5
+				<span class="landing__reviews__wporg__count">(<span data-wporg-count>0</span> reviews on WordPress.org)</span>
+			</p>
+			<a class="landing__btn landing__btn--secondary" href="https://wordpress.org/support/plugin/order-updates-for-woo/reviews/" target="_blank" rel="noopener">Read all reviews on WordPress.org</a>
+		</div>
+	</div>
+</section>
+
+<section id="demo" class="landing__section landing__section--demo">
+	<div class="landing__section__inner landing__section__inner--narrow">
+		<p class="landing__eyebrow">Try before you install</p>
+		<h2 class="landing__section__title">Spin up a live demo in 60 seconds</h2>
+		<p class="landing__section__lede">Click the button to get your own fresh WordPress + WooCommerce install with the plugin pre-loaded. Yours for 60 minutes, then it auto-cleans up. No signup, no card.</p>
+		<!-- REPLACE href with your real InstaWP launch URL once the sandbox is set up -->
+		<a class="landing__btn landing__btn--primary landing__btn--large" href="https://app.instawp.io/launch?t=YOUR_BLUEPRINT_TOKEN" target="_blank" rel="noopener">
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+			Launch demo on InstaWP
+		</a>
+		<p class="landing__small">Demo runs on InstaWP&rsquo;s free sandbox &mdash; your data is never shared with the plugin author.</p>
+	</div>
+</section>
+
+<section id="download" class="landing__section landing__section--download">
+	<div class="landing__section__inner">
+
+		<!-- Direct download + optional newsletter signup. No gate — the
+		     plugin is GPL and also on WordPress.org, so gating made no
+		     sense. Email field below is voluntary, value-driven. -->
+		<div class="landing__download-2col">
+			<div class="landing__download-2col__intro">
+				<p class="landing__eyebrow">Get the plugin</p>
+				<h2 class="landing__download-2col__title">Free, open source, ready to install.</h2>
+				<p class="landing__download-2col__lede">Three install paths. Pick whichever fits your workflow &mdash; all download the same <code>.zip</code>. No email required, no signup, no upsell.</p>
+			</div>
+
+			<div class="landing__download-2col__form">
+				<!-- Three install options laid out as primary action cards. -->
+				<div class="landing__download__buttons">
+					<a class="landing__download__btn landing__download__btn--primary" href="downloads/order-updates-for-woo.zip" download="order-updates-for-woo.zip">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+						<span>
+							<strong>Download .zip</strong>
+							<small>Latest stable build, hosted here</small>
+						</span>
+					</a>
+					<a class="landing__download__btn" href="https://wordpress.org/plugins/order-updates-for-woo/" target="_blank" rel="noopener">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.051-.181 2.986-.51-.024-.038-.046-.079-.065-.124l-2.763-7.571zm-2.698-3.65l-2.736-7.473C8.31 1.2 9.96.667 11.74.667c1.84 0 3.553.564 4.97 1.524-.034.002-.07.005-.106.007-.665.04-1.135.616-1.135 1.234 0 .553.318 1.022.66 1.575.255.418.553.95.553 1.722 0 .533-.205 1.149-.474 2.007l-.621 2.073-2.252-6.692c.376-.02.715-.06.715-.06.336-.04.298-.534-.038-.514 0 0-1.013.08-1.666.08-.617 0-1.654-.08-1.654-.08-.337-.02-.376.494-.038.514 0 0 .318.04.654.06l.944 2.586zm9.972 8.6c1.516-2.058 2.405-4.633 2.405-7.417C21.837 5.4 17.232.667 11.74.667 8.156.667 4.94 2.43 3.05 5.119l5.81 15.886c.025.029.05.057.077.084-.55-1.527-3.477-9.529-3.477-9.529L11.59 22.59c.058.067.119.122.182.166-3.097-1.514-5.234-4.69-5.234-8.37 0-1.18.245-2.305.683-3.328L11.74 23c5.493 0 9.953-4.46 9.953-9.953 0-2.624-1.013-5.012-2.671-6.793l.41 1.482z"/></svg>
+						<span>
+							<strong>WordPress.org</strong>
+							<small>One-click install from WP admin</small>
+						</span>
+					</a>
+					<a class="landing__download__btn" href="https://github.com/ankur0007/order-updates-for-woo" target="_blank" rel="noopener">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.17c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.21.08 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.41 1.02.01 2.04.14 3 .41 2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.19.69.8.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+						<span>
+							<strong>Clone or star on GitHub</strong>
+							<small>Follow development, file issues</small>
+						</span>
+					</a>
+				</div>
+
+				<!-- Optional newsletter signup — POSTs to the same Cloudflare
+				     Worker the plugin uses, so website + plugin both feed the
+				     single Mailchimp list. No Mailchimp credentials on the
+				     client; the Worker holds the API key server-side. -->
+				<form id="awts-download-form" class="awts-inline-form landing__download__signup" data-success-id="awts-download-success" data-mailchimp-worker="https://shrill-breeze-aef9.order-update-for-woocommerce.workers.dev/subscribe">
+					<label for="awts-download-email" class="awts-inline-form__label">Want a heads-up when the next release ships?</label>
+					<div class="awts-inline-form__row">
+						<input type="email" id="awts-download-email" name="email" placeholder="you@yourstore.com" autocomplete="email" required>
+						<button type="submit" class="landing__btn landing__btn--secondary">Notify me</button>
+					</div>
+					<p class="awts-inline-form__status" data-status hidden></p>
+				</form>
+
+				<div id="awts-download-success" class="awts-inline-form__success" hidden>
+					<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+					<h3>You&rsquo;re on the list</h3>
+					<p>I&rsquo;ll email when the next release ships. No spam, no list rental, easy unsubscribe.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="docs" class="landing__section landing__section--docs">
+	<div class="landing__section__inner">
+		<header class="landing__section__header">
+			<p class="landing__eyebrow">Documentation</p>
+			<h2 class="landing__section__title">Everything you need to use, configure, extend</h2>
+			<p class="landing__section__lede">38 pages of clear, simple writing. User guide for store owners. Developer guide for builders. Full reference for every hook, endpoint, setting, and table.</p>
+		</header>
+
+		<div class="landing__docs-cards">
+			<a class="landing__docs-card" href="user-guide/getting-started/index.html">
+				<h3>User Guide</h3>
+				<p>Day-to-day usage &mdash; creating updates, talking to customers, managing the team, collecting feedback.</p>
+				<span class="landing__docs-card__cta">Read &rarr;</span>
+			</a>
+			<a class="landing__docs-card" href="developer-guide/architecture/index.html">
+				<h3>Developer Guide</h3>
+				<p>Architecture, hooks, REST API, helper classes, theme template overrides, extending the plugin.</p>
+				<span class="landing__docs-card__cta">Read &rarr;</span>
+			</a>
+			<a class="landing__docs-card" href="reference/hooks-all/index.html">
+				<h3>Reference</h3>
+				<p>Alphabetical lists of every hook, REST endpoint, setting, and database table.</p>
+				<span class="landing__docs-card__cta">Read &rarr;</span>
+			</a>
+			<a class="landing__docs-card" href="faq/general/index.html">
+				<h3>FAQ</h3>
+				<p>Common questions, troubleshooting, and notes on compatibility (HPOS, page builders, hosts).</p>
+				<span class="landing__docs-card__cta">Read &rarr;</span>
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- Contact section. Submits to Web3Forms; the inbound side is configured
+     to forward to support@orderupdatesforwoo.com. Inline status replaces
+     native alert() so the success/error UI stays on the page. -->
+<section id="contact" class="landing__section landing__section--contact">
+	<div class="landing__section__inner">
+		<div class="landing__contact">
+			<div class="landing__contact__intro">
+				<p class="landing__eyebrow">Talk to the maker</p>
+				<h2 class="landing__contact__title">Got a question? Found a bug? Want a feature?</h2>
+				<p class="landing__contact__lede">Drop a note here and it lands in <code>support@orderupdatesforwoo.com</code> &mdash; my own inbox. I read every message; replies usually come within a day or two.</p>
+				<ul class="landing__contact__reasons">
+					<li><strong>Pre-sales questions</strong></li>
+					<li><strong>Bug reports</strong></li>
+					<li><strong>Feature ideas</strong></li>
+					<li>or open an issue on <a href="https://github.com/ankur0007/order-updates-for-woo/issues" target="_blank" rel="noopener">GitHub</a></li>
+				</ul>
+			</div>
+
+			<form id="awts-contact-form" class="awts-inline-form awts-inline-form--card" data-success-id="awts-contact-success">
+				<input type="hidden" name="access_key" value="5795b01f-214c-4a5b-b76b-90c8bb00ad2e">
+				<input type="hidden" name="subject" value="Contact form — Order Updates for WooCommerce">
+				<input type="hidden" name="from_name" value="Order Updates contact form">
+				<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+				<div class="awts-inline-form__field">
+					<label for="awts-contact-name">Your name</label>
+					<input type="text" id="awts-contact-name" name="name" required autocomplete="name">
+				</div>
+
+				<div class="awts-inline-form__field">
+					<label for="awts-contact-email">Email</label>
+					<input type="email" id="awts-contact-email" name="email" required autocomplete="email">
+				</div>
+
+				<div class="awts-inline-form__field">
+					<label for="awts-contact-message">Message</label>
+					<textarea id="awts-contact-message" name="message" rows="5" required></textarea>
+				</div>
+
+				<button type="submit" class="landing__btn landing__btn--primary landing__btn--large">Send message</button>
+				<p class="awts-inline-form__status" data-status hidden></p>
+			</form>
+
+			<div id="awts-contact-success" class="awts-inline-form__success" hidden>
+				<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+				<h3>Thanks &mdash; I&rsquo;ll get back to you</h3>
+				<p>Your message is in. Watch for a reply at the email you entered.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+
+<script>
+	document.addEventListener( 'partials:ready', function () {
+		var el = document.getElementById( 'landing-year' );
+		if ( el ) {
+			el.textContent = new Date().getFullYear();
+		}
+	} );
+</script>
+
+</body>
+</html>

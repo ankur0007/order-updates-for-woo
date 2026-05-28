@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Reviews — Order Updates for WooCommerce</title>
+	<meta name="description" content="Every review of Order Updates for WooCommerce — submitted by real users, each one linked back to a public profile or business so you can verify it.">
+	<meta name="robots" content="index, follow">
+
+	<link rel="canonical" href="https://orderupdatesforwoo.com/reviews.html">
+
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://orderupdatesforwoo.com/reviews.html">
+	<meta property="og:title" content="Reviews — Order Updates for WooCommerce">
+	<meta property="og:description" content="Every review, with a public link to verify each reviewer is real.">
+	<meta property="og:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+	<meta property="og:site_name" content="Order Updates for WooCommerce">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Reviews — Order Updates for WooCommerce">
+	<meta name="twitter:description" content="Every review, with a public link to verify each reviewer is real.">
+	<meta name="twitter:image" content="https://orderupdatesforwoo.com/images/02-thread-card.png">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="assets/styles.css">
+	<link rel="stylesheet" href="assets/landing.css">
+
+
+	<!-- HTML partials (nav + footer) — must load before mobile-nav + mega-menu. -->
+	<script src="assets/partials.js" defer></script>	<script src="assets/mobile-nav.js" defer></script>
+	<script src="assets/mega-menu.js" defer></script>
+	<script src="assets/lightbox.js" defer></script>
+	<script src="assets/landing-forms.js" defer></script>
+	<script src="assets/wporg-reviews.js" defer></script>
+	<script src="assets/testimonials.js" defer></script>
+</head>
+<body class="landing">
+
+<div data-include="partials/nav.html"></div>
+
+<section class="features-header">
+	<div class="features-header__inner">
+		<p class="landing__eyebrow">Reviews</p>
+		<h1 class="features-header__title">What real users say</h1>
+		<p class="features-header__lede"><strong data-testimonials-count>0</strong> reviews so far. Every one is signed with a public link back to the reviewer&rsquo;s profile or store &mdash; click any name to verify.</p>
+
+		<p class="features-header__cta">
+			<a class="landing__btn landing__btn--primary landing__btn--large" href="#testimonial-form">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+				Write your experience
+			</a>
+		</p>
+
+		<!-- WP.org rating widget — revealed by JS once real reviews land.
+		     Inline display style removed so the [hidden] attribute actually
+		     hides the widget on pages where the plugin isn't on WP.org yet. -->
+		<div class="landing__reviews__wporg landing__reviews__wporg--inline" data-wporg-slug="order-updates-for-woo" hidden>
+			<div class="landing__reviews__wporg__stars" aria-hidden="true">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+			</div>
+			<p class="landing__reviews__wporg__rating">
+				<strong data-wporg-rating>0.0</strong>
+				out of 5
+				<span class="landing__reviews__wporg__count">(<span data-wporg-count>0</span> on WordPress.org)</span>
+			</p>
+			<a class="landing__btn landing__btn--secondary" href="https://wordpress.org/support/plugin/order-updates-for-woo/reviews/" target="_blank" rel="noopener">Read on WordPress.org</a>
+		</div>
+	</div>
+</section>
+
+<section class="landing__section landing__section--all-reviews">
+	<div class="landing__section__inner">
+		<div class="reviews-layout" data-reviews-layout hidden>
+			<!-- Left: at-a-glance breakdown. Each row is clickable and
+			     filters the list on the right. -->
+			<aside class="reviews-breakdown">
+				<div class="reviews-breakdown__overall">
+					<span class="reviews-breakdown__overall__avg" data-breakdown-avg>0.0</span>
+					<span class="reviews-breakdown__overall__stars" data-breakdown-stars aria-hidden="true"></span>
+					<span class="reviews-breakdown__overall__count"><span data-breakdown-total>0</span> reviews</span>
+				</div>
+
+				<ul class="reviews-breakdown__list" data-breakdown-list>
+					<!-- Populated by JS — one row per star value 5..1 -->
+				</ul>
+
+				<p class="reviews-breakdown__note">
+					Click any row to filter. Click again to clear.
+				</p>
+			</aside>
+
+			<!-- Right: reviews list with sort dropdown. -->
+			<div class="reviews-list-wrap">
+				<div class="reviews-list-wrap__head">
+					<p class="reviews-list-wrap__count">
+						Showing <strong data-list-count>0</strong> of <strong data-list-total>0</strong>
+					</p>
+					<label class="reviews-list-wrap__sort">
+						Sort by
+						<select data-reviews-sort>
+							<option value="newest">Newest first</option>
+							<option value="oldest">Oldest first</option>
+							<option value="highest">Highest rated</option>
+							<option value="lowest">Lowest rated</option>
+						</select>
+					</label>
+				</div>
+
+				<div class="landing__testimonials landing__testimonials--rows" data-testimonials-all></div>
+
+				<div class="reviews-list-wrap__no-match" data-no-match hidden>
+					<p>No reviews match this filter. <button type="button" data-clear-filter>Clear filter</button></p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Empty state — shown when there are zero published reviews. -->
+		<div class="landing__reviews__waiting landing__reviews__waiting--narrow" data-testimonials-empty>
+			<div class="landing__reviews__waiting__icon" aria-hidden="true">
+				<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 8.5 12 2"></polygon></svg>
+			</div>
+			<h3>No reviews published yet</h3>
+			<p>The first reviews go up here the moment a real user sends one and the verification link checks out.</p>
+			<a class="landing__btn landing__btn--secondary" href="#testimonial-form">Share your experience</a>
+		</div>
+	</div>
+</section>
+
+<!-- Testimonial submission form. Web3Forms relays to support@; we
+     manually vet, then drop the approved quote into testimonials.json. -->
+<section class="landing__section landing__section--testimonial-submit">
+	<div class="landing__section__inner landing__section__inner--narrow">
+		<header class="landing__section__header">
+			<p class="landing__eyebrow">Used the plugin?</p>
+			<h2 class="landing__section__title">Share your experience</h2>
+			<p class="landing__section__lede">Honest reviews welcome — five-star, one-star, or anywhere in between. Every published quote carries a public link back to you so readers know it&rsquo;s real.</p>
+		</header>
+
+		<details id="testimonial-form" class="landing__testimonial-form" open>
+			<summary>
+				<span>Share a testimonial</span>
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+			</summary>
+
+			<form id="awts-testimonial-form" class="awts-inline-form awts-inline-form--card" data-success-id="awts-testimonial-success">
+				<input type="hidden" name="access_key" value="bd8bf772-7e85-4641-b477-0d40c1d1b29b">
+				<input type="hidden" name="subject" value="Testimonial submission — Order Updates for WooCommerce">
+				<input type="hidden" name="from_name" value="Order Updates testimonial form">
+				<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+				<div class="awts-inline-form__field">
+					<label for="awts-testi-name">Your name</label>
+					<input type="text" id="awts-testi-name" name="name" required autocomplete="name">
+				</div>
+
+				<div class="awts-inline-form__field">
+					<label for="awts-testi-role">Role &amp; store / company <span class="awts-inline-form__hint">(e.g. "Owner, Acme Coffee")</span></label>
+					<input type="text" id="awts-testi-role" name="role" required>
+				</div>
+
+				<div class="awts-inline-form__field">
+					<label for="awts-testi-link">Public verification link <span class="awts-inline-form__hint">— LinkedIn, store URL, GitHub, anywhere readers can confirm it&rsquo;s you. Required.</span></label>
+					<input type="url" id="awts-testi-link" name="verify_link" placeholder="https://" required>
+				</div>
+
+				<div class="awts-inline-form__field">
+					<label for="awts-testi-rating">Rating</label>
+					<select id="awts-testi-rating" name="rating" required>
+						<option value="">Pick a star count…</option>
+						<option value="5">★★★★★ &mdash; Loved it</option>
+						<option value="4">★★★★☆ &mdash; Worked well, minor nits</option>
+						<option value="3">★★★☆☆ &mdash; OK</option>
+						<option value="2">★★☆☆☆ &mdash; Frustrating</option>
+						<option value="1">★☆☆☆☆ &mdash; Did not work for me</option>
+					</select>
+				</div>
+
+				<div class="awts-inline-form__field">
+					<label for="awts-testi-quote">Your testimonial</label>
+					<textarea id="awts-testi-quote" name="message" rows="4" required placeholder="What did the plugin do for you?"></textarea>
+				</div>
+
+				<p class="awts-inline-form__fineprint">By submitting, you allow us to publish your name, role, verification link and quote on this site. We&rsquo;ll never publish without your link &mdash; that&rsquo;s how readers know it&rsquo;s really you.</p>
+
+				<button type="submit" class="landing__btn landing__btn--primary">Submit testimonial</button>
+				<p class="awts-inline-form__status" data-status hidden></p>
+			</form>
+
+			<div id="awts-testimonial-success" class="awts-inline-form__success" hidden>
+				<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+				<h3>Got it &mdash; thank you!</h3>
+				<p>I read every submission. If your testimonial gets published, it&rsquo;ll appear in the reviews section with the public link you provided shown next to your name &mdash; so other readers can verify you&rsquo;re real.</p>
+			</div>
+		</details>
+	</div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+
+<script>
+	document.getElementById( 'reviews-year' ).textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

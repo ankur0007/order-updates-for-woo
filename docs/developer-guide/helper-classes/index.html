@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Helper classes — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+		<script src="../../assets/copy.js" defer></script>
+			<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html" class="is-active">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Developer Guide &nbsp;/&nbsp;
+				Helper classes
+			</p>
+
+			<h1 class="docs-page__title">Helper classes</h1>
+			<p class="docs-page__lede">26 stateless utilities in <code>src/Helpers/</code>. The eight deep-dives below cover the ones you&rsquo;ll reach for most often.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Before you write a utility, check here</h2>
+					<p>26 stateless helper classes live in <code>src/Helpers/</code>. Mostly static methods, small APIs, no surprising side effects. The plugin uses them anywhere logic is shared between two or more callsites &mdash; date formatting, capability checks, signed URL generation, presentation glue.</p>
+					<p>If you&rsquo;re writing addon code and you find yourself reaching for &ldquo;hmm, I need to format a timestamp&rdquo; or &ldquo;hmm, I need to check if this update is solved&rdquo; or &ldquo;hmm, I need to know if HPOS is on&rdquo; &mdash; check this page first. The answer is probably already in here, and using the existing helper means your addon picks up bug fixes automatically.</p>
+					<p>The full alphabetical list is at the bottom. The deep dives below are the ones you&rsquo;ll reach for almost every day.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Check update state (is_resolved, is_customer_visible, can_edit)</h2>
+					<p>An update record is a flat array straight from the database. Three of its columns are booleans masquerading as integers: <code>is_resolved</code>, <code>customer_visible</code>, <code>customer_note_edits_locked</code>. You <em>could</em> write <code>(int) $update['is_resolved'] === 1</code> everywhere. Please don&rsquo;t.</p>
+					<p><code>UpdateState</code> has static methods for each meaningful question:</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\UpdateState;
+
+if ( UpdateState::is_resolved( $update ) )         { /* ... */ }
+if ( UpdateState::is_customer_visible( $update ) ) { /* ... */ }
+if ( UpdateState::can_edit( $update ) )            { /* ... */ }</code></pre>
+					<p>Why bother? Three reasons. <code>is_resolved</code> on the database can be <code>'0'</code>, <code>0</code>, <code>null</code>, or <code>false</code> depending on where the array came from &mdash; the helper handles all of them. <code>can_edit</code> isn&rsquo;t a single column; it&rsquo;s a derived check across multiple fields (resolved? rated? edit-window setting?) &mdash; you&rsquo;d be re-implementing that logic at every callsite. And if the semantics ever change in a future plugin version (say, the &ldquo;solved&rdquo; concept gets split into &ldquo;solved&rdquo; and &ldquo;archived&rdquo;), every callsite using <code>UpdateState::is_resolved()</code> picks up the new behaviour for free.</p>
+					<p>This is the helper you&rsquo;ll touch most often. Get comfortable with it.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Render templates with theme-override support (View::render)</h2>
+					<p>Anywhere the plugin shows markup, it goes through <code>View::render()</code>. Never <code>include</code>, never <code>require</code>, never <code>file_get_contents</code> + <code>echo</code>. Your addon should follow the same rule.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\View;
+
+View::render( 'src/Admin/Orders/Templates/card/header.php', [
+    'update'    =&gt; $update,
+    'is_solved' =&gt; UpdateState::is_resolved( $update ),
+] );</code></pre>
+					<p>The second argument is the context array &mdash; each key becomes a locally-scoped variable inside the template. <code>$update</code> and <code>$is_solved</code> are now available in <code>header.php</code>.</p>
+					<p>The thing that makes <code>View::render()</code> worth using over a plain <code>include</code>: it checks <code>your-theme/order-updates-for-woo/&lt;lowercased-path-after-Templates/&gt;</code> first and falls back to the plugin source if the theme override doesn&rsquo;t exist. That&rsquo;s the entire mechanism behind the <a href="../theme-overrides/index.html">Theme overrides</a> system &mdash; you get it for free by routing through this helper.</p>
+					<p>One catch: only paths containing a <code>Templates/</code> segment are theme-overridable. Templates outside that convention render straight from the plugin source &mdash; the override lookup gets skipped. If you&rsquo;re writing a view that should be customisable, put it inside a <code>Templates/</code> sub-folder under the feature that owns it.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>HPOS-safe order lookups + orders-list URL (HposHelper)</h2>
+					<p>WooCommerce supports two order storage modes: classic (orders in <code>wp_posts</code>) and HPOS (orders in custom tables). Most code paths don&rsquo;t care &mdash; <code>wc_get_order()</code> hides the difference. A few do.</p>
+					<p>Two places you&rsquo;ll need this helper:</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\HposHelper;
+
+// Is HPOS turned on?
+if ( HposHelper::is_enabled() ) { /* ... */ }
+
+// What URL is the orders list at? Different on HPOS vs classic.
+$href = HposHelper::orders_list_url();
+// HPOS:    admin.php?page=wc-orders
+// Classic: edit.php?post_type=shop_order</code></pre>
+					<p>Three rules to internalise:</p>
+					<p><strong>Never hardcode <code>edit.php?post_type=shop_order</code>.</strong> It 404s on HPOS-only stores. Always go through <code>HposHelper::orders_list_url()</code>. The plugin had bugs here in early versions; both got caught and fixed.</p>
+					<p><strong>Never <code>get_post_meta()</code> on an order ID.</strong> On HPOS the order isn&rsquo;t a post; the call returns nothing. Use <code>$order-&gt;get_meta()</code> via <code>wc_get_order()</code> &mdash; works on both storage modes.</p>
+					<p><strong>Never <code>new WP_Query( [ 'post_type' =&gt; 'shop_order' ] )</code>.</strong> Use <code>wc_get_orders()</code>. Same reason.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Format timestamps in the site locale (DateHelper)</h2>
+					<p>Every timestamp the plugin shows on screen goes through <code>DateHelper::format_date()</code>. It reads the site&rsquo;s timezone and date/time format settings and produces something like &ldquo;May 22, 3:00 PM&rdquo; instead of &ldquo;2026-05-22 15:00:00&rdquo;.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\DateHelper;
+
+$display = DateHelper::format_date( '2026-05-22 15:00:00' );
+// "May 22, 3:00 PM" in en_US, "22. Mai, 15:00" in de_DE, etc.</code></pre>
+					<p>It accepts MySQL timestamps (the format <code>$wpdb</code> returns), Unix timestamps, and <code>DateTimeImmutable</code> objects. Empty strings and invalid inputs return an empty string &mdash; safe to call without a null guard.</p>
+					<p>One thing worth knowing: the plugin stores all timestamps in UTC in the database (<code>current_time( 'mysql', true )</code> &mdash; the <code>true</code> matters), but displays them in the site&rsquo;s timezone. <code>DateHelper</code> does the conversion. If you&rsquo;re writing a timestamp into the DB from your addon, store UTC. If you&rsquo;re showing one, route it through <code>DateHelper</code>.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Queue background jobs with Action Scheduler (AsyncJob)</h2>
+					<p>You&rsquo;ve added a hook that needs to send an email or hit an external API. If you do that work inline, every save call waits for SMTP or your CRM to respond. A slow third party turns into a slow admin page.</p>
+					<p><code>AsyncJob</code> wraps Action Scheduler with a one-line API:</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\AsyncJob;
+
+AsyncJob::queue( 'my_addon_dispatch_crm', [
+    'update_id' =&gt; 42,
+    'note_id'   =&gt; 7,
+] );</code></pre>
+					<p>The first argument is your action hook name; the second is the payload (it gets passed as the single argument when the hook fires). The job runs a few seconds later, off the request thread.</p>
+					<p>On the receiving end, attach a normal action handler:</p>
+					<pre><code class="language-php">add_action( 'my_addon_dispatch_crm', 'my_addon_dispatch_crm_handler', 10, 1 );
+
+function my_addon_dispatch_crm_handler( array $args ): void {
+    // wp_remote_post(), etc.
+}</code></pre>
+					<p>The plugin uses this everywhere it queues an email or a heavy notification. If your addon does anything that takes more than a few hundred milliseconds &mdash; HTTP calls, large file processing, multi-row DB updates &mdash; route it through here.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Check per-update mute / per-order email opt-out (StaffEmailPreference, CustomerEmailPreference)</h2>
+					<p>Two helpers, same shape. <code>StaffEmailPreference</code> is the per-update mute toggle on the admin card (the &ldquo;Get notifications&rdquo; switch); <code>CustomerEmailPreference</code> is the per-order email opt-out the customer can flip on their portal.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\StaffEmailPreference;
+use OrderUpdatesForWoo\Helpers\CustomerEmailPreference;
+
+// Is this user muted for this specific update? (skip queuing notifications for them)
+if ( StaffEmailPreference::is_muted( $update_id, $user_id ) ) {
+    return;
+}
+
+// Has the customer opted out of emails for this order?
+if ( ! CustomerEmailPreference::is_enabled( $order_id, $customer_user_id ) ) {
+    return;
+}</code></pre>
+					<p>Use these in any addon hook that queues an email. If a user has muted a specific update, your addon shouldn&rsquo;t override that preference and email them anyway &mdash; that&rsquo;s a fast way to get uninstalled.</p>
+					<p><strong>One exception worth knowing.</strong> <code>@mentions</code> skip the <code>StaffEmailPreference</code> check on purpose &mdash; if a colleague tags you directly, you hear about it even if you&rsquo;ve muted the thread. That&rsquo;s the plugin&rsquo;s rule; your add-on should follow the same exception.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Resolve everyone involved in an update (ParticipantResolver)</h2>
+					<p>An update accumulates a small crowd over its life: the creator, the assignee, every staff member who&rsquo;s posted a note, every user who&rsquo;s been @mentioned. <code>ParticipantResolver</code> figures that out for you.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\ParticipantResolver;
+
+// Returns int[] of WordPress user IDs.
+$participant_ids = ParticipantResolver::resolve( $update_id );</code></pre>
+					<p>Use this when you want to fan-out a notification or a Slack message to everyone involved, not just the assignee. The plugin&rsquo;s own <code>ParticipantUpdateEmail</code> goes to exactly this list when a new note is added to a thread.</p>
+					<p>The resolver is cache-wrapped &mdash; calling it repeatedly within a request is cheap. It invalidates whenever the underlying data changes (new assignee, new mention, new note author).</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Convert text emoticons to emoji at save (EmoticonConverter)</h2>
+					<p>Customers and staff sometimes type plain-text emoticons. The plugin converts them to actual emoji once at save time, so every downstream surface (admin card, customer portal, emails) reads real glyphs from the database. Means you can write <code>:)</code> on a phone keyboard and get 🙂 in the customer&rsquo;s email.</p>
+					<pre><code class="language-php">use OrderUpdatesForWoo\Helpers\EmoticonConverter;
+
+$body = EmoticonConverter::convert( "Looking into this :) will let you know :+1:" );
+// "Looking into this 🙂 will let you know 👍"</code></pre>
+					<p>The plugin already runs this on every note save. You don&rsquo;t need to call it yourself unless your addon accepts free-text input from a different surface (a Slack reply, an SMS, etc.) and you want the same conversion behaviour.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>The complete list</h2>
+					<p>The eight above are the ones you&rsquo;ll touch most. Here&rsquo;s the rest &mdash; each one&rsquo;s class file is small; if a one-liner isn&rsquo;t enough, open the source.</p>
+					<table>
+						<thead><tr><th>Class</th><th>What it does</th></tr></thead>
+						<tbody>
+							<tr><td><code>AdminBarNotificationStore</code></td><td>Queues and reads unread mentions/assignments for the admin-bar badge.</td></tr>
+							<tr><td><code>AssigneeHelper</code></td><td>Formats and resolves assignee data for display in cards and emails.</td></tr>
+							<tr><td><code>AssigneePicker</code></td><td>Powers the autocomplete picker for the assignee field.</td></tr>
+							<tr><td><code>AsyncHealth</code></td><td>Diagnostics for Action Scheduler &mdash; shows stuck jobs on the admin notice bar.</td></tr>
+							<tr><td><code>AttachmentPresenter</code></td><td>Formats attachment records (filename, signed URL, icon) for display.</td></tr>
+							<tr><td><code>CustomerHelper</code></td><td>Customer identity resolution for note display (name, email, avatar).</td></tr>
+							<tr><td><code>CustomerNotePresenter</code></td><td>Formats customer-thread notes (author, timestamp, edited pill) for the portal.</td></tr>
+							<tr><td><code>Icons</code></td><td>Dashicon SVG helper &mdash; <code>Icons::dashicon('edit')</code> returns the right markup.</td></tr>
+							<tr><td><code>NoteAuthor</code></td><td>Resolves the author of a note &mdash; staff vs customer vs guest.</td></tr>
+							<tr><td><code>NotesHelper</code></td><td>Shared note formatting (timestamps, edited badges, &ldquo;view history&rdquo; link).</td></tr>
+							<tr><td><code>OrderUpdateInfoMethods</code></td><td>Deliberate backwards-compatibility shim. Do not delete even if grep shows zero callers.</td></tr>
+							<tr><td><code>RatingShareLinks</code></td><td>Generates pre-filled share URLs (Facebook, X, LinkedIn, WhatsApp) for the promoter follow-up.</td></tr>
+							<tr><td><code>RestUrlHelper</code></td><td>Mints REST URLs with the plugin&rsquo;s namespace &mdash; cleaner than concatenating <code>rest_url()</code> strings.</td></tr>
+							<tr><td><code>UpdateAuthorHelper</code></td><td>Resolves who created an update (staff vs customer vs guest).</td></tr>
+							<tr><td><code>UpdatePresentationHelper</code></td><td>Status pills, colour stripes, summary formatting.</td></tr>
+							<tr><td><code>UpdateResolver</code></td><td>Loads a full update record with relations &mdash; notes, attachments, ratings &mdash; in one call.</td></tr>
+							<tr><td><code>UpdateStatusHelper</code></td><td>Resolves a status key to its label and colour from the configured status list.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../../developer-guide/rest-api/index.html">
+					<span>Previous</span>
+					REST API
+				</a>
+				<a class="next" href="../../developer-guide/theme-overrides/index.html">
+					<span>Next</span>
+					Theme overrides
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

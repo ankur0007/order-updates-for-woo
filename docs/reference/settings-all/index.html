@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>All settings — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes & portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings & feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow & @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses & colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings — General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings — Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings — Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings — Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings — Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings — Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings — API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings — Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings — Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html" class="is-active">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email & notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				Reference &nbsp;/&nbsp;
+				All settings
+			</p>
+
+			<h1 class="docs-page__title">All settings</h1>
+			<p class="docs-page__lede">Every setting the plugin persists in <code>wp_options</code>. 32 settings across 6 settings tabs &mdash; grouped below by the tab where each one lives.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<p>Every plugin setting that lands in <code>wp_options</code>. For where each setting is configured in the admin UI, see the relevant <em>Settings — *</em> page under the User Guide.</p>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>General tab</h2>
+					<table>
+						<thead><tr><th>Option key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+						<tbody>
+								<tr><td><code>order_updates_for_woo_enable_assignee</code></td><td>checkbox</td><td><code>yes</code></td><td>Let admins assign updates to team members.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_color</code></td><td>checkbox</td><td><code>yes</code></td><td>Allow admins to assign a highlight color to each update.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_internal_note</code></td><td>checkbox</td><td><code>yes</code></td><td>Allow a plain text internal note for team context.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_customer_note</code></td><td>checkbox</td><td><code>yes</code></td><td>Allow a separate plain text customer-facing note.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_solved_state</code></td><td>checkbox</td><td><code>yes</code></td><td>Allow updates to be marked as solved.</td></tr>
+								<tr><td><code>order_updates_for_woo_statuses</code></td><td>status_list (custom)</td><td>&mdash;</td><td>These appear in the status dropdown when your team creates an update. Drag to reorder; the order here is the order shown in the form.</td></tr>
+								<tr><td><code>order_updates_for_woo_default_customer_status</code></td><td>select</td><td><code>(computed)</code></td><td>Customers don't see the status picker. New updates they open are stamped with this status automatically.</td></tr>
+								<tr><td><code>order_updates_for_woo_note_panel_internal_bg</code></td><td>color</td><td>&mdash;</td><td>Solid background color behind the internal-notes thread.</td></tr>
+								<tr><td><code>order_updates_for_woo_note_panel_internal_image</code></td><td>text</td><td>&mdash;</td><td>Optional. Image used as a repeating background pattern on the internal-notes panel. Click "Choose image" to pick from the Media Library, or leave blank for the default chat pattern.</td></tr>
+								<tr><td><code>order_updates_for_woo_note_panel_customer_bg</code></td><td>color</td><td>&mdash;</td><td>Solid background color behind the customer-notes thread.</td></tr>
+								<tr><td><code>order_updates_for_woo_note_panel_customer_image</code></td><td>text</td><td>&mdash;</td><td>Optional. Image used as a repeating background pattern on the customer-notes panel. Click "Choose image" to pick from the Media Library, or leave blank for the default chat pattern.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Customers tab</h2>
+					<table>
+						<thead><tr><th>Option key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+						<tbody>
+								<tr><td><code>order_updates_for_woo_show_assignee_to_customers</code></td><td>checkbox</td><td><code>no</code></td><td>Display the assigned team member's name on the customer-facing update page.</td></tr>
+								<tr><td><code>order_updates_for_woo_allow_customer_create_update</code></td><td>checkbox</td><td><code>no</code></td><td>Let customers open new update threads from their order page. Replies to existing updates are always allowed.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_customer_rating</code></td><td>checkbox</td><td><code>yes</code></td><td>Show a 5-star rating form on resolved updates so customers can rate the experience.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_customer_rating_comment</code></td><td>checkbox</td><td><code>yes</code></td><td>Show an optional comment box alongside the rating.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_customer_rating_email</code></td><td>checkbox</td><td><code>yes</code></td><td>When an update is marked solved, email the customer with a link to leave a rating.</td></tr>
+								<tr><td><code>order_updates_for_woo_enable_customer_rating_followup_email</code></td><td>checkbox</td><td><code>yes</code></td><td>After a rating is submitted, send the customer a follow-up: a thank-you with share buttons for high ratings, or an "we'll do better" reply prompt for low ratings.</td></tr>
+								<tr><td><code>order_updates_for_woo_promoter_share_text</code></td><td>textarea</td><td><code>I just had a great experience with {site_name} — check them out! {site_url}</code></td><td>The message pre-filled in social share links sent to happy customers. Available tokens: {site_name}, {site_url}.</td></tr>
+								<tr><td><code>order_updates_for_woo_detractor_followup_text</code></td><td>textarea</td><td><code>Thanks for sharing your rating — we've passed your feedback to the team, and someone will get back to you on your update shortly. You can keep the conversation going from the same page:</code></td><td>Shown to customers who leave a low rating, in the follow-up email. A button back to their update is rendered automatically below this text.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Members tab</h2>
+					<table>
+						<thead><tr><th>Option key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+						<tbody>
+								<tr><td><code>order_updates_for_woo_internal_team_roles</code></td><td>multiselect</td><td><code>(seeded list)</code></td><td>Choose which user roles count as your internal team. Members of these roles can be assigned to updates and tagged in internal notes.</td></tr>
+								<tr><td><code>order_updates_for_woo_round_robin_pool</code></td><td>assignee_rotation (custom)</td><td><code>[]</code></td><td>Customer-submitted updates rotate through the checked members in this order. Drag the handle to set priority. Members not yet in the rotation appear at the bottom — check to include them. If the rotation is empty, the first administrator receives every customer update.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Emails tab</h2>
+					<table>
+						<thead><tr><th>Option key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+						<tbody>
+								<tr><td><code>order_updates_for_woo_email_delivery_mode</code></td><td>select</td><td><code>auto</code></td><td>How customer notification emails are sent. "Automatic" detects whether your host can deliver emails in the background and falls back to immediate sending if it cannot. Switch to "Send immediately" if customers report missing emails. Choose "Send in background" only if your host has reliable scheduled tasks and you want admin pages to load faster.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Attachments tab</h2>
+					<table>
+						<thead><tr><th>Option key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+						<tbody>
+								<tr><td><code>order_updates_for_woo_max_attachment_files</code></td><td>number</td><td><code>5</code></td><td>How many files can be attached to a single note.</td></tr>
+								<tr><td><code>order_updates_for_woo_max_attachment_mb</code></td><td>number</td><td><code>10</code></td><td>$this-&gt;size_field_description()</td></tr>
+								<tr><td><code>order_updates_for_woo_allowed_mime_types</code></td><td>multiselect</td><td><code>(seeded list)</code></td><td>File types accepted when staff or customers upload attachments. Disabling a type only blocks new uploads — files already stored in that format remain readable.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Admin Only tab</h2>
+					<table>
+						<thead><tr><th>Option key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+						<tbody>
+								<tr><td><code>order_updates_for_woo_notify_admin_on_customer_create</code></td><td>checkbox</td><td><code>no</code></td><td>When off, only the assigned staff member is notified.</td></tr>
+								<tr><td><code>order_updates_for_woo_notify_admin_on_detractor_rating</code></td><td>checkbox</td><td><code>yes</code></td><td>When on, the admin gets a heads-up email whenever a customer leaves a 1, 2 or 3 star rating. Useful for spotting detractors early.</td></tr>
+								<tr><td><code>order_updates_for_woo_allow_note_edit</code></td><td>checkbox</td><td><code>no</code></td><td>Let authors edit their own latest note (within the edit window). Older notes stay locked.</td></tr>
+								<tr><td><code>order_updates_for_woo_allow_note_delete</code></td><td>checkbox</td><td><code>no</code></td><td>Let authors delete their own latest note (within the edit window). Older notes stay locked.</td></tr>
+								<tr><td><code>order_updates_for_woo_allow_deletion</code></td><td>checkbox</td><td><code>no</code></td><td>Allow update records to be deleted instead of kept as history. Deleting an update removes the whole thread permanently.</td></tr>
+								<tr><td><code>order_updates_for_woo_allow_member_note_delete</code></td><td>checkbox</td><td><code>no</code></td><td>Sub-toggle for "Allow deleting notes" — when off, only customer-side delete applies. Customer-facing notes are never deletable; they keep an edit history instead.</td></tr>
+								<tr><td><code>order_updates_for_woo_note_edit_window_minutes</code></td><td>number</td><td><code>1</code></td><td>How long after posting an author can still edit or delete their latest note. Default 1 minute — a typo escape hatch, not a rewrite window.</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Option-name constants</h2>
+					<p>For programmatic access, use these constants under <code>OrderUpdatesForWoo\Shared\Config\Constants</code> rather than hardcoding the string keys above.</p>
+					<table>
+						<thead><tr><th>Constant</th><th>Option key</th></tr></thead>
+						<tbody>
+							<tr><td><code>RATING_FOLLOWUP_PROMOTER_MIN_OPTION</code></td><td><code>order_updates_for_woo_rating_followup_promoter_min</code></td></tr>
+							<tr><td><code>RATING_FOLLOWUP_SHARE_URL_OPTION</code></td><td><code>order_updates_for_woo_rating_share_url</code></td></tr>
+							<tr><td><code>ANALYTICS_GEN_OPTION_PFX</code></td><td><code>order_updates_for_woo_analytics_gen_</code></td></tr>
+							<tr><td><code>PROMOTER_SHARE_TEXT_OPTION</code></td><td><code>order_updates_for_woo_promoter_share_text</code></td></tr>
+							<tr><td><code>DETRACTOR_FOLLOWUP_TEXT_OPTION</code></td><td><code>order_updates_for_woo_detractor_followup_text</code></td></tr>
+							<tr><td><code>ASSIGNEE_PRIORITY_LIST_OPTION</code></td><td><code>order_updates_for_woo_round_robin_pool</code></td></tr>
+							<tr><td><code>ASSIGNEE_ROTATION_POINTER_OPTION</code></td><td><code>order_updates_for_woo_round_robin_pointer</code></td></tr>
+							<tr><td><code>ALLOWED_MIMES_OPTION</code></td><td><code>order_updates_for_woo_allowed_mime_types</code></td></tr>
+							<tr><td><code>NEWSLETTER_EMAIL_OPTION</code></td><td><code>order_updates_for_woo_newsletter_email</code></td></tr>
+							<tr><td><code>NOTE_EDIT_WINDOW_OPTION</code></td><td><code>order_updates_for_woo_note_edit_window_minutes</code></td></tr>
+							<tr><td><code>ALLOW_NOTE_EDIT_OPTION</code></td><td><code>order_updates_for_woo_allow_note_edit</code></td></tr>
+							<tr><td><code>ALLOW_NOTE_DELETE_OPTION</code></td><td><code>order_updates_for_woo_allow_note_delete</code></td></tr>
+							<tr><td><code>ALLOW_CUSTOMER_CREATE_UPDATE_OPTION</code></td><td><code>order_updates_for_woo_allow_customer_create_update</code></td></tr>
+							<tr><td><code>NOTIFY_ADMIN_ON_CUSTOMER_CREATE_OPTION</code></td><td><code>order_updates_for_woo_notify_admin_on_customer_create</code></td></tr>
+							<tr><td><code>NOTIFY_ADMIN_ON_DETRACTOR_RATING_OPTION</code></td><td><code>order_updates_for_woo_notify_admin_on_detractor_rating</code></td></tr>
+							<tr><td><code>NOTE_PANEL_INTERNAL_BG_OPTION</code></td><td><code>order_updates_for_woo_note_panel_internal_bg</code></td></tr>
+							<tr><td><code>NOTE_PANEL_INTERNAL_IMG_OPTION</code></td><td><code>order_updates_for_woo_note_panel_internal_image</code></td></tr>
+							<tr><td><code>NOTE_PANEL_CUSTOMER_BG_OPTION</code></td><td><code>order_updates_for_woo_note_panel_customer_bg</code></td></tr>
+							<tr><td><code>NOTE_PANEL_CUSTOMER_IMG_OPTION</code></td><td><code>order_updates_for_woo_note_panel_customer_image</code></td></tr>
+							<tr><td><code>STATUSES_OPTION</code></td><td><code>order_updates_for_woo_statuses</code></td></tr>
+							<tr><td><code>DEFAULT_CUSTOMER_STATUS_OPTION</code></td><td><code>order_updates_for_woo_default_customer_status</code></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../endpoints-all/index.html">
+					<span>Previous</span>
+					All REST endpoints
+				</a>
+				<a class="next" href="../database-schema/index.html">
+					<span>Next</span>
+					Database schema
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

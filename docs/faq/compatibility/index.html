@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAQ — Compatibility — Order Updates for WooCommerce</title>
+	<link rel="stylesheet" href="../../assets/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
+	<script src="../../assets/copy.js" defer></script>
+	<script src="../../assets/search-index.js" defer></script>
+	<script src="../../assets/search.js" defer></script>
+	<script src="../../assets/sidebar.js" defer></script>
+	<script src="../../assets/lightbox.js" defer></script>
+</head>
+<body>
+
+<button type="button" class="docs-sidebar__toggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="docs-sidebar__backdrop" aria-hidden="true"></div>
+
+<div class="docs-shell">
+
+	<aside class="docs-sidebar">
+		<div class="docs-sidebar__brand">
+			<a href="../../index.html">Order Updates for WooCommerce</a>
+			<p class="docs-sidebar__tagline">Documentation</p>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>User Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../user-guide/getting-started/index.html">Getting started</a></li>
+				<li><a href="../../user-guide/creating-updates/index.html">Creating updates</a></li>
+				<li><a href="../../user-guide/managing-threads/index.html">Managing threads</a></li>
+				<li><a href="../../user-guide/customer-notes-portal/index.html">Customer notes &amp; portal</a></li>
+				<li><a href="../../user-guide/embed-in-builders/index.html">Embed in page builders</a></li>
+				<li><a href="../../user-guide/ratings-feedback/index.html">Ratings &amp; feedback</a></li>
+				<li><a href="../../user-guide/team-workflow/index.html">Team workflow &amp; @mentions</a></li>
+				<li><a href="../../user-guide/statuses-colors/index.html">Statuses &amp; colours</a></li>
+				<li><a href="../../user-guide/attachments/index.html">Attachments</a></li>
+				<li><a href="../../user-guide/settings-general/index.html">Settings &mdash; General</a></li>
+				<li><a href="../../user-guide/settings-customer/index.html">Settings &mdash; Customer</a></li>
+				<li><a href="../../user-guide/settings-members/index.html">Settings &mdash; Members</a></li>
+				<li><a href="../../user-guide/settings-emails/index.html">Settings &mdash; Emails</a></li>
+				<li><a href="../../user-guide/settings-attachments/index.html">Settings &mdash; Attachments</a></li>
+				<li><a href="../../user-guide/settings-shortcodes/index.html">Settings &mdash; Shortcodes</a></li>
+				<li><a href="../../user-guide/settings-api/index.html">Settings &mdash; API Endpoints</a></li>
+				<li><a href="../../user-guide/settings-admin-only/index.html">Settings &mdash; Admin Only</a></li>
+				<li><a href="../../user-guide/settings-cache/index.html">Settings &mdash; Cache</a></li>
+				<li><a href="../../user-guide/analytics/index.html">Analytics</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Developer Guide</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../developer-guide/architecture/index.html">Architecture</a></li>
+				<li><a href="../../developer-guide/file-structure/index.html">File structure</a></li>
+				<li><a href="../../developer-guide/hooks/index.html">Hooks</a></li>
+				<li><a href="../../developer-guide/rest-api/index.html">REST API</a></li>
+				<li><a href="../../developer-guide/helper-classes/index.html">Helper classes</a></li>
+				<li><a href="../../developer-guide/theme-overrides/index.html">Theme overrides</a></li>
+				<li><a href="../../developer-guide/email-customisation/index.html">Email customisation</a></li>
+				<li><a href="../../developer-guide/extending/index.html">Extending the plugin</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>Reference</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../reference/hooks-all/index.html">All hooks</a></li>
+				<li><a href="../../reference/endpoints-all/index.html">All REST endpoints</a></li>
+				<li><a href="../../reference/settings-all/index.html">All settings</a></li>
+				<li><a href="../../reference/database-schema/index.html">Database schema</a></li>
+			</ul>
+		</div>
+
+		<div class="docs-sidebar__section">
+			<h3>FAQ</h3>
+			<ul class="docs-sidebar__nav">
+				<li><a href="../../faq/general/index.html">General</a></li>
+				<li><a href="../../faq/customer-side/index.html">Customer side</a></li>
+				<li><a href="../../faq/email-notifications/index.html">Email &amp; notifications</a></li>
+				<li><a href="../../faq/attachments/index.html">Attachments</a></li>
+				<li><a href="../../faq/compatibility/index.html" class="is-active">Compatibility</a></li>
+				<li><a href="../../faq/troubleshooting/index.html">Troubleshooting</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="docs-main">
+		<article class="docs-page">
+
+			<p class="docs-breadcrumb">
+				<a href="../../index.html">Docs</a> &nbsp;/&nbsp;
+				FAQ &nbsp;/&nbsp;
+				Compatibility
+			</p>
+
+			<h1 class="docs-page__title">Compatibility</h1>
+			<p class="docs-page__lede">The versions of WordPress, WooCommerce, and PHP the plugin needs, plus how it works with the common things you already have on your site &mdash; HPOS, multisite, caching plugins, page builders, SMTP plugins, and translation plugins.</p>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What WordPress version do I need?</h2>
+					<p>WordPress 6.2 or newer. The plugin uses a few REST API features that arrived in 6.2, so older versions will run into errors. Most live sites are on 6.4+ anyway, so this is rarely a problem in practice. If your site is still on something older, update WordPress first.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What WooCommerce version do I need?</h2>
+					<p>WooCommerce 8.0 or newer. The plugin hooks into WooCommerce&rsquo;s order edit screen, email system, and order panels, and the APIs used here became stable in WC 8.0. If you&rsquo;re running an older WooCommerce, please update before you install &mdash; that&rsquo;s safer than us shipping fallbacks for code paths that change every release.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What PHP version do I need?</h2>
+					<p>PHP 8.1 or newer. The plugin uses features that arrived in PHP 8.0 (readonly properties, named arguments, constructor promotion) and a few things from 8.1 (enums, never return type). Most reputable hosts are on PHP 8.2+ today, so this is usually not something you need to worry about.</p>
+					<p>If you&rsquo;re on PHP 7.x, please ask your host to update. PHP 7 stopped getting security fixes in November 2022.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does the plugin support HPOS (High-Performance Order Storage)?</h2>
+					<p>Yes &mdash; fully. The plugin uses WooCommerce&rsquo;s order helpers (<code>wc_get_order</code>, <code>$order-&gt;get_meta</code>, etc.) everywhere it touches an order, so it works the same whether your store uses the new <code>wc_orders</code> table layout or the older posts-and-postmeta layout.</p>
+					<p>You don&rsquo;t need to do anything special to turn this on. The plugin declares HPOS support in its header, so WooCommerce won&rsquo;t warn you about an incompatible plugin, and there&rsquo;s no separate &ldquo;HPOS mode&rdquo; setting inside the plugin. Switching your store from posts mode to HPOS mode keeps every update intact.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does it work on a WordPress multisite network?</h2>
+					<p>Yes. Each site in the network has its own copy of the eight database tables, its own settings, and its own update threads &mdash; there&rsquo;s no shared state between sites on the network. Activate the plugin per-site, or network-activate it from the network admin if every site should have it on. Either way works.</p>
+					<p>Customer accounts that span multiple sites (via WordPress&rsquo;s built-in multisite user table) work as you&rsquo;d expect &mdash; a customer who is logged into Site A can only see updates on orders placed on Site A.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does it work with page builders like Elementor, Divi, or Gutenberg?</h2>
+					<p>Yes. The customer portal can be embedded inside any page built with a builder, using either the <code>[order_updates_for_woo]</code> shortcode or the matching Gutenberg block. Both render the same customer portal you see on the default My Account page, with all the same features &mdash; threads, replies, ratings, attachments &mdash; working inside the builder&rsquo;s layout.</p>
+					<p>See <a href="../../user-guide/embed-in-builders/index.html">User Guide &rarr; Embed in page builders</a> for the usage examples, including how to pass the order id when the page isn&rsquo;t already scoped to one customer&rsquo;s order.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Will caching plugins (WP Rocket, W3 Total Cache, LiteSpeed) cause problems?</h2>
+					<p>The admin side of the plugin is never cached &mdash; logged-in admins always get a fresh page from WordPress, so caching plugins are not a concern there.</p>
+					<p>On the customer side, the customer portal page renders inside My Account, which most caching plugins already skip because it&rsquo;s a logged-in page with per-user content. If you&rsquo;re embedding the portal on a public page using the shortcode or block, add that page to your caching plugin&rsquo;s &ldquo;Do not cache&rdquo; list. A cached portal would show one customer&rsquo;s thread to a different customer &mdash; not good.</p>
+					<p>The plugin&rsquo;s own internal cache (set with <code>wp_cache_set</code>) is per-request and stops at the end of the request, so it never interacts with your page cache.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Will it work with my SMTP plugin (WP Mail SMTP, FluentSMTP, Post SMTP)?</h2>
+					<p>Yes. Every email the plugin sends goes through <code>wp_mail()</code> &mdash; the same function WordPress uses for password resets and WooCommerce uses for order receipts. SMTP plugins replace <code>wp_mail()</code> with their own delivery, so they will deliver our emails the same way they deliver every other email on your site.</p>
+					<p>If WooCommerce&rsquo;s own emails are delivering fine through your SMTP plugin, ours will too. No special setup needed.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Will it work with translation plugins (Polylang, WPML, TranslatePress)?</h2>
+					<p>The plugin&rsquo;s own text is translatable through the standard WordPress <code>.pot</code> file, which we ship in <code>languages/</code>. So Polylang, WPML, and other plugins that work with <code>.pot</code> files can pick it up and let you provide your own translations.</p>
+					<p>For per-language emails (English email to English-speaking customers, French email to French-speaking customers), the plugin reads the customer&rsquo;s preferred language from WPML / Polylang user-meta when it builds the email, so the right language fires automatically &mdash; the same way WooCommerce&rsquo;s own emails switch language.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Will it work with my custom theme?</h2>
+					<p>Yes. The customer portal renders into the standard WooCommerce <code>My Account</code> page, so it picks up whatever your theme does with that page. The admin-side update card lives on the WooCommerce order edit screen, which themes never style. So the only place a theme can affect anything is the customer-facing portal &mdash; and that piece is built using the same CSS classes the rest of WooCommerce uses, so most themes already style it correctly.</p>
+					<p>If your theme styles the portal in a way you don&rsquo;t like, you can override the template files (copy them from <code>plugins/order-updates-for-woo/Templates/</code> into <code>your-theme/woocommerce/order-updates-for-woo/</code>). See <a href="../../developer-guide/theme-overrides/index.html">Developer Guide &rarr; Theme overrides</a>.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Can I use this alongside another help-desk plugin (Zendesk for WooCommerce, FluentSupport, AwesomeSupport)?</h2>
+					<p>Yes, technically &mdash; the plugins don&rsquo;t share data, so there&rsquo;s no conflict. You&rsquo;d just end up with two separate threads on the same order, which is confusing for your team. Pick one and stick with it.</p>
+					<p>The reason to use this plugin instead of a separate help-desk: the threads here are tied to the order they belong to, so when your team opens an order they see the support history in the same view as the order itself. With a separate help-desk app, you have to switch tools to read the conversation. Smaller stores often find that single-tool workflow much faster.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>What hosting works best?</h2>
+					<p>Any host that runs WordPress and WooCommerce works. The plugin doesn&rsquo;t need anything special &mdash; no extra PHP extensions, no Redis, no special cron setup.</p>
+					<p>If you&rsquo;re using the &ldquo;Send in background&rdquo; email delivery mode (under <strong>Settings &rarr; Emails</strong>), your host needs working WordPress cron. Most hosts do; cheap shared hosting sometimes doesn&rsquo;t. If you&rsquo;re unsure, use the &ldquo;Automatic&rdquo; delivery mode &mdash; the plugin will detect a working cron and use it, or fall back to immediate sending if it can&rsquo;t.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does it work on WordPress.com (the hosted service)?</h2>
+					<p>Only on the Business plan or higher, which is the level where WordPress.com lets you install custom plugins. On lower plans, you can&rsquo;t install third-party plugins at all, so this one won&rsquo;t work there.</p>
+					<p>For self-hosted WordPress (most stores), no restriction &mdash; install and run as normal.</p>
+				</div>
+			</section>
+
+			<section class="docs-row">
+				<div class="docs-row__media"></div>
+				<div class="docs-row__body">
+					<h2>Does the plugin slow down my site?</h2>
+					<p>The plugin only runs its database queries on pages that need them &mdash; the order edit screen, the customer portal page, the admin bar, and the REST endpoints. Pages that have nothing to do with updates (front page, product pages, checkout) don&rsquo;t trigger any extra queries.</p>
+					<p>For pages that do touch the plugin, the queries go through a small per-request cache, so multiple calls inside one request only hit the database once. The analytics dashboard uses a separate, pre-built table that&rsquo;s kept in sync as updates change, so even a store with hundreds of thousands of updates can load the dashboard in milliseconds.</p>
+				</div>
+			</section>
+
+			<nav class="docs-page__footnav">
+				<a class="prev" href="../attachments/index.html">
+					<span>Previous</span>
+					FAQ &rarr; Attachments
+				</a>
+				<a class="next" href="../troubleshooting/index.html">
+					<span>Next</span>
+					FAQ &rarr; Troubleshooting
+				</a>
+			</nav>
+
+		</article>
+	</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<?php
+
+declare(strict_types=1);
+
+namespace OrderUpdatesForWoo\Shared\Attachments;
+
+use OrderUpdatesForWoo\Shared\Config\Constants;
+
+final class AttachmentStorage {
+	public static function attachments_dir(): string {
+		$uploads = wp_upload_dir( null, false );
+		return trailingslashit( (string) ( $uploads['basedir'] ?? WP_CONTENT_DIR . '/uploads' ) ) . Constants::ATTACHMENTS_ROOT_DIR;
+	}
+
+	public static function root_url(): string {
+		$uploads = wp_upload_dir( null, false );
+		return trailingslashit( (string) ( $uploads['baseurl'] ?? content_url( '/uploads' ) ) ) . Constants::ATTACHMENTS_ROOT_DIR;
+	}
+
+	public static function order_dir( int $order_id ): string {
+		return self::attachments_dir() . '/orders/' . $order_id;
+	}
+
+	public static function update_dir( int $order_id, int $update_id ): string {
+		return self::order_dir( $order_id ) . '/' . $update_id;
+	}
+
+	public static function note_dir( int $order_id, int $update_id, int $note_id ): string {
+		return self::update_dir( $order_id, $update_id ) . '/' . $note_id;
+	}
+
+	/**
+	 * Ensures the root directory exists and is protected from direct web access.
+	 * Writes .htaccess (Apache) and index.html (directory listing fallback) to root.
+	 */
+	public static function ensure_root_protected(): void {
+		$root = self::attachments_dir();
+
+		if ( ! is_dir( $root ) ) {
+			wp_mkdir_p( $root );
+		}
+
+		$fs = self::filesystem();
+
+		if ( $fs && ! $fs->exists( $root . '/.htaccess' ) ) {
+			$fs->put_contents( $root . '/.htaccess', "deny from all\n", FS_CHMOD_FILE );
+		}
+
+		self::write_index_html( $root );
+	}
+
+	/**
+	 * Create the full directory chain for a note, protect every level, and
+	 * return the note directory's absolute path.
+	 *
+	 * Intermediate directories (orders/, orders/{id}/, orders/{id}/{update_id}/)
+	 * each get an index.html so directory browsing is blocked at every level.
+	 */
+	public static function ensure_note_dir( int $order_id, int $update_id, int $note_id ): string {
+		self::ensure_root_protected();
+
+		$dirs = array(
+			self::attachments_dir() . '/orders',
+			self::order_dir( $order_id ),
+			self::update_dir( $order_id, $update_id ),
+			self::note_dir( $order_id, $update_id, $note_id ),
+		);
+
+		foreach ( $dirs as $dir ) {
+			if ( ! is_dir( $dir ) ) {
+				wp_mkdir_p( $dir );
+			}
+
+			self::write_index_html( $dir );
+		}
+
+		return end( $dirs );
+	}
+
+	public static function delete_file( string $absolute_path ): bool {
+		if ( ! self::is_inside_attachments_dir( $absolute_path ) ) {
+			return false;
+		}
+
+		$fs = self::filesystem();
+
+		if ( $fs ) {
+			return $fs->exists( $absolute_path ) ? $fs->delete( $absolute_path ) : true;
+		}
+
+		if ( ! file_exists( $absolute_path ) ) {
+			return true;
+		}
+
+		wp_delete_file( $absolute_path );
+		return ! file_exists( $absolute_path );
+	}
+
+	public static function delete_order_dir( int $order_id ): bool {
+		if ( ! $order_id ) {
+			return false;
+		}
+
+		return self::delete_dir( self::order_dir( $order_id ) );
+	}
+
+	public static function delete_update_dir( int $order_id, int $update_id ): bool {
+		if ( ! $order_id || ! $update_id ) {
+			return false;
+		}
+
+		return self::delete_dir( self::update_dir( $order_id, $update_id ) );
+	}
+
+	/**
+	 * Walk up the directory tree from $start_dir, removing any directory
+	 * whose only remaining entry is the `index.html` listing-protection
+	 * file. Stops at `orders/` — that root stays in place even when empty.
+	 *
+	 * Called after a file/dir delete so we don't leave hollow per-order or
+	 * per-update folders cluttering the uploads directory once their
+	 * attachments are gone.
+	 */
+	public static function prune_empty_ancestor_dirs( string $start_dir ): void {
+		$orders_root_real = realpath( self::attachments_dir() . '/orders' );
+
+		if ( ! $orders_root_real ) {
+			return;
+		}
+
+		$current = $start_dir;
+
+		while ( true ) {
+			$current_real = realpath( $current );
+
+			if ( ! $current_real || $current_real === $orders_root_real ) {
+				return;
+			}
+
+			if ( ! self::is_inside_attachments_dir( $current_real ) ) {
+				return;
+			}
+
+			$entries = @scandir( $current_real );
+
+			if ( false === $entries ) {
+				return;
+			}
+
+			$meaningful = array_filter(
+				$entries,
+				static fn( string $entry ) => '.' !== $entry && '..' !== $entry && 'index.html' !== $entry
+			);
+
+			if ( ! empty( $meaningful ) ) {
+				return;
+			}
+
+			if ( ! self::delete_dir( $current_real ) ) {
+				return;
+			}
+
+			$current = dirname( $current_real );
+		}
+	}
+
+	/**
+	 * True when $path is inside the attachments folder. Sanity check
+	 * before file ops; not a substitute for input validation at the
+	 * boundary (callers must already control the path).
+	 */
+	public static function is_inside_attachments_dir( string $path ): bool {
+		$root_dir = realpath( self::attachments_dir() );
+
+		if ( ! $root_dir ) {
+			return false;
+		}
+
+		// For non-existent paths (new uploads), resolve the parent directory
+		// so `..` segments can't slip through unresolved. If even the parent
+		// doesn't exist, reject — there's nothing safe to verify against.
+		$resolved = realpath( $path );
+		if ( ! $resolved ) {
+			$parent = realpath( dirname( $path ) );
+			if ( ! $parent ) {
+				return false;
+			}
+			$resolved = $parent . DIRECTORY_SEPARATOR . basename( $path );
+		}
+
+		return str_starts_with(
+			wp_normalize_path( $resolved ),
+			wp_normalize_path( trailingslashit( $root_dir ) )
+		);
+	}
+
+	/**
+	 * Returns the initialised WP_Filesystem instance, or null on failure.
+	 */
+	public static function filesystem(): ?\WP_Filesystem_Base {
+		global $wp_filesystem;
+
+		if ( ! $wp_filesystem instanceof \WP_Filesystem_Base ) {
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+
+			WP_Filesystem();
+		}
+
+		return $wp_filesystem instanceof \WP_Filesystem_Base ? $wp_filesystem : null;
+	}
+
+	/**
+	 * Write an empty index.html into $dir if it does not already exist.
+	 * Mirrors WooCommerce's approach: an empty HTML file blocks directory
+	 * listing on servers where .htaccess is not honoured (e.g. Nginx).
+	 */
+	private static function write_index_html( string $dir ): void {
+		$path = trailingslashit( $dir ) . 'index.html';
+		$fs   = self::filesystem();
+
+		if ( $fs && ! $fs->exists( $path ) ) {
+			$fs->put_contents( $path, '', FS_CHMOD_FILE );
+		}
+	}
+
+	/**
+	 * Delete a directory and all its contents, with root-boundary safety check.
+	 * Uses WP_Filesystem::delete() which handles recursion natively.
+	 */
+	private static function delete_dir( string $dir ): bool {
+		if ( ! is_dir( $dir ) || ! self::is_inside_attachments_dir( $dir ) ) {
+			return false;
+		}
+
+		$fs = self::filesystem();
+
+		if ( $fs ) {
+			return $fs->delete( $dir, true );
+		}
+
+		return self::delete_dir_fallback( $dir );
+	}
+
+	/**
+	 * Pure-PHP recursive delete, used only when WP_Filesystem is unavailable.
+	 */
+	private static function delete_dir_fallback( string $dir ): bool {
+		$entries = @scandir( $dir );
+
+		if ( false === $entries ) {
+			return false;
+		}
+
+		foreach ( $entries as $entry ) {
+			if ( '.' === $entry || '..' === $entry ) {
+				continue;
+			}
+
+			$path = $dir . '/' . $entry;
+			if ( is_dir( $path ) ) {
+				self::delete_dir_fallback( $path );
+			} else {
+				wp_delete_file( $path );
+			}
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- WP_Filesystem unavailable; this is the documented fallback path.
+		return @rmdir( $dir );
+	}
+}
