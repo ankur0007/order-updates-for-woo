@@ -41,6 +41,8 @@ Order Updates for WooCommerce adds a dedicated order-updates workflow for store 
 
 The customer-facing portal works on My Account out of the box. Use the `[order_updates_portal order_id="" order_key=""]` shortcode to embed it on Elementor, Divi, Gutenberg, or any custom page.
 
+**Trademark notice:** WooCommerce and Woo are trademarks of Automattic Inc. This plugin is independent and is not affiliated with, endorsed by, or sponsored by Automattic or WooCommerce. The names are used only to describe what the plugin works with.
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/order-updates-for-woo/` directory, or install the plugin through the WordPress plugins screen.
