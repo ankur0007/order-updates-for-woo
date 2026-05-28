@@ -7,6 +7,13 @@
 	box-sizing: border-box;
 }
 
+/* The `hidden` attribute must always win over layout rules like
+   `display: grid/flex`, otherwise hidden-by-default blocks (empty
+   review states, sliders) leak through before JS reveals them. */
+[hidden] {
+	display: none !important;
+}
+
 body.landing {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Oxygen, Ubuntu, sans-serif;
