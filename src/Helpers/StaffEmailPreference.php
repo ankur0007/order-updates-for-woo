@@ -7,6 +7,9 @@ namespace OrderUpdatesForWoo\Helpers;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 
+// Direct meta query on a small, indexed lookup; table names are safe, not user input.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+
 final class StaffEmailPreference {
 	private static function cache_key( int $update_id, int $user_id ): string {
 		return "staff_muted_{$update_id}_{$user_id}";

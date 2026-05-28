@@ -21,6 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $is_guest_order      = ! empty( $view_data['is_guest_order'] );
 $is_customer_visible = ! empty( $view_data['is_customer_visible'] );
 ?>

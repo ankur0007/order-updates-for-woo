@@ -7,6 +7,9 @@ use OrderUpdatesForWoo\Helpers\HposHelper;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 ?>
 <div class="wrap awts_welcome">
 	<?php

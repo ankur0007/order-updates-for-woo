@@ -6,6 +6,9 @@ namespace OrderUpdatesForWoo\Helpers;
 
 use OrderUpdatesForWoo\Shared\Config\Constants;
 
+// One direct meta cleanup query; table names are safe, not user input.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
 /**
  * Per-user admin bar notification store backed by user meta + object cache.
  *

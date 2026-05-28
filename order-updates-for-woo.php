@@ -9,7 +9,6 @@
  * Requires PHP: 8.0
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Network: false
  *
  * @package OrderUpdatesForWoo
  */
@@ -24,10 +23,8 @@ define( 'ORDER_UPDATES_FOR_WOO_FILE', __FILE__ );
 define( 'ORDER_UPDATES_FOR_WOO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ORDER_UPDATES_FOR_WOO_URL', plugin_dir_url( __FILE__ ) );
 
-$autoload = __DIR__ . '/vendor/autoload.php';
-
-if (file_exists($autoload)) {
-	require_once $autoload;
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
 }
 
 add_action('plugins_loaded', 'order_updates_for_woo_load_plugin');
@@ -43,6 +40,12 @@ register_activation_hook(__FILE__, 'order_updates_for_woo_activate');
  */
 function order_updates_for_woo_boot_github_updater(): void {
 	if ( defined( 'ORDER_UPDATES_FOR_WOO_DISABLE_GITHUB_UPDATER' ) && ORDER_UPDATES_FOR_WOO_DISABLE_GITHUB_UPDATER ) {
+		return;
+	}
+
+	// The WordPress.org build strips src/Updater. Skip the call when the file
+	// is absent so the WP.org copy never references an external update checker.
+	if ( ! is_readable( ORDER_UPDATES_FOR_WOO_PATH . 'src/Updater/GitHubUpdater.php' ) ) {
 		return;
 	}
 

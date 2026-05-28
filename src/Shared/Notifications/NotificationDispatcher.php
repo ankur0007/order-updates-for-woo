@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use OrderUpdatesForWoo\Shared\Config\Constants;
 
+// Hook names are plugin-prefixed constants; the checker just can't read their value.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
+
 final class NotificationDispatcher {
 	public function init(): void {
 		add_action( Constants::HOOK_ADMIN_NOTIFICATION, array( $this, 'send_admin_notification' ), 10, 1 );

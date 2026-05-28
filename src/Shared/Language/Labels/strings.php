@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $labels = [
 	'loadMore' => __('Load more', 'order-updates-for-woo'),
 	'internalNoteLabel' => __('Internal note', 'order-updates-for-woo'),

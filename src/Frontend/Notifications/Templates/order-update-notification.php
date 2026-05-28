@@ -5,6 +5,9 @@ declare(strict_types=1);
 if (! defined('ABSPATH')) {
 	exit;
 }
+
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 /**
  * Email template — customer-facing notifications.
  *

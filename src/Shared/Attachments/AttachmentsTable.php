@@ -8,6 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Direct queries on our own tables. Table names are safe; user input always uses prepare().
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+
 final class AttachmentsTable {
 	private const VERSION = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_attachments_table_version';

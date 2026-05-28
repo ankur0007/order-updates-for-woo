@@ -14,6 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $emails        = isset( $view_data['emails'] ) && is_array( $view_data['emails'] ) ? $view_data['emails'] : array();
 $wc_emails_url = (string) ( $view_data['wc_emails_url'] ?? '' );
 ?>

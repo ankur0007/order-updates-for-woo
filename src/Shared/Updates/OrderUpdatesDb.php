@@ -7,6 +7,9 @@ namespace OrderUpdatesForWoo\Shared\Updates;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 
+// Direct queries on our own tables. Table names are safe; user input always uses prepare().
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+
 class OrderUpdatesDb {
 	public function __construct( private UpdatesTable $updates_table ) {}
 
@@ -1265,6 +1268,7 @@ class OrderUpdatesDb {
 		global $wpdb;
 
 		return (int) $wpdb->get_var(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name only, not user input.
 			"SELECT COUNT(id) FROM {$this->updates_table->updates}"
 		);
 	}

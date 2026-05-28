@@ -35,6 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $view_data      = isset( $view_data ) && is_array( $view_data ) ? $view_data : array();
 $settings       = isset( $view_data['settings'] ) && is_array( $view_data['settings'] ) ? $view_data['settings'] : array();
 $card_variables = isset( $view_data['card_variables'] ) && is_array( $view_data['card_variables'] ) ? $view_data['card_variables'] : array();

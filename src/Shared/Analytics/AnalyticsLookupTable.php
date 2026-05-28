@@ -8,6 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Direct queries on our own tables. Table names are safe; user input always uses prepare().
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+
 /**
  * Schema owner for the analytics lookup table.
  *

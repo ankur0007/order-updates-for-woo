@@ -41,7 +41,7 @@ final class ReviewRequestNotice {
 	private const STATE_USER_META   = '_order_updates_for_woo_review_notice_state';
 
 	/** WordPress.org review page — confirmed slug. */
-	private const REVIEW_URL = 'https://wordpress.org/support/plugin/order-updates-for-woo/reviews/?filter=5#new-post';
+	private const REVIEW_URL = 'https://wordpress.org/support/plugin/order-updates-for-woo/reviews/#new-post';
 
 	/**
 	 * Web3Forms access key — same key the public site uses. The key is

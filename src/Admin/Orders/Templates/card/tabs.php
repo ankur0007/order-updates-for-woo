@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $update_id              = (int) ( $view_data['update_id'] ?? 0 );
 $customer_notes_enabled = ! empty( $view_data['customer_notes_enabled'] );
 $default_tab            = (string) ( $view_data['default_tab'] ?? 'internal' );

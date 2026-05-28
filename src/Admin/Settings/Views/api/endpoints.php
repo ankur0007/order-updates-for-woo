@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $namespace = (string) ( $view_data['namespace'] ?? '' );
 $base_url  = (string) ( $view_data['base_url'] ?? '' );
 $endpoints = isset( $view_data['endpoints'] ) && is_array( $view_data['endpoints'] ) ? $view_data['endpoints'] : array();

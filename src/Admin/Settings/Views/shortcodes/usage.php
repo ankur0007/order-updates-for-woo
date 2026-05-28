@@ -19,6 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $shortcodes = isset( $view_data['shortcodes'] ) && is_array( $view_data['shortcodes'] ) ? $view_data['shortcodes'] : array();
 ?>
 <h2 style="margin-top:1em;"><?php esc_html_e( 'Available shortcodes', 'order-updates-for-woo' ); ?></h2>

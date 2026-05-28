@@ -14,6 +14,9 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $view_data           = isset($view_data) && is_array($view_data) ? $view_data : [];
 $settings            = isset($view_data['settings']) && is_array($view_data['settings']) ? $view_data['settings'] : [];
 $order_id            = isset($view_data['order_id']) ? absint($view_data['order_id']) : 0;

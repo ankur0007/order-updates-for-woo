@@ -20,6 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $raw       = $view_data['raw'] ?? array();
 $settings  = $view_data['settings'] ?? array();
 $formatted = $view_data['formatted'] ?? array();

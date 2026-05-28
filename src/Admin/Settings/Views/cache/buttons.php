@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $buttons = isset( $view_data['buttons'] ) && is_array( $view_data['buttons'] ) ? $view_data['buttons'] : array();
 ?>
 <h2 style="margin-top:1em;"><?php esc_html_e( 'Cache controls', 'order-updates-for-woo' ); ?></h2>

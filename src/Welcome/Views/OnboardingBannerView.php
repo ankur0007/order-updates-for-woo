@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $nonce = wp_create_nonce( 'wp_rest' );
 ?>
 <div class="awts_onboarding" data-awts-nonce="<?php echo esc_attr( $nonce ); ?>">

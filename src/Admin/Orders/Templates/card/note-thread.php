@@ -28,6 +28,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $type      = (string) ( $view_data['type'] ?? 'internal' );
 $update_id = (int) ( $view_data['update_id'] ?? 0 );
 $tab_id    = (string) ( $view_data['tab_id'] ?? '' );

@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Local file-scope template variables, not globals.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $view_data    = isset( $view_data ) && is_array( $view_data ) ? $view_data : array();
 $attach_hint  = isset( $view_data['attach_hint'] ) ? (string) $view_data['attach_hint'] : '';
 $allowed_mime = isset( $view_data['allowed_mime'] ) && is_array( $view_data['allowed_mime'] ) ? $view_data['allowed_mime'] : array();
