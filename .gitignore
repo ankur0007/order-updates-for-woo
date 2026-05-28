@@ -18,6 +18,14 @@ Thumbs.db
 # Caches
 .phpunit.result.cache
 
+# Internal / AI-process docs — not for public distribution
+/AI_RULES.md
+/CLAUDE.md
+/.cursorrules
+/.github/copilot-instructions.md
+/change_log.md
+/ARCHITECTURE.md
+
 # Secrets — none should exist, but never commit these
 .env
 .env.*
