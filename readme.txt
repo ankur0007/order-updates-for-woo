@@ -1,6 +1,6 @@
 === Order Updates for WooCommerce — Customer Support ===
 Contributors: theank
-Tags: woocommerce, orders, order updates, customer communication, order notes
+Tags: woocommerce, customer support, help desk, support tickets, order status
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.0
@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Structured order updates for WooCommerce — internal staff threads, customer conversations, assignees, @mentions, attachments, ratings, and analytics.
+Customer support help desk built into WooCommerce orders — threaded staff and customer conversations, assignees, @mentions, attachments, and ratings.
 
 == Description ==
 
