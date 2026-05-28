@@ -224,6 +224,10 @@
 		listEl.hidden    = false;
 		if ( empty ) empty.hidden = true;
 
+		// Reveal the "What real users say" header only once real reviews exist.
+		var header = document.querySelector( '[data-reviews-header]' );
+		if ( header ) header.hidden = false;
+
 		var state = { filterStar: 0, sort: 'newest' };
 
 		// Overall + per-star counts (always computed on the full list, not the filtered view).
