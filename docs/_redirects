@@ -1,12 +1,4 @@
-# Cloudflare Pages clean URL rewrites — `/features` serves `/features.html`
-# without the visible extension. Status 200 = rewrite (no redirect, URL
-# stays clean in the address bar).
-#
-# Both forms work for Google — having both indexed is fine because the
-# canonical link tag in each .html points at the .html URL.
-
-/features    /features.html    200
-/reviews     /reviews.html     200
-/about       /about.html       200
-/changelog   /changelog.html   200
-/welcome     /welcome.html     200
+# Clean URLs (/welcome serves welcome.html, etc.) are handled automatically
+# by Cloudflare Workers static assets. Do NOT add "/path /path.html 200"
+# rewrite rules here — Workers also redirects /path.html back to /path, so
+# the rewrite creates an infinite redirect loop.
