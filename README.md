@@ -36,6 +36,7 @@ Download **`order-updates-for-woo.zip`** from the [latest release](https://githu
 2. Choose the zip and click **Install Now**.
 3. Click **Activate**.
 
+> [!CAUTION]
 > Use the release zip, not the green **"Code → Download ZIP"** button. The source archive has no `vendor/` folder and will not run on its own.
 
 Once the plugin is on WordPress.org, you will be able to search for it under **Plugins → Add New** and get updates the normal way.
