@@ -64,6 +64,78 @@ body.landing {
 	}
 }
 
+/* Shared centered hero for the 404 and post-confirmation (welcome) pages. */
+.site-error {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 60vh;
+	padding: 96px 24px;
+}
+
+.site-error__inner {
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.site-error__code {
+	margin: 0 0 8px;
+	font-size: 88px;
+	font-weight: 800;
+	line-height: 1;
+	letter-spacing: -0.02em;
+	background: linear-gradient(135deg, #2563eb, #d946ef);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.site-error__check {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 64px;
+	height: 64px;
+	margin: 0 auto 16px;
+	border-radius: 999px;
+	background: #eff6ff;
+	color: #2563eb;
+}
+
+.site-error__title {
+	margin: 8px 0 16px;
+	font-size: 36px;
+	font-weight: 800;
+	line-height: 1.15;
+	color: #0f172a;
+}
+
+.site-error__lede {
+	margin: 0 0 32px;
+	font-size: 18px;
+	line-height: 1.6;
+	color: #475569;
+}
+
+.site-error__cta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.site-error__sub {
+	font-size: 14px;
+	color: #64748b;
+}
+
+.site-error__sub a {
+	color: #2563eb;
+	text-decoration: none;
+}
+
 .landing__nav__links {
 	display: flex;
 	gap: 28px;
