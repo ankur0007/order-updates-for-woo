@@ -68,6 +68,13 @@
 				if ( grid ) {
 					var slice = entries.slice( 0, HOME_LIMIT );
 					grid.hidden = false;
+
+					// Real reviews exist — drop the honest empty state.
+					var homeEmpty = document.querySelector( '[data-testimonials-empty]' );
+					if ( homeEmpty ) {
+						homeEmpty.hidden = true;
+					}
+
 					var wrapper = grid.closest( '[data-testimonials-wrapper]' );
 					if ( wrapper ) {
 						wrapper.hidden = false;

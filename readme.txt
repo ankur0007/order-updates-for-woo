@@ -14,6 +14,8 @@ Customer support help desk built into WooCommerce orders — threaded staff and 
 
 Order Updates for WooCommerce adds a dedicated order-updates workflow for store teams and customers — replacing scattered order notes with clean, threaded conversations per topic.
 
+**Official website:** [orderupdatesforwoo.com](https://orderupdatesforwoo.com) — see every feature in detail, submit a support ticket, and read or share real, verified reviews.
+
 **Store managers can:**
 
 * Create and edit order updates directly from the WooCommerce order edit screen
