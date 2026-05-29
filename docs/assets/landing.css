@@ -1095,19 +1095,35 @@ body.landing {
 		gap: 28px;
 	}
 
-	/* Mobile: drop the circle entirely — stack the 7 steps as a simple
-	   vertical list (number + label per row). */
+	/* Mobile: drop the circle — lay the 7 steps out as a single
+	   horizontal progress line (1—2—3—4—5—6—7) with a dashed connector
+	   running behind the numbered dots. */
 	.landing__stepper__rail {
-		position: static;
-		width: auto;
+		position: relative;
+		width: 100%;
 		height: auto;
 		margin: 0;
 		display: flex;
-		flex-direction: column;
-		gap: 10px;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0;
+		padding: 0 4px;
 	}
 
-	.landing__stepper__rail::before,
+	.landing__stepper__rail::before {
+		inset: auto;
+		top: 50%;
+		left: 18px;
+		right: 18px;
+		bottom: auto;
+		height: 0;
+		border: 0;
+		border-top: 1.5px dashed #e2e8f0;
+		border-radius: 0;
+		transform: translateY(-50%);
+	}
+
 	.landing__stepper__rail__center {
 		display: none;
 	}
@@ -1115,9 +1131,8 @@ body.landing {
 	.landing__stepper__dot {
 		position: static;
 		transform: none;
-		width: 100%;
-		justify-content: flex-start;
-		gap: 14px;
+		z-index: 2;
+		flex: 0 0 auto;
 	}
 
 	/* Reset every clock-position coordinate from the circle layout. */
@@ -1127,29 +1142,22 @@ body.landing {
 	}
 
 	.landing__stepper__dot__num {
-		width: 40px;
-		height: 40px;
-		font-size: 1rem;
-		flex: 0 0 auto;
+		width: 34px;
+		height: 34px;
+		font-size: 0.9rem;
 	}
 
 	.landing__stepper__dot.is-active .landing__stepper__dot__num {
-		width: 48px;
-		height: 48px;
-		font-size: 1.15rem;
+		width: 40px;
+		height: 40px;
+		font-size: 1rem;
 		box-shadow: 0 8px 18px -8px rgba(37, 99, 235, 0.45);
 	}
 
-	/* Show the step label inline in list mode (the centre cap is hidden). */
+	/* Numbers only on the line; the active step's detail shows in the
+	   panel below, so inline labels stay hidden on mobile. */
 	.landing__stepper__dot__label {
-		display: inline-flex;
-		font-size: 1rem;
-		color: #475569;
-	}
-
-	.landing__stepper__dot.is-active .landing__stepper__dot__label {
-		font-size: 1.05rem;
-		color: #0f172a;
+		display: none;
 	}
 
 	.landing__stepper__stage {
