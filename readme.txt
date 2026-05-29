@@ -1,5 +1,5 @@
 === Order Updates for WooCommerce — Customer Support ===
-Contributors: theank
+Contributors: the-ank
 Tags: woocommerce, customer support, help desk, support tickets, order status
 Requires at least: 6.5
 Tested up to: 7.0
