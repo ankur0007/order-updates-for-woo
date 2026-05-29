@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Order Updates for WooCommerce — Customer Support
+ * Plugin Name: Order Updates for Woo
  * Description: Customer-facing and internal order updates for WooCommerce.
  * Version: 1.0.0
  * Author: the ank
