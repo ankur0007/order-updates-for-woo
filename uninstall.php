@@ -29,6 +29,7 @@ $tables = array(
 	$prefix . '_customer_note_history',
 	$prefix . '_ratings',
 	$prefix . '_attachments',
+	$prefix . '_analytics_lookup',
 );
 
 foreach ( $tables as $table ) {
@@ -60,8 +61,9 @@ $wpdb->query(
 //    customer email prefs).
 $wpdb->query(
 	$wpdb->prepare(
-		"DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s",
-		$wpdb->esc_like( 'order_updates_for_woo_' ) . '%'
+		"DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
+		$wpdb->esc_like( 'order_updates_for_woo_' ) . '%',
+		$wpdb->esc_like( '_order_updates_for_woo_' ) . '%'
 	)
 );
 
@@ -71,16 +73,18 @@ $hpos_orders_meta = $wpdb->prefix . 'wc_orders_meta';
 if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_orders_meta ) ) === $hpos_orders_meta ) {
 	$wpdb->query(
 		$wpdb->prepare(
-			"DELETE FROM {$hpos_orders_meta} WHERE meta_key LIKE %s",
-			$wpdb->esc_like( 'order_updates_for_woo_' ) . '%'
+			"DELETE FROM {$hpos_orders_meta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
+			$wpdb->esc_like( 'order_updates_for_woo_' ) . '%',
+			$wpdb->esc_like( '_order_updates_for_woo_' ) . '%'
 		)
 	);
 }
 
 $wpdb->query(
 	$wpdb->prepare(
-		"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
-		$wpdb->esc_like( 'order_updates_for_woo_' ) . '%'
+		"DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
+		$wpdb->esc_like( 'order_updates_for_woo_' ) . '%',
+		$wpdb->esc_like( '_order_updates_for_woo_' ) . '%'
 	)
 );
 
@@ -95,6 +99,24 @@ if ( $page_id ) {
 //    cleared these, but we run again here so plugins force-deleted via the
 //    Plugins screen (which skips deactivation) still leave WP-Cron clean.
 wp_clear_scheduled_hook( 'order_updates_for_woo_analytics_warmup' );
+
+// Cancel any queued Action Scheduler jobs (async notification emails) so
+// nothing fires after the tables are gone.
+if ( function_exists( 'as_unschedule_all_actions' ) ) {
+	$async_hooks = array(
+		'order_updates_for_woo_send_admin_notification',
+		'order_updates_for_woo_send_assignee_notification',
+		'order_updates_for_woo_send_customer_notification',
+		'order_updates_for_woo_send_rating_request',
+		'order_updates_for_woo_send_rating_followup',
+		'order_updates_for_woo_send_internal_mention',
+		'order_updates_for_woo_send_participant_update',
+	);
+
+	foreach ( $async_hooks as $async_hook ) {
+		as_unschedule_all_actions( $async_hook );
+	}
+}
 
 // 8. Remove the attachment directory tree.
 $uploads          = wp_upload_dir( null, false );
