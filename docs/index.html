@@ -62,7 +62,6 @@
 	<link rel="icon" type="image/png" href="/favicon.png">
 	<link rel="stylesheet" href="assets/styles.css">
 	<link rel="stylesheet" href="assets/landing.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-themes@1.9.0/themes/prism-vsc-dark-plus.min.css">
 
 	<!-- Mobile nav (hamburger + slide-out) -->
 
@@ -135,15 +134,15 @@
 
 		<div class="landing__hero__media">
 			<div class="landing__hero__frame landing__zoom">
-				<img src="images/02-thread-card.png" alt="An Order Updates card on a WooCommerce order edit page showing internal notes, the customer-notes thread, status pill, assignee, and the action bar." loading="eager" width="900" height="600">
+				<img src="images/02-thread-card.png" alt="An Order Updates card on a WooCommerce order edit page showing internal notes, the customer-notes thread, status pill, assignee, and the action bar." loading="eager" fetchpriority="high" width="900" height="600">
 
 				<!-- Floating screenshot cards layered on top of the hero image -->
 				<div class="landing__hero__floater landing__hero__floater--top landing__zoom">
-					<img src="images/05-team-mention-email.png" alt="The @mention email a teammate receives when they are tagged in an internal note." loading="eager" width="320" height="200">
+					<img src="images/05-team-mention-email.png" alt="The @mention email a teammate receives when they are tagged in an internal note." loading="lazy" width="320" height="200">
 				</div>
 
 				<div class="landing__hero__floater landing__hero__floater--bottom landing__zoom">
-					<img src="images/04-rating-widget.png" alt="The customer rating widget with five stars, an optional comment field, and a 'Still has issue?' button." loading="eager" width="320" height="220">
+					<img src="images/04-rating-widget.png" alt="The customer rating widget with five stars, an optional comment field, and a 'Still has issue?' button." loading="lazy" width="320" height="220">
 				</div>
 			</div>
 		</div>
