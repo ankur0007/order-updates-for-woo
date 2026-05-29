@@ -37,6 +37,7 @@ $tab_id    = (string) ( $view_data['tab_id'] ?? '' );
 $panel_id  = (string) ( $view_data['panel_id'] ?? '' );
 $is_active = ! empty( $view_data['is_active'] );
 $is_resolved = ! empty( $view_data['is_resolved'] );
+$is_rated     = ! empty( $view_data['is_rated'] );
 $composer_placeholder = (string) ( $view_data['composer_placeholder'] ?? '' );
 $submit_label = (string) ( $view_data['submit_label'] ?? __( 'Add Note', 'order-updates-for-woo' ) );
 
@@ -79,7 +80,11 @@ $submit_class        = $is_customer ? 'awts_customer_notes_submit' : 'awts_notes
 	<div class="<?php echo esc_attr( $input_wrap_class ); ?>">
 		<?php if ( $is_resolved ) : ?>
 			<p class="awts_notes_resolved_notice">
-				<?php esc_html_e( 'This update is resolved. Re-open it to add notes.', 'order-updates-for-woo' ); ?>
+				<?php if ( $is_rated ) : ?>
+					<?php esc_html_e( 'This update is resolved and rated by the customer. Start a new update to continue the conversation.', 'order-updates-for-woo' ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'This update is resolved. Re-open it to add notes.', 'order-updates-for-woo' ); ?>
+				<?php endif; ?>
 			</p>
 		<?php else : ?>
 			<div class="awts_drop_overlay" aria-hidden="true">

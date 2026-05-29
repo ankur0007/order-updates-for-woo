@@ -202,6 +202,7 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 			'panel_id'             => $panel_id_for( 'internal' ),
 			'is_active'            => 'internal' === $default_tab,
 			'is_resolved'          => $flags['is_resolved'],
+			'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
 			'composer_placeholder' => __( 'Write a note...', 'order-updates-for-woo' ),
 			'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
 		) );
@@ -228,6 +229,7 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 				'panel_id'             => $panel_id_for( 'customer' ),
 				'is_active'            => 'customer' === $default_tab,
 				'is_resolved'          => $flags['is_resolved'],
+			'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
 				'composer_placeholder' => __( 'Write a note for the customer...', 'order-updates-for-woo' ),
 				'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
 			) );
