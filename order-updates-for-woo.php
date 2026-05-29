@@ -3,7 +3,7 @@
  * Plugin Name: Order Updates for Woo
  * Description: Customer-facing and internal order updates for WooCommerce.
  * Version: 1.0.0
- * Author: the ank
+ * Author: Ankur Vishwakarma
  * Text Domain: order-updates-for-woo
  * Requires at least: 6.5
  * Requires PHP: 8.0
