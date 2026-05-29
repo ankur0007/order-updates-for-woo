@@ -1095,36 +1095,61 @@ body.landing {
 		gap: 28px;
 	}
 
+	/* Mobile: drop the circle entirely — stack the 7 steps as a simple
+	   vertical list (number + label per row). */
 	.landing__stepper__rail {
-		flex-direction: row;
-		gap: 14px;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.landing__stepper__rail::before {
-		top: 50%;
-		bottom: auto;
-		left: 14px;
-		right: 14px;
-		height: 2px;
+		position: static;
 		width: auto;
-		transform: translateY(-50%);
+		height: auto;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 	}
 
-	.landing__stepper__dot[data-stepper-dot="2"] {
-		margin-left: 0;
-		margin-top: 14px;
+	.landing__stepper__rail::before,
+	.landing__stepper__rail__center {
+		display: none;
+	}
+
+	.landing__stepper__dot {
+		position: static;
+		transform: none;
+		width: 100%;
+		justify-content: flex-start;
+		gap: 14px;
+	}
+
+	/* Reset every clock-position coordinate from the circle layout. */
+	.landing__stepper__dot[data-stepper-dot] {
+		top: auto;
+		left: auto;
 	}
 
 	.landing__stepper__dot__num {
-		width: 44px;
-		height: 44px;
-		font-size: 1.05rem;
+		width: 40px;
+		height: 40px;
+		font-size: 1rem;
+		flex: 0 0 auto;
 	}
 
+	.landing__stepper__dot.is-active .landing__stepper__dot__num {
+		width: 48px;
+		height: 48px;
+		font-size: 1.15rem;
+		box-shadow: 0 8px 18px -8px rgba(37, 99, 235, 0.45);
+	}
+
+	/* Show the step label inline in list mode (the centre cap is hidden). */
 	.landing__stepper__dot__label {
-		display: none;
+		display: inline-flex;
+		font-size: 1rem;
+		color: #475569;
+	}
+
+	.landing__stepper__dot.is-active .landing__stepper__dot__label {
+		font-size: 1.05rem;
+		color: #0f172a;
 	}
 
 	.landing__stepper__stage {
