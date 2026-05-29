@@ -46,7 +46,9 @@ final class RatingShareLinks {
 			array(
 				'platform' => 'facebook',
 				'label'    => __( 'Share on Facebook', 'order-updates-for-woo' ),
-				'url'      => 'https://www.facebook.com/sharer/sharer.php?u=' . $encoded_url,
+				// Facebook reads the link preview from the page's Open Graph
+				// tags; `quote` pre-fills the sharer's comment box.
+				'url'      => 'https://www.facebook.com/sharer/sharer.php?u=' . $encoded_url . '&quote=' . $encoded_text,
 			),
 			array(
 				'platform' => 'x',
