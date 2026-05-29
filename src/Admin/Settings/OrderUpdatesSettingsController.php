@@ -48,6 +48,42 @@ final class OrderUpdatesSettingsController {
 		foreach ( $this->sections() as $section ) {
 			$section->init();
 		}
+
+		$this->seed_default_options();
+	}
+
+	/**
+	 * Write each setting's default into the DB on first load after install
+	 * or upgrade.
+	 *
+	 * The settings UI renders defaults as checked, but until a save runs the
+	 * option row doesn't exist, so reads fall back to code defaults — which
+	 * can disagree with what the UI shows (e.g. a box that looks enabled but
+	 * reads as off). Seeding keeps the UI, the stored value, and every read
+	 * in sync. add_option() is a no-op when the row already exists, so a
+	 * user's saved choices are never overwritten.
+	 */
+	public function seed_default_options(): void {
+		if ( ORDER_UPDATES_FOR_WOO_VERSION === get_option( 'order_updates_for_woo_defaults_seeded', '' ) ) {
+			return;
+		}
+
+		foreach ( $this->sections() as $section ) {
+			foreach ( $section->get_settings() as $field ) {
+				if ( empty( $field['id'] ) || ! array_key_exists( 'default', $field ) ) {
+					continue;
+				}
+
+				$type = $field['type'] ?? '';
+				if ( in_array( $type, array( 'title', 'sectionend', 'info' ), true ) ) {
+					continue;
+				}
+
+				add_option( $field['id'], $field['default'] );
+			}
+		}
+
+		update_option( 'order_updates_for_woo_defaults_seeded', ORDER_UPDATES_FOR_WOO_VERSION, false );
 	}
 
 	public function register_settings_tab( array $tabs ): array {

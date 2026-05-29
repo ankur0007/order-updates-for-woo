@@ -19,6 +19,7 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
+define( 'ORDER_UPDATES_FOR_WOO_VERSION', '1.0.0' );
 define( 'ORDER_UPDATES_FOR_WOO_FILE', __FILE__ );
 define( 'ORDER_UPDATES_FOR_WOO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ORDER_UPDATES_FOR_WOO_URL', plugin_dir_url( __FILE__ ) );

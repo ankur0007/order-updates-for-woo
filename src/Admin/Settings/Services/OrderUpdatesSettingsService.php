@@ -47,7 +47,7 @@ class OrderUpdatesSettingsService {
 			'enable_customer_note'                  => $this->bool_option( 'order_updates_for_woo_enable_customer_note' ),
 			'enable_solved_state'                   => $this->bool_option( 'order_updates_for_woo_enable_solved_state' ),
 			'allow_deletion'                        => $this->bool_option( 'order_updates_for_woo_allow_deletion', 'no' ),
-			'enable_customer_rating'                => $this->bool_option( 'order_updates_for_woo_enable_customer_rating', 'no' ),
+			'enable_customer_rating'                => $this->bool_option( 'order_updates_for_woo_enable_customer_rating', 'yes' ),
 			'enable_customer_rating_comment'        => $this->bool_option( 'order_updates_for_woo_enable_customer_rating_comment', 'yes' ),
 			'enable_customer_rating_email'          => $this->bool_option( 'order_updates_for_woo_enable_customer_rating_email', 'yes' ),
 			'enable_customer_rating_followup_email' => $this->bool_option( 'order_updates_for_woo_enable_customer_rating_followup_email', 'yes' ),
