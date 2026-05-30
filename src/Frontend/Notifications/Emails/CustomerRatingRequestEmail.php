@@ -55,9 +55,8 @@ final class CustomerRatingRequestEmail extends OrderUpdateEmailBase {
 			$this->order,
 			$this
 		);
-		$this->action_url   = CustomerOrderUpdatesController::get_page_url(
-			(int) $this->order->get_id(),
-			(string) $this->order->get_order_key()
+		$this->action_url   = CustomerOrderUpdatesController::get_signed_email_url(
+			(int) $this->order->get_id()
 		) . '#awts-update-' . $update_id;
 		$this->action_label = __( 'Leave a rating', 'order-updates-for-woo' );
 		$this->status_label = __( 'How did we do?', 'order-updates-for-woo' );

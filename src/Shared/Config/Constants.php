@@ -172,4 +172,10 @@ final class Constants {
 	// as "informational, not urgent," which matches what most customer-opened
 	// threads actually are. Admin can override from settings.
 	public const DEFAULT_CUSTOMER_STATUS_SEED_KEY = 'notice';
+
+	// Customer-facing email URL controls. Emails carry a signed token that
+	// expires after this many days; the support email is the contact shown
+	// when an expired link is clicked.
+	public const CUSTOMER_LINK_EXPIRY_DAYS_OPTION = 'order_updates_for_woo_customer_link_expiry_days';
+	public const SUPPORT_CONTACT_EMAIL_OPTION     = 'order_updates_for_woo_support_contact_email';
 }

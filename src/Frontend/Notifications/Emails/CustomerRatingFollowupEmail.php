@@ -96,9 +96,8 @@ final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
 		} else {
 			$this->intro_text = __( 'Thanks for taking the time to rate your experience. We hear you, and we want to make this right.', 'order-updates-for-woo' );
 			$this->share_links = array();
-			$this->action_url  = CustomerOrderUpdatesController::get_page_url(
-				(int) $this->order->get_id(),
-				(string) $this->order->get_order_key()
+			$this->action_url  = CustomerOrderUpdatesController::get_signed_email_url(
+				(int) $this->order->get_id()
 			) . '#awts-update-' . $update_id;
 			$this->action_label = __( 'View this update', 'order-updates-for-woo' );
 			$this->status_label = __( 'Following up on your rating', 'order-updates-for-woo' );

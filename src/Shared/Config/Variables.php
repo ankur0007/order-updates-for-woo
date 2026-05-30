@@ -46,4 +46,19 @@ final class Variables {
 	public static function getSignedUrlTtl(): int {
 		return (int) get_option( 'order_updates_for_woo_signed_url_ttl', 3600 );
 	}
+
+	/** Days a signed customer-facing email URL stays valid (clamped 1–365). */
+	public static function getCustomerLinkExpiryDays(): int {
+		$days = (int) get_option( 'order_updates_for_woo_customer_link_expiry_days', 30 );
+
+		return max( 1, min( 365, $days ) );
+	}
+
+	/** Support contact email shown when a customer's link has expired. */
+	public static function getSupportContactEmail(): string {
+		$configured = (string) get_option( 'order_updates_for_woo_support_contact_email', '' );
+		$email      = '' !== $configured ? $configured : (string) get_option( 'admin_email', '' );
+
+		return is_email( $email ) ? $email : '';
+	}
 }

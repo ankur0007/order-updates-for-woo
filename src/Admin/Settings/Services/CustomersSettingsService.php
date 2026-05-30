@@ -97,6 +97,28 @@ final class CustomersSettingsService {
 				'css'     => 'width:100%; min-height:80px;',
 			),
 			array(
+				'name'              => __( 'Customer link expiry (days)', 'order-updates-for-woo' ),
+				'desc'              => __( 'How long a link in a customer email stays valid. After this many days the link shows a "log in or contact us" page instead of the update.', 'order-updates-for-woo' ),
+				'id'                => Constants::CUSTOMER_LINK_EXPIRY_DAYS_OPTION,
+				'type'              => 'number',
+				'default'           => 30,
+				'custom_attributes' => array(
+					'min'  => 1,
+					'max'  => 365,
+					'step' => 1,
+				),
+				'css'               => 'width:90px;',
+			),
+			array(
+				'name'        => __( 'Support contact email', 'order-updates-for-woo' ),
+				'desc'        => __( 'Shown to customers who click an expired link and are not logged in. Leave blank to use the site admin email.', 'order-updates-for-woo' ),
+				'id'          => Constants::SUPPORT_CONTACT_EMAIL_OPTION,
+				'type'        => 'email',
+				'default'     => '',
+				'placeholder' => (string) get_option( 'admin_email', '' ),
+				'css'         => 'width:320px;',
+			),
+			array(
 				'type' => 'sectionend',
 				'id'   => 'order_updates_for_woo_customer_section',
 			),

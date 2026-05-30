@@ -52,7 +52,7 @@ final class CheckoutEmailInjector {
 			return;
 		}
 
-		$url = CustomerOrderUpdatesController::get_page_url( (int) $order->get_id(), (string) $order->get_order_key() );
+		$url = CustomerOrderUpdatesController::get_signed_email_url( (int) $order->get_id() );
 
 		if ( '' === $url ) {
 			return;

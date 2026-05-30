@@ -123,9 +123,8 @@ final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
 			$this->order,
 			$this
 		);
-		$this->action_url = CustomerOrderUpdatesController::get_page_url(
-			(int) $this->order->get_id(),
-			(string) $this->order->get_order_key()
+		$this->action_url = CustomerOrderUpdatesController::get_signed_email_url(
+			(int) $this->order->get_id()
 		) . '#awts-update-' . absint( $update_id );
 		$this->action_label = __( 'View and reply', 'order-updates-for-woo' );
 		$this->status_label = __( 'Update on your order', 'order-updates-for-woo' );
