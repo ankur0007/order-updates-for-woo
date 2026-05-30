@@ -26,6 +26,8 @@ $order_updates_total = isset($view_data['order_updates_total']) ? absint($view_d
 $show_onboarding = isset($view_data['show_onboarding']) ? (bool) $view_data['show_onboarding'] : false;
 $statuses        = isset($view_data['statuses']) && is_array($view_data['statuses']) ? $view_data['statuses'] : array();
 $customer_url    = isset($view_data['customer_url']) ? (string) $view_data['customer_url'] : '';
+$shared_link     = isset($view_data['shared_link']) && is_array($view_data['shared_link']) ? $view_data['shared_link'] : array();
+$link_days_left  = isset($shared_link['days_left']) ? (int) $shared_link['days_left'] : 0;
 
 // Build a color → status lookup once per render so every card view can
 // resolve its label by a single array access. Lowercased to match the
@@ -58,8 +60,7 @@ $settings = wp_parse_args(
 	<?php endif; ?>
 
 	<?php if ( '' !== $customer_url ) : ?>
-		<!-- Shareable customer link — guest orders get the ?key=... URL,
-		     logged-in customers get their My Account order-updates URL. -->
+		<!-- Stateful hash in order meta. Changing the expiry does not change this URL. -->
 		<div class="awts_panel__customer_link" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin:0 0 12px;background:#f6f7f7;border:1px solid #dcdcde;border-radius:4px;font-size:13px;">
 			<strong><?php esc_html_e( 'No-login chat link:', 'order-updates-for-woo' ); ?></strong>
 			<code style="flex:1 1 240px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 6px;background:#fff;border:1px solid #dcdcde;border-radius:3px;"><?php echo esc_html( $customer_url ); ?></code>
@@ -69,6 +70,19 @@ $settings = wp_parse_args(
 				data-awts-copy-link="<?php echo esc_attr( $customer_url ); ?>"
 				data-copied-label="<?php echo esc_attr__( 'Copied!', 'order-updates-for-woo' ); ?>"
 			><?php esc_html_e( 'Copy link', 'order-updates-for-woo' ); ?></button>
+			<?php if ( $link_days_left > 0 ) : ?>
+				<span class="awts_panel__customer_link_expiry" style="color:#646970;">
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %d: number of days the link stays valid */
+							_n( 'Expires in %d day', 'Expires in %d days', $link_days_left, 'order-updates-for-woo' ),
+							$link_days_left
+						)
+					);
+					?>
+				</span>
+			<?php endif; ?>
 		</div>
 		<script>
 		( function () {

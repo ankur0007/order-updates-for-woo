@@ -20,6 +20,7 @@ use OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Config\Variables;
+use OrderUpdatesForWoo\Shared\Updates\SharedLink;
 use OrderUpdatesForWoo\Shared\Updates\UpdateCardVariableParser;
 
 final class OrderUpdatesPanelController {
@@ -76,16 +77,15 @@ final class OrderUpdatesPanelController {
 			$order_updates_array
 		);
 
-		// Customer-facing URL for the order, so staff can copy it for the
-		// customer (the guest order_key URL is otherwise hard to surface).
-		// Logged-in customers get their My Account link; guests get the
-		// standalone URL with ?key=... appended.
+		// No-login chat link for staff to share. Stateful hash + expiry in
+		// order meta — see SharedLink. Changing the expiry from this panel
+		// does not change the URL.
+		$shared_link  = array();
 		$customer_url = '';
 		$order_obj    = $order_id ? wc_get_order( $order_id ) : null;
 		if ( $order_obj ) {
-			$is_guest_order = 0 === absint( $order_obj->get_customer_id() );
-			$order_key      = $is_guest_order ? (string) $order_obj->get_order_key() : null;
-			$customer_url   = CustomerOrderUpdatesController::get_page_url( $order_id, $order_key );
+			$shared_link  = SharedLink::ensure( $order_obj, get_current_user_id() );
+			$customer_url = CustomerOrderUpdatesController::get_shared_link_url( $order_id, (string) $shared_link['hash'] );
 		}
 
 		View::render(
@@ -98,6 +98,7 @@ final class OrderUpdatesPanelController {
 				'show_onboarding' => $this->onboarding->should_show(),
 				'statuses' => $this->settings_service->get_statuses(),
 				'customer_url' => $customer_url,
+				'shared_link' => $shared_link,
 			]
 		);
 	}

@@ -18,6 +18,7 @@ use OrderUpdatesForWoo\Shared\Attachments\AttachmentService;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 use OrderUpdatesForWoo\Shared\Language\Labels;
+use OrderUpdatesForWoo\Shared\Updates\SharedLink;
 use OrderUpdatesForWoo\Shared\Updates\SignedCustomerUrl;
 use WC_Order;
 
@@ -132,12 +133,25 @@ final class CustomerOrderUpdatesController {
 	}
 
 	/**
-	 * Build the URL that customer notification emails embed. The standalone
-	 * guest URL is signed with a time-boxed token instead of the permanent
-	 * order_key — a forwarded email stops working after the configured
-	 * expiry window. The admin-side "Copy customer link" button still uses
-	 * the legacy {@see get_page_url()} with the order_key, because a staff
-	 * handoff is a deliberate, person-driven action that should not expire.
+	 * URL the admin panel offers for staff sharing. The hash is stable —
+	 * changing the expiry on this link does not change the URL.
+	 */
+	public static function get_shared_link_url( int $order_id, string $hash ): string {
+		if ( $order_id <= 0 || '' === $hash ) {
+			return '';
+		}
+
+		$structure = (string) get_option( 'permalink_structure' );
+		$url       = '' === $structure
+			? add_query_arg( self::GUEST_QUERY_VAR, $order_id, home_url( '/' ) )
+			: home_url( '/' . self::GUEST_URL_BASE . '/' . $order_id . '/' );
+
+		return add_query_arg( SharedLink::QUERY_PARAM, $hash, $url );
+	}
+
+	/**
+	 * URL customer emails embed. Carries a time-boxed signed token instead
+	 * of the order_key, so a forwarded email stops working at expiry.
 	 */
 	public static function get_signed_email_url( int $order_id ): string {
 		if ( $order_id <= 0 ) {
@@ -161,11 +175,9 @@ final class CustomerOrderUpdatesController {
 	}
 
 	/**
-	 * Resolve the effective order_key for this request. Direct ?key= wins
-	 * (legacy email links, the admin "Copy customer link" button); when only
-	 * a signed token is present, the order's real key is synthesized — the
-	 * token already proved the request is ours. Expired or tampered tokens
-	 * resolve to '' so the caller falls back to denial / login.
+	 * Return the order_key the request authenticates with. Checks ?key=,
+	 * then the shared link hash, then the email signed token. Returns ''
+	 * when none verify so the caller falls back to login / denial.
 	 */
 	private static function resolve_request_order_key( int $order_id ): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -175,21 +187,30 @@ final class CustomerOrderUpdatesController {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$token   = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
+		$link_hash = isset( $_GET[ SharedLink::QUERY_PARAM ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SharedLink::QUERY_PARAM ] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$expires = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
+		$token     = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$expires   = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
 
-		if ( '' === $token || ! $expires ) {
-			return '';
-		}
-
-		if ( ! SignedCustomerUrl::verify( $order_id, $expires, $token ) ) {
+		if ( '' === $link_hash && ( '' === $token || $expires <= 0 ) ) {
 			return '';
 		}
 
 		$order = wc_get_order( $order_id );
+		if ( ! $order instanceof WC_Order ) {
+			return '';
+		}
 
-		return $order instanceof WC_Order ? (string) $order->get_order_key() : '';
+		if ( '' !== $link_hash && SharedLink::verify( $order, $link_hash ) ) {
+			return (string) $order->get_order_key();
+		}
+
+		if ( '' !== $token && $expires > 0 && SignedCustomerUrl::verify( $order_id, $expires, $token ) ) {
+			return (string) $order->get_order_key();
+		}
+
+		return '';
 	}
 
 	// ----- MyAccount endpoint rendering (WC handles the shell) -----
@@ -246,17 +267,26 @@ final class CustomerOrderUpdatesController {
 			return;
 		}
 
-		// Signed email links: when the signature is valid but the window has
-		// passed, show a dedicated "your link has expired" page so the
-		// customer knows the link was genuinely ours. Tampered or absent
-		// tokens fall through to the regular access checks.
+		// Tell "your link expired" from "this URL is wrong" so the page can
+		// show an honest message. Tampered tokens fall through to denial.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$token   = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
+		$token     = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$expires = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
+		$expires   = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$link_hash = isset( $_GET[ SharedLink::QUERY_PARAM ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SharedLink::QUERY_PARAM ] ) ) : '';
+
 		if ( '' !== $token && $expires > 0 && SignedCustomerUrl::is_expired( $order_id, $expires, $token ) ) {
 			$this->render_expired_link_page();
 			return;
+		}
+
+		if ( '' !== $link_hash ) {
+			$order_for_link = wc_get_order( $order_id );
+			if ( $order_for_link instanceof WC_Order && SharedLink::is_expired( $order_for_link, $link_hash ) ) {
+				$this->render_expired_link_page();
+				return;
+			}
 		}
 
 		$order_key = self::resolve_request_order_key( $order_id );
@@ -298,11 +328,7 @@ final class CustomerOrderUpdatesController {
 		exit;
 	}
 
-	/**
-	 * Render the "this link has expired" page for a signature-valid but
-	 * past-window email URL. Surfaces a login link for members and the
-	 * support contact email for guests.
-	 */
+	/** Page for a valid-but-expired link. Login CTA for members, support email for guests. */
 	private function render_expired_link_page(): void {
 		status_header( 410 );
 		nocache_headers();
@@ -409,9 +435,8 @@ final class CustomerOrderUpdatesController {
 			return;
 		}
 
-		// Both flows reach the same JS — the legacy ?key= and the signed-token
-		// URL embedded in current emails. The token resolves to the order's
-		// real key once verified, so all in-page AJAX keeps working uniformly.
+		// Legacy ?key=, signed email token, and stateful shared link all
+		// resolve to the same order_key for AJAX.
 		$order_key = self::resolve_request_order_key( $order_id );
 
 		wp_enqueue_style(
