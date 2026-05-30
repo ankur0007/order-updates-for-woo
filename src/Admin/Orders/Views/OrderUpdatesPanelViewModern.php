@@ -25,6 +25,7 @@ $order_updates_total = isset($view_data['order_updates_total']) ? absint($view_d
 
 $show_onboarding = isset($view_data['show_onboarding']) ? (bool) $view_data['show_onboarding'] : false;
 $statuses        = isset($view_data['statuses']) && is_array($view_data['statuses']) ? $view_data['statuses'] : array();
+$customer_url    = isset($view_data['customer_url']) ? (string) $view_data['customer_url'] : '';
 
 // Build a color → status lookup once per render so every card view can
 // resolve its label by a single array access. Lowercased to match the
@@ -54,6 +55,52 @@ $settings = wp_parse_args(
 
 	<?php if ( $show_onboarding ) : ?>
 		<?php View::render( 'src/Welcome/Views/OnboardingBannerView' ); ?>
+	<?php endif; ?>
+
+	<?php if ( '' !== $customer_url ) : ?>
+		<!-- Shareable customer link — guest orders get the ?key=... URL,
+		     logged-in customers get their My Account order-updates URL. -->
+		<div class="awts_panel__customer_link" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin:0 0 12px;background:#f6f7f7;border:1px solid #dcdcde;border-radius:4px;font-size:13px;">
+			<strong><?php esc_html_e( 'Customer link:', 'order-updates-for-woo' ); ?></strong>
+			<code style="flex:1 1 240px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 6px;background:#fff;border:1px solid #dcdcde;border-radius:3px;"><?php echo esc_html( $customer_url ); ?></code>
+			<button
+				type="button"
+				class="button"
+				data-awts-copy-link="<?php echo esc_attr( $customer_url ); ?>"
+				data-copied-label="<?php echo esc_attr__( 'Copied!', 'order-updates-for-woo' ); ?>"
+			><?php esc_html_e( 'Copy link', 'order-updates-for-woo' ); ?></button>
+		</div>
+		<script>
+		( function () {
+			var btn = document.querySelector( '[data-awts-copy-link]' );
+			if ( ! btn ) { return; }
+			var defaultLabel = btn.textContent;
+			var copiedLabel  = btn.getAttribute( 'data-copied-label' ) || 'Copied!';
+			btn.addEventListener( 'click', function () {
+				var url = btn.getAttribute( 'data-awts-copy-link' ) || '';
+				var done = function () {
+					btn.textContent = copiedLabel;
+					setTimeout( function () { btn.textContent = defaultLabel; }, 1500 );
+				};
+				if ( navigator.clipboard && navigator.clipboard.writeText ) {
+					navigator.clipboard.writeText( url ).then( done, function () {
+						window.prompt( '', url );
+					} );
+					return;
+				}
+				// Fallback for older browsers / non-HTTPS contexts.
+				var ta = document.createElement( 'textarea' );
+				ta.value = url;
+				ta.setAttribute( 'readonly', '' );
+				ta.style.position = 'absolute';
+				ta.style.left = '-9999px';
+				document.body.appendChild( ta );
+				ta.select();
+				try { document.execCommand( 'copy' ); done(); } catch ( e ) {}
+				document.body.removeChild( ta );
+			} );
+		} )();
+		</script>
 	<?php endif; ?>
 
 	<!-- Update cards -->

@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use OrderUpdatesForWoo\Welcome\Controllers\OnboardingController;
 use OrderUpdatesForWoo\Admin\Settings\Services\OrderUpdatesSettingsService;
 use OrderUpdatesForWoo\Admin\Orders\Services\OrderEditorPanelService;
+use OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Config\Variables;
@@ -75,6 +76,18 @@ final class OrderUpdatesPanelController {
 			$order_updates_array
 		);
 
+		// Customer-facing URL for the order, so staff can copy it for the
+		// customer (the guest order_key URL is otherwise hard to surface).
+		// Logged-in customers get their My Account link; guests get the
+		// standalone URL with ?key=... appended.
+		$customer_url = '';
+		$order_obj    = $order_id ? wc_get_order( $order_id ) : null;
+		if ( $order_obj ) {
+			$is_guest_order = 0 === absint( $order_obj->get_customer_id() );
+			$order_key      = $is_guest_order ? (string) $order_obj->get_order_key() : null;
+			$customer_url   = CustomerOrderUpdatesController::get_page_url( $order_id, $order_key );
+		}
+
 		View::render(
 			'src/Admin/Orders/Views/OrderUpdatesPanelViewModern',
 			[
@@ -84,6 +97,7 @@ final class OrderUpdatesPanelController {
 				'order_updates_total' => $this->order_updates_db->count_order_updates($order_id),
 				'show_onboarding' => $this->onboarding->should_show(),
 				'statuses' => $this->settings_service->get_statuses(),
+				'customer_url' => $customer_url,
 			]
 		);
 	}
