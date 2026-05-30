@@ -61,7 +61,7 @@ $settings = wp_parse_args(
 		<!-- Shareable customer link — guest orders get the ?key=... URL,
 		     logged-in customers get their My Account order-updates URL. -->
 		<div class="awts_panel__customer_link" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin:0 0 12px;background:#f6f7f7;border:1px solid #dcdcde;border-radius:4px;font-size:13px;">
-			<strong><?php esc_html_e( 'Customer link:', 'order-updates-for-woo' ); ?></strong>
+			<strong><?php esc_html_e( 'No-login chat link:', 'order-updates-for-woo' ); ?></strong>
 			<code style="flex:1 1 240px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 6px;background:#fff;border:1px solid #dcdcde;border-radius:3px;"><?php echo esc_html( $customer_url ); ?></code>
 			<button
 				type="button"
