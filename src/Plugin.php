@@ -28,6 +28,7 @@ use OrderUpdatesForWoo\API\Endpoints\SaveEmailPreferenceEndpoint;
 use OrderUpdatesForWoo\API\Endpoints\SaveStaffEmailPreferenceEndpoint;
 use OrderUpdatesForWoo\API\Endpoints\SaveUpdateEndpoint;
 use OrderUpdatesForWoo\API\Endpoints\ServeAttachmentEndpoint;
+use OrderUpdatesForWoo\API\Endpoints\SharedLinkEndpoint;
 use OrderUpdatesForWoo\API\Endpoints\SingleOrderUpdateEndpoint;
 use OrderUpdatesForWoo\API\Endpoints\SubmitCustomerUpdateEndpoint;
 use OrderUpdatesForWoo\API\Endpoints\SubmitRatingEndpoint;
@@ -146,6 +147,7 @@ final class Plugin {
 			new ServeAttachmentEndpoint( $attachment_service, $attachments_db ),
 			new SubmitCustomerUpdateEndpoint( $db, $note_service, $customer_updates_service, $settings, $attachment_service, $async, new Validator() ),
 			new SubmitRatingEndpoint( $db, $customer_updates_service, $settings, $async ),
+			new SharedLinkEndpoint(),
 			new GetAnalyticsSummaryEndpoint( $analytics_lookup_db ),
 			new GetAnalyticsByDateEndpoint( $analytics_lookup_db ),
 			new GetAnalyticsAssigneesEndpoint( $analytics_lookup_db ),

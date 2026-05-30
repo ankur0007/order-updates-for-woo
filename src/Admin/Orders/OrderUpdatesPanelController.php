@@ -17,6 +17,7 @@ use OrderUpdatesForWoo\Welcome\Controllers\OnboardingController;
 use OrderUpdatesForWoo\Admin\Settings\Services\OrderUpdatesSettingsService;
 use OrderUpdatesForWoo\Admin\Orders\Services\OrderEditorPanelService;
 use OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController;
+use OrderUpdatesForWoo\Helpers\RestUrlHelper;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Config\Variables;
@@ -86,6 +87,9 @@ final class OrderUpdatesPanelController {
 		if ( $order_obj ) {
 			$shared_link  = SharedLink::ensure( $order_obj, get_current_user_id() );
 			$customer_url = CustomerOrderUpdatesController::get_shared_link_url( $order_id, (string) $shared_link['hash'] );
+			$shared_link['expiry_endpoint']     = RestUrlHelper::route( 'orders/' . $order_id . '/shared-link/expiry' );
+			$shared_link['regenerate_endpoint'] = RestUrlHelper::route( 'orders/' . $order_id . '/shared-link/regenerate' );
+			$shared_link['default_days']        = Variables::getCustomerLinkExpiryDays();
 		}
 
 		View::render(
