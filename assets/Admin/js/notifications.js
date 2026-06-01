@@ -33,6 +33,12 @@
 	$form.on( 'change', '.awts-inbox__check', refreshBulkbar );
 	refreshBulkbar();
 
+	// Clearing the search box (native ×) or pressing Enter resubmits, so an
+	// emptied field reloads the unfiltered list instead of staying stuck.
+	$( '.awts-inbox__search input[type="search"]' ).on( 'search', function () {
+		this.form.submit();
+	} );
+
 	// Per-page dropdown — reload with the new size, back to page 1.
 	$( '#awts-inbox-perpage' ).on( 'change', function () {
 		var url = new URL( window.location.href );
