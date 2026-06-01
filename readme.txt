@@ -116,28 +116,34 @@ Initial public release.
 
 == External services ==
 
-This plugin connects to three third-party services. Each one is either fully opt-in or limited to a specific feature, and none are required for the core order-updates flow. The data sent, the trigger, and the provider's policies for each service are listed below.
+Order Updates for Woo connects to three external services to provide optional features. Below is a full disclosure of each service, what data is sent, and when.
 
-= Newsletter signup (Cloudflare Workers + Mailchimp) =
+= Newsletter signup (newsletter.orderupdatesforwoo.com) =
 
-This plugin includes an optional newsletter signup form on the plugin's welcome screen. It is used to subscribe the site administrator to the plugin's product updates list.
+Used to subscribe the site administrator to the plugin's product update newsletter. Only active when the administrator types an email into the welcome screen signup form and clicks "Subscribe". Not required for the core order-updates flow.
 
-It sends the email address the administrator types into the form and the site's home URL, only when the administrator types an email and explicitly clicks "Subscribe". Nothing is sent automatically and nothing is sent without that click. The request goes to a Cloudflare Worker we operate, which forwards the email to Mailchimp's list-subscribe API.
+* **Subscribe action:** Sends the email address the administrator typed and the site's home URL to a Cloudflare Worker we operate at newsletter.orderupdatesforwoo.com, which then forwards the email to Mailchimp for list subscription. Nothing is sent without an explicit click.
 
-This service is provided by Cloudflare (the relay) and Mailchimp (the list provider): [Cloudflare terms of use](https://www.cloudflare.com/website-terms/), [Cloudflare privacy policy](https://www.cloudflare.com/privacypolicy/), [Mailchimp terms of use](https://mailchimp.com/legal/terms/), [Mailchimp privacy policy](https://mailchimp.com/legal/privacy/). The endpoint the plugin posts to is https://newsletter.orderupdatesforwoo.com/subscribe.
+Service provider: Cloudflare Workers (Cloudflare, Inc.) and Mailchimp (Intuit Inc.)
+Privacy policy: https://www.cloudflare.com/privacypolicy/ and https://www.intuit.com/privacy/statement/
+Terms of service: https://www.cloudflare.com/website-terms/ and https://mailchimp.com/legal/terms/
 
-= In-admin plugin review form (Web3Forms) =
+= Plugin review form (api.web3forms.com) =
 
-This plugin shows a dismissible 5-star review notice to administrators inside the WordPress admin. It is used to collect optional feedback that reaches the plugin author.
+Used to collect optional plugin feedback from administrators via a dismissible 5-star review notice in the WordPress admin. Not required for any core feature; nothing is sent unless the administrator submits the form.
 
-It sends the star rating the administrator clicks, the administrator's WordPress display name, the administrator's WordPress email address, an optional public profile or store URL the administrator types in, and an optional short message, only when the administrator clicks a star and then clicks "Submit rating". Nothing is sent if the administrator dismisses, snoozes, or ignores the notice.
+* **Submit review:** Sends the star rating the administrator clicked, the administrator's WordPress display name, the administrator's WordPress email address, an optional public profile or store URL, and an optional short message to api.web3forms.com. The endpoint then forwards the submission to the plugin author. Only fires when the administrator clicks a star and then clicks "Submit rating".
 
-This service is provided by Web3Forms: [terms of use](https://web3forms.com/terms), [privacy policy](https://web3forms.com/privacy). The endpoint is https://api.web3forms.com/submit.
+Service provider: Web3Forms
+Privacy policy: https://web3forms.com/privacy
+Terms of service: https://web3forms.com/terms
 
-= Avatars on the customer-facing page (Gravatar) =
+= Staff avatars on the customer-facing page (gravatar.com) =
 
-This plugin uses WordPress's built-in `get_avatar_url()` function to show staff member avatars on the customer-facing order updates page. This is only used when the site administrator turns on the "Show assignee to customers" setting, which is off by default.
+Used to render staff member avatars next to their replies on the customer-facing order updates page. Only active when the site administrator turns on the "Show assignee to customers" setting, which is off by default. Uses WordPress's built-in get_avatar_url() function.
 
-When that setting is on, the customer's browser requests the staff avatar image from Gravatar using an MD5 hash of the staff member's email address (the standard Gravatar URL). The plugin itself does not transmit the email; the image request happens in the customer's browser when it loads the avatar.
+* **Avatar image load:** When the customer's browser renders the page, it requests the staff avatar image from gravatar.com using an MD5 hash of the staff member's email address (the standard Gravatar URL). The plugin itself does not transmit any email — the image request happens in the customer's browser as part of loading the page.
 
-This service is provided by Automattic (Gravatar): [terms of use](https://wordpress.com/tos/), [privacy policy](https://automattic.com/privacy/).
+Service provider: Gravatar (Automattic Inc.)
+Privacy policy: https://automattic.com/privacy/
+Terms of service: https://wordpress.com/tos/
