@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use OrderUpdatesForWoo\Shared\Config\Constants;
+use OrderUpdatesForWoo\Shared\Config\Variables;
+
 if (! defined('ABSPATH')) {
 	exit;
 }
@@ -197,7 +200,7 @@ do_action('woocommerce_email_header', $email_heading, $email);
 <?php
 // Footer credit is opt-in only — WP.org requires explicit admin consent
 // before attribution appears in any user-facing surface, including emails.
-if ( ! empty( $sent_to_admin ) && \OrderUpdatesForWoo\Shared\Config\Variables::shouldShowEmailFooterCredit() ) : ?>
+if ( ! empty( $sent_to_admin ) && Variables::shouldShowEmailFooterCredit() ) : ?>
 <p style="margin:32px 0 0; font-size:11px; color:#9ca3af; text-align:center;">
 	<?php
 	/* translators: 1: plugin name link, 2: review link. */
@@ -208,7 +211,7 @@ if ( ! empty( $sent_to_admin ) && \OrderUpdatesForWoo\Shared\Config\Variables::s
 			array( 'a' => array( 'href' => array(), 'style' => array() ) )
 		),
 		esc_url( 'https://wordpress.org/plugins/order-updates-for-woo/' ),
-		esc_url( \OrderUpdatesForWoo\Shared\Config\Constants::POWERED_BY_REVIEW_URL )
+		esc_url( Constants::POWERED_BY_REVIEW_URL )
 	);
 	?>
 </p>
