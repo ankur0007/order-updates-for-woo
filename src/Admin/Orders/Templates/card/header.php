@@ -37,6 +37,9 @@ $staff_email_muted = ! empty( $flags['staff_email_muted'] );
 ?>
 <div class="awts_card_top">
 	<div class="awts_title">
+		<?php if ( $update_id > 0 ) : ?>
+			<span class="awts_update_id_badge" title="<?php echo esc_attr__( 'Update ID — matches the notification reference', 'order-updates-for-woo' ); ?>">#<?php echo esc_html( (string) $update_id ); ?></span>
+		<?php endif; ?>
 		<span class="awts_title_text"><?php echo esc_html( (string) ( $raw['title'] ?? '' ) ); ?></span>
 		<?php if ( $can_edit ) : ?>
 			<button type="button" class="awts_inline_edit_btn awts_edit_title" title="<?php echo esc_attr__( 'Edit', 'order-updates-for-woo' ); ?>">

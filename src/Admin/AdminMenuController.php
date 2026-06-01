@@ -11,9 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Registers the plugin's top-level "Order Updates" menu in wp-admin.
  *
- * Sub-pages (Welcome, Analytics, future Dashboard + Notifications) hook
- * into this parent via add_submenu_page in their own controllers. Settings
- * stay under Woo → Settings → Order Updates by convention.
+ * Sub-pages (Welcome, Analytics, Notifications) hook into this parent via
+ * add_submenu_page in their own controllers. The settings still live on the
+ * WooCommerce → Settings → Order Updates tab; we add a submenu link that
+ * jumps straight there.
  */
 final class AdminMenuController {
 
@@ -22,6 +23,8 @@ final class AdminMenuController {
 	public function init(): void {
 		// Priority 9 so the top-level slot exists before sub-pages register at 10.
 		add_action( 'admin_menu', array( $this, 'register_top_level' ), 9 );
+		// Priority 12 so the Settings link lands after the other sub-pages.
+		add_action( 'admin_menu', array( $this, 'register_settings_link' ), 12 );
 		// Priority 11 so the auto-duplicate submenu is removed AFTER sub-pages register.
 		add_action( 'admin_menu', array( $this, 'remove_auto_duplicate' ), 11 );
 	}
@@ -35,6 +38,21 @@ final class AdminMenuController {
 			'__return_null',
 			'dashicons-format-chat',
 			56
+		);
+	}
+
+	/**
+	 * Submenu link to the settings, which live on the WooCommerce settings
+	 * tab. Passing the target URL as the slug makes WordPress render it as a
+	 * plain link (no callback) that redirects on click.
+	 */
+	public function register_settings_link(): void {
+		add_submenu_page(
+			self::PARENT_SLUG,
+			__( 'Order Updates Settings', 'order-updates-for-woo' ),
+			__( 'Settings', 'order-updates-for-woo' ),
+			'manage_woocommerce',
+			'admin.php?page=wc-settings&tab=order_updates_for_woo'
 		);
 	}
 

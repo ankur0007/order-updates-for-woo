@@ -186,6 +186,18 @@ button.awts_onboarding_dismiss {
 	word-break: break-word;
 }
 
+/* Update ID badge — lets staff match a card to a notification's "Update: N". */
+.awts_update_id_badge {
+	flex: 0 0 auto;
+	padding: 1px 7px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #f6f7f7;
+	color: #646970;
+	font-size: 11px;
+	font-weight: 500;
+}
+
 .awts_title_text {
 	/* Natural width only — the parent flex container takes the remaining
 	 * space. Previously this used `flex: 1 1 auto` which pushed the edit
