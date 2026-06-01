@@ -352,6 +352,46 @@ jQuery( function( $ ) {
 			this.bindHeartbeat();
 			this.bindEnterToSend();
 			this.restoreLastTab();
+			this.enhanceTooltips();
+		},
+
+		// Turn short button/link titles into custom hover tooltips (the dark
+		// pill from the notifications page) so the meta box matches. Long
+		// explanatory titles stay as the browser's native tooltip. A
+		// MutationObserver re-runs on dynamically-rendered cards/notes.
+		enhanceTooltips() {
+			const panel = this.$panel.get( 0 );
+			if ( ! panel ) {
+				return;
+			}
+
+			const convert = root => {
+				if ( ! root || ! root.querySelectorAll ) {
+					return;
+				}
+				const els = root.querySelectorAll( 'button[title], a[title]' );
+				Array.prototype.forEach.call( els, el => {
+					const tip = el.getAttribute( 'title' );
+					if ( tip && tip.length <= 28 && ! el.hasAttribute( 'data-awts-tip' ) ) {
+						el.setAttribute( 'data-awts-tip', tip );
+						el.removeAttribute( 'title' );
+					}
+				} );
+			};
+
+			convert( panel );
+
+			if ( typeof MutationObserver === 'function' ) {
+				new MutationObserver( mutations => {
+					mutations.forEach( m => {
+						Array.prototype.forEach.call( m.addedNodes, node => {
+							if ( node.nodeType === 1 ) {
+								convert( node );
+							}
+						} );
+					} );
+				} ).observe( panel, { childList: true, subtree: true } );
+			}
 		},
 
 		// Persist the last-opened card tab in localStorage so a refresh

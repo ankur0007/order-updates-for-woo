@@ -848,6 +848,53 @@ button.awts_onboarding_dismiss {
 	scroll-behavior: smooth;
 }
 
+/* Custom hover tooltip (same dark pill as the notifications page). Short
+   button/link titles are converted to data-awts-tip by the JS so they render
+   as pills instead of the browser's native tooltip. */
+.awts_panel [data-awts-tip] {
+	position: relative;
+}
+
+.awts_panel [data-awts-tip]::after {
+	content: attr(data-awts-tip);
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	z-index: 20;
+	padding: 5px 9px;
+	border-radius: 6px;
+	background: #1d2327;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 1.4;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateX( -50% ) translateY( 4px );
+	transition: opacity .12s ease, transform .12s ease;
+}
+
+.awts_panel [data-awts-tip]::before {
+	content: "";
+	position: absolute;
+	bottom: calc(100% + 3px);
+	left: 50%;
+	z-index: 20;
+	border: 5px solid transparent;
+	border-top-color: #1d2327;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateX( -50% ) translateY( 4px );
+	transition: opacity .12s ease, transform .12s ease;
+}
+
+.awts_panel [data-awts-tip]:hover::after,
+.awts_panel [data-awts-tip]:hover::before {
+	opacity: 1;
+	transform: translateX( -50% ) translateY( 0 );
+}
+
 /* Internal notes — bubbles for consistency with the customer-thread look,
    no left/right flip (everyone here is staff). Bubble sizes to its own
    content; the row never spans more than 75% of the thread. */
