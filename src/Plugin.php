@@ -169,6 +169,7 @@ final class Plugin {
 		( new \OrderUpdatesForWoo\Admin\Orders\DeletedUpdatesMetaBox() )->init();
 		( new AdminHeartbeatHandler( $db, $note_action_policy, $attachments_db ) )->init();
 		( new NotificationScheduler( $async ) )->init();
+		( new \OrderUpdatesForWoo\Shared\Notifications\NotificationRetentionScheduler() )->init();
 		( new NotificationDispatcher() )->init();
 		( new NotificationStatusUpdater( $db ) )->init();
 		( new RatingRequestScheduler( $db, $settings, $async ) )->init();
@@ -188,6 +189,9 @@ final class Plugin {
 			new EmailsSettingsController( new EmailsSettingsService() ),
 			new \OrderUpdatesForWoo\Admin\Settings\Controllers\AdminOnlySettingsController(
 				new \OrderUpdatesForWoo\Admin\Settings\Services\AdminOnlySettingsService()
+			),
+			new \OrderUpdatesForWoo\Admin\Settings\Controllers\NotificationsSettingsController(
+				new \OrderUpdatesForWoo\Admin\Settings\Services\NotificationsSettingsService()
 			),
 			new CacheSettingsController( new CacheSettingsService( $team_roster, $analytics_lookup_db ) ),
 			new AttachmentsSettingsController( new AttachmentsSettingsService() ),

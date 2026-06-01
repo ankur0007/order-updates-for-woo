@@ -62,6 +62,9 @@ final class Constants {
 	// Analytics page: cache TTL (24 h), daily warmup cron hook, and generation-counter key prefix.
 	public const ANALYTICS_CACHE_TTL       = 86400;
 	public const ANALYTICS_CRON_HOOK       = 'order_updates_for_woo_analytics_warmup';
+	// Notification retention: daily cleanup + its per-chunk batch action.
+	public const NOTIFICATIONS_CLEANUP_HOOK       = 'order_updates_for_woo_notifications_cleanup';
+	public const NOTIFICATIONS_CLEANUP_BATCH_HOOK = 'order_updates_for_woo_notifications_cleanup_batch';
 	public const ANALYTICS_GEN_PFX         = 'analytics_gen_';
 	// Option key prefix for persistent generation counters (used on hosts without a persistent object cache).
 	public const ANALYTICS_GEN_OPTION_PFX  = 'order_updates_for_woo_analytics_gen_';

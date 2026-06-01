@@ -488,6 +488,35 @@ final class AdminBarNotificationStore {
 	}
 
 	/**
+	 * Stage one of retention — move active notifications older than $days into
+	 * Archived. Skips already-archived and favourited rows. Stamps archived_at
+	 * so stage two can age them out from there.
+	 */
+	public static function archive_aged( int $user_id, int $days ): void {
+		if ( ! $user_id || $days < 1 ) {
+			return;
+		}
+
+		$cutoff = time() - ( $days * DAY_IN_SECONDS );
+		$now    = time();
+
+		self::update_all(
+			$user_id,
+			static function ( array &$n ) use ( $cutoff, $now ): bool {
+				if ( ! empty( $n['archived'] ) || ! empty( $n['favorited'] ) ) {
+					return false;
+				}
+				if ( (int) ( $n['time'] ?? 0 ) >= $cutoff ) {
+					return false;
+				}
+				$n['archived']    = true;
+				$n['archived_at'] = $now;
+				return true;
+			}
+		);
+	}
+
+	/**
 	 * Drop notifications whose state bucket is in $tags and that are older
 	 * than $days. Runs from the scheduled cleanup. Buckets: 'archived' ages
 	 * off archived_at, the rest off time. Favorited rows are always kept.
