@@ -44,6 +44,7 @@ use OrderUpdatesForWoo\API\RestApiRegistrar;
 use OrderUpdatesForWoo\Shared\Analytics\AnalyticsLookupDb;
 use OrderUpdatesForWoo\Shared\Analytics\AnalyticsLookupTable;
 use OrderUpdatesForWoo\Admin\AdminBar\AdminBarNotifications;
+use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Admin\Analytics\AnalyticsController;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Admin\Notifications\AdminNotifications;
@@ -161,6 +162,7 @@ final class Plugin {
 		$async_health->init();
 		$team_roster->init();
 		$rest->init();
+		( new AdminMenuController() )->init();
 		( new OrderDeletionController( $db, $attachment_service ) )->init();
 		( new \OrderUpdatesForWoo\Admin\Orders\DeletedUpdatesMetaBox() )->init();
 		( new AdminHeartbeatHandler( $db, $note_action_policy, $attachments_db ) )->init();

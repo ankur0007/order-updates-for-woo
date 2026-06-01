@@ -25,9 +25,9 @@ final class WelcomeController {
 
 	public function register_page(): void {
 		add_submenu_page(
-			'woocommerce',
+			\OrderUpdatesForWoo\Admin\AdminMenuController::PARENT_SLUG,
 			__( 'Order Updates', 'order-updates-for-woo' ),
-			__( 'Order Updates', 'order-updates-for-woo' ),
+			__( 'Welcome', 'order-updates-for-woo' ),
 			'manage_woocommerce',
 			self::SLUG,
 			array( $this, 'render' )
