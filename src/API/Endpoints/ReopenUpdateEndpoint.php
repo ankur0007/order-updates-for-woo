@@ -57,11 +57,16 @@ final class ReopenUpdateEndpoint implements Registrable {
 		// Customer-acting path — the "Still has issue?" button on the
 		// customer-facing thread hits this endpoint with the order_key so a
 		// guest/logged-in customer can re-open their own unrated update
-		// without staff capabilities.
+		// without staff capabilities. Gate on customer-visibility too so a
+		// guessed update_id on an internal-only update is rejected.
 		$order_key_raw = (string) $request->get_param( 'order_key' );
 		$order_key     = '' !== $order_key_raw ? sanitize_text_field( wp_unslash( $order_key_raw ) ) : null;
 
-		if ( $order_id && $this->viewer_service->is_acting_as_customer( $order_id, $order_key ) ) {
+		if (
+			$order_id
+			&& UpdateState::is_customer_visible( $update )
+			&& $this->viewer_service->is_acting_as_customer( $order_id, $order_key )
+		) {
 			return true;
 		}
 

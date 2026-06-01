@@ -64,7 +64,12 @@ final class SubmitRatingEndpoint implements Registrable {
 		$order_key = (string) $request->get_param( 'order_key' );
 		$order_key = '' !== $order_key ? sanitize_text_field( wp_unslash( $order_key ) ) : null;
 
-		if ( ! $order_id || ! $this->viewer_service->is_acting_as_customer( $order_id, $order_key ) ) {
+		// Gate on customer-visibility so a guessed update_id on an internal-only update is rejected.
+		if (
+			! $order_id
+			|| ! UpdateState::is_customer_visible( $update )
+			|| ! $this->viewer_service->is_acting_as_customer( $order_id, $order_key )
+		) {
 			return new WP_Error(
 				'order_updates_for_woo_forbidden',
 				__( 'You are not allowed to rate this update.', 'order-updates-for-woo' ),
