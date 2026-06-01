@@ -114,37 +114,30 @@ Initial public release.
 
 Initial public release.
 
-== External Services ==
+== External services ==
 
-This plugin connects to a small number of third-party services. All three are optional or limited to administrator-initiated actions in the WordPress admin. None of them are needed for the core order-updates flow itself.
+This plugin connects to three third-party services. Each one is either fully opt-in or limited to a specific feature, and none are required for the core order-updates flow. The data sent, the trigger, and the provider's policies for each service are listed below.
 
-= 1. Newsletter signup (Mailchimp via a Cloudflare Worker proxy) =
+= Newsletter signup (Cloudflare Workers + Mailchimp) =
 
-What it is: an opt-in newsletter signup form on the plugin's welcome/admin screen.
+This plugin includes an optional newsletter signup form on the plugin's welcome screen. It is used to subscribe the site administrator to the plugin's product updates list.
 
-What is sent and when: only when the site administrator types an email into the form and explicitly clicks "Subscribe", the plugin sends the email address and the site's home URL to a Cloudflare Worker we operate. The Worker forwards the email to Mailchimp's API for list subscription. Nothing is sent automatically and nothing is sent without the administrator's click.
+It sends the email address the administrator types into the form and the site's home URL, only when the administrator types an email and explicitly clicks "Subscribe". Nothing is sent automatically and nothing is sent without that click. The request goes to a Cloudflare Worker we operate, which forwards the email to Mailchimp's list-subscribe API.
 
-Endpoint: https://shrill-breeze-aef9.order-update-for-woocommerce.workers.dev/subscribe
+This service is provided by Cloudflare (the relay) and Mailchimp (the list provider): [Cloudflare terms of use](https://www.cloudflare.com/website-terms/), [Cloudflare privacy policy](https://www.cloudflare.com/privacypolicy/), [Mailchimp terms of use](https://mailchimp.com/legal/terms/), [Mailchimp privacy policy](https://mailchimp.com/legal/privacy/). The Worker endpoint the plugin posts to is https://shrill-breeze-aef9.order-update-for-woocommerce.workers.dev/subscribe.
 
-Terms of service: https://www.cloudflare.com/website-terms/ (Cloudflare Workers, the relay) and https://mailchimp.com/legal/terms/ (Mailchimp, the list provider).
-Privacy policy: https://www.cloudflare.com/privacypolicy/ (Cloudflare) and https://mailchimp.com/legal/privacy/ (Mailchimp).
+= In-admin plugin review form (Web3Forms) =
 
-= 2. In-admin plugin review form (Web3Forms) =
+This plugin shows a dismissible 5-star review notice to administrators inside the WordPress admin. It is used to collect optional feedback that reaches the plugin author.
 
-What it is: an inline 5-star rating form shown to administrators in a dismissible admin notice on plugin pages. Administrators can leave a star rating and an optional short message that reaches the plugin author.
+It sends the star rating the administrator clicks, the administrator's WordPress display name, the administrator's WordPress email address, an optional public profile or store URL the administrator types in, and an optional short message, only when the administrator clicks a star and then clicks "Submit rating". Nothing is sent if the administrator dismisses, snoozes, or ignores the notice.
 
-What is sent and when: only when an administrator clicks a star and then clicks "Submit rating", the form posts the star rating, the administrator's WordPress display name, the administrator's WordPress email address, an optional "public profile / store" URL they type in, and an optional short message to Web3Forms, which forwards it to the plugin author's inbox. Nothing is sent unless the administrator actively submits the form. Dismissing or snoozing the notice sends nothing.
+This service is provided by Web3Forms: [terms of use](https://web3forms.com/terms), [privacy policy](https://web3forms.com/privacy). The endpoint is https://api.web3forms.com/submit.
 
-Endpoint: https://api.web3forms.com/submit
+= Avatars on the customer-facing page (Gravatar) =
 
-Terms of service: https://web3forms.com/terms
-Privacy policy: https://web3forms.com/privacy
+This plugin uses WordPress's built-in `get_avatar_url()` function to show staff member avatars on the customer-facing order updates page. This is only used when the site administrator turns on the "Show assignee to customers" setting, which is off by default.
 
-= 3. Gravatar (avatar images for staff replies) =
+When that setting is on, the customer's browser requests the staff avatar image from Gravatar using an MD5 hash of the staff member's email address (the standard Gravatar URL). The plugin itself does not transmit the email; the image request happens in the customer's browser when it loads the avatar.
 
-What it is: WordPress's built-in avatar service, provided by Automattic via Gravatar. The plugin uses the standard `get_avatar_url()` WordPress function to render staff member avatars next to their replies on the customer-facing order updates page. This only renders avatars when the "Show assignee to customers" setting is enabled — by default it is off, and the staff avatar is not shown to customers.
-
-What is sent and when: when the customer-facing page renders a staff avatar, the customer's browser requests the avatar image from gravatar.com using an MD5 hash of the staff member's email address (the standard Gravatar URL). The site itself does not transmit the email; the request happens in the customer's browser as part of loading the image.
-
-Terms of service: https://wordpress.com/tos/
-Privacy policy: https://automattic.com/privacy/
+This service is provided by Automattic (Gravatar): [terms of use](https://wordpress.com/tos/), [privacy policy](https://automattic.com/privacy/).
