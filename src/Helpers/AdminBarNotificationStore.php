@@ -24,6 +24,7 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
  *   favorited   — bool, starred by the user
  *   archived    — bool, moved out of the active list
  *   archived_at — Unix timestamp the row was archived (0 when not archived)
+ *   target_deleted — bool, the note/update/order it pointed to was deleted
  */
 final class AdminBarNotificationStore {
 	private const META_KEY   = 'order_updates_for_woo_notifications';
@@ -362,11 +363,17 @@ final class AdminBarNotificationStore {
 			self::update_all(
 				$user_id,
 				static function ( array &$n ) use ( $update_id, $now ): bool {
-					if ( (int) ( $n['update_id'] ?? 0 ) !== $update_id || ! empty( $n['archived'] ) ) {
+					if ( (int) ( $n['update_id'] ?? 0 ) !== $update_id ) {
 						return false;
 					}
-					$n['archived']    = true;
-					$n['archived_at'] = $now;
+					if ( ! empty( $n['archived'] ) && ! empty( $n['target_deleted'] ) ) {
+						return false;
+					}
+					$n['archived']       = true;
+					$n['target_deleted'] = true;
+					if ( empty( $n['archived_at'] ) ) {
+						$n['archived_at'] = $now;
+					}
 					return true;
 				}
 			);
@@ -416,6 +423,25 @@ final class AdminBarNotificationStore {
 					return false;
 				}
 				$n['favorited'] = $favorite;
+				return true;
+			}
+		);
+	}
+
+	/** Archive one notification and flag its target (note/update/order) as deleted, so the row shows a "Deleted" tag. */
+	public static function archive_as_deleted( string $key, int $user_id ): void {
+		self::update_one(
+			$key,
+			$user_id,
+			static function ( array &$n ): bool {
+				if ( ! empty( $n['archived'] ) && ! empty( $n['target_deleted'] ) ) {
+					return false;
+				}
+				$n['archived']       = true;
+				$n['target_deleted'] = true;
+				if ( empty( $n['archived_at'] ) ) {
+					$n['archived_at'] = time();
+				}
 				return true;
 			}
 		);

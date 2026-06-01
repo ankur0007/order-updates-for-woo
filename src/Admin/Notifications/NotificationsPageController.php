@@ -37,10 +37,10 @@ final class NotificationsPageController {
 
 	private const ALLOWED_ACTIONS = array( 'mark_read', 'mark_unread', 'favorite', 'unfavorite', 'archive', 'unarchive', 'delete' );
 
-	// Shared with the Notifications settings tab. Days an item lives before
-	// auto-delete, and which state tags ('read', 'archived') that applies to.
-	public const OPT_AUTODELETE_DAYS = 'order_updates_for_woo_notif_autodelete_days';
-	public const OPT_AUTODELETE_TAGS = 'order_updates_for_woo_notif_autodelete_tags';
+	// Two-stage retention (configured on the Notifications settings tab):
+	// active rows auto-archive after N days, archived rows delete after M days.
+	public const OPT_ARCHIVE_AFTER_DAYS = 'order_updates_for_woo_notif_archive_after_days';
+	public const OPT_AUTODELETE_DAYS    = 'order_updates_for_woo_notif_autodelete_days';
 
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
@@ -100,7 +100,7 @@ final class NotificationsPageController {
 				continue;
 			}
 			if ( $this->target_is_gone( $n ) ) {
-				AdminBarNotificationStore::set_archived( (string) ( $n['key'] ?? '' ), $user_id, true );
+				AdminBarNotificationStore::archive_as_deleted( (string) ( $n['key'] ?? '' ), $user_id );
 			}
 		}
 	}
@@ -110,6 +110,12 @@ final class NotificationsPageController {
 		$update_id = (int) ( $n['update_id'] ?? 0 );
 		if ( ! $update_id ) {
 			return false; // No target to chase — leave it alone.
+		}
+
+		// Order gone (order deleted) — its updates/notes go with it.
+		$order_id = (int) ( $n['order_id'] ?? 0 );
+		if ( $order_id && function_exists( 'wc_get_order' ) && ! wc_get_order( $order_id ) ) {
+			return true;
 		}
 
 		if ( empty( $this->order_updates_db->get_update( $update_id )['id'] ) ) {
@@ -316,7 +322,8 @@ final class NotificationsPageController {
 				'bulk_nonce'       => wp_nonce_field( self::BULK_NONCE, '_wpnonce', true, false ),
 				'has_filters'      => ( '' !== $status || $order_id > 0 || $update_id > 0 || '' !== $search ),
 				'is_archived'      => ( 'archived' === $status ),
-				'archive_days'     => (int) get_option( self::OPT_AUTODELETE_DAYS, 30 ),
+				'auto_archive_days' => (int) get_option( self::OPT_ARCHIVE_AFTER_DAYS, 30 ),
+				'auto_delete_days'  => (int) get_option( self::OPT_AUTODELETE_DAYS, 30 ),
 				'per_page'         => $per_page,
 				'per_page_options' => array( 20, 50, 100 ),
 				'pagination'       => $this->build_pagination( $paged, $total_pages, $total, $offset, $per_page ),
@@ -434,8 +441,9 @@ final class NotificationsPageController {
 			'snippet'     => trim( (string) ( $n['title'] ?? '' ) ),
 			'actor'       => trim( (string) ( $n['actor'] ?? '' ) ),
 			'context'     => self::context_label( $type, (string) ( $n['note_type'] ?? '' ) ),
-			// Deleted rows get a red tag so the deletion reads at a glance.
-			'context_danger' => ( 'deleted' === $type ),
+			// Red "Deleted" tag when the target was deleted (the dedicated
+			// "deleted" notice type, or a self-healed dead-target row).
+			'deleted'     => ( 'deleted' === $type ) || ! empty( $n['target_deleted'] ),
 			'order_id'    => (int) ( $n['order_id'] ?? 0 ),
 			'update_id'   => (int) ( $n['update_id'] ?? 0 ),
 			'note_id'     => (int) ( $n['note_id'] ?? 0 ),
@@ -504,8 +512,8 @@ final class NotificationsPageController {
 		$update_id = (int) ( $item['update_id'] ?? 0 );
 		$note_id   = (int) ( $item['note_id'] ?? 0 );
 
-		// A deleted note has nothing to open — keep the row non-clickable.
-		if ( ! $order_id || ! $update_id || 'deleted' === (string) ( $item['type'] ?? '' ) ) {
+		// Nothing to open when the target is gone — keep the row non-clickable.
+		if ( ! $order_id || ! $update_id || 'deleted' === (string) ( $item['type'] ?? '' ) || ! empty( $item['target_deleted'] ) ) {
 			return '';
 		}
 
@@ -558,7 +566,7 @@ final class NotificationsPageController {
 	/** Where the note lives — shown after "By {name} ·" so it's clear how it reached you. */
 	private static function context_label( string $type, string $note_type ): string {
 		return match ( $type ) {
-			'deleted'                       => __( 'Note deleted', 'order-updates-for-woo' ),
+			'deleted'                       => '', // The red "Deleted" tag carries this instead.
 			'customer_reply', 'staff_reply' => __( 'Customer note', 'order-updates-for-woo' ),
 			'mention'                       => __( 'Internal note · tagged you', 'order-updates-for-woo' ),
 			'participant_reply'             => 'customer' === $note_type

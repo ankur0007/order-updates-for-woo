@@ -61,14 +61,25 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 				<button type="submit" name="action" value="delete" class="button awts-inbox__bulk-btn awts-inbox__bulk-btn--danger"><?php esc_html_e( 'Delete', 'order-updates-for-woo' ); ?></button>
 			</div>
 
-			<?php if ( ! empty( $view_data['is_archived'] ) ) : ?>
+			<?php if ( ! empty( $view_data['is_archived'] ) && (int) $view_data['auto_delete_days'] > 0 ) : ?>
 				<p class="awts-inbox__notice">
 					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
 					<?php
 					printf(
 						/* translators: %s: number of days */
-						esc_html( _n( 'Archived notifications are deleted automatically after %s day.', 'Archived notifications are deleted automatically after %s days.', (int) $view_data['archive_days'], 'order-updates-for-woo' ) ),
-						esc_html( number_format_i18n( (int) $view_data['archive_days'] ) )
+						esc_html( _n( 'Archived notifications are removed after %s day.', 'Archived notifications are removed after %s days.', (int) $view_data['auto_delete_days'], 'order-updates-for-woo' ) ),
+						esc_html( number_format_i18n( (int) $view_data['auto_delete_days'] ) )
+					);
+					?>
+				</p>
+			<?php elseif ( empty( $view_data['is_archived'] ) && (int) $view_data['auto_archive_days'] > 0 ) : ?>
+				<p class="awts-inbox__notice">
+					<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
+					<?php
+					printf(
+						/* translators: %s: number of days */
+						esc_html( _n( 'Notifications are moved to Archived after %s day.', 'Notifications are moved to Archived after %s days.', (int) $view_data['auto_archive_days'], 'order-updates-for-woo' ) ),
+						esc_html( number_format_i18n( (int) $view_data['auto_archive_days'] ) )
 					);
 					?>
 				</p>
@@ -128,8 +139,11 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 									<?php echo $is_message ? '&ldquo;' . esc_html( $primary ) . '&rdquo;' : esc_html( $primary ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- message escaped, quotes static. ?>
 								</span>
 								<span class="awts-inbox__tags">
+									<?php if ( ! empty( $row['deleted'] ) ) : ?>
+										<span class="awts-inbox__tag is-danger"><?php esc_html_e( 'Deleted', 'order-updates-for-woo' ); ?></span>
+									<?php endif; ?>
 									<?php if ( '' !== (string) $row['context'] ) : ?>
-										<span class="awts-inbox__tag<?php echo ! empty( $row['context_danger'] ) ? ' is-danger' : ''; ?>"><?php echo esc_html( (string) $row['context'] ); ?></span>
+										<span class="awts-inbox__tag"><?php echo esc_html( (string) $row['context'] ); ?></span>
 									<?php endif; ?>
 									<?php if ( (int) $row['order_id'] > 0 ) : ?>
 										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: order id */ esc_html__( 'Order: %d', 'order-updates-for-woo' ), (int) $row['order_id'] ); ?></span>
