@@ -135,6 +135,45 @@
 	display: none;
 }
 
+/* ---------- Active / Archived sections ---------- */
+
+.awts_cou_section + .awts_cou_section {
+	margin-top: 1rem;
+}
+
+.awts_cou_section__summary {
+	list-style: none;
+	cursor: pointer;
+	padding: 0.5rem 0.25rem;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--awts-cou-muted);
+	letter-spacing: 0.02em;
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	user-select: none;
+}
+
+.awts_cou_section__summary::-webkit-details-marker {
+	display: none;
+}
+
+.awts_cou_section__summary::before {
+	content: '▸';
+	display: inline-block;
+	font-size: 0.8rem;
+	transition: transform 0.15s ease;
+}
+
+.awts_cou_section[open] > .awts_cou_section__summary::before {
+	transform: rotate(90deg);
+}
+
+.awts_cou_section--archived > .awts_cou_section__summary {
+	opacity: 0.85;
+}
+
 /* ---------- Collapsible header ---------- */
 
 .awts_cou_item__details > summary {
