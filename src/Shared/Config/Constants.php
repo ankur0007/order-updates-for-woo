@@ -183,4 +183,13 @@ final class Constants {
 	// when an expired link is clicked.
 	public const CUSTOMER_LINK_EXPIRY_DAYS_OPTION = 'order_updates_for_woo_customer_link_expiry_days';
 	public const SUPPORT_CONTACT_EMAIL_OPTION     = 'order_updates_for_woo_support_contact_email';
+
+	// Tunable plugin variables. Defaults live in Variables.php.
+	public const PAGE_SIZE_OPTION                 = 'order_updates_for_woo_page_size';
+	public const ADMIN_BAR_MAX_ORDERS_OPTION      = 'order_updates_for_woo_admin_bar_max_orders';
+	public const ASSIGNEE_SEARCH_CACHE_TTL_OPTION = 'order_updates_for_woo_assignee_search_cache_ttl';
+	public const UPDATE_CACHE_TTL_OPTION          = 'order_updates_for_woo_cache_ttl';
+	public const MAX_ATTACHMENT_MB_OPTION         = 'order_updates_for_woo_max_attachment_mb';
+	public const MAX_ATTACHMENT_FILES_OPTION      = 'order_updates_for_woo_max_attachment_files';
+	public const SIGNED_URL_TTL_OPTION            = 'order_updates_for_woo_signed_url_ttl';
 }

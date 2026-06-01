@@ -37,7 +37,7 @@ final class AttachmentsSettingsService {
 			array(
 				'name'              => __( 'Max files per note', 'order-updates-for-woo' ),
 				'desc'              => __( 'How many files can be attached to a single note.', 'order-updates-for-woo' ),
-				'id'                => 'order_updates_for_woo_max_attachment_files',
+				'id'                => Constants::MAX_ATTACHMENT_FILES_OPTION,
 				'type'              => 'number',
 				'default'           => 5,
 				'desc_tip'          => true,
@@ -46,7 +46,7 @@ final class AttachmentsSettingsService {
 			array(
 				'name'              => __( 'Max file size (MB)', 'order-updates-for-woo' ),
 				'desc'              => $this->size_field_description(),
-				'id'                => 'order_updates_for_woo_max_attachment_mb',
+				'id'                => Constants::MAX_ATTACHMENT_MB_OPTION,
 				'type'              => 'number',
 				'default'           => 10,
 				'desc_tip'          => false,
@@ -102,7 +102,7 @@ final class AttachmentsSettingsService {
 	private function size_field_description(): string {
 		$php_max_bytes    = (int) wp_max_upload_size();
 		$php_max_label    = size_format( $php_max_bytes );
-		$configured_mb    = max( 1, (int) get_option( 'order_updates_for_woo_max_attachment_mb', 10 ) );
+		$configured_mb    = max( 1, (int) get_option( Constants::MAX_ATTACHMENT_MB_OPTION, 10 ) );
 		$configured_bytes = $configured_mb * 1024 * 1024;
 
 		$base = __( 'Maximum size per uploaded file, in megabytes.', 'order-updates-for-woo' );
