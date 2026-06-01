@@ -9,6 +9,7 @@ use OrderUpdatesForWoo\API\Contracts\Registrable;
 use OrderUpdatesForWoo\Shared\Attachments\AttachmentService;
 use OrderUpdatesForWoo\Shared\Attachments\AttachmentSigner;
 use OrderUpdatesForWoo\Shared\Attachments\AttachmentsDb;
+use OrderUpdatesForWoo\Shared\Attachments\AttachmentStorage;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use WP_Error;
 use WP_REST_Request;
@@ -69,6 +70,11 @@ final class ServeAttachmentEndpoint implements Registrable {
 		}
 
 		$path = $this->attachment_service->absolute_path_for( $record );
+
+		// Defense-in-depth — confirm the resolved path is inside the attachments dir.
+		if ( ! AttachmentStorage::is_inside_attachments_dir( $path ) ) {
+			return new WP_Error( 'order_updates_for_woo_attachment_file_missing', __( 'File is unavailable.', 'order-updates-for-woo' ), array( 'status' => 410 ) );
+		}
 
 		if ( ! file_exists( $path ) || ! is_readable( $path ) ) {
 			return new WP_Error( 'order_updates_for_woo_attachment_file_missing', __( 'File is unavailable.', 'order-updates-for-woo' ), array( 'status' => 410 ) );

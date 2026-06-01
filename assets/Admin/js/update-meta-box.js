@@ -1587,12 +1587,15 @@ getFieldValue( $field ) {
 								.attr( 'data-awts-user-name', user.name );
 
 							if ( user.avatar ) {
-								$li.append( '<img class="awts_suggestion_avatar" src="' + user.avatar + '" alt="">' );
+								// Build via .attr() so the URL is set through the DOM
+								// API and can't break out of the src attribute, matching
+								// the renderAssigneeSuggestions path above.
+								$li.append( $( '<img class="awts_suggestion_avatar" alt="">' ).attr( 'src', user.avatar ) );
 							}
 
 							$li.append(
-								'<span class="awts_suggestion_name">' + $( '<span>' ).text( user.name ).html() + '</span>' +
-								'<span class="awts_suggestion_email">' + $( '<span>' ).text( user.email ).html() + '</span>'
+								$( '<span class="awts_suggestion_name"></span>' ).text( user.name ),
+								$( '<span class="awts_suggestion_email"></span>' ).text( user.email )
 							);
 
 							$list.append( $li );
