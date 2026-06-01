@@ -33,6 +33,14 @@
 	$form.on( 'change', '.awts-inbox__check', refreshBulkbar );
 	refreshBulkbar();
 
+	// Per-page dropdown — reload with the new size, back to page 1.
+	$( '#awts-inbox-perpage' ).on( 'change', function () {
+		var url = new URL( window.location.href );
+		url.searchParams.set( 'per_page', this.value );
+		url.searchParams.delete( 'paged' );
+		window.location = url.toString();
+	} );
+
 	// ----- Instant row actions over AJAX -----
 	if ( ! cfg.ajaxUrl ) {
 		return;

@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $rows = isset( $view_data['rows'] ) && is_array( $view_data['rows'] ) ? $view_data['rows'] : array();
 $tabs = isset( $view_data['tabs'] ) && is_array( $view_data['tabs'] ) ? $view_data['tabs'] : array();
+$pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] ) ? $view_data['pagination'] : array();
 ?>
 <div class="wrap awts-inbox">
 	<h1 class="awts-inbox__title"><?php esc_html_e( 'Notifications', 'order-updates-for-woo' ); ?></h1>
@@ -42,7 +43,7 @@ $tabs = isset( $view_data['tabs'] ) && is_array( $view_data['tabs'] ) ? $view_da
 					type="search"
 					name="s"
 					value="<?php echo esc_attr( (string) $view_data['search'] ); ?>"
-					placeholder="<?php esc_attr_e( 'Search notifications', 'order-updates-for-woo' ); ?>"
+					placeholder="<?php esc_attr_e( 'Search notifications…', 'order-updates-for-woo' ); ?>"
 				/>
 			</form>
 		</div>
@@ -88,15 +89,20 @@ $tabs = isset( $view_data['tabs'] ) && is_array( $view_data['tabs'] ) ? $view_da
 						$row_classes  = ! empty( $row['unread'] ) ? ' is-unread' : ' is-read';
 						$row_classes .= ! empty( $row['favorited'] ) ? ' is-favorited' : '';
 
-						// "By Jane Doe · Customer note" — whichever parts are present.
-						$byline = '';
-						if ( '' !== (string) $row['actor'] ) {
-							/* translators: %s: sender display name */
-							$byline = sprintf( __( 'By %s', 'order-updates-for-woo' ), (string) $row['actor'] );
-						}
-						if ( '' !== (string) $row['context'] ) {
-							$byline = '' !== $byline ? $byline . ' · ' . (string) $row['context'] : (string) $row['context'];
-						}
+						// Primary line is the message (shown in quotes); fall back
+						// to the type label when there's no message (e.g. assigned
+						// / deleted rows).
+						$is_message = '' !== (string) $row['snippet'];
+						$primary    = $is_message
+							? wp_trim_words( (string) $row['snippet'], 18, '…' )
+							: (string) $row['label'];
+
+						$read_tip    = ! empty( $row['unread'] ) ? __( 'Mark as read', 'order-updates-for-woo' ) : __( 'Mark as unread', 'order-updates-for-woo' );
+						$read_action = ! empty( $row['unread'] ) ? 'mark_read' : 'mark_unread';
+						$fav_tip     = ! empty( $row['favorited'] ) ? __( 'Remove favorite', 'order-updates-for-woo' ) : __( 'Favorite', 'order-updates-for-woo' );
+						$fav_action  = ! empty( $row['favorited'] ) ? 'unfavorite' : 'favorite';
+						$arch_tip    = ! empty( $row['archived'] ) ? __( 'Unarchive', 'order-updates-for-woo' ) : __( 'Archive', 'order-updates-for-woo' );
+						$arch_action = ! empty( $row['archived'] ) ? 'unarchive' : 'archive';
 						?>
 						<li class="awts-inbox__row<?php echo esc_attr( $row_classes ); ?>">
 							<input
@@ -106,7 +112,6 @@ $tabs = isset( $view_data['tabs'] ) && is_array( $view_data['tabs'] ) ? $view_da
 								value="<?php echo esc_attr( (string) $row['key'] ); ?>"
 								aria-label="<?php esc_attr_e( 'Select notification', 'order-updates-for-woo' ); ?>"
 							/>
-							<span class="awts-inbox__dot" aria-hidden="true"></span>
 							<span class="awts-inbox__icon">
 								<span class="dashicons <?php echo esc_attr( (string) $row['icon'] ); ?>"></span>
 							</span>
@@ -120,33 +125,33 @@ $tabs = isset( $view_data['tabs'] ) && is_array( $view_data['tabs'] ) ? $view_da
 								<span class="awts-inbox__body">
 							<?php endif; ?>
 								<span class="awts-inbox__text">
-									<span class="awts-inbox__label"><?php echo esc_html( (string) $row['label'] ); ?></span>
-									<?php if ( '' !== (string) $row['snippet'] ) : ?>
-										<span class="awts-inbox__snippet"><?php echo esc_html( wp_trim_words( (string) $row['snippet'], 18, '…' ) ); ?></span>
+									<?php echo $is_message ? '&ldquo;' . esc_html( $primary ) . '&rdquo;' : esc_html( $primary ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- message escaped, quotes static. ?>
+								</span>
+								<span class="awts-inbox__tags">
+									<?php if ( '' !== (string) $row['context'] ) : ?>
+										<span class="awts-inbox__tag<?php echo ! empty( $row['context_danger'] ) ? ' is-danger' : ''; ?>"><?php echo esc_html( (string) $row['context'] ); ?></span>
+									<?php endif; ?>
+									<?php if ( (int) $row['order_id'] > 0 ) : ?>
+										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: order id */ esc_html__( 'Order: %d', 'order-updates-for-woo' ), (int) $row['order_id'] ); ?></span>
+									<?php endif; ?>
+									<?php if ( (int) $row['update_id'] > 0 ) : ?>
+										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: update id */ esc_html__( 'Update: %d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
+									<?php endif; ?>
+									<?php if ( (int) $row['note_id'] > 0 ) : ?>
+										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: note id */ esc_html__( 'Note: %d', 'order-updates-for-woo' ), (int) $row['note_id'] ); ?></span>
+									<?php endif; ?>
+									<?php if ( '' !== (string) $row['actor'] ) : ?>
+										<?php /* translators: %s: sender display name */ ?>
+										<span class="awts-inbox__by"><?php echo esc_html( sprintf( __( 'By %s', 'order-updates-for-woo' ), (string) $row['actor'] ) ); ?></span>
 									<?php endif; ?>
 								</span>
-								<?php if ( '' !== $byline ) : ?>
-									<span class="awts-inbox__byline"><?php echo esc_html( $byline ); ?></span>
-								<?php endif; ?>
-								<?php if ( '' !== (string) $row['meta'] ) : ?>
-									<span class="awts-inbox__meta"><?php echo esc_html( (string) $row['meta'] ); ?></span>
-								<?php endif; ?>
 							<?php echo $open ? '</a>' : '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static closing tag. ?>
 
 							<span class="awts-inbox__time"><?php echo esc_html( (string) $row['time'] ); ?></span>
 
 							<span class="awts-inbox__actions">
-								<?php
-								$read_tip    = ! empty( $row['unread'] ) ? __( 'Mark as read', 'order-updates-for-woo' ) : __( 'Mark as unread', 'order-updates-for-woo' );
-								$read_icon   = ! empty( $row['unread'] ) ? 'dashicons-yes-alt' : 'dashicons-marker';
-								$read_action = ! empty( $row['unread'] ) ? 'mark_read' : 'mark_unread';
-								$fav_tip     = ! empty( $row['favorited'] ) ? __( 'Remove favorite', 'order-updates-for-woo' ) : __( 'Favorite', 'order-updates-for-woo' );
-								$fav_action  = ! empty( $row['favorited'] ) ? 'unfavorite' : 'favorite';
-								$arch_tip    = ! empty( $row['archived'] ) ? __( 'Unarchive', 'order-updates-for-woo' ) : __( 'Archive', 'order-updates-for-woo' );
-								$arch_action = ! empty( $row['archived'] ) ? 'unarchive' : 'archive';
-								?>
-								<a class="awts-inbox__action" rel="nofollow" href="<?php echo esc_url( (string) $row['read_url'] ); ?>" data-action="<?php echo esc_attr( $read_action ); ?>" data-key="<?php echo esc_attr( (string) $row['key'] ); ?>" data-awts-tip="<?php echo esc_attr( $read_tip ); ?>" aria-label="<?php echo esc_attr( $read_tip ); ?>">
-									<span class="dashicons <?php echo esc_attr( $read_icon ); ?>" aria-hidden="true"></span>
+								<a class="awts-inbox__action awts-inbox__read" rel="nofollow" href="<?php echo esc_url( (string) $row['read_url'] ); ?>" data-action="<?php echo esc_attr( $read_action ); ?>" data-key="<?php echo esc_attr( (string) $row['key'] ); ?>" data-awts-tip="<?php echo esc_attr( $read_tip ); ?>" aria-label="<?php echo esc_attr( $read_tip ); ?>">
+									<span class="awts-inbox__readmark" aria-hidden="true"></span>
 								</a>
 
 								<?php if ( '' !== (string) $row['reply_url'] ) : ?>
@@ -173,36 +178,80 @@ $tabs = isset( $view_data['tabs'] ) && is_array( $view_data['tabs'] ) ? $view_da
 			<?php endif; ?>
 
 			<div class="awts-inbox__foot">
-				<span class="awts-inbox__total">
-					<?php
-					printf(
-						/* translators: %s: number of notifications */
-						esc_html( _n( '%s notification', '%s notifications', (int) $view_data['total'], 'order-updates-for-woo' ) ),
-						esc_html( number_format_i18n( (int) $view_data['total'] ) )
-					);
-					?>
-				</span>
+				<div class="awts-inbox__perpage">
+					<select id="awts-inbox-perpage" aria-label="<?php esc_attr_e( 'Rows per page', 'order-updates-for-woo' ); ?>">
+						<?php foreach ( (array) $view_data['per_page_options'] as $opt ) : ?>
+							<option value="<?php echo esc_attr( (string) $opt ); ?>" <?php selected( (int) $view_data['per_page'], (int) $opt ); ?>>
+								<?php
+								/* translators: %s: number of rows */
+								printf( esc_html__( '%s per page', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $opt ) ) );
+								?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
 
-				<?php if ( (int) $view_data['total_pages'] > 1 ) : ?>
+				<?php if ( (int) ( $pg['total_pages'] ?? 1 ) > 1 ) : ?>
 					<span class="awts-inbox__pager">
-						<?php if ( '' !== (string) $view_data['prev_url'] ) : ?>
-							<a class="awts-inbox__page-link" href="<?php echo esc_url( (string) $view_data['prev_url'] ); ?>"><?php esc_html_e( '‹ Prev', 'order-updates-for-woo' ); ?></a>
-						<?php endif; ?>
-						<span class="awts-inbox__page-of">
-							<?php
-							printf(
-								/* translators: 1: current page, 2: total pages */
-								esc_html__( 'Page %1$s of %2$s', 'order-updates-for-woo' ),
-								esc_html( number_format_i18n( (int) $view_data['page'] ) ),
-								esc_html( number_format_i18n( (int) $view_data['total_pages'] ) )
-							);
-							?>
-						</span>
-						<?php if ( '' !== (string) $view_data['next_url'] ) : ?>
-							<a class="awts-inbox__page-link" href="<?php echo esc_url( (string) $view_data['next_url'] ); ?>"><?php esc_html_e( 'Next ›', 'order-updates-for-woo' ); ?></a>
-						<?php endif; ?>
+						<?php
+						$nav = array(
+							array( 'url' => (string) ( $pg['first_url'] ?? '' ), 'glyph' => '«', 'label' => __( 'First page', 'order-updates-for-woo' ) ),
+							array( 'url' => (string) ( $pg['prev_url'] ?? '' ), 'glyph' => '‹', 'label' => __( 'Previous page', 'order-updates-for-woo' ) ),
+						);
+						foreach ( $nav as $item ) :
+							if ( '' !== $item['url'] ) :
+								?>
+								<a class="awts-inbox__page-link" href="<?php echo esc_url( $item['url'] ); ?>" aria-label="<?php echo esc_attr( $item['label'] ); ?>"><?php echo esc_html( $item['glyph'] ); ?></a>
+							<?php else : ?>
+								<span class="awts-inbox__page-link is-disabled" aria-hidden="true"><?php echo esc_html( $item['glyph'] ); ?></span>
+								<?php
+							endif;
+						endforeach;
+
+						foreach ( (array) ( $pg['links'] ?? array() ) as $link ) :
+							if ( ! empty( $link['ellipsis'] ) ) :
+								?>
+								<span class="awts-inbox__page-ellipsis">…</span>
+								<?php
+							elseif ( ! empty( $link['current'] ) ) :
+								?>
+								<span class="awts-inbox__page-link is-current"><?php echo esc_html( number_format_i18n( (int) $link['page'] ) ); ?></span>
+							<?php else : ?>
+								<a class="awts-inbox__page-link" href="<?php echo esc_url( (string) $link['url'] ); ?>"><?php echo esc_html( number_format_i18n( (int) $link['page'] ) ); ?></a>
+								<?php
+							endif;
+						endforeach;
+
+						$nav = array(
+							array( 'url' => (string) ( $pg['next_url'] ?? '' ), 'glyph' => '›', 'label' => __( 'Next page', 'order-updates-for-woo' ) ),
+							array( 'url' => (string) ( $pg['last_url'] ?? '' ), 'glyph' => '»', 'label' => __( 'Last page', 'order-updates-for-woo' ) ),
+						);
+						foreach ( $nav as $item ) :
+							if ( '' !== $item['url'] ) :
+								?>
+								<a class="awts-inbox__page-link" href="<?php echo esc_url( $item['url'] ); ?>" aria-label="<?php echo esc_attr( $item['label'] ); ?>"><?php echo esc_html( $item['glyph'] ); ?></a>
+							<?php else : ?>
+								<span class="awts-inbox__page-link is-disabled" aria-hidden="true"><?php echo esc_html( $item['glyph'] ); ?></span>
+								<?php
+							endif;
+						endforeach;
+						?>
 					</span>
 				<?php endif; ?>
+
+				<span class="awts-inbox__range">
+					<?php
+					if ( (int) ( $pg['total'] ?? 0 ) > 0 ) {
+						printf(
+							/* translators: 1: first row, 2: last row, 3: total */
+							esc_html__( 'Showing %1$s to %2$s of %3$s', 'order-updates-for-woo' ),
+							esc_html( number_format_i18n( (int) ( $pg['range_from'] ?? 0 ) ) ),
+							esc_html( number_format_i18n( (int) ( $pg['range_to'] ?? 0 ) ) ),
+							esc_html( number_format_i18n( (int) ( $pg['total'] ?? 0 ) ) )
+						);
+					}
+					?>
+				</span>
 			</div>
 		</form>
 	</div>

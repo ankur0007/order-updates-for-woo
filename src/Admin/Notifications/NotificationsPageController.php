@@ -86,10 +86,18 @@ final class NotificationsPageController {
 	}
 
 	public function register_page(): void {
+		$title = __( 'Notifications', 'order-updates-for-woo' );
+
+		// Append WP's native count bubble when the user has unread items.
+		$unread     = AdminBarNotificationStore::unread_count( get_current_user_id() );
+		$menu_title = $unread > 0
+			? $title . ' <span class="awaiting-mod"><span class="pending-count">' . esc_html( number_format_i18n( $unread ) ) . '</span></span>'
+			: $title;
+
 		add_submenu_page(
 			AdminMenuController::PARENT_SLUG,
-			__( 'Notifications', 'order-updates-for-woo' ),
-			__( 'Notifications', 'order-updates-for-woo' ),
+			$title,
+			$menu_title,
 			'manage_woocommerce',
 			self::SLUG,
 			array( $this, 'render' )
@@ -236,32 +244,94 @@ final class NotificationsPageController {
 		// Newest first — an inbox reads top-down by recency.
 		usort( $filtered, static fn( array $a, array $b ): int => (int) ( $b['time'] ?? 0 ) <=> (int) ( $a['time'] ?? 0 ) );
 
+		$per_page    = $this->resolve_per_page();
 		$total       = count( $filtered );
-		$total_pages = max( 1, (int) ceil( $total / self::PER_PAGE ) );
+		$total_pages = max( 1, (int) ceil( $total / $per_page ) );
 		$paged       = isset( $_GET['paged'] ) ? max( 1, absint( wp_unslash( (string) $_GET['paged'] ) ) ) : 1;
 		$paged       = min( $paged, $total_pages );
-		$page_items  = array_slice( $filtered, ( $paged - 1 ) * self::PER_PAGE, self::PER_PAGE );
+		$offset      = ( $paged - 1 ) * $per_page;
+		$page_items  = array_slice( $filtered, $offset, $per_page );
 
 		View::render(
 			'src/Admin/Notifications/Views/NotificationsView',
 			array(
-				'rows'         => array_map( array( $this, 'to_view_row' ), $page_items ),
-				'tabs'         => $this->build_tabs( $status, $counts ),
-				'search'       => $search,
-				'filter_order' => $order_id,
-				'filter_update'=> $update_id,
-				'slug'         => self::SLUG,
-				'form_action'  => $this->current_url(),
-				'bulk_nonce'   => wp_nonce_field( self::BULK_NONCE, '_wpnonce', true, false ),
-				'has_filters'  => ( '' !== $status || $order_id > 0 || $update_id > 0 || '' !== $search ),
-				'is_archived'  => ( 'archived' === $status ),
-				'archive_days' => (int) get_option( self::OPT_AUTODELETE_DAYS, 30 ),
-				'total'        => $total,
-				'page'         => $paged,
-				'total_pages'  => $total_pages,
-				'prev_url'     => $paged > 1 ? esc_url_raw( add_query_arg( 'paged', $paged - 1 ) ) : '',
-				'next_url'     => $paged < $total_pages ? esc_url_raw( add_query_arg( 'paged', $paged + 1 ) ) : '',
+				'rows'             => array_map( array( $this, 'to_view_row' ), $page_items ),
+				'tabs'             => $this->build_tabs( $status, $counts ),
+				'search'           => $search,
+				'filter_order'     => $order_id,
+				'filter_update'    => $update_id,
+				'filter_status'    => $status,
+				'slug'             => self::SLUG,
+				'form_action'      => $this->current_url(),
+				'bulk_nonce'       => wp_nonce_field( self::BULK_NONCE, '_wpnonce', true, false ),
+				'has_filters'      => ( '' !== $status || $order_id > 0 || $update_id > 0 || '' !== $search ),
+				'is_archived'      => ( 'archived' === $status ),
+				'archive_days'     => (int) get_option( self::OPT_AUTODELETE_DAYS, 30 ),
+				'per_page'         => $per_page,
+				'per_page_options' => array( 20, 50, 100 ),
+				'pagination'       => $this->build_pagination( $paged, $total_pages, $total, $offset, $per_page ),
 			)
+		);
+	}
+
+	/** Per-page choice from the dropdown, clamped to the allowed set. */
+	private function resolve_per_page(): int {
+		$options = array( 20, 50, 100 );
+		$value   = isset( $_GET['per_page'] ) ? absint( wp_unslash( (string) $_GET['per_page'] ) ) : self::PER_PAGE;
+
+		return in_array( $value, $options, true ) ? $value : self::PER_PAGE;
+	}
+
+	/**
+	 * Everything the footer pager needs: range text, first/prev/next/last
+	 * links and a windowed list of numbered page links.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function build_pagination( int $paged, int $total_pages, int $total, int $offset, int $per_page ): array {
+		$page_url = static fn( int $page ): string => esc_url_raw( add_query_arg( 'paged', $page ) );
+
+		// Windowed numbers — show all when few, else 1 … current±1 … last.
+		$links = array();
+		$push  = static function ( int $page ) use ( &$links, $paged, $page_url ): void {
+			$links[] = array(
+				'page'    => $page,
+				'url'     => $page_url( $page ),
+				'current' => $page === $paged,
+			);
+		};
+
+		if ( $total_pages <= 7 ) {
+			for ( $i = 1; $i <= $total_pages; $i++ ) {
+				$push( $i );
+			}
+		} else {
+			$from = max( 2, $paged - 1 );
+			$to   = min( $total_pages - 1, $paged + 1 );
+			$push( 1 );
+			if ( $from > 2 ) {
+				$links[] = array( 'ellipsis' => true );
+			}
+			for ( $i = $from; $i <= $to; $i++ ) {
+				$push( $i );
+			}
+			if ( $to < $total_pages - 1 ) {
+				$links[] = array( 'ellipsis' => true );
+			}
+			$push( $total_pages );
+		}
+
+		return array(
+			'total'       => $total,
+			'page'        => $paged,
+			'total_pages' => $total_pages,
+			'range_from'  => $total > 0 ? $offset + 1 : 0,
+			'range_to'    => min( $offset + $per_page, $total ),
+			'first_url'   => $paged > 1 ? $page_url( 1 ) : '',
+			'prev_url'    => $paged > 1 ? $page_url( $paged - 1 ) : '',
+			'next_url'    => $paged < $total_pages ? $page_url( $paged + 1 ) : '',
+			'last_url'    => $paged < $total_pages ? $page_url( $total_pages ) : '',
+			'links'       => $links,
 		);
 	}
 
@@ -314,7 +384,11 @@ final class NotificationsPageController {
 			'snippet'     => trim( (string) ( $n['title'] ?? '' ) ),
 			'actor'       => trim( (string) ( $n['actor'] ?? '' ) ),
 			'context'     => self::context_label( $type, (string) ( $n['note_type'] ?? '' ) ),
-			'meta'        => $this->meta_text( $n ),
+			// Deleted rows get a red tag so the deletion reads at a glance.
+			'context_danger' => ( 'deleted' === $type ),
+			'order_id'    => (int) ( $n['order_id'] ?? 0 ),
+			'update_id'   => (int) ( $n['update_id'] ?? 0 ),
+			'note_id'     => (int) ( $n['note_id'] ?? 0 ),
 			'deep_url'    => $deep_url,
 			/* translators: %s: human-readable time difference, e.g. "2 hours" */
 			'time'        => $time > 0 ? sprintf( __( '%s ago', 'order-updates-for-woo' ), human_time_diff( $time, time() ) ) : '',
@@ -325,20 +399,6 @@ final class NotificationsPageController {
 			'delete_url'  => self::row_action_url( 'delete', $key ),
 			'reply_url'   => ( self::is_replyable( $type ) && '' !== $deep_url ) ? $deep_url : '',
 		);
-	}
-
-	/** "#123 · Update #5" — whichever ids are present. */
-	private function meta_text( array $n ): string {
-		$parts = array();
-		if ( (int) ( $n['order_id'] ?? 0 ) > 0 ) {
-			$parts[] = sprintf( '#%d', (int) $n['order_id'] );
-		}
-		if ( (int) ( $n['update_id'] ?? 0 ) > 0 ) {
-			/* translators: %d: update id */
-			$parts[] = sprintf( __( 'Update #%d', 'order-updates-for-woo' ), (int) $n['update_id'] );
-		}
-
-		return implode( ' · ', $parts );
 	}
 
 	/**
@@ -394,7 +454,8 @@ final class NotificationsPageController {
 		$update_id = (int) ( $item['update_id'] ?? 0 );
 		$note_id   = (int) ( $item['note_id'] ?? 0 );
 
-		if ( ! $order_id || ! $update_id ) {
+		// A deleted note has nothing to open — keep the row non-clickable.
+		if ( ! $order_id || ! $update_id || 'deleted' === (string) ( $item['type'] ?? '' ) ) {
 			return '';
 		}
 
@@ -447,6 +508,7 @@ final class NotificationsPageController {
 	/** Where the note lives — shown after "By {name} ·" so it's clear how it reached you. */
 	private static function context_label( string $type, string $note_type ): string {
 		return match ( $type ) {
+			'deleted'                       => __( 'Note deleted', 'order-updates-for-woo' ),
 			'customer_reply', 'staff_reply' => __( 'Customer note', 'order-updates-for-woo' ),
 			'mention'                       => __( 'Internal note · tagged you', 'order-updates-for-woo' ),
 			'participant_reply'             => 'customer' === $note_type

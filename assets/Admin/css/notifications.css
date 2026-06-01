@@ -1,5 +1,10 @@
 /* Notifications inbox — lightweight custom list (no WP_List_Table). */
 
+/* Smooth scroll on this page (stylesheet only loads here, so html is scoped). */
+html {
+	scroll-behavior: smooth;
+}
+
 .awts-inbox__title {
 	margin-bottom: 16px;
 }
@@ -12,6 +17,21 @@
 	background: #fff;
 	box-shadow: 0 1px 2px rgba( 0, 0, 0, .04 );
 	overflow: hidden;
+}
+
+/* No focus box on click; keep an outline for keyboard users only. */
+.awts-inbox a:focus,
+.awts-inbox button:focus,
+.awts-inbox input:focus,
+.awts-inbox select:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.awts-inbox a:focus-visible,
+.awts-inbox button:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 1px;
 }
 
 /* Header: tabs + search */
@@ -79,14 +99,9 @@
 }
 
 .awts-inbox__search input[type="search"] {
-	width: 200px;
+	width: 220px;
 	border: 0;
 	background: transparent;
-	box-shadow: none;
-	outline: none;
-}
-
-.awts-inbox__search input[type="search"]:focus {
 	box-shadow: none;
 }
 
@@ -94,7 +109,7 @@
 .awts-inbox__bulkbar {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 10px;
 	padding: 10px 18px;
 	border-bottom: 1px solid #f0f0f1;
 	background: #fbfbfc;
@@ -104,17 +119,9 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
+	margin-right: 4px;
 	color: #50575e;
 	font-size: 13px;
-}
-
-/* Bulk buttons only appear once something is selected (no faded/disabled look). */
-.awts-inbox__bulk-btn {
-	display: none;
-}
-
-.awts-inbox__bulkbar.is-active .awts-inbox__bulk-btn {
-	display: inline-flex;
 }
 
 .awts-inbox__bulk-btn--danger.button {
@@ -149,19 +156,6 @@
 	background: #f3f5f7;
 }
 
-.awts-inbox__dot {
-	flex: 0 0 8px;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: #2271b1;
-	visibility: hidden;
-}
-
-.awts-inbox__row.is-unread .awts-inbox__dot {
-	visibility: visible;
-}
-
 .awts-inbox__icon {
 	display: flex;
 	flex: 0 0 38px;
@@ -180,6 +174,7 @@
 	font-size: 20px;
 }
 
+/* Body: message on its own line, then context pill + meta + sender */
 .awts-inbox__body {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -187,39 +182,55 @@
 	text-decoration: none;
 }
 
-.awts-inbox__body:hover .awts-inbox__label {
-	color: #2271b1;
-}
-
 .awts-inbox__text {
 	display: block;
-}
-
-.awts-inbox__label {
-	font-weight: 600;
+	overflow: hidden;
 	color: #1d2327;
+	font-weight: 600;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.awts-inbox__row.is-read .awts-inbox__label {
+.awts-inbox__row.is-read .awts-inbox__text {
+	color: #50575e;
 	font-weight: 400;
 }
 
-.awts-inbox__snippet {
-	color: #50575e;
+.awts-inbox__body:hover .awts-inbox__text {
+	color: #2271b1;
 }
 
-.awts-inbox__byline {
-	display: block;
-	margin-top: 2px;
-	font-size: 12px;
-	color: #646970;
-}
-
-.awts-inbox__meta {
-	display: block;
-	margin-top: 2px;
+.awts-inbox__tags {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 4px;
 	font-size: 12px;
 	color: #787c82;
+}
+
+.awts-inbox__tag {
+	padding: 1px 8px;
+	border-radius: 4px;
+	background: #eef1f5;
+	color: #50575e;
+	font-size: 11px;
+	font-weight: 500;
+}
+
+.awts-inbox__tag.is-danger {
+	background: #fcebec;
+	color: #d63638;
+}
+
+/* Order / Update / Note reference pills — outlined, lighter than the context pill. */
+.awts-inbox__idtag {
+	padding: 1px 8px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	color: #646970;
+	font-size: 11px;
 }
 
 .awts-inbox__time {
@@ -233,10 +244,6 @@
 	display: flex;
 	flex: 0 0 auto;
 	gap: 4px;
-}
-
-.awts-inbox__fav .dashicons-star-filled {
-	color: #dba617;
 }
 
 .awts-inbox__action {
@@ -260,6 +267,28 @@
 .awts-inbox__action--danger:hover {
 	background: #fcebec;
 	color: #d63638;
+}
+
+.awts-inbox__fav .dashicons-star-filled {
+	color: #dba617;
+}
+
+/* Read toggle drawn as a ring: empty = unread, filled = read. */
+.awts-inbox__readmark {
+	width: 16px;
+	height: 16px;
+	border: 2px solid #c3c4c7;
+	border-radius: 50%;
+	box-sizing: border-box;
+}
+
+.awts-inbox__read:hover .awts-inbox__readmark {
+	border-color: #2271b1;
+}
+
+.awts-inbox__row.is-read .awts-inbox__readmark {
+	border-color: #2271b1;
+	background: #2271b1;
 }
 
 /* Custom tooltip — dark pill above the icon, fades in on hover. */
@@ -331,23 +360,59 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 12px;
 	padding: 12px 18px;
 	border-top: 1px solid #f0f0f1;
 	color: #787c82;
 	font-size: 13px;
 }
 
+.awts-inbox__perpage {
+	flex: 0 0 auto;
+}
+
 .awts-inbox__pager {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 2px;
 }
 
 .awts-inbox__page-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	height: 30px;
+	padding: 0 6px;
+	border-radius: 6px;
+	color: #50575e;
 	text-decoration: none;
 }
 
-@media screen and ( max-width: 600px ) {
+.awts-inbox__page-link:hover {
+	background: #f0f0f1;
+	color: #1d2327;
+}
+
+.awts-inbox__page-link.is-current {
+	background: #2271b1;
+	color: #fff;
+}
+
+.awts-inbox__page-link.is-disabled {
+	color: #c3c4c7;
+	cursor: default;
+}
+
+.awts-inbox__page-ellipsis {
+	padding: 0 2px;
+}
+
+.awts-inbox__range {
+	flex: 0 0 auto;
+}
+
+@media screen and ( max-width: 782px ) {
 	.awts-inbox__head {
 		flex-direction: column;
 		align-items: stretch;
@@ -359,5 +424,10 @@
 
 	.awts-inbox__time {
 		display: none;
+	}
+
+	.awts-inbox__foot {
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 }
