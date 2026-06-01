@@ -21,6 +21,7 @@ use OrderUpdatesForWoo\Helpers\RestUrlHelper;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Config\Variables;
+use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\SharedLink;
 use OrderUpdatesForWoo\Shared\Updates\UpdateCardVariableParser;
 
@@ -43,6 +44,11 @@ final class OrderUpdatesPanelController {
 			return;
 		}
 
+		// Only users in the configured team-roles see the meta box.
+		if ( ! TeamRosterService::user_is_team_member() ) {
+			return;
+		}
+
 		$screen_id = $this->panel_service->get_screen_id();
 
 		add_meta_box(
@@ -57,6 +63,10 @@ final class OrderUpdatesPanelController {
 
 	public function enqueue_assets(): void {
 		if (! $this->panel_service->should_enqueue_assets()) {
+			return;
+		}
+
+		if ( ! TeamRosterService::user_is_team_member() ) {
 			return;
 		}
 
