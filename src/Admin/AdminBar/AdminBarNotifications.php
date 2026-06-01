@@ -455,7 +455,7 @@ final class AdminBarNotifications {
 			array(
 				'parent' => self::NODE_ID,
 				'id'     => self::CLEAR_ALL_ROW,
-				'title'  => esc_html__( 'Clear all', 'order-updates-for-woo' ),
+				'title'  => esc_html__( 'Clear', 'order-updates-for-woo' ),
 				'href'   => '#',
 				'meta'   => array( 'class' => 'awts-ab-clear-all' ),
 			)
@@ -496,7 +496,8 @@ final class AdminBarNotifications {
 				'heartbeatKey'   => Constants::HEARTBEAT_ADMIN_BAR_KEY,
 				'nodeId'         => 'wp-admin-bar-' . self::NODE_ID,
 				'viewAllLabel'   => __( 'View all order updates →', 'order-updates-for-woo' ),
-				'clearAllLabel'  => __( 'Clear all', 'order-updates-for-woo' ),
+				'showAllLabel'   => __( 'Show all', 'order-updates-for-woo' ),
+				'clearAllLabel'  => __( 'Clear', 'order-updates-for-woo' ),
 				'clearAllAction' => Constants::ADMIN_BAR_DISMISS_ALL_ACTION,
 				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
 				'dismissNonce'   => wp_create_nonce( Constants::ADMIN_BAR_DISMISS_NONCE ),
@@ -688,9 +689,14 @@ final class AdminBarNotifications {
 			}
 		}
 
-		// Only emit the footer "Clear all" row when at least one notification
-		// is actually present — an empty dropdown shouldn't offer to clear.
+		// Footer rows — only when there's at least one notification. "Show all"
+		// opens the full history page; "Clear" just wipes the bar (doesn't
+		// delete). Kept here too so they survive the JS heartbeat rebuild.
 		if ( ! empty( $result ) ) {
+			$result[] = array(
+				'type' => 'show-all',
+				'url'  => admin_url( 'admin.php?page=' . \OrderUpdatesForWoo\Admin\Notifications\NotificationsPageController::SLUG ),
+			);
 			$result[] = array( 'type' => 'clear-all' );
 		}
 

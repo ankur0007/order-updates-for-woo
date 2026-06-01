@@ -171,6 +171,12 @@
 					+ '<a class="ab-item" href="' + esc( item.url || '' ) + '">' + esc( config.viewAllLabel || '' ) + '</a>'
 					+ '</li>'
 				);
+			} else if ( item.type === 'show-all' ) {
+				$submenu.append(
+					'<li class="awts-ab-show-all">'
+					+ '<a class="ab-item" href="' + esc( item.url || '' ) + '">' + esc( config.showAllLabel || '' ) + '</a>'
+					+ '</li>'
+				);
 			} else if ( item.type === 'clear-all' ) {
 				$submenu.append(
 					'<li class="awts-ab-clear-all">'
