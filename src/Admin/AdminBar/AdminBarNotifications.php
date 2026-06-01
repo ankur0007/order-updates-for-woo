@@ -18,6 +18,7 @@ use OrderUpdatesForWoo\Helpers\AdminBarNotificationStore;
 use OrderUpdatesForWoo\Helpers\HposHelper;
 use OrderUpdatesForWoo\Helpers\StaffEmailPreference;
 use OrderUpdatesForWoo\Shared\Config\Constants;
+use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WP_Admin_Bar;
 
@@ -508,6 +509,10 @@ final class AdminBarNotifications {
 	public function handle_dismiss(): void {
 		check_ajax_referer( Constants::ADMIN_BAR_DISMISS_NONCE, 'nonce' );
 
+		if ( ! TeamRosterService::user_is_team_member() ) {
+			wp_die( '', '', array( 'response' => 403 ) );
+		}
+
 		$key     = sanitize_text_field( wp_unslash( (string) ( $_POST['notif_key'] ?? '' ) ) );
 		$user_id = get_current_user_id();
 
@@ -523,6 +528,10 @@ final class AdminBarNotifications {
 	public function handle_dismiss_all(): void {
 		check_ajax_referer( Constants::ADMIN_BAR_DISMISS_NONCE, 'nonce' );
 
+		if ( ! TeamRosterService::user_is_team_member() ) {
+			wp_die( '', '', array( 'response' => 403 ) );
+		}
+
 		$user_id = get_current_user_id();
 		if ( ! $user_id ) {
 			wp_die( '', '', array( 'response' => 400 ) );
@@ -535,6 +544,10 @@ final class AdminBarNotifications {
 
 	public function handle_dismiss_for_update(): void {
 		check_ajax_referer( Constants::ADMIN_BAR_DISMISS_NONCE, 'nonce' );
+
+		if ( ! TeamRosterService::user_is_team_member() ) {
+			wp_die( '', '', array( 'response' => 403 ) );
+		}
 
 		// absint() coerces the unslashed POST value to a non-negative int,
 		// which is both the sanitization AND the real validation for an id.
