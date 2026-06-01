@@ -871,11 +871,24 @@ getFieldValue( $field ) {
 
 		focusDeepLink( $focus ) {
 			const el = $focus.get( 0 );
-			if ( el && typeof el.scrollIntoView === 'function' ) {
-				el.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+			if ( ! el ) {
+				return;
 			}
+
+			// Cancel the render's in-flight scroll-to-bottom so it can't drag
+			// the thread past the target and leave it above the fold.
+			$focus.closest( '.awts_notes_thread, .awts_customer_notes_thread' ).stop( true );
 			$focus.addClass( 'awts_card--highlight' );
-			window.setTimeout( () => $focus.removeClass( 'awts_card--highlight' ), 2500 );
+
+			// Defer the centring until the scroll-to-bottom is cancelled and any
+			// clamp/"Show more" prune has reflowed — otherwise the target can
+			// settle just above the viewport.
+			window.setTimeout( () => {
+				if ( typeof el.scrollIntoView === 'function' ) {
+					el.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+				}
+			}, 150 );
+			window.setTimeout( () => $focus.removeClass( 'awts_card--highlight' ), 2650 );
 		},
 
 		// -------------------------------------------------------------------------
