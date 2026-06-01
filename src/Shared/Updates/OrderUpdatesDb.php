@@ -1621,6 +1621,97 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Window of internal notes centred on $note_id — up to $span older, the
+	 * note itself, then up to $span newer, oldest-first. Lets a deep link jump
+	 * straight to a note without paging the whole thread. `has_more` flags
+	 * older notes above the window; `has_newer` flags notes below it (so the
+	 * UI can offer "jump to latest"). Empty when the note is missing or not on
+	 * this update.
+	 *
+	 * @return array{notes:array<int, array<string, mixed>>, has_more:bool, has_newer:bool}
+	 */
+	public function get_update_notes_around( int $update_id, int $note_id, int $span = 8 ): array {
+		global $wpdb;
+
+		$empty = array( 'notes' => array(), 'has_more' => false, 'has_newer' => false );
+
+		if ( ! $update_id || ! $note_id || $span < 1 ) {
+			return $empty;
+		}
+
+		$version   = $this->get_update_notes_cache_version( $update_id );
+		$cache_key = "update_notes_around_{$update_id}_v{$version}_{$note_id}_{$span}";
+		$cached    = $this->cache_get( $cache_key );
+
+		if ( false !== $cached ) {
+			return $cached;
+		}
+
+		$columns = 'id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at';
+
+		$target = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT {$columns} FROM {$this->updates_table->notes} WHERE id = %d AND update_id = %d LIMIT 1",
+				$note_id, $update_id
+			),
+			ARRAY_A
+		);
+
+		if ( ! is_array( $target ) ) {
+			$this->cache_set( $cache_key, $empty, Variables::getUpdateCacheTtl() );
+			return $empty;
+		}
+
+		$fetch = $span + 1;
+
+		$older = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT {$columns} FROM {$this->updates_table->notes}
+				WHERE update_id = %d AND id < %d
+				ORDER BY created_at DESC, id DESC
+				LIMIT %d",
+				$update_id, $note_id, $fetch
+			),
+			ARRAY_A
+		);
+		$older    = is_array( $older ) ? $older : array();
+		$has_more = count( $older ) > $span;
+		if ( $has_more ) {
+			array_pop( $older );
+		}
+		$older = array_reverse( $older );
+
+		$newer = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT {$columns} FROM {$this->updates_table->notes}
+				WHERE update_id = %d AND id > %d
+				ORDER BY created_at ASC, id ASC
+				LIMIT %d",
+				$update_id, $note_id, $fetch
+			),
+			ARRAY_A
+		);
+		$newer     = is_array( $newer ) ? $newer : array();
+		$has_newer = count( $newer ) > $span;
+		if ( $has_newer ) {
+			array_pop( $newer );
+		}
+
+		$rows = array_merge( $older, array( $target ), $newer );
+
+		foreach ( $rows as &$row ) {
+			$row['mentioned_user_ids'] = $this->decode_mention_ids( (string) ( $row['mentioned_user_ids'] ?? '' ) );
+		}
+		unset( $row );
+
+		$result = array( 'notes' => $rows, 'has_more' => $has_more, 'has_newer' => $has_newer );
+
+		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
+
+		return $result;
+	}
+
 	public function get_update_note_by_id( int $note_id ): array {
 		global $wpdb;
 
@@ -1861,6 +1952,90 @@ final class OrderUpdatesDb {
 		}
 
 		$result = array( 'notes' => array_reverse( $rows ), 'has_more' => $has_more );
+
+		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
+
+		return $result;
+	}
+
+	/**
+	 * Window of customer notes centred on $note_id — mirrors
+	 * {@see get_update_notes_around()} for the customer thread (same status-row
+	 * exclusions as the paged fetch). `has_more` flags older notes above the
+	 * window; `has_newer` flags notes below it.
+	 *
+	 * @return array{notes:array<int, array<string, mixed>>, has_more:bool, has_newer:bool}
+	 */
+	public function get_customer_notes_around( int $update_id, int $note_id, int $span = 8 ): array {
+		global $wpdb;
+
+		$empty = array( 'notes' => array(), 'has_more' => false, 'has_newer' => false );
+
+		if ( ! $update_id || ! $note_id || $span < 1 ) {
+			return $empty;
+		}
+
+		$version   = $this->get_customer_notes_cache_version( $update_id );
+		$cache_key = "customer_notes_around_{$update_id}_v{$version}_{$note_id}_{$span}";
+		$cached    = $this->cache_get( $cache_key );
+
+		if ( false !== $cached ) {
+			return $cached;
+		}
+
+		$columns = 'id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at';
+		$exclude = "kind NOT IN ( 'title_change', 'reopen', 'rating' )";
+
+		$target = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT {$columns} FROM {$this->updates_table->customer_notes} WHERE id = %d AND update_id = %d AND {$exclude} LIMIT 1",
+				$note_id, $update_id
+			),
+			ARRAY_A
+		);
+
+		if ( ! is_array( $target ) ) {
+			$this->cache_set( $cache_key, $empty, Variables::getUpdateCacheTtl() );
+			return $empty;
+		}
+
+		$fetch = $span + 1;
+
+		$older = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT {$columns} FROM {$this->updates_table->customer_notes}
+				WHERE update_id = %d AND id < %d AND {$exclude}
+				ORDER BY created_at DESC, id DESC
+				LIMIT %d",
+				$update_id, $note_id, $fetch
+			),
+			ARRAY_A
+		);
+		$older    = is_array( $older ) ? $older : array();
+		$has_more = count( $older ) > $span;
+		if ( $has_more ) {
+			array_pop( $older );
+		}
+		$older = array_reverse( $older );
+
+		$newer = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT {$columns} FROM {$this->updates_table->customer_notes}
+				WHERE update_id = %d AND id > %d AND {$exclude}
+				ORDER BY created_at ASC, id ASC
+				LIMIT %d",
+				$update_id, $note_id, $fetch
+			),
+			ARRAY_A
+		);
+		$newer     = is_array( $newer ) ? $newer : array();
+		$has_newer = count( $newer ) > $span;
+		if ( $has_newer ) {
+			array_pop( $newer );
+		}
+
+		$rows   = array_merge( $older, array( $target ), $newer );
+		$result = array( 'notes' => $rows, 'has_more' => $has_more, 'has_newer' => $has_newer );
 
 		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
 

@@ -68,8 +68,14 @@ final class GetUpdateNotesEndpoint implements Registrable {
 		// constant for both threads). "Load previous" calls the same
 		// endpoint with `before_id` set to the oldest visible note id.
 		$limit     = max( 1, min( 50, absint( $request->get_param( 'limit' ) ?: Constants::CUSTOMER_NOTES_PAGE_SIZE ) ) );
-		$before_id = absint( $request->get_param( 'before_id' ) );
-		$paged     = $this->order_updates_db->get_update_notes_paged( $update_id, $limit, $before_id );
+		$around_id = absint( $request->get_param( 'around_id' ) );
+
+		// `around_id` is the deep-link jump: a window centred on the target
+		// note (older + note + newer) in one query, instead of paging back.
+		$paged = $around_id > 0
+			? $this->order_updates_db->get_update_notes_around( $update_id, $around_id )
+			: $this->order_updates_db->get_update_notes_paged( $update_id, $limit, absint( $request->get_param( 'before_id' ) ) );
+
 		$latest_id = $this->order_updates_db->get_latest_internal_note_id( $update_id );
 
 		$notes = array_map( function ( array $note ) use ( $latest_id ): array {
@@ -97,8 +103,9 @@ final class GetUpdateNotesEndpoint implements Registrable {
 		}, $paged['notes'] );
 
 		$response = array(
-			'notes'    => $notes,
-			'has_more' => (bool) $paged['has_more'],
+			'notes'     => $notes,
+			'has_more'  => (bool) $paged['has_more'],
+			'has_newer' => ! empty( $paged['has_newer'] ),
 		);
 
 		return rest_ensure_response( apply_filters( 'order_updates_for_woo_get_update_notes_response', $response, $update_id, $request ) );

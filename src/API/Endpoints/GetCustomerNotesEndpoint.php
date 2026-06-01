@@ -65,8 +65,14 @@ final class GetCustomerNotesEndpoint implements Registrable {
 		// previous" calls the same endpoint with `before_id` set to the
 		// oldest visible note to step back another page.
 		$limit     = max( 1, min( 50, absint( $request->get_param( 'limit' ) ?: Constants::CUSTOMER_NOTES_PAGE_SIZE ) ) );
-		$before_id = absint( $request->get_param( 'before_id' ) );
-		$paged     = $this->order_updates_db->get_customer_notes_paged( $update_id, $limit, $before_id );
+		$around_id = absint( $request->get_param( 'around_id' ) );
+
+		// `around_id` is the deep-link jump: a window centred on the target
+		// note (older + note + newer) in one query, instead of paging back.
+		$paged = $around_id > 0
+			? $this->order_updates_db->get_customer_notes_around( $update_id, $around_id )
+			: $this->order_updates_db->get_customer_notes_paged( $update_id, $limit, absint( $request->get_param( 'before_id' ) ) );
+
 		$latest_id = $this->order_updates_db->get_latest_customer_note_id( $update_id );
 
 		$notes = array_map(
@@ -87,6 +93,7 @@ final class GetCustomerNotesEndpoint implements Registrable {
 		$response = array(
 			'notes'                       => $notes,
 			'has_more'                    => (bool) $paged['has_more'],
+			'has_newer'                   => ! empty( $paged['has_newer'] ),
 			'order_id'                    => $order_id,
 			'email_notifications_enabled' => CustomerEmailPreference::get( $order_id, $customer_id ),
 		);

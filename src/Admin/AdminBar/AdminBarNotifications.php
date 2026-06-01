@@ -56,7 +56,7 @@ final class AdminBarNotifications {
 	}
 
 	public function on_update_deleted( int $update_id ): void {
-		AdminBarNotificationStore::dismiss_for_update_for_all_users( $update_id );
+		AdminBarNotificationStore::archive_for_update_for_all_users( $update_id );
 	}
 
 	public function on_assigned( int $update_id, int $order_id, string $title, int $user_id ): void {
@@ -93,8 +93,14 @@ final class AdminBarNotifications {
 		$assignee_id   = (int) ( $context['assignee_id'] ?? 0 );
 		$owner_user_id = (int) ( $context['owner_user_id'] ?? 0 );
 		$update        = $this->order_updates_db->get_update( $update_id );
-		$title         = (string) ( $update['title'] ?? '' );
 		$customer_name = (string) ( $context['note_author']['name'] ?? '' );
+
+		// Show the customer's actual message in the notification, not the
+		// update title — falls back to the title only when the note has no
+		// text (e.g. an attachment-only reply).
+		$note    = $this->order_updates_db->get_customer_note_by_id( $note_id );
+		$message = trim( (string) ( $note['note'] ?? '' ) );
+		$title   = '' !== $message ? $message : (string) ( $update['title'] ?? '' );
 
 		// Pull in everyone who has previously commented on this update so the
 		// whole staff thread sees the new reply, not just the current assignee
@@ -142,12 +148,17 @@ final class AdminBarNotifications {
 			$sender_user_id
 		);
 
+		// Store the staff member's message so the notification row shows what
+		// was said, not just who said it.
+		$note    = $this->order_updates_db->get_customer_note_by_id( $note_id );
+		$message = trim( (string) ( $note['note'] ?? '' ) );
+
 		foreach ( $recipients as $user_id ) {
 			$user_id = (int) $user_id;
 			if ( ! $user_id || $user_id === $sender_user_id ) {
 				continue;
 			}
-			AdminBarNotificationStore::add_staff_reply( $update_id, $order_id, $note_id, $staff_name, $user_id );
+			AdminBarNotificationStore::add_staff_reply( $update_id, $order_id, $note_id, $staff_name, $user_id, $message );
 		}
 	}
 

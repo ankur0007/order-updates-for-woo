@@ -68,6 +68,8 @@ $labels = [
 	'showMore' => __('Show more', 'order-updates-for-woo'),
 	'showLess' => __('Show less', 'order-updates-for-woo'),
 	'loadPreviousNotes' => __('Load previous', 'order-updates-for-woo'),
+	'jumpToLatest' => __('Jump to latest', 'order-updates-for-woo'),
+	'deepLinkMissing' => __('That update or note no longer exists.', 'order-updates-for-woo'),
 	/* translators: %s: maximum file size, e.g. "10 MB". */
 	'attachmentTooLarge' => __('File is too large. Maximum size is %s.', 'order-updates-for-woo'),
 	'attachmentUnsupported' => __('File type is not supported. Allowed: PDF, JPG, PNG, GIF, WEBP.', 'order-updates-for-woo'),

@@ -770,6 +770,64 @@ button.awts_onboarding_dismiss {
 	display: none;
 }
 
+/* "Jump to latest" bubble — sticky at the foot of a windowed (deep-linked)
+   thread, so scrolling down doesn't hit a gap. Reloads the live latest batch. */
+.awts_jump_latest {
+	position: sticky;
+	bottom: 8px;
+	align-self: flex-end;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 4px;
+	padding: 6px 12px;
+	border: 0;
+	border-radius: 999px;
+	background: #2271b1;
+	color: #fff;
+	font-size: 12px;
+	line-height: 1.5;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba( 0, 0, 0, .25 );
+}
+
+.awts_jump_latest:hover,
+.awts_jump_latest:focus {
+	background: #135e96;
+	color: #fff;
+}
+
+.awts_jump_latest .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+/* No focus box on click for links/buttons/bubbles (keeps form-field rings).
+   Keyboard users still get a clear outline via :focus-visible. */
+.awts_panel a:focus,
+.awts_panel button:focus,
+.awts_panel [role="button"]:focus,
+.awts_panel [tabindex]:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.awts_panel a:focus-visible,
+.awts_panel button:focus-visible,
+.awts_panel [role="button"]:focus-visible,
+.awts_panel [tabindex]:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 1px;
+}
+
+/* Smooth scroll inside the plugin's scroll areas. */
+.awts_panel,
+.awts_notes_thread,
+.awts_customer_notes_thread {
+	scroll-behavior: smooth;
+}
+
 /* Internal notes — bubbles for consistency with the customer-thread look,
    no left/right flip (everyone here is staff). Bubble sizes to its own
    content; the row never spans more than 75% of the thread. */
@@ -1632,6 +1690,30 @@ button.awts_onboarding_dismiss {
 	background: #fef2f2;
 	border: 1px solid #fecaca;
 	color: #991b1b;
+}
+
+/* Fixed, viewport-centred notice (e.g. deep link to a deleted update). */
+.awts_center_notice {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 100001;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transform: translate( -50%, -50% );
+	padding: 14px 20px;
+	border-radius: 10px;
+	background: #1d2327;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 500;
+	box-shadow: 0 6px 24px rgba( 0, 0, 0, .25 );
+	cursor: pointer;
+}
+
+.awts_center_notice .dashicons {
+	color: #f0b849;
 }
 
 @keyframes awts_toast_in {

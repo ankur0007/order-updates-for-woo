@@ -42,16 +42,20 @@ final class AdminBarNotificationStore {
 			return;
 		}
 
+		// Deleted-note notices are after-the-fact (nothing to open or act on),
+		// so they land straight in Archived rather than the active list.
 		self::store(
 			array(
-				'key'       => 'deleted_' . $update_id,
-				'type'      => 'deleted',
-				'update_id' => $update_id,
-				'order_id'  => $order_id,
-				'note_id'   => 0,
-				'title'     => $title,
-				'actor'     => $actor,
-				'time'      => time(),
+				'key'         => 'deleted_' . $update_id,
+				'type'        => 'deleted',
+				'update_id'   => $update_id,
+				'order_id'    => $order_id,
+				'note_id'     => 0,
+				'title'       => $title,
+				'actor'       => $actor,
+				'archived'    => true,
+				'archived_at' => time(),
+				'time'        => time(),
 			),
 			$user_id
 		);
@@ -328,15 +332,14 @@ final class AdminBarNotificationStore {
 	}
 
 	/**
-	 * Cascade — remove notifications referencing $update_id from every user
-	 * who has any in their bar. Called on update delete so stale entries
-	 * don't linger pointing to a row that no longer exists. One query to
-	 * find the candidate users (bounded by staff size, typically <10), then
-	 * one update_user_meta per match. Notifications are physically removed
-	 * rather than just dismissed — the parent row is gone, there's nothing
-	 * to undismiss or click through to.
+	 * Cascade — archive every notification referencing $update_id for all
+	 * users when the update is deleted. We keep them (moved to Archived)
+	 * rather than removing them, so staff still have a record and nothing
+	 * confusing lingers in the active list pointing at a row that's gone.
+	 * One query to find the candidate users (bounded by staff size), then
+	 * one write per affected user.
 	 */
-	public static function dismiss_for_update_for_all_users( int $update_id ): void {
+	public static function archive_for_update_for_all_users( int $update_id ): void {
 		if ( ! $update_id ) {
 			return;
 		}
@@ -348,29 +351,25 @@ final class AdminBarNotificationStore {
 			self::META_KEY
 		) );
 
+		$now = time();
+
 		foreach ( $user_ids as $user_id ) {
 			$user_id = (int) $user_id;
 			if ( ! $user_id ) {
 				continue;
 			}
 
-			$all      = self::get_raw( $user_id );
-			$filtered = array_values( array_filter(
-				$all,
-				static fn( array $n ): bool => (int) ( $n['update_id'] ?? 0 ) !== $update_id
-			) );
-
-			if ( count( $filtered ) === count( $all ) ) {
-				continue;
-			}
-
-			if ( empty( $filtered ) ) {
-				delete_user_meta( $user_id, self::META_KEY );
-			} else {
-				update_user_meta( $user_id, self::META_KEY, $filtered );
-			}
-
-			self::clear_cache( $user_id );
+			self::update_all(
+				$user_id,
+				static function ( array &$n ) use ( $update_id, $now ): bool {
+					if ( (int) ( $n['update_id'] ?? 0 ) !== $update_id || ! empty( $n['archived'] ) ) {
+						return false;
+					}
+					$n['archived']    = true;
+					$n['archived_at'] = $now;
+					return true;
+				}
+			);
 		}
 	}
 

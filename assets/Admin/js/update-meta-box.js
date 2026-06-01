@@ -474,6 +474,7 @@ getFieldValue( $field ) {
 			this.$panel.on( 'click', '.awts_view_customer_note_history', e => this.viewCustomerNoteHistory( e ) );
 			this.$panel.on( 'click', '.awts_show_more',            e => this.toggleShowMore( e ) );
 			this.$panel.on( 'click', '.awts_load_previous_notes', e => this.loadPreviousNotes( e ) );
+			this.$panel.on( 'click', '.awts_jump_latest',         e => this.onJumpToLatest( e ) );
 			this.$panel.on( 'click', '.awts_emoji_trigger',        e => this.toggleEmojiPicker( e ) );
 			this.$panel.on( 'click', '.awts_emoji_item',          e => this.insertEmoji( e ) );
 			this.$panel.on( 'click', '.awts_attach_trigger',      e => this.handleAttachClick( e ) );
@@ -552,6 +553,10 @@ getFieldValue( $field ) {
 			const $thread = this.$panel.find( `.awts_customer_notes_thread[data-awts-update-id="${ updateId }"]` );
 			if ( ! $thread.length ) return;
 
+			// Windowed (deep-link) view — its bottom isn't the live newest, so
+			// don't append polled messages there. They load on "Jump to latest".
+			if ( $thread.data( 'awts-windowed' ) ) return;
+
 			const lastReadId = this.getLastReadCustomerNoteId( updateId );
 			let newCount     = parseInt( $thread.closest( '.awts_card' ).find( `[data-awts-tab-badge="customer"]` ).attr( 'data-awts-count' ) || '0', 10 );
 
@@ -628,10 +633,10 @@ getFieldValue( $field ) {
 				}
 			} );
 
-			// Only append to the DOM once the tab has been fully loaded.
-			// If not yet loaded, the fresh load triggered by opening the tab will
-			// include these notes naturally.
-			if ( ! $thread.data( 'awts-loaded' ) ) return;
+			// Only append to the DOM once the tab has been fully loaded, and
+			// never into a windowed (deep-link) view — its bottom isn't the
+			// live newest. Those notes load on "Jump to latest".
+			if ( ! $thread.data( 'awts-loaded' ) || $thread.data( 'awts-windowed' ) ) return;
 
 			let newCount = parseInt( $thread.closest( '.awts_card' ).find( '[data-awts-tab-badge="internal"]' ).attr( 'data-awts-count' ) || '0', 10 );
 
@@ -694,11 +699,17 @@ getFieldValue( $field ) {
 					if ( window.sessionStorage && ! window.sessionStorage.getItem( reloadKey ) ) {
 						window.sessionStorage.setItem( reloadKey, '1' );
 						window.location.reload();
+						return;
 					}
 				} catch ( e ) {
 					// sessionStorage blocked — skip the reload fallback rather
 					// than risk an infinite loop.
 				}
+
+				// Reloaded already and still missing — the update was deleted.
+				// Centre the message: there's no card to scroll to, so a panel
+				// toast would sit off-screen.
+				this.showCenterNotice( this.getString( 'deepLinkMissing' ) );
 				return;
 			}
 
@@ -721,16 +732,150 @@ getFieldValue( $field ) {
 				}
 			}
 
-			window.setTimeout( () => {
-				const $note  = noteId ? $card.find( '[data-awts-note-id="' + noteId + '"]' ) : $();
-				const $focus = $note.length ? $note : $card;
-				const el     = $focus.get( 0 );
-				if ( el && typeof el.scrollIntoView === 'function' ) {
-					el.scrollIntoView( { behavior: 'smooth', block: 'center' } );
-				}
-				$focus.addClass( 'awts_card--highlight' );
-				window.setTimeout( () => $focus.removeClass( 'awts_card--highlight' ), 2500 );
-			}, 150 );
+			// Give the tab's thread a moment to lazy-load, then reveal the note
+			// — paging through "Load previous" if it sits in an older batch.
+			window.setTimeout( () => this.revealDeepLinkNote( $card, tabKey, noteId, 15 ), 150 );
+		},
+
+		/**
+		 * Scroll to a deep-linked note. If it isn't in the latest batch, jump
+		 * straight to a window around it in one request (rather than paging the
+		 * whole thread). Bounded by attemptsLeft, which only covers waiting for
+		 * the tab's initial load — not repeated fetches.
+		 */
+		revealDeepLinkNote( $card, tabKey, noteId, attemptsLeft ) {
+			if ( ! noteId ) {
+				this.focusDeepLink( $card );
+				return;
+			}
+
+			const $note = $card.find( '[data-awts-note-id="' + noteId + '"]' );
+			if ( $note.length ) {
+				this.focusDeepLink( $note );
+				return;
+			}
+
+			const threadSel = 'customer' === tabKey ? '.awts_customer_notes_thread' : '.awts_notes_thread';
+			const $thread   = $card.find( threadSel ).first();
+
+			// Wait for the tab's thread to finish its initial (latest) load.
+			if ( ( ! $thread.length || ! $thread.data( 'awts-loaded' ) ) && attemptsLeft > 0 ) {
+				window.setTimeout( () => this.revealDeepLinkNote( $card, tabKey, noteId, attemptsLeft - 1 ), 120 );
+				return;
+			}
+
+			// Loaded but the note isn't in the latest batch — load a window
+			// centred on it (one request), then scroll to it.
+			if ( $thread.length && $thread.data( 'awts-loaded' ) ) {
+				const updateId = parseInt( $card.attr( 'data-awts-update-id' ), 10 ) || 0;
+				const kind     = 'customer' === tabKey ? 'customer' : 'internal';
+				this.loadNoteWindow( $thread, updateId, kind, noteId ).then( () => {
+					const $found = $card.find( '[data-awts-note-id="' + noteId + '"]' );
+					this.focusDeepLink( $found.length ? $found : $card );
+				} );
+				return;
+			}
+
+			this.focusDeepLink( $card );
+		},
+
+		/**
+		 * Fetch a window of notes centred on noteId (older + note + newer) in
+		 * one request and render it. If newer notes exist below the window the
+		 * thread enters "windowed" mode and shows a "Jump to latest" bubble.
+		 * Returns a Promise that resolves once the window is rendered.
+		 */
+		loadNoteWindow( $thread, updateId, kind, noteId ) {
+			if ( ! updateId || ! noteId ) {
+				return Promise.resolve();
+			}
+
+			const route = 'customer' === kind
+				? awtsData.customerNotesEndpointBase + updateId + '/customer-notes'
+				: awtsData.notesEndpointBase + updateId + '/notes';
+
+			return this.request( { url: route + '?around_id=' + noteId, method: 'GET' } )
+				.then( response => {
+					const notes = ( response && response.notes ) ? response.notes : [];
+
+					// Target note is gone (deleted). Don't wipe the thread to an
+					// empty window — restore the live latest batch and say so.
+					if ( ! notes.length ) {
+						if ( 'customer' === kind ) {
+							this.loadCustomerNotesForThread( $thread, updateId );
+						} else {
+							this.loadNotesForThread( $thread, updateId );
+						}
+						this.showCenterNotice( this.getString( 'deepLinkMissing' ) );
+						return;
+					}
+
+					if ( 'customer' === kind ) {
+						this.renderCustomerNotes( response, $thread );
+					} else {
+						this.renderNotes( response, $thread );
+					}
+
+					// renderX clears windowed state and scrolls to the bottom.
+					// When notes exist below the window, flag windowed mode and
+					// offer "Jump to latest" instead of pretending we're live.
+					if ( response && response.has_newer ) {
+						$thread.data( 'awts-windowed', true );
+						this.addJumpToLatest( $thread, updateId, kind );
+					}
+				} )
+				.catch( () => {} );
+		},
+
+		// Floating "Jump to latest" bubble — sits sticky at the bottom of the
+		// thread's scroll area while windowed (its bottom isn't the live newest).
+		addJumpToLatest( $thread, updateId, kind ) {
+			if ( ! $thread.length || $thread.find( '.awts_jump_latest' ).length ) {
+				return;
+			}
+
+			const $btn = $(
+				'<button type="button" class="awts_jump_latest" data-awts-kind="' + kind + '" data-awts-update-id="' + updateId + '">'
+				+ '<span class="dashicons dashicons-arrow-down-alt"></span>'
+				+ '<span class="awts_jump_latest_label">' + this.getString( 'jumpToLatest' ) + '</span>'
+				+ '</button>'
+			);
+			$thread.append( $btn );
+		},
+
+		removeJumpToLatest( $thread ) {
+			$thread.find( '.awts_jump_latest' ).remove();
+		},
+
+		// Leave windowed mode and reload the live latest batch (which scrolls
+		// to the bottom and restores real-time append).
+		jumpToLatest( $thread, updateId, kind ) {
+			$thread.data( 'awts-windowed', false );
+			this.removeJumpToLatest( $thread );
+
+			if ( 'customer' === kind ) {
+				this.loadCustomerNotesForThread( $thread, updateId );
+			} else {
+				this.loadNotesForThread( $thread, updateId );
+			}
+		},
+
+		onJumpToLatest( event ) {
+			event.preventDefault();
+			const $btn     = $( event.currentTarget );
+			const $thread  = $btn.closest( '.awts_notes_thread, .awts_customer_notes_thread' );
+			const kind     = 'customer' === $btn.attr( 'data-awts-kind' ) ? 'customer' : 'internal';
+			const updateId = parseInt( $btn.attr( 'data-awts-update-id' ), 10 ) || parseInt( $thread.data( 'awts-update-id' ), 10 ) || 0;
+			this.jumpToLatest( $thread, updateId, kind );
+		},
+
+		focusDeepLink( $focus ) {
+			const el = $focus.get( 0 );
+			if ( el && typeof el.scrollIntoView === 'function' ) {
+				el.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+			}
+			$focus.addClass( 'awts_card--highlight' );
+			window.setTimeout( () => $focus.removeClass( 'awts_card--highlight' ), 2500 );
 		},
 
 		// -------------------------------------------------------------------------
@@ -1854,6 +1999,21 @@ getFieldValue( $field ) {
 			setTimeout( () => $toast.fadeOut( 300, function() { $( this ).remove(); } ), 3000 );
 		},
 
+		// Fixed, viewport-centred notice. Used when there's nothing on screen to
+		// scroll to (e.g. a deep link to a deleted update) — a panel toast would
+		// sit off-screen. Click or wait to dismiss.
+		showCenterNotice( message ) {
+			$( '.awts_center_notice' ).remove();
+			const $notice = $( '<div class="awts_center_notice" role="status"></div>' );
+			$( '<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>' ).appendTo( $notice );
+			$( '<span>' ).text( message ).appendTo( $notice );
+			$( 'body' ).append( $notice );
+
+			const remove = () => $notice.fadeOut( 200, function() { $( this ).remove(); } );
+			$notice.on( 'click', remove );
+			window.setTimeout( remove, 3500 );
+		},
+
 		// -------------------------------------------------------------------------
 		// Notes / character counters
 		// -------------------------------------------------------------------------
@@ -2358,6 +2518,10 @@ getFieldValue( $field ) {
 			const hasMore  = !! ( response && response.has_more );
 			const updateId = parseInt( $thread.data( 'awts-update-id' ), 10 );
 
+			// A fresh render is always the live view — clear any windowed state.
+			$thread.data( 'awts-windowed', false );
+			this.removeJumpToLatest( $thread );
+
 			if ( ! notes.length ) {
 				$thread.html( '<p class="awts_notes_empty">' + this.getString( 'notesEmpty' ) + '</p>' );
 				$thread.data( 'awts-loaded', true );
@@ -2462,8 +2626,13 @@ getFieldValue( $field ) {
 		// the staff member sees what just appeared.
 		loadPreviousNotes( event ) {
 			event.preventDefault();
+			this.fetchOlderNotes( $( event.currentTarget ) );
+		},
 
-			const $btn      = $( event.currentTarget );
+		// Core of the "Load previous" button — split out so the deep-link
+		// reveal can page through older notes too. Returns a Promise that
+		// resolves once the fetched notes (if any) are in the DOM.
+		fetchOlderNotes( $btn ) {
 			const $thread   = $btn.closest( '.awts_notes_thread, .awts_customer_notes_thread' );
 			const updateId  = parseInt( $thread.data( 'awts-update-id' ), 10 );
 			const kind      = $thread.data( 'awts-thread-kind' ) === 'customer' ? 'customer' : 'internal';
@@ -2471,7 +2640,7 @@ getFieldValue( $field ) {
 			const oldestId  = parseInt( $thread.find( itemSel ).first().attr( 'data-awts-note-id' ) || '0', 10 );
 
 			if ( ! updateId || ! oldestId || $btn.prop( 'disabled' ) ) {
-				return;
+				return Promise.resolve();
 			}
 
 			const route = 'customer' === kind
@@ -2481,7 +2650,7 @@ getFieldValue( $field ) {
 			const previousLabel = $btn.text();
 			$btn.prop( 'disabled', true ).text( this.getString( 'loadingPreviousNotes' ) );
 
-			this.request( {
+			return this.request( {
 				url:    route + '?before_id=' + oldestId,
 				method: 'GET',
 			} )
@@ -2832,14 +3001,21 @@ getFieldValue( $field ) {
 					return this.uploadPendingFiles( $wrap, updateId, noteId, 'internal' ).then( uploaded => {
 						response.note.attachments = uploaded;
 
-						if ( ! $thread.data( 'awts-loaded' ) ) {
-							$thread.empty();
+						if ( $thread.data( 'awts-windowed' ) ) {
+							// Viewing an old window — the new note is the newest,
+							// so jump back to the live latest batch (which includes
+							// it) rather than appending into the window.
+							this.jumpToLatest( $thread, updateId, 'internal' );
 						} else {
-							$thread.find( '.awts_notes_empty' ).remove();
+							if ( ! $thread.data( 'awts-loaded' ) ) {
+								$thread.empty();
+							} else {
+								$thread.find( '.awts_notes_empty' ).remove();
+							}
+							$thread.append( this.buildNoteHtml( response.note, false ) ).data( 'awts-loaded', true );
+							this.scrollThreadToBottom( $thread );
+							this.pruneShowMoreButtons( $thread );
 						}
-						$thread.append( this.buildNoteHtml( response.note, false ) ).data( 'awts-loaded', true );
-						this.scrollThreadToBottom( $thread );
-			this.pruneShowMoreButtons( $thread );
 						this.setLastReadNoteId( updateId, noteId );
 						$input.val( '' );
 						this.clearPendingFiles( $wrap );
@@ -3006,6 +3182,10 @@ getFieldValue( $field ) {
 			$thread.data( 'awts-email-pref', emailEnabled );
 			$thread.data( 'awts-order-id', orderId );
 			$thread.data( 'awts-thread-kind', 'customer' );
+
+			// A fresh render is always the live view — clear any windowed state.
+			$thread.data( 'awts-windowed', false );
+			this.removeJumpToLatest( $thread );
 
 			if ( ! notes.length ) {
 				$thread.html( this.buildEmailPrefHtml( emailEnabled ) + '<p class="awts_customer_notes_empty">' + this.getString( 'customerNotesEmpty' ) + '</p>' );
@@ -3412,18 +3592,25 @@ getFieldValue( $field ) {
 					return this.uploadPendingFiles( $wrap, updateId, noteId, 'customer' ).then( uploaded => {
 						response.note.attachments = uploaded;
 
-						if ( ! $thread.data( 'awts-loaded' ) ) {
-							$thread.empty();
+						if ( $thread.data( 'awts-windowed' ) ) {
+							// Viewing an old window — the new note is the newest,
+							// so jump back to the live latest batch (which includes
+							// it) rather than appending into the window.
+							this.jumpToLatest( $thread, updateId, 'customer' );
 						} else {
-							$thread.find( '.awts_customer_notes_empty' ).remove();
+							if ( ! $thread.data( 'awts-loaded' ) ) {
+								$thread.empty();
+							} else {
+								$thread.find( '.awts_customer_notes_empty' ).remove();
+							}
+							$thread.append( this.buildCustomerNoteHtml( response.note ) ).data( 'awts-loaded', true );
+							// Scroll the thread to show the message we just sent —
+							// without this the new bubble lands below the scroll
+							// viewport on long threads and the user thinks the
+							// send silently failed.
+							this.scrollThreadToBottom( $thread );
+							this.pruneShowMoreButtons( $thread );
 						}
-						$thread.append( this.buildCustomerNoteHtml( response.note ) ).data( 'awts-loaded', true );
-						// Scroll the thread to show the message we just sent —
-						// without this the new bubble lands below the scroll
-						// viewport on long threads and the user thinks the
-						// send silently failed.
-						this.scrollThreadToBottom( $thread );
-			this.pruneShowMoreButtons( $thread );
 						$input.val( '' );
 						this.clearPendingFiles( $wrap );
 						$button.prop( 'disabled', false );
