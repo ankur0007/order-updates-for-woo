@@ -9,12 +9,12 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 final class AttachmentStorage {
 	public static function attachments_dir(): string {
 		$uploads = wp_upload_dir( null, false );
-		return trailingslashit( (string) ( $uploads['basedir'] ?? WP_CONTENT_DIR . '/uploads' ) ) . Constants::ATTACHMENTS_ROOT_DIR;
+		return trailingslashit( (string) ( $uploads['basedir'] ?? '' ) ) . Constants::ATTACHMENTS_ROOT_DIR;
 	}
 
 	public static function root_url(): string {
 		$uploads = wp_upload_dir( null, false );
-		return trailingslashit( (string) ( $uploads['baseurl'] ?? content_url( '/uploads' ) ) ) . Constants::ATTACHMENTS_ROOT_DIR;
+		return trailingslashit( (string) ( $uploads['baseurl'] ?? '' ) ) . Constants::ATTACHMENTS_ROOT_DIR;
 	}
 
 	public static function order_dir( int $order_id ): string {

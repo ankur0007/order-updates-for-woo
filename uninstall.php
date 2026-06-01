@@ -121,7 +121,7 @@ if ( function_exists( 'as_unschedule_all_actions' ) ) {
 
 // 8. Remove the attachment directory tree.
 $uploads          = wp_upload_dir( null, false );
-$attachments_root = trailingslashit( (string) ( $uploads['basedir'] ?? WP_CONTENT_DIR . '/uploads' ) ) . 'order-updates-for-woo';
+$attachments_root = trailingslashit( (string) ( $uploads['basedir'] ?? '' ) ) . 'order-updates-for-woo';
 
 if ( is_dir( $attachments_root ) ) {
 	$delete_recursively = static function ( string $dir ) use ( &$delete_recursively ): void {
