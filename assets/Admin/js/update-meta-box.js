@@ -917,13 +917,23 @@ getFieldValue( $field ) {
 
 			// Cancel the render's in-flight scroll-to-bottom so it can't drag
 			// the thread past the target and leave it above the fold.
-			$focus.closest( '.awts_notes_thread, .awts_customer_notes_thread' ).stop( true );
+			const $thread = $focus.closest( '.awts_notes_thread, .awts_customer_notes_thread' );
+			$thread.stop( true );
 			$focus.addClass( 'awts_card--highlight' );
 
-			// Defer the centring until the scroll-to-bottom is cancelled and any
-			// clamp/"Show more" prune has reflowed — otherwise the target can
-			// settle just above the viewport.
+			// Defer until the scroll-to-bottom is cancelled and any clamp/"Show
+			// more" prune has reflowed.
 			window.setTimeout( () => {
+				// Centre the note within its (small) scroll container instantly,
+				// so the page then eases over a short distance in one smooth
+				// motion — scrolling two containers at once felt abrupt.
+				const thread = $thread.get( 0 );
+				if ( thread ) {
+					const threadRect = thread.getBoundingClientRect();
+					const elRect     = el.getBoundingClientRect();
+					thread.scrollTop += ( elRect.top - threadRect.top ) - ( thread.clientHeight - elRect.height ) / 2;
+				}
+
 				if ( typeof el.scrollIntoView === 'function' ) {
 					el.scrollIntoView( { behavior: 'smooth', block: 'center' } );
 				}
