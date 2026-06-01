@@ -7,6 +7,7 @@ namespace OrderUpdatesForWoo\API\Endpoints;
 use OrderUpdatesForWoo\API\Concerns\VerifiesAccess;
 use OrderUpdatesForWoo\API\Contracts\Registrable;
 use OrderUpdatesForWoo\Frontend\OrderUpdates\Services\CustomerOrderUpdatesService;
+use OrderUpdatesForWoo\Helpers\UpdateState;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WC_Order;
@@ -46,7 +47,19 @@ final class GetPreviousCustomerNotesEndpoint implements Registrable {
 		$order_key = (string) $request->get_param( 'order_key' );
 		$order_key = '' !== $order_key ? sanitize_text_field( wp_unslash( $order_key ) ) : null;
 
-		if ( $this->customer_service->can_view_order( $order_id, $order_key ) ) {
+		// Staff path — full access regardless of visibility.
+		if ( $this->is_authorized_for_order( $order_id ) ) {
+			return true;
+		}
+
+		// Customer path — must be acting as the order's customer AND the
+		// update must be customer-visible. Stops update_id enumeration
+		// against internal-only updates.
+		if (
+			$order_id
+			&& UpdateState::is_customer_visible( is_array( $update ) ? $update : array() )
+			&& $this->customer_service->is_acting_as_customer( $order_id, $order_key )
+		) {
 			return true;
 		}
 

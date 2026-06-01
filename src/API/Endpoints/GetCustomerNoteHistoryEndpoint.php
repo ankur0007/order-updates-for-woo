@@ -8,6 +8,7 @@ use OrderUpdatesForWoo\API\Concerns\VerifiesAccess;
 use OrderUpdatesForWoo\API\Contracts\Registrable;
 use OrderUpdatesForWoo\Frontend\OrderUpdates\Services\CustomerOrderUpdatesService;
 use OrderUpdatesForWoo\Helpers\DateHelper;
+use OrderUpdatesForWoo\Helpers\UpdateState;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WP_Error;
@@ -49,6 +50,7 @@ final class GetCustomerNoteHistoryEndpoint implements Registrable {
 		$update = $this->order_updates_db->get_update( absint( $request->get_param( 'update_id' ) ) );
 		$order_id = absint( $update['order_id'] ?? 0 );
 
+		// Staff path — full access regardless of visibility.
 		if ( $this->is_authorized_for_order( $order_id ) ) {
 			return true;
 		}
@@ -56,7 +58,13 @@ final class GetCustomerNoteHistoryEndpoint implements Registrable {
 		$order_key = (string) $request->get_param( 'order_key' );
 		$order_key = '' !== $order_key ? sanitize_text_field( wp_unslash( $order_key ) ) : null;
 
-		if ( $this->viewer_service->is_acting_as_customer( $order_id, $order_key ) ) {
+		// Customer path — must be the order's customer AND the update must
+		// be customer-visible.
+		if (
+			$order_id
+			&& UpdateState::is_customer_visible( is_array( $update ) ? $update : array() )
+			&& $this->viewer_service->is_acting_as_customer( $order_id, $order_key )
+		) {
 			return true;
 		}
 

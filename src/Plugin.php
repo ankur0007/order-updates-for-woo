@@ -229,13 +229,11 @@ final class Plugin {
 	 *   - Delete the legacy options regardless, so the DB is clean.
 	 */
 	private function migrate_assignment_settings(): void {
-		$flag_key = 'order_updates_for_woo_assignment_migration_v1_done';
-
-		if ( '1' === (string) get_option( $flag_key, '' ) ) {
+		if ( '1' === (string) get_option( Constants::ASSIGNMENT_MIGRATION_V1_FLAG_OPTION, '' ) ) {
 			return;
 		}
 
-		$legacy_primary = absint( get_option( 'order_updates_for_woo_primary_assignee', 0 ) );
+		$legacy_primary = absint( get_option( Constants::LEGACY_PRIMARY_ASSIGNEE_OPTION, 0 ) );
 		$current_pool   = get_option( Constants::ASSIGNEE_PRIORITY_LIST_OPTION, array() );
 		$current_pool   = is_array( $current_pool ) ? array_values( array_filter( array_map( 'absint', $current_pool ) ) ) : array();
 
@@ -243,9 +241,9 @@ final class Plugin {
 			update_option( Constants::ASSIGNEE_PRIORITY_LIST_OPTION, array( $legacy_primary ) );
 		}
 
-		delete_option( 'order_updates_for_woo_primary_assignee' );
-		delete_option( 'order_updates_for_woo_assignment_mode' );
+		delete_option( Constants::LEGACY_PRIMARY_ASSIGNEE_OPTION );
+		delete_option( Constants::LEGACY_ASSIGNMENT_MODE_OPTION );
 
-		update_option( $flag_key, '1', false );
+		update_option( Constants::ASSIGNMENT_MIGRATION_V1_FLAG_OPTION, '1', false );
 	}
 }

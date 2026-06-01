@@ -184,6 +184,12 @@ final class Constants {
 	public const CUSTOMER_LINK_EXPIRY_DAYS_OPTION = 'order_updates_for_woo_customer_link_expiry_days';
 	public const SUPPORT_CONTACT_EMAIL_OPTION     = 'order_updates_for_woo_support_contact_email';
 
+	// One-shot migration flags + legacy v1.0 option keys cleaned up on
+	// the next admin_init. Kept in Constants so a future grep finds them.
+	public const ASSIGNMENT_MIGRATION_V1_FLAG_OPTION = 'order_updates_for_woo_assignment_migration_v1_done';
+	public const LEGACY_PRIMARY_ASSIGNEE_OPTION      = 'order_updates_for_woo_primary_assignee';
+	public const LEGACY_ASSIGNMENT_MODE_OPTION       = 'order_updates_for_woo_assignment_mode';
+
 	// Tunable plugin variables. Defaults live in Variables.php.
 	public const PAGE_SIZE_OPTION                 = 'order_updates_for_woo_page_size';
 	public const ADMIN_BAR_MAX_ORDERS_OPTION      = 'order_updates_for_woo_admin_bar_max_orders';

@@ -32,17 +32,15 @@ final class UpdateState {
 	}
 
 	/**
-	 * True when the given user (defaults to the current logged-in user) may
-	 * edit or delete the update. Two accept paths:
-	 *
-	 *   1. The viewer is the original creator (staff editing their own row).
-	 *   2. The update was opened by a customer — these have no staff owner,
-	 *      so any signed-in staff member with the cap (gated upstream by
-	 *      VerifiesAccess) may pick it up, edit, or reassign.
+	 * UI-only flag: whether to render the edit button on an update card.
+	 * NOT an authorisation check — the real cap gate lives upstream in
+	 * VerifiesAccess. Returns true for any signed-in user, so a caller
+	 * MUST already be inside a surface that's restricted to staff (the
+	 * admin order panel only renders for users with the order cap, so
+	 * the precondition holds there). Do NOT use this method to gate a
+	 * write endpoint.
 	 */
-	public static function can_edit( array $update, ?int $user_id = null ): bool {
-		// Any signed-in staff member can edit any update. The order-level
-		// cap check happens upstream in VerifiesAccess.
+	public static function should_render_edit_ui( array $update, ?int $user_id = null ): bool {
 		$viewer_id = $user_id ?? get_current_user_id();
 		return $viewer_id > 0;
 	}

@@ -46,22 +46,22 @@ final class UpdateStateTest extends TestCase {
 		$this->assertFalse( UpdateState::has_assignee( array() ) );
 	}
 
-	public function test_can_edit_uses_current_user_when_no_id_passed(): void {
+	public function test_should_render_edit_ui_uses_current_user_when_no_id_passed(): void {
 		// setUp stubs get_current_user_id to return 7. Collaborative model:
 		// any signed-in staff can edit any update — creator identity no
 		// longer matters. Order-level cap is gated upstream in VerifiesAccess.
-		$this->assertTrue( UpdateState::can_edit( array( 'created_by' => 7 ) ) );
-		$this->assertTrue( UpdateState::can_edit( array( 'created_by' => 99 ) ) );
+		$this->assertTrue( UpdateState::should_render_edit_ui( array( 'created_by' => 7 ) ) );
+		$this->assertTrue( UpdateState::should_render_edit_ui( array( 'created_by' => 99 ) ) );
 	}
 
-	public function test_can_edit_with_explicit_user_id(): void {
-		$this->assertTrue( UpdateState::can_edit( array( 'created_by' => 42 ), 42 ) );
+	public function test_should_render_edit_ui_with_explicit_user_id(): void {
+		$this->assertTrue( UpdateState::should_render_edit_ui( array( 'created_by' => 42 ), 42 ) );
 		// Non-creator can edit too under the collaborative model.
-		$this->assertTrue( UpdateState::can_edit( array( 'created_by' => 42 ), 7 ) );
+		$this->assertTrue( UpdateState::should_render_edit_ui( array( 'created_by' => 42 ), 7 ) );
 	}
 
-	public function test_can_edit_returns_false_when_not_signed_in(): void {
+	public function test_should_render_edit_ui_returns_false_when_not_signed_in(): void {
 		// viewer_id = 0 (no logged-in user) blocks edit regardless of creator.
-		$this->assertFalse( UpdateState::can_edit( array( 'created_by' => 5 ), 0 ) );
+		$this->assertFalse( UpdateState::should_render_edit_ui( array( 'created_by' => 5 ), 0 ) );
 	}
 }
