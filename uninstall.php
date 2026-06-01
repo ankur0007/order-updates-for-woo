@@ -111,6 +111,7 @@ if ( function_exists( 'as_unschedule_all_actions' ) ) {
 		'order_updates_for_woo_send_rating_followup',
 		'order_updates_for_woo_send_internal_mention',
 		'order_updates_for_woo_send_participant_update',
+		'order_updates_for_woo_send_shared_link_email',
 	);
 
 	foreach ( $async_hooks as $async_hook ) {

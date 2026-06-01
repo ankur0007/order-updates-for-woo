@@ -100,7 +100,6 @@ $settings = wp_parse_args(
 				type="button"
 				class="button button-link-delete"
 				data-awts-link-regenerate
-				data-confirm-label="<?php echo esc_attr__( 'Regenerate the link? The old one will stop working immediately.', 'order-updates-for-woo' ); ?>"
 			><?php esc_html_e( 'Regenerate', 'order-updates-for-woo' ); ?></button>
 
 			<span
@@ -110,6 +109,20 @@ $settings = wp_parse_args(
 				role="status"
 				aria-live="polite"
 			></span>
+
+			<div
+				data-awts-link-confirm
+				hidden
+				style="flex-basis:100%;padding:10px 12px;margin-top:6px;background:#fff;border:1px solid #dcdcde;border-radius:4px;"
+			>
+				<p style="margin:0 0 8px;"><?php esc_html_e( 'Regenerate the link? The current one will stop working immediately.', 'order-updates-for-woo' ); ?></p>
+				<label style="display:flex;align-items:center;gap:6px;margin:0 0 10px;">
+					<input type="checkbox" data-awts-link-notify />
+					<?php esc_html_e( 'Email the new link to the customer', 'order-updates-for-woo' ); ?>
+				</label>
+				<button type="button" class="button button-primary" data-awts-link-confirm-go><?php esc_html_e( 'Regenerate now', 'order-updates-for-woo' ); ?></button>
+				<button type="button" class="button" data-awts-link-confirm-cancel><?php esc_html_e( 'Cancel', 'order-updates-for-woo' ); ?></button>
+			</div>
 		</div>
 		<script>
 		( function () {
@@ -212,15 +225,34 @@ $settings = wp_parse_args(
 				} );
 			}
 
-			if ( regenBtn ) {
+			var confirmBox = panel.querySelector( '[data-awts-link-confirm]' );
+			var notifyChk  = panel.querySelector( '[data-awts-link-notify]' );
+			var confirmGo  = panel.querySelector( '[data-awts-link-confirm-go]' );
+			var cancelBtn  = panel.querySelector( '[data-awts-link-confirm-cancel]' );
+
+			if ( regenBtn && confirmBox ) {
 				regenBtn.addEventListener( 'click', function () {
-					var confirmMsg = regenBtn.getAttribute( 'data-confirm-label' ) || '';
-					if ( ! window.confirm( confirmMsg ) ) { return; }
-					var days = parseInt( ( daysInput && daysInput.value ) || '0', 10 );
+					if ( notifyChk ) { notifyChk.checked = false; }
+					confirmBox.hidden = false;
+				} );
+			}
+
+			if ( cancelBtn && confirmBox ) {
+				cancelBtn.addEventListener( 'click', function () { confirmBox.hidden = true; } );
+			}
+
+			if ( confirmGo && confirmBox ) {
+				confirmGo.addEventListener( 'click', function () {
+					var days   = parseInt( ( daysInput && daysInput.value ) || '0', 10 );
+					var notify = !! ( notifyChk && notifyChk.checked );
+					confirmBox.hidden = true;
 					setStatus( '<?php echo esc_js( __( 'Regenerating…', 'order-updates-for-woo' ) ); ?>' );
-					post( regenEndpoint, { days: days }, function ( err ) {
+					post( regenEndpoint, { days: days, notify_customer: notify }, function ( err, data ) {
 						if ( err ) { setStatus( err ); return; }
-						setStatus( '<?php echo esc_js( __( 'New link generated. The old one no longer works.', 'order-updates-for-woo' ) ); ?>' );
+						var msg = ( data && data.emailQueued )
+							? '<?php echo esc_js( __( 'New link generated and emailed to the customer.', 'order-updates-for-woo' ) ); ?>'
+							: '<?php echo esc_js( __( 'New link generated. The old one no longer works.', 'order-updates-for-woo' ) ); ?>';
+						setStatus( msg );
 					} );
 				} );
 			}

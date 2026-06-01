@@ -147,7 +147,7 @@ final class Plugin {
 			new ServeAttachmentEndpoint( $attachment_service, $attachments_db ),
 			new SubmitCustomerUpdateEndpoint( $db, $note_service, $customer_updates_service, $settings, $attachment_service, $async, new Validator() ),
 			new SubmitRatingEndpoint( $db, $customer_updates_service, $settings, $async ),
-			new SharedLinkEndpoint(),
+			new SharedLinkEndpoint( $async ),
 			new GetAnalyticsSummaryEndpoint( $analytics_lookup_db ),
 			new GetAnalyticsByDateEndpoint( $analytics_lookup_db ),
 			new GetAnalyticsAssigneesEndpoint( $analytics_lookup_db ),

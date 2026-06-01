@@ -7,6 +7,7 @@ namespace OrderUpdatesForWoo\API\Endpoints;
 use OrderUpdatesForWoo\API\Concerns\VerifiesAccess;
 use OrderUpdatesForWoo\API\Contracts\Registrable;
 use OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController;
+use OrderUpdatesForWoo\Helpers\AsyncJob;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 use OrderUpdatesForWoo\Shared\Updates\SharedLink;
@@ -21,6 +22,8 @@ final class SharedLinkEndpoint implements Registrable {
 	use VerifiesAccess;
 
 	private const ROUTE_BASE = '/orders/(?P<order_id>\d+)/shared-link';
+
+	public function __construct( private AsyncJob $async_job ) {}
 
 	public function register(): void {
 		register_rest_route(
@@ -93,7 +96,17 @@ final class SharedLinkEndpoint implements Registrable {
 
 		$state = SharedLink::regenerate( $order, $days, get_current_user_id() );
 
-		return rest_ensure_response( $this->shape_response( $state, (int) $order->get_id() ) );
+		$response = $this->shape_response( $state, (int) $order->get_id() );
+
+		if ( (bool) $request->get_param( 'notify_customer' ) ) {
+			$this->async_job->queue(
+				Constants::HOOK_SHARED_LINK_EMAIL,
+				array( 'order_id' => (int) $order->get_id() )
+			);
+			$response['emailQueued'] = true;
+		}
+
+		return rest_ensure_response( $response );
 	}
 
 	private function resolve_order( WP_REST_Request $request ): WC_Order|WP_Error {

@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use OrderUpdatesForWoo\Frontend\Notifications\Emails\CustomerOrderUpdateEmail;
 use OrderUpdatesForWoo\Frontend\Notifications\Emails\CustomerRatingFollowupEmail;
 use OrderUpdatesForWoo\Frontend\Notifications\Emails\CustomerRatingRequestEmail;
+use OrderUpdatesForWoo\Frontend\Notifications\Emails\CustomerSharedLinkEmail;
 use OrderUpdatesForWoo\Frontend\Notifications\Emails\CustomerUpdateDeletedEmail;
 use OrderUpdatesForWoo\Shared\Attachments\AttachmentsDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
@@ -36,6 +37,7 @@ final class FrontendNotifications {
 		$emails[ Constants::EMAIL_ID_CUSTOMER_UPDATE_DELETED ]  = new CustomerUpdateDeletedEmail( $this->order_updates_db );
 		$emails[ Constants::EMAIL_ID_CUSTOMER_RATING_REQUEST ]  = new CustomerRatingRequestEmail( $this->order_updates_db );
 		$emails[ Constants::EMAIL_ID_CUSTOMER_RATING_FOLLOWUP ] = new CustomerRatingFollowupEmail( $this->order_updates_db );
+		$emails[ Constants::EMAIL_ID_CUSTOMER_SHARED_LINK ]    = new CustomerSharedLinkEmail( $this->order_updates_db );
 
 		return $emails;
 	}

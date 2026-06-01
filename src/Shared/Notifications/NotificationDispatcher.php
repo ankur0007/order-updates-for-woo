@@ -22,6 +22,7 @@ final class NotificationDispatcher {
 		add_action( Constants::HOOK_RATING_FOLLOWUP, array( $this, 'send_rating_followup' ), 10, 1 );
 		add_action( Constants::HOOK_INTERNAL_MENTION, array( $this, 'send_internal_mention' ), 10, 1 );
 		add_action( Constants::HOOK_PARTICIPANT_UPDATE, array( $this, 'send_participant_update' ), 10, 1 );
+		add_action( Constants::HOOK_SHARED_LINK_EMAIL, array( $this, 'send_shared_link_email' ), 10, 1 );
 	}
 
 	public function send_admin_notification( array $payload ): void {
@@ -168,6 +169,16 @@ final class NotificationDispatcher {
 				current_time( 'mysql', true )
 			);
 		}
+	}
+
+	public function send_shared_link_email( array $payload ): void {
+		$email = $this->get_email( Constants::EMAIL_ID_CUSTOMER_SHARED_LINK );
+
+		if ( ! $email || ! method_exists( $email, 'trigger' ) ) {
+			return;
+		}
+
+		$email->trigger( absint( $payload['order_id'] ?? 0 ) );
 	}
 
 	private function get_email( string $email_id ): ?object {

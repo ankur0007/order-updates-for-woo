@@ -26,6 +26,7 @@ final class Constants {
 	public const HOOK_RATING_REQUEST_SENT   = 'order_updates_for_woo_rating_request_sent';
 	public const HOOK_INTERNAL_MENTION_SENT = 'order_updates_for_woo_internal_mention_sent';
 	public const HOOK_PARTICIPANT_UPDATE_SENT = 'order_updates_for_woo_participant_update_sent';
+	public const HOOK_SHARED_LINK_EMAIL       = 'order_updates_for_woo_send_shared_link_email';
 
 	// Rating follow-up tunables. Held as option keys + defaults so they can
 	// be promoted to a settings field later without touching call sites.
@@ -116,6 +117,7 @@ final class Constants {
 	public const EMAIL_ID_CUSTOMER_UPDATE_DELETED   = 'order_updates_for_woo_customer_update_deleted';
 	public const EMAIL_ID_CUSTOMER_RATING_REQUEST   = 'order_updates_for_woo_customer_rating_request';
 	public const EMAIL_ID_CUSTOMER_RATING_FOLLOWUP  = 'order_updates_for_woo_customer_rating_followup';
+	public const EMAIL_ID_CUSTOMER_SHARED_LINK      = 'order_updates_for_woo_customer_shared_link';
 
 	// Newsletter (admin welcome screen subscribe form).
 	public const NEWSLETTER_EMAIL_OPTION  = 'order_updates_for_woo_newsletter_email';
