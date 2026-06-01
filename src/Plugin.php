@@ -164,7 +164,7 @@ final class Plugin {
 		$team_roster->init();
 		$rest->init();
 		( new AdminMenuController() )->init();
-		( new NotificationsPageController() )->init();
+		( new NotificationsPageController( $db ) )->init();
 		( new OrderDeletionController( $db, $attachment_service ) )->init();
 		( new \OrderUpdatesForWoo\Admin\Orders\DeletedUpdatesMetaBox() )->init();
 		( new AdminHeartbeatHandler( $db, $note_action_policy, $attachments_db ) )->init();

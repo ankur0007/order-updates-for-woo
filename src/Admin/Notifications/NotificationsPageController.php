@@ -13,6 +13,7 @@ use OrderUpdatesForWoo\Helpers\AdminBarNotificationStore;
 use OrderUpdatesForWoo\Helpers\AssetHelper;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
+use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
 // Filter / search / paging reads via $_GET are idempotent listing params,
 // sanitised inline. No nonce required for read-only navigation; the bulk
@@ -40,6 +41,8 @@ final class NotificationsPageController {
 	// auto-delete, and which state tags ('read', 'archived') that applies to.
 	public const OPT_AUTODELETE_DAYS = 'order_updates_for_woo_notif_autodelete_days';
 	public const OPT_AUTODELETE_TAGS = 'order_updates_for_woo_notif_autodelete_tags';
+
+	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
@@ -83,6 +86,48 @@ final class NotificationsPageController {
 			'favorite' => count( array_filter( $all, static fn( array $n ) => ! empty( $n['favorited'] ) && empty( $n['archived'] ) ) ),
 			'archived' => count( array_filter( $all, static fn( array $n ) => ! empty( $n['archived'] ) ) ),
 		);
+	}
+
+	/**
+	 * Archive any active (non-archived) notification whose target update — or
+	 * internal note — no longer exists, so dead links never linger in the
+	 * active tabs, whatever route deleted them. Bounded by the per-user cap
+	 * (<=50) and backed by cached update lookups.
+	 */
+	private function archive_dead_targets( int $user_id ): void {
+		foreach ( AdminBarNotificationStore::get_all( $user_id ) as $n ) {
+			if ( ! empty( $n['archived'] ) ) {
+				continue;
+			}
+			if ( $this->target_is_gone( $n ) ) {
+				AdminBarNotificationStore::set_archived( (string) ( $n['key'] ?? '' ), $user_id, true );
+			}
+		}
+	}
+
+	/** True when the notification points at an update (or internal note) that's been deleted. */
+	private function target_is_gone( array $n ): bool {
+		$update_id = (int) ( $n['update_id'] ?? 0 );
+		if ( ! $update_id ) {
+			return false; // No target to chase — leave it alone.
+		}
+
+		if ( empty( $this->order_updates_db->get_update( $update_id )['id'] ) ) {
+			return true; // The whole update is gone.
+		}
+
+		// Internal notes can be deleted on their own; customer notes can't, so
+		// we only verify the internal kind (mention / internal participant reply).
+		$note_id          = (int) ( $n['note_id'] ?? 0 );
+		$type             = (string) ( $n['type'] ?? '' );
+		$is_internal_note = 'mention' === $type
+			|| ( 'participant_reply' === $type && 'internal' === ( $n['note_type'] ?? '' ) );
+
+		if ( $note_id > 0 && $is_internal_note && empty( $this->order_updates_db->get_update_note_by_id( $note_id )['id'] ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function register_page(): void {
@@ -211,8 +256,13 @@ final class NotificationsPageController {
 		);
 
 		$user_id = get_current_user_id();
-		$all     = AdminBarNotificationStore::get_all( $user_id );
-		$counts  = $this->bucket_counts( $all );
+
+		// Self-heal: archive any active notification whose update/note is gone,
+		// so dead links never linger in the active tabs (whatever deleted them).
+		$this->archive_dead_targets( $user_id );
+
+		$all    = AdminBarNotificationStore::get_all( $user_id );
+		$counts = $this->bucket_counts( $all );
 
 		// Listing params (read-only navigation, no nonce needed).
 		$status    = isset( $_GET['filter_status'] ) ? sanitize_key( wp_unslash( (string) $_GET['filter_status'] ) ) : '';
