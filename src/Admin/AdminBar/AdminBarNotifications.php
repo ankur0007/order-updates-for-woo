@@ -35,15 +35,11 @@ final class AdminBarNotifications {
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
 	public function init(): void {
-		add_action( 'admin_bar_menu', array( $this, 'add_nodes' ), 999 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_filter( 'heartbeat_received', array( $this, 'handle_heartbeat' ), 10, 2 );
-		add_action( 'wp_ajax_' . Constants::ADMIN_BAR_DISMISS_ACTION, array( $this, 'handle_dismiss' ) );
-		add_action( 'wp_ajax_' . Constants::ADMIN_BAR_DISMISS_FOR_UPDATE_ACTION, array( $this, 'handle_dismiss_for_update' ) );
-		add_action( 'wp_ajax_' . Constants::ADMIN_BAR_DISMISS_ALL_ACTION, array( $this, 'handle_dismiss_all' ) );
-
-		// Create admin bar notifications on assignment, mention, and customer reply.
+		// The admin-bar notifications item is intentionally not rendered: the
+		// unread count now lives on the Notifications submenu (and its menu
+		// bubble), so the bar indicator was redundant. The hooks below still
+		// record notifications — they feed that submenu count and the
+		// Notifications page.
 		add_action( 'order_updates_for_woo_admin_bar_assigned', array( $this, 'on_assigned' ), 10, 4 );
 		add_action( 'order_updates_for_woo_admin_bar_mention', array( $this, 'on_mention' ), 10, 5 );
 		add_action( 'order_updates_for_woo_after_customer_submit', array( $this, 'on_customer_submit' ), 10, 3 );
