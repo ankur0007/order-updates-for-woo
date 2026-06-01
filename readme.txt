@@ -124,7 +124,7 @@ This plugin includes an optional newsletter signup form on the plugin's welcome 
 
 It sends the email address the administrator types into the form and the site's home URL, only when the administrator types an email and explicitly clicks "Subscribe". Nothing is sent automatically and nothing is sent without that click. The request goes to a Cloudflare Worker we operate, which forwards the email to Mailchimp's list-subscribe API.
 
-This service is provided by Cloudflare (the relay) and Mailchimp (the list provider): [Cloudflare terms of use](https://www.cloudflare.com/website-terms/), [Cloudflare privacy policy](https://www.cloudflare.com/privacypolicy/), [Mailchimp terms of use](https://mailchimp.com/legal/terms/), [Mailchimp privacy policy](https://mailchimp.com/legal/privacy/). The Worker endpoint the plugin posts to is https://shrill-breeze-aef9.order-update-for-woocommerce.workers.dev/subscribe.
+This service is provided by Cloudflare (the relay) and Mailchimp (the list provider): [Cloudflare terms of use](https://www.cloudflare.com/website-terms/), [Cloudflare privacy policy](https://www.cloudflare.com/privacypolicy/), [Mailchimp terms of use](https://mailchimp.com/legal/terms/), [Mailchimp privacy policy](https://mailchimp.com/legal/privacy/). The endpoint the plugin posts to is https://newsletter.orderupdatesforwoo.com/subscribe.
 
 = In-admin plugin review form (Web3Forms) =
 

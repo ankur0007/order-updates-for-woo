@@ -124,7 +124,7 @@ final class Constants {
 
 	// Newsletter (admin welcome screen subscribe form).
 	public const NEWSLETTER_EMAIL_OPTION  = 'order_updates_for_woo_newsletter_email';
-	public const NEWSLETTER_SUBSCRIBE_URL = 'https://shrill-breeze-aef9.order-update-for-woocommerce.workers.dev/subscribe';
+	public const NEWSLETTER_SUBSCRIBE_URL = 'https://newsletter.orderupdatesforwoo.com/subscribe';
 
 	// Note edit / delete window option (in minutes; default 15, clamped 1–1440).
 	public const NOTE_EDIT_WINDOW_OPTION = 'order_updates_for_woo_note_edit_window_minutes';
