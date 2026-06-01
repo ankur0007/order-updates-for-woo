@@ -833,6 +833,14 @@ button.awts_onboarding_dismiss {
 	outline-offset: 1px;
 }
 
+/* Tabs convey state through their active class, and one is focused on load —
+   so never draw a focus box on a tab (it looked like a stray border). */
+.awts_panel .awts_card_tab:focus,
+.awts_panel .awts_card_tab:focus-visible {
+	outline: none;
+	box-shadow: none;
+}
+
 /* Smooth scroll inside the plugin's scroll areas. */
 .awts_panel,
 .awts_notes_thread,
