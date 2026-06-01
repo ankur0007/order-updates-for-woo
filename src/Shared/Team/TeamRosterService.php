@@ -81,4 +81,34 @@ final class TeamRosterService {
 	public function flush_cache(): void {
 		delete_transient( self::ROSTER_TRANSIENT );
 	}
+
+	/**
+	 * True when the user holds at least one of the configured internal-team
+	 * roles. Used to gate internal-note endpoints + UI so a shop_manager not
+	 * in the team list cannot see or post internal notes.
+	 */
+	public static function user_is_team_member( ?int $user_id = null ): bool {
+		$user_id = $user_id ?? get_current_user_id();
+
+		if ( $user_id <= 0 ) {
+			return false;
+		}
+
+		$user = get_userdata( $user_id );
+
+		if ( ! $user || empty( $user->roles ) ) {
+			return false;
+		}
+
+		$stored  = get_option( self::ROLES_OPTION, null );
+		$allowed = is_array( $stored )
+			? array_values( array_unique( array_filter( array_map( 'sanitize_key', $stored ) ) ) )
+			: array();
+
+		if ( empty( $allowed ) ) {
+			$allowed = self::DEFAULT_ROLES;
+		}
+
+		return (bool) array_intersect( (array) $user->roles, $allowed );
+	}
 }

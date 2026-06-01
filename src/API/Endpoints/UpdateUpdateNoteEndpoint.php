@@ -9,6 +9,7 @@ use OrderUpdatesForWoo\API\Concerns\VerifiesAccess;
 use OrderUpdatesForWoo\API\Contracts\Registrable;
 use OrderUpdatesForWoo\Helpers\DateHelper;
 use OrderUpdatesForWoo\Shared\Config\Constants;
+use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\NoteActionPolicy;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Validation\Validator;
@@ -66,7 +67,10 @@ final class UpdateUpdateNoteEndpoint implements Registrable {
 
 		$update = $this->order_updates_db->get_update( absint( $note['update_id'] ?? 0 ) );
 
-		if ( ! $this->is_authorized_for_order( absint( $update['order_id'] ?? 0 ) ) ) {
+		if (
+			! $this->is_authorized_for_order( absint( $update['order_id'] ?? 0 ) )
+			|| ! TeamRosterService::user_is_team_member()
+		) {
 			return new WP_Error( 'order_updates_for_woo_forbidden', __( 'You are not allowed to edit this note.', 'order-updates-for-woo' ), array( 'status' => 403 ) );
 		}
 

@@ -13,6 +13,7 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Updates\NoteActionPolicy;
 use OrderUpdatesForWoo\Shared\Updates\UpdateNoteService;
 use OrderUpdatesForWoo\Shared\Config\Constants;
+use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Validation\Validator;
 use WP_Error;
 use WP_REST_Request;
@@ -50,7 +51,10 @@ final class AddUpdateNoteEndpoint implements Registrable {
 
 		$update = $this->order_updates_db->get_update( absint( $request->get_param( 'update_id' ) ) );
 
-		if ( $this->is_authorized_for_order( absint( $update['order_id'] ?? 0 ) ) ) {
+		if (
+			$this->is_authorized_for_order( absint( $update['order_id'] ?? 0 ) )
+			&& TeamRosterService::user_is_team_member()
+		) {
 			return true;
 		}
 
