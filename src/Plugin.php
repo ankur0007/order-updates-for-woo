@@ -46,6 +46,7 @@ use OrderUpdatesForWoo\Shared\Analytics\AnalyticsLookupTable;
 use OrderUpdatesForWoo\Admin\AdminBar\AdminBarNotifications;
 use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Admin\Analytics\AnalyticsController;
+use OrderUpdatesForWoo\Admin\Notifications\NotificationsPageController;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Admin\Notifications\AdminNotifications;
 use OrderUpdatesForWoo\Welcome\Controllers\OnboardingController;
@@ -163,6 +164,7 @@ final class Plugin {
 		$team_roster->init();
 		$rest->init();
 		( new AdminMenuController() )->init();
+		( new NotificationsPageController() )->init();
 		( new OrderDeletionController( $db, $attachment_service ) )->init();
 		( new \OrderUpdatesForWoo\Admin\Orders\DeletedUpdatesMetaBox() )->init();
 		( new AdminHeartbeatHandler( $db, $note_action_policy, $attachments_db ) )->init();

@@ -1,0 +1,363 @@
+/* Notifications inbox — lightweight custom list (no WP_List_Table). */
+
+.awts-inbox__title {
+	margin-bottom: 16px;
+}
+
+.awts-inbox__card {
+	max-width: none;
+	margin-right: 20px;
+	border: 1px solid #e2e4e7;
+	border-radius: 10px;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba( 0, 0, 0, .04 );
+	overflow: hidden;
+}
+
+/* Header: tabs + search */
+.awts-inbox__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 12px 18px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.awts-inbox__tabs {
+	display: flex;
+	gap: 6px;
+}
+
+.awts-inbox__tab {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	border-radius: 999px;
+	color: #50575e;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.awts-inbox__tab:hover {
+	background: #f3f5f7;
+	color: #1d2327;
+}
+
+.awts-inbox__tab.is-active {
+	background: #2271b1;
+	color: #fff;
+}
+
+.awts-inbox__tab-count {
+	min-width: 20px;
+	padding: 1px 7px;
+	border-radius: 999px;
+	background: rgba( 0, 0, 0, .08 );
+	font-size: 11px;
+	line-height: 18px;
+	text-align: center;
+}
+
+.awts-inbox__tab.is-active .awts-inbox__tab-count {
+	background: rgba( 255, 255, 255, .25 );
+}
+
+.awts-inbox__search {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 10px;
+	border: 1px solid #dcdcde;
+	border-radius: 999px;
+	background: #f6f7f7;
+}
+
+.awts-inbox__search .dashicons {
+	color: #787c82;
+}
+
+.awts-inbox__search input[type="search"] {
+	width: 200px;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+	outline: none;
+}
+
+.awts-inbox__search input[type="search"]:focus {
+	box-shadow: none;
+}
+
+/* Bulk bar */
+.awts-inbox__bulkbar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 18px;
+	border-bottom: 1px solid #f0f0f1;
+	background: #fbfbfc;
+}
+
+.awts-inbox__selectall {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: #50575e;
+	font-size: 13px;
+}
+
+/* Bulk buttons only appear once something is selected (no faded/disabled look). */
+.awts-inbox__bulk-btn {
+	display: none;
+}
+
+.awts-inbox__bulkbar.is-active .awts-inbox__bulk-btn {
+	display: inline-flex;
+}
+
+.awts-inbox__bulk-btn--danger.button {
+	color: #d63638;
+	border-color: #d63638;
+}
+
+/* Rows */
+.awts-inbox__list {
+	margin: 0;
+}
+
+.awts-inbox__row {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin: 0;
+	padding: 14px 18px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.awts-inbox__row:last-child {
+	border-bottom: 0;
+}
+
+.awts-inbox__row.is-unread {
+	background: #f6f9ff;
+	box-shadow: inset 3px 0 0 #2271b1;
+}
+
+.awts-inbox__row:hover {
+	background: #f3f5f7;
+}
+
+.awts-inbox__dot {
+	flex: 0 0 8px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #2271b1;
+	visibility: hidden;
+}
+
+.awts-inbox__row.is-unread .awts-inbox__dot {
+	visibility: visible;
+}
+
+.awts-inbox__icon {
+	display: flex;
+	flex: 0 0 38px;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: #eef1f5;
+	color: #50575e;
+}
+
+.awts-inbox__icon .dashicons {
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+}
+
+.awts-inbox__body {
+	flex: 1 1 auto;
+	min-width: 0;
+	color: inherit;
+	text-decoration: none;
+}
+
+.awts-inbox__body:hover .awts-inbox__label {
+	color: #2271b1;
+}
+
+.awts-inbox__text {
+	display: block;
+}
+
+.awts-inbox__label {
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.awts-inbox__row.is-read .awts-inbox__label {
+	font-weight: 400;
+}
+
+.awts-inbox__snippet {
+	color: #50575e;
+}
+
+.awts-inbox__byline {
+	display: block;
+	margin-top: 2px;
+	font-size: 12px;
+	color: #646970;
+}
+
+.awts-inbox__meta {
+	display: block;
+	margin-top: 2px;
+	font-size: 12px;
+	color: #787c82;
+}
+
+.awts-inbox__time {
+	flex: 0 0 auto;
+	font-size: 12px;
+	color: #787c82;
+	white-space: nowrap;
+}
+
+.awts-inbox__actions {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 4px;
+}
+
+.awts-inbox__fav .dashicons-star-filled {
+	color: #dba617;
+}
+
+.awts-inbox__action {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 6px;
+	color: #787c82;
+	text-decoration: none;
+	transition: background .12s ease, color .12s ease;
+}
+
+.awts-inbox__action:hover {
+	background: #e9ebee;
+	color: #1d2327;
+}
+
+.awts-inbox__action--danger:hover {
+	background: #fcebec;
+	color: #d63638;
+}
+
+/* Custom tooltip — dark pill above the icon, fades in on hover. */
+.awts-inbox__action[data-awts-tip]::after {
+	content: attr(data-awts-tip);
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	z-index: 5;
+	padding: 5px 9px;
+	border-radius: 6px;
+	background: #1d2327;
+	color: #fff;
+	font-size: 11px;
+	line-height: 1.4;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateX( -50% ) translateY( 4px );
+	transition: opacity .12s ease, transform .12s ease;
+}
+
+.awts-inbox__action[data-awts-tip]::before {
+	content: "";
+	position: absolute;
+	bottom: calc(100% + 3px);
+	left: 50%;
+	z-index: 5;
+	border: 5px solid transparent;
+	border-top-color: #1d2327;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateX( -50% ) translateY( 4px );
+	transition: opacity .12s ease, transform .12s ease;
+}
+
+.awts-inbox__action[data-awts-tip]:hover::after,
+.awts-inbox__action[data-awts-tip]:hover::before {
+	opacity: 1;
+	transform: translateX( -50% ) translateY( 0 );
+}
+
+/* Archived-tab notice */
+.awts-inbox__notice {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 10px 18px;
+	border-bottom: 1px solid #f0f0f1;
+	background: #fcf9e8;
+	color: #50575e;
+	font-size: 13px;
+}
+
+.awts-inbox__notice .dashicons {
+	color: #b08800;
+}
+
+/* Empty + footer */
+.awts-inbox__empty {
+	margin: 0;
+	padding: 40px 18px;
+	color: #787c82;
+	text-align: center;
+}
+
+.awts-inbox__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 18px;
+	border-top: 1px solid #f0f0f1;
+	color: #787c82;
+	font-size: 13px;
+}
+
+.awts-inbox__pager {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.awts-inbox__page-link {
+	text-decoration: none;
+}
+
+@media screen and ( max-width: 600px ) {
+	.awts-inbox__head {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.awts-inbox__search input[type="search"] {
+		width: 100%;
+	}
+
+	.awts-inbox__time {
+		display: none;
+	}
+}

@@ -166,7 +166,8 @@ final class DeleteUpdateEndpoint implements Registrable {
 			absint( $update['id'] ?? 0 ),
 			absint( $update['order_id'] ?? 0 ),
 			(string) ( $update['title'] ?? '' ),
-			$creator_id
+			$creator_id,
+			$actor_name
 		);
 	}
 
@@ -218,7 +219,8 @@ final class DeleteUpdateEndpoint implements Registrable {
 			absint( $update['id'] ?? 0 ),
 			absint( $update['order_id'] ?? 0 ),
 			(string) ( $update['title'] ?? '' ),
-			$assignee_id
+			$assignee_id,
+			$actor_name
 		);
 	}
 

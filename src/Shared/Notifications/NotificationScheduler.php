@@ -95,6 +95,8 @@ final class NotificationScheduler {
 			// The actor is whoever made the reassignment, so the email can
 			// say "John reassigned…" instead of crediting the creator.
 			$actor_user_id = get_current_user_id();
+			$actor_user    = get_userdata( $actor_user_id );
+			$actor_name    = $actor_user instanceof \WP_User ? (string) $actor_user->display_name : '';
 
 			$update_title = (string) ( $update_data['title'] ?? $existing_update['title'] ?? '' );
 			$order_id     = absint( $update_data['order_id'] ?? $existing_update['order_id'] ?? 0 );
@@ -110,7 +112,7 @@ final class NotificationScheduler {
 				&& $old_assignee_id !== $actor_user_id
 				&& $old_assignee_id !== $new_assignee_id
 			) {
-				AdminBarNotificationStore::add_unassigned( $update_id, $order_id, $update_title, $old_assignee_id );
+				AdminBarNotificationStore::add_unassigned( $update_id, $order_id, $update_title, $old_assignee_id, $actor_name );
 			}
 
 			if (
@@ -120,7 +122,7 @@ final class NotificationScheduler {
 				&& $creator_id !== $new_assignee_id
 				&& $creator_id !== $old_assignee_id
 			) {
-				AdminBarNotificationStore::add_assignee_changed( $update_id, $order_id, $update_title, $creator_id );
+				AdminBarNotificationStore::add_assignee_changed( $update_id, $order_id, $update_title, $creator_id, $actor_name );
 			}
 
 			if (

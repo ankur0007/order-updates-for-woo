@@ -18,9 +18,12 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
  *   update_id — int
  *   order_id  — int
  *   note_id   — int (0 for assigned type)
- *   title     — display text for the notification row
- *   time      — Unix timestamp
- *   dismissed — bool
+ *   title       — display text for the notification row
+ *   time        — Unix timestamp
+ *   dismissed   — bool, true once read
+ *   favorited   — bool, starred by the user
+ *   archived    — bool, moved out of the active list
+ *   archived_at — Unix timestamp the row was archived (0 when not archived)
  */
 final class AdminBarNotificationStore {
 	private const META_KEY   = 'order_updates_for_woo_notifications';
@@ -28,14 +31,13 @@ final class AdminBarNotificationStore {
 	private const CACHE_TTL  = 30;
 	private const MAX_STORED = 50;
 
-	/** Notify $user_id that they were assigned to an update. Keyed by update — silently ignored if already stored. */
 	/**
 	 * Notify $user_id that an update they created was deleted by someone
 	 * else. The deleted update's row is already gone so we key off the
-	 * combination of update_id + actor + time to keep the entry uniquely
-	 * dismissable. Title holds the update title so the row reads cleanly.
+	 * update_id to keep the entry uniquely dismissable. Title holds the
+	 * update title; $actor is who deleted it.
 	 */
-	public static function add_deleted( int $update_id, int $order_id, string $title, int $user_id ): void {
+	public static function add_deleted( int $update_id, int $order_id, string $title, int $user_id, string $actor = '' ): void {
 		if ( ! $update_id || ! $user_id ) {
 			return;
 		}
@@ -48,6 +50,7 @@ final class AdminBarNotificationStore {
 				'order_id'  => $order_id,
 				'note_id'   => 0,
 				'title'     => $title,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
@@ -59,7 +62,7 @@ final class AdminBarNotificationStore {
 	 * update. Keyed by update_id so a series of reassignments doesn't pile
 	 * up multiple "you were unassigned" rows for the same ticket.
 	 */
-	public static function add_unassigned( int $update_id, int $order_id, string $title, int $user_id ): void {
+	public static function add_unassigned( int $update_id, int $order_id, string $title, int $user_id, string $actor = '' ): void {
 		if ( ! $update_id || ! $user_id ) {
 			return;
 		}
@@ -72,6 +75,7 @@ final class AdminBarNotificationStore {
 				'order_id'  => $order_id,
 				'note_id'   => 0,
 				'title'     => $title,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
@@ -83,7 +87,7 @@ final class AdminBarNotificationStore {
 	 * created has changed. Keyed by update_id so multiple reassignments
 	 * coalesce into one notification row.
 	 */
-	public static function add_assignee_changed( int $update_id, int $order_id, string $title, int $user_id ): void {
+	public static function add_assignee_changed( int $update_id, int $order_id, string $title, int $user_id, string $actor = '' ): void {
 		if ( ! $update_id || ! $user_id ) {
 			return;
 		}
@@ -96,13 +100,15 @@ final class AdminBarNotificationStore {
 				'order_id'  => $order_id,
 				'note_id'   => 0,
 				'title'     => $title,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
 		);
 	}
 
-	public static function add_assigned( int $update_id, int $order_id, string $title, int $user_id ): void {
+	/** Notify $user_id that they were assigned to an update. Keyed by update; $actor is who assigned them. */
+	public static function add_assigned( int $update_id, int $order_id, string $title, int $user_id, string $actor = '' ): void {
 		if ( ! $update_id || ! $user_id ) {
 			return;
 		}
@@ -115,14 +121,15 @@ final class AdminBarNotificationStore {
 				'order_id'  => $order_id,
 				'note_id'   => 0,
 				'title'     => $title,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
 		);
 	}
 
-	/** Notify $user_id that a customer replied to an update they own. Keyed by note_id. */
-	public static function add_customer_reply( int $update_id, int $order_id, int $note_id, string $title, int $user_id ): void {
+	/** Notify $user_id that a customer replied to an update they own. Title holds the message; $actor the customer. Keyed by note_id. */
+	public static function add_customer_reply( int $update_id, int $order_id, int $note_id, string $title, int $user_id, string $actor = '' ): void {
 		if ( ! $update_id || ! $note_id || ! $user_id ) {
 			return;
 		}
@@ -135,14 +142,15 @@ final class AdminBarNotificationStore {
 				'order_id'  => $order_id,
 				'note_id'   => $note_id,
 				'title'     => $title,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
 		);
 	}
 
-	/** Notify $user_id that a staff member replied via the customer portal. Title stores the staff display name. Keyed by note_id. */
-	public static function add_staff_reply( int $update_id, int $order_id, int $note_id, string $staff_name, int $user_id ): void {
+	/** Notify $user_id that a staff member replied via the customer portal. Title holds the message; $actor the staff name. Keyed by note_id. */
+	public static function add_staff_reply( int $update_id, int $order_id, int $note_id, string $staff_name, int $user_id, string $title = '' ): void {
 		if ( ! $update_id || ! $note_id || ! $user_id || '' === trim( $staff_name ) ) {
 			return;
 		}
@@ -154,7 +162,8 @@ final class AdminBarNotificationStore {
 				'update_id' => $update_id,
 				'order_id'  => $order_id,
 				'note_id'   => $note_id,
-				'title'     => $staff_name,
+				'title'     => '' !== $title ? $title : $staff_name,
+				'actor'     => $staff_name,
 				'time'      => time(),
 			),
 			$user_id
@@ -167,9 +176,9 @@ final class AdminBarNotificationStore {
 	 * Sits beside add_mention but for the non-@mention case so the row shows
 	 * up under "Replies" instead of the explicit "You were tagged" bucket.
 	 * Keyed by note_id so the row collapses if multiple participants share
-	 * the same notification trail.
+	 * the same notification trail. $actor is the note author.
 	 */
-	public static function add_participant_reply( int $update_id, int $order_id, int $note_id, string $snippet, int $user_id, string $note_type = '' ): void {
+	public static function add_participant_reply( int $update_id, int $order_id, int $note_id, string $snippet, int $user_id, string $note_type = '', string $actor = '' ): void {
 		if ( ! $update_id || ! $note_id || ! $user_id ) {
 			return;
 		}
@@ -188,14 +197,15 @@ final class AdminBarNotificationStore {
 				// notifications fan out for both kinds.
 				'note_type' => $note_type,
 				'title'     => $snippet,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
 		);
 	}
 
-	/** Notify $user_id that they were @mentioned in a note. Title stores the note text snippet. Keyed by note_id. */
-	public static function add_mention( int $update_id, int $order_id, int $note_id, string $snippet, int $user_id ): void {
+	/** Notify $user_id that they were @mentioned in a note. Title holds the snippet; $actor the tagger. Keyed by note_id. */
+	public static function add_mention( int $update_id, int $order_id, int $note_id, string $snippet, int $user_id, string $actor = '' ): void {
 		if ( ! $update_id || ! $note_id || ! $user_id ) {
 			return;
 		}
@@ -208,6 +218,7 @@ final class AdminBarNotificationStore {
 				'order_id'  => $order_id,
 				'note_id'   => $note_id,
 				'title'     => $snippet,
+				'actor'     => $actor,
 				'time'      => time(),
 			),
 			$user_id
@@ -229,12 +240,18 @@ final class AdminBarNotificationStore {
 			return $cached;
 		}
 
+		// Active = unread and not archived — what the admin bar badge counts.
 		$all    = self::get_raw( $user_id );
-		$active = array_values( array_filter( $all, static fn( array $n ) => empty( $n['dismissed'] ) ) );
+		$active = array_values( array_filter( $all, static fn( array $n ) => empty( $n['dismissed'] ) && empty( $n['archived'] ) ) );
 
 		wp_cache_set( $cache_key, $active, Constants::CACHE_GROUP, self::CACHE_TTL );
 
 		return $active;
+	}
+
+	/** Unread, non-archived count — drives the admin-bar badge. */
+	public static function unread_count( int $user_id ): int {
+		return count( self::get_active( $user_id ) );
 	}
 
 	public static function dismiss( string $key, int $user_id ): void {
@@ -359,6 +376,278 @@ final class AdminBarNotificationStore {
 
 	public static function clear_cache( int $user_id ): void {
 		wp_cache_delete( self::CACHE_PFX . $user_id, Constants::CACHE_GROUP );
+	}
+
+	/**
+	 * All notifications for a user — both active and dismissed. The history
+	 * page renders both, then differentiates read (dismissed) vs unread visually.
+	 *
+	 * @return array<int, array{key:string, type:string, update_id:int, order_id:int, note_id:int, title:string, time:int, dismissed?:bool}>
+	 */
+	public static function get_all( int $user_id ): array {
+		if ( ! $user_id ) {
+			return array();
+		}
+
+		return self::get_raw( $user_id );
+	}
+
+	/** Flip one notification's read state — the page can mark read or unread. */
+	public static function set_read( string $key, int $user_id, bool $read ): void {
+		self::update_one(
+			$key,
+			$user_id,
+			static function ( array &$n ) use ( $read ): bool {
+				if ( (bool) ( $n['dismissed'] ?? false ) === $read ) {
+					return false;
+				}
+				$n['dismissed'] = $read;
+				return true;
+			}
+		);
+	}
+
+	/** Star / unstar one notification. */
+	public static function set_favorite( string $key, int $user_id, bool $favorite ): void {
+		self::update_one(
+			$key,
+			$user_id,
+			static function ( array &$n ) use ( $favorite ): bool {
+				if ( (bool) ( $n['favorited'] ?? false ) === $favorite ) {
+					return false;
+				}
+				$n['favorited'] = $favorite;
+				return true;
+			}
+		);
+	}
+
+	/** Archive / unarchive one notification. Stamps archived_at so cleanup can age it out. */
+	public static function set_archived( string $key, int $user_id, bool $archived ): void {
+		self::update_one(
+			$key,
+			$user_id,
+			static function ( array &$n ) use ( $archived ): bool {
+				if ( (bool) ( $n['archived'] ?? false ) === $archived ) {
+					return false;
+				}
+				$n['archived']    = $archived;
+				$n['archived_at'] = $archived ? time() : 0;
+				return true;
+			}
+		);
+	}
+
+	/**
+	 * Bulk archive by key list. One write, one cache bust.
+	 *
+	 * @param string[] $keys
+	 */
+	public static function archive_many( array $keys, int $user_id ): void {
+		if ( empty( $keys ) || ! $user_id ) {
+			return;
+		}
+
+		$set = array_flip( array_map( 'strval', $keys ) );
+		self::update_all(
+			$user_id,
+			static function ( array &$n ) use ( $set ): bool {
+				if ( ! isset( $set[ (string) ( $n['key'] ?? '' ) ] ) || ! empty( $n['archived'] ) ) {
+					return false;
+				}
+				$n['archived']    = true;
+				$n['archived_at'] = time();
+				return true;
+			}
+		);
+	}
+
+	/**
+	 * Drop notifications whose state bucket is in $tags and that are older
+	 * than $days. Runs from the scheduled cleanup. Buckets: 'archived' ages
+	 * off archived_at, the rest off time. Favorited rows are always kept.
+	 *
+	 * @param string[] $tags e.g. array( 'archived', 'read' )
+	 */
+	public static function purge_expired( int $user_id, array $tags, int $days ): void {
+		if ( ! $user_id || empty( $tags ) || $days < 1 ) {
+			return;
+		}
+
+		$cutoff   = time() - ( $days * DAY_IN_SECONDS );
+		$tags     = array_flip( $tags );
+		$all      = self::get_raw( $user_id );
+		$filtered = array_values(
+			array_filter(
+				$all,
+				static function ( array $n ) use ( $tags, $cutoff ): bool {
+					$bucket = self::bucket_for( $n );
+					if ( ! isset( $tags[ $bucket ] ) ) {
+						return true; // Not a purgeable tag — keep.
+					}
+					$stamp = 'archived' === $bucket ? (int) ( $n['archived_at'] ?? 0 ) : (int) ( $n['time'] ?? 0 );
+					return $stamp >= $cutoff; // Keep while newer than the cutoff.
+				}
+			)
+		);
+
+		if ( count( $filtered ) === count( $all ) ) {
+			return;
+		}
+
+		if ( empty( $filtered ) ) {
+			delete_user_meta( $user_id, self::META_KEY );
+		} else {
+			update_user_meta( $user_id, self::META_KEY, $filtered );
+		}
+
+		self::clear_cache( $user_id );
+	}
+
+	/**
+	 * User ids that currently hold any notifications — bounded by staff size.
+	 * Lets the cleanup scheduler chunk work one user at a time.
+	 *
+	 * @return int[]
+	 */
+	public static function user_ids_with_notifications(): array {
+		global $wpdb;
+
+		$ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s",
+				self::META_KEY
+			)
+		);
+
+		return array_map( 'intval', $ids );
+	}
+
+	/** State bucket used by the cleanup tag match. Favorited always wins so favourites are never purged. */
+	private static function bucket_for( array $n ): string {
+		if ( ! empty( $n['favorited'] ) ) {
+			return 'favorite';
+		}
+		if ( ! empty( $n['archived'] ) ) {
+			return 'archived';
+		}
+		if ( ! empty( $n['dismissed'] ) ) {
+			return 'read';
+		}
+		return 'unread';
+	}
+
+	/** Mutate the single row matching $key via $mutator (true if it changed); save once if anything changed. */
+	private static function update_one( string $key, int $user_id, callable $mutator ): void {
+		if ( '' === $key || ! $user_id ) {
+			return;
+		}
+
+		$all     = self::get_raw( $user_id );
+		$changed = false;
+
+		foreach ( $all as &$n ) {
+			if ( ( $n['key'] ?? '' ) === $key && $mutator( $n ) ) {
+				$changed = true;
+			}
+		}
+		unset( $n );
+
+		if ( $changed ) {
+			update_user_meta( $user_id, self::META_KEY, $all );
+			self::clear_cache( $user_id );
+		}
+	}
+
+	/** Run $mutator over every row (true if it changed); save once if anything changed. */
+	private static function update_all( int $user_id, callable $mutator ): void {
+		if ( ! $user_id ) {
+			return;
+		}
+
+		$all     = self::get_raw( $user_id );
+		$changed = false;
+
+		foreach ( $all as &$n ) {
+			if ( $mutator( $n ) ) {
+				$changed = true;
+			}
+		}
+		unset( $n );
+
+		if ( $changed ) {
+			update_user_meta( $user_id, self::META_KEY, $all );
+			self::clear_cache( $user_id );
+		}
+	}
+
+	/** Physically remove one notification from the store (vs dismiss, which just marks it read). */
+	public static function delete( string $key, int $user_id ): void {
+		if ( ! $key || ! $user_id ) {
+			return;
+		}
+
+		$all      = self::get_raw( $user_id );
+		$filtered = array_values( array_filter( $all, static fn( array $n ) => ( $n['key'] ?? '' ) !== $key ) );
+
+		if ( count( $filtered ) === count( $all ) ) {
+			return;
+		}
+
+		update_user_meta( $user_id, self::META_KEY, $filtered );
+		self::clear_cache( $user_id );
+	}
+
+	/**
+	 * Bulk delete by key list. One write, one cache bust — used by the
+	 * notifications history page's bulk-action handler.
+	 *
+	 * @param string[] $keys
+	 */
+	public static function delete_many( array $keys, int $user_id ): void {
+		if ( empty( $keys ) || ! $user_id ) {
+			return;
+		}
+
+		$keys     = array_flip( array_map( 'strval', $keys ) );
+		$all      = self::get_raw( $user_id );
+		$filtered = array_values( array_filter( $all, static fn( array $n ) => ! isset( $keys[ (string) ( $n['key'] ?? '' ) ] ) ) );
+
+		if ( count( $filtered ) === count( $all ) ) {
+			return;
+		}
+
+		update_user_meta( $user_id, self::META_KEY, $filtered );
+		self::clear_cache( $user_id );
+	}
+
+	/**
+	 * Bulk mark-as-read by key list. Mirrors dismiss() but accepts many keys
+	 * and writes once. Marks rows as dismissed; does not remove from storage.
+	 *
+	 * @param string[] $keys
+	 */
+	public static function dismiss_many( array $keys, int $user_id ): void {
+		if ( empty( $keys ) || ! $user_id ) {
+			return;
+		}
+
+		$keys    = array_flip( array_map( 'strval', $keys ) );
+		$all     = self::get_raw( $user_id );
+		$changed = false;
+
+		foreach ( $all as &$n ) {
+			if ( isset( $keys[ (string) ( $n['key'] ?? '' ) ] ) && empty( $n['dismissed'] ) ) {
+				$n['dismissed'] = true;
+				$changed        = true;
+			}
+		}
+		unset( $n );
+
+		if ( $changed ) {
+			update_user_meta( $user_id, self::META_KEY, $all );
+			self::clear_cache( $user_id );
+		}
 	}
 
 	private static function store( array $notification, int $user_id ): void {

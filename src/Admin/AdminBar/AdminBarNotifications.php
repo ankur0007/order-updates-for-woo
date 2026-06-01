@@ -60,11 +60,18 @@ final class AdminBarNotifications {
 	}
 
 	public function on_assigned( int $update_id, int $order_id, string $title, int $user_id ): void {
-		AdminBarNotificationStore::add_assigned( $update_id, $order_id, $title, $user_id );
+		AdminBarNotificationStore::add_assigned( $update_id, $order_id, $title, $user_id, $this->current_actor_name() );
 	}
 
 	public function on_mention( int $update_id, int $order_id, int $note_id, string $snippet, int $user_id ): void {
-		AdminBarNotificationStore::add_mention( $update_id, $order_id, $note_id, $snippet, $user_id );
+		AdminBarNotificationStore::add_mention( $update_id, $order_id, $note_id, $snippet, $user_id, $this->current_actor_name() );
+	}
+
+	/** Display name of whoever triggered the current action — the "By …" line on a notification row. */
+	private function current_actor_name(): string {
+		$user = wp_get_current_user();
+
+		return $user && $user->exists() ? (string) $user->display_name : '';
 	}
 
 	/**
@@ -87,6 +94,7 @@ final class AdminBarNotifications {
 		$owner_user_id = (int) ( $context['owner_user_id'] ?? 0 );
 		$update        = $this->order_updates_db->get_update( $update_id );
 		$title         = (string) ( $update['title'] ?? '' );
+		$customer_name = (string) ( $context['note_author']['name'] ?? '' );
 
 		// Pull in everyone who has previously commented on this update so the
 		// whole staff thread sees the new reply, not just the current assignee
@@ -113,7 +121,7 @@ final class AdminBarNotifications {
 		);
 
 		foreach ( $recipients as $recipient_user_id ) {
-			AdminBarNotificationStore::add_customer_reply( $update_id, $order_id, $note_id, $title, (int) $recipient_user_id );
+			AdminBarNotificationStore::add_customer_reply( $update_id, $order_id, $note_id, $title, (int) $recipient_user_id, $customer_name );
 		}
 	}
 
@@ -439,6 +447,18 @@ final class AdminBarNotifications {
 				'title'  => esc_html__( 'Clear all', 'order-updates-for-woo' ),
 				'href'   => '#',
 				'meta'   => array( 'class' => 'awts-ab-clear-all' ),
+			)
+		);
+
+		// "Show all" — opens the full notifications history page (active +
+		// dismissed) where bulk Mark-as-read / Delete with filters lives.
+		$wp_admin_bar->add_node(
+			array(
+				'parent' => self::NODE_ID,
+				'id'     => 'awts_admin_bar_show_all',
+				'title'  => esc_html__( 'Show all', 'order-updates-for-woo' ),
+				'href'   => admin_url( 'admin.php?page=' . \OrderUpdatesForWoo\Admin\Notifications\NotificationsPageController::SLUG ),
+				'meta'   => array( 'class' => 'awts-ab-show-all' ),
 			)
 		);
 	}

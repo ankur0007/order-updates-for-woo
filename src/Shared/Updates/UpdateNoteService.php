@@ -156,7 +156,8 @@ final class UpdateNoteService {
 				$note_id,
 				$snippet,
 				$recipient_user_id,
-				$note_type
+				$note_type,
+				(string) ( $note_author['name'] ?? '' )
 			);
 
 			$this->async_job->queue(
