@@ -169,7 +169,7 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 								</a>
 
 								<?php if ( '' !== (string) $row['reply_url'] ) : ?>
-									<a class="awts-inbox__action" href="<?php echo esc_url( (string) $row['reply_url'] ); ?>" data-awts-tip="<?php esc_attr_e( 'Reply', 'order-updates-for-woo' ); ?>" aria-label="<?php esc_attr_e( 'Reply', 'order-updates-for-woo' ); ?>">
+									<a class="awts-inbox__action" href="<?php echo esc_url( (string) $row['reply_url'] ); ?>" target="_blank" rel="noopener noreferrer" data-awts-tip="<?php esc_attr_e( 'Reply (opens in a new tab)', 'order-updates-for-woo' ); ?>" aria-label="<?php esc_attr_e( 'Reply (opens in a new tab)', 'order-updates-for-woo' ); ?>">
 										<span class="dashicons dashicons-format-chat" aria-hidden="true"></span>
 									</a>
 								<?php endif; ?>
