@@ -10,7 +10,6 @@ use OrderUpdatesForWoo\Helpers\AdminBarNotificationStore;
 use OrderUpdatesForWoo\Shared\Attachments\AttachmentService;
 use OrderUpdatesForWoo\Shared\Audit\DeletedUpdatesLog;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
-use OrderUpdatesForWoo\Helpers\UpdateState;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use WP_Error;
 use WP_REST_Request;
@@ -43,14 +42,11 @@ final class DeleteUpdateEndpoint implements Registrable {
 			return $error;
 		}
 
-		if ( current_user_can( 'manage_woocommerce' ) ) {
-			return true;
-		}
-
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$update = $update_id ? $this->order_updates_db->get_update( $update_id ) : array();
+		$update    = $update_id ? $this->order_updates_db->get_update( $update_id ) : array();
+		$order_id  = absint( is_array( $update ) ? ( $update['order_id'] ?? 0 ) : 0 );
 
-		if ( UpdateState::can_edit( is_array( $update ) ? $update : array() ) ) {
+		if ( $this->is_authorized_for_order( $order_id ) ) {
 			return true;
 		}
 
