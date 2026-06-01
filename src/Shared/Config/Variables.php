@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace OrderUpdatesForWoo\Shared\Config;
 
+// New getters in this file MUST reference Constants::*_OPTION keys, not
+// hardcoded strings. The older getters below pre-date the centralized
+// constants and are left as-is to avoid touching unrelated code in this
+// pass; lift them to constants when next touched.
+
 /**
  * Tunable plugin variables. Each getter reads the option so values can be
  * surfaced as settings without touching call sites. Defaults live here.
@@ -49,19 +54,19 @@ final class Variables {
 
 	/** Days a signed customer-facing email URL stays valid (clamped 1–365). */
 	public static function getCustomerLinkExpiryDays(): int {
-		$days = (int) get_option( 'order_updates_for_woo_customer_link_expiry_days', 30 );
+		$days = (int) get_option( Constants::CUSTOMER_LINK_EXPIRY_DAYS_OPTION, 30 );
 
 		return max( 1, min( 365, $days ) );
 	}
 
 	/** Whether the admin opted in to the "Powered by" credit in email footers. Default OFF per WP.org rules. */
 	public static function shouldShowEmailFooterCredit(): bool {
-		return 'yes' === get_option( 'order_updates_for_woo_show_email_footer_credit', 'no' );
+		return 'yes' === get_option( Constants::SHOW_EMAIL_FOOTER_CREDIT_OPTION, 'no' );
 	}
 
 	/** Support contact email shown when a customer's link has expired. */
 	public static function getSupportContactEmail(): string {
-		$configured = (string) get_option( 'order_updates_for_woo_support_contact_email', '' );
+		$configured = (string) get_option( Constants::SUPPORT_CONTACT_EMAIL_OPTION, '' );
 		$email      = '' !== $configured ? $configured : (string) get_option( 'admin_email', '' );
 
 		return is_email( $email ) ? $email : '';
