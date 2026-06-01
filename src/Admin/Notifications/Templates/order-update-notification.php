@@ -194,11 +194,14 @@ do_action('woocommerce_email_header', $email_heading, $email);
 	<?php echo wp_kses_post(wpautop(wptexturize($additional_content))); ?>
 <?php endif; ?>
 
-<?php if ( ! empty( $sent_to_admin ) ) : ?>
+<?php
+// Footer credit is opt-in only — WP.org requires explicit admin consent
+// before attribution appears in any user-facing surface, including emails.
+if ( ! empty( $sent_to_admin ) && \OrderUpdatesForWoo\Shared\Config\Variables::shouldShowEmailFooterCredit() ) : ?>
 <p style="margin:32px 0 0; font-size:11px; color:#9ca3af; text-align:center;">
 	<?php
 	/* translators: 1: plugin name link, 2: review link. */
-	$footer_template = __( 'Powered by <a href="%1$s" style="color:#9ca3af;">Order Updates for WooCommerce</a> &middot; <a href="%2$s" style="color:#9ca3af;">Rate the plugin</a>', 'order-updates-for-woo' );
+	$footer_template = __( 'Powered by <a href="%1$s" style="color:#9ca3af;">Order Updates for Woo</a> &middot; <a href="%2$s" style="color:#9ca3af;">Rate the plugin</a>', 'order-updates-for-woo' );
 	printf(
 		wp_kses(
 			$footer_template,

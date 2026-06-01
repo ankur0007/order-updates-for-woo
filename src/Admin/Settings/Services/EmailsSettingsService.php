@@ -53,6 +53,13 @@ final class EmailsSettingsService {
 				),
 			),
 			array(
+				'name'    => __( 'Show "Powered by" credit in email footers', 'order-updates-for-woo' ),
+				'desc'    => __( 'Off by default. Tick to add a small "Powered by Order Updates for Woo · Rate the plugin" line at the bottom of staff-facing notification emails. Customer-facing emails are unaffected.', 'order-updates-for-woo' ),
+				'id'      => Constants::SHOW_EMAIL_FOOTER_CREDIT_OPTION,
+				'type'    => 'checkbox',
+				'default' => 'no',
+			),
+			array(
 				'type' => 'sectionend',
 				'id'   => 'order_updates_for_woo_emails_section',
 			),

@@ -89,8 +89,11 @@ final class Constants {
 	public const DETRACTOR_FOLLOWUP_TEXT_OPTION  = 'order_updates_for_woo_detractor_followup_text';
 	public const DETRACTOR_FOLLOWUP_TEXT_DEFAULT = "Thanks for sharing your rating — we've passed your feedback to the team, and someone will get back to you on your update shortly. You can keep the conversation going from the same page:";
 
-	// "Powered by" footer in admin-facing emails.
-	public const POWERED_BY_REVIEW_URL = 'https://wordpress.org/support/plugin/order-updates-for-woo/reviews/#new-post';
+	// "Powered by" footer in plugin emails. Default OFF per WP.org rules —
+	// attribution in user-facing surfaces (incl. emails) requires explicit
+	// admin opt-in via the checkbox in Settings → Emails.
+	public const POWERED_BY_REVIEW_URL          = 'https://wordpress.org/support/plugin/order-updates-for-woo/reviews/#new-post';
+	public const SHOW_EMAIL_FOOTER_CREDIT_OPTION = 'order_updates_for_woo_show_email_footer_credit';
 
 	// Auto-assignment pool + rotation pointer for customer-opened updates.
 	// The `round_robin` names stay on disk so old installs keep their data.

@@ -54,6 +54,11 @@ final class Variables {
 		return max( 1, min( 365, $days ) );
 	}
 
+	/** Whether the admin opted in to the "Powered by" credit in email footers. Default OFF per WP.org rules. */
+	public static function shouldShowEmailFooterCredit(): bool {
+		return 'yes' === get_option( 'order_updates_for_woo_show_email_footer_credit', 'no' );
+	}
+
 	/** Support contact email shown when a customer's link has expired. */
 	public static function getSupportContactEmail(): string {
 		$configured = (string) get_option( 'order_updates_for_woo_support_contact_email', '' );
