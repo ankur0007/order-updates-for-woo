@@ -278,6 +278,7 @@
 	padding: 0.9rem 1.1rem;
 	max-height: 500px;
 	overflow-y: auto;
+	scroll-behavior: smooth;
 	position: relative;
 	/* Stop scroll chaining — once the thread hits its top/bottom, the
 	   outer page should NOT take over scrolling. Customers scrolling
