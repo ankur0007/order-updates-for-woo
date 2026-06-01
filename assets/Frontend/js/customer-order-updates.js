@@ -1990,6 +1990,16 @@
 		}
 
 		notesContainer.appendChild(buildRatingForm(updateId));
+
+		// Bring the freshly-revealed rating box into view — it lands at the foot
+		// of the thread, so the customer would otherwise have to scroll to find
+		// it. Runs only on the live solve (this path is guarded as idempotent).
+		var ratingForm = notesContainer.querySelector('[data-awts-cou-rating-form]');
+		if (ratingForm) {
+			window.requestAnimationFrame(function () {
+				ratingForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			});
+		}
 	}
 
 	// Injects the "Still has issue?" reopen button into the notes container
