@@ -7,6 +7,7 @@
  * Text Domain: order-updates-for-woo
  * Requires at least: 6.5
  * Requires PHP: 8.0
+ * Requires Plugins: woocommerce
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
