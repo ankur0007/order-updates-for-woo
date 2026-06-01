@@ -37,7 +37,12 @@ final class View {
 	 * template they are available as `$view_data`.
 	 */
 	public static function render( string $view = '', array $context = array() ): void {
-		$base_path = dirname( __DIR__, 2 );
+		// Plugin root path. Use the constant defined in the main file when
+		// available; fall back to a relative walk for non-bootstrap contexts
+		// (PHPUnit), so a moved file never silently resolves to the wrong root.
+		$base_path = defined( 'ORDER_UPDATES_FOR_WOO_PATH' )
+			? untrailingslashit( ORDER_UPDATES_FOR_WOO_PATH )
+			: dirname( __DIR__, 2 );
 
 		if ( '' === $view ) {
 			return;

@@ -46,7 +46,12 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 
 	public function __construct(OrderUpdatesDb $order_updates_db) {
 		$this->order_updates_db = $order_updates_db;
-		$this->template_base = trailingslashit(dirname(__DIR__, 3));
+		// Plugin root path. Use the constant defined in the main file when
+		// available; fall back to a relative walk for non-bootstrap contexts
+		// (PHPUnit), so a moved file never silently resolves to the wrong root.
+		$this->template_base = defined( 'ORDER_UPDATES_FOR_WOO_PATH' )
+			? ORDER_UPDATES_FOR_WOO_PATH
+			: trailingslashit( dirname( __DIR__, 3 ) );
 
 		parent::__construct();
 
