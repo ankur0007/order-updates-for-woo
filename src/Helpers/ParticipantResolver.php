@@ -26,7 +26,7 @@ namespace OrderUpdatesForWoo\Helpers;
 
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
-class ParticipantResolver {
+final class ParticipantResolver {
 	public const ROLE_CREATOR  = 'creator';
 	public const ROLE_ASSIGNEE = 'assignee';
 	public const ROLE_TAGGED   = 'tagged';

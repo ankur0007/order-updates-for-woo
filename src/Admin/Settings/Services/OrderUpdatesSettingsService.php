@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class OrderUpdatesSettingsService {
+final class OrderUpdatesSettingsService {
 
 	/**
 	 * @return array{

@@ -10,7 +10,7 @@ use OrderUpdatesForWoo\Shared\Config\Variables;
 // Direct queries on our own tables. Table names are safe; user input always uses prepare().
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
-class OrderUpdatesDb {
+final class OrderUpdatesDb {
 	public function __construct( private UpdatesTable $updates_table ) {}
 
 	public static function orders_table_alias(): string {

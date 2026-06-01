@@ -7,7 +7,7 @@ namespace OrderUpdatesForWoo\Helpers;
 // The job hook is a plugin-prefixed name passed in by the caller.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 
-class AsyncJob {
+final class AsyncJob {
 	public const MODE_AUTO       = 'auto';
 	public const MODE_IMMEDIATE  = 'immediate';
 	public const MODE_BACKGROUND = 'background';

@@ -12,7 +12,7 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 use WP_Error;
 
-class AttachmentService {
+final class AttachmentService {
 	/**
 	 * Every mime type the plugin knows how to handle, with its canonical
 	 * extension. Admins can opt-in to a subset for uploads, but downloads
