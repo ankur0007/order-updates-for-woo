@@ -54,11 +54,12 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 			<div class="awts-inbox__bulkbar">
 				<label class="awts-inbox__selectall">
 					<input type="checkbox" id="awts-inbox-select-all" />
-					<?php esc_html_e( 'Select all', 'order-updates-for-woo' ); ?>
+					<span class="awts-inbox__selectall-text" data-label-all="<?php esc_attr_e( 'Select all', 'order-updates-for-woo' ); ?>"><?php esc_html_e( 'Select all', 'order-updates-for-woo' ); ?></span>
 				</label>
-				<button type="submit" name="action" value="mark_read" class="button awts-inbox__bulk-btn"><?php esc_html_e( 'Mark as read', 'order-updates-for-woo' ); ?></button>
-				<button type="submit" name="action" value="archive" class="button awts-inbox__bulk-btn"><?php esc_html_e( 'Archive', 'order-updates-for-woo' ); ?></button>
-				<button type="submit" name="action" value="delete" class="button awts-inbox__bulk-btn awts-inbox__bulk-btn--danger"><?php esc_html_e( 'Delete', 'order-updates-for-woo' ); ?></button>
+				<span class="awts-inbox__bulkdivider" aria-hidden="true"></span>
+				<button type="submit" name="action" value="mark_read" class="awts-inbox__bulk-btn"><?php esc_html_e( 'Mark as read', 'order-updates-for-woo' ); ?></button>
+				<button type="submit" name="action" value="archive" class="awts-inbox__bulk-btn"><?php esc_html_e( 'Archive', 'order-updates-for-woo' ); ?></button>
+				<button type="submit" name="action" value="delete" class="awts-inbox__bulk-btn awts-inbox__bulk-btn--danger"><?php esc_html_e( 'Delete', 'order-updates-for-woo' ); ?></button>
 			</div>
 
 			<?php if ( ! empty( $view_data['is_archived'] ) && (int) $view_data['auto_delete_days'] > 0 ) : ?>
@@ -115,7 +116,8 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 						$arch_tip    = ! empty( $row['archived'] ) ? __( 'Unarchive', 'order-updates-for-woo' ) : __( 'Archive', 'order-updates-for-woo' );
 						$arch_action = ! empty( $row['archived'] ) ? 'unarchive' : 'archive';
 						?>
-						<li class="awts-inbox__row<?php echo esc_attr( $row_classes ); ?>">
+						<?php $kind_class = 'customer' === (string) $row['kind'] ? ' is-customer' : ' is-internal'; ?>
+						<li class="awts-inbox__row<?php echo esc_attr( $row_classes . $kind_class ); ?>">
 							<input
 								type="checkbox"
 								class="awts-inbox__check"
@@ -123,44 +125,52 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 								value="<?php echo esc_attr( (string) $row['key'] ); ?>"
 								aria-label="<?php esc_attr_e( 'Select notification', 'order-updates-for-woo' ); ?>"
 							/>
-							<span class="awts-inbox__icon">
+							<span class="awts-inbox__tile">
 								<span class="dashicons <?php echo esc_attr( (string) $row['icon'] ); ?>"></span>
 							</span>
 
-							<?php
-							$open = '' !== (string) $row['deep_url'];
-							if ( $open ) :
-								?>
-								<a class="awts-inbox__body" href="<?php echo esc_url( (string) $row['deep_url'] ); ?>">
-							<?php else : ?>
-								<span class="awts-inbox__body">
-							<?php endif; ?>
-								<span class="awts-inbox__text">
-									<?php echo $is_message ? '&ldquo;' . esc_html( $primary ) . '&rdquo;' : esc_html( $primary ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- message escaped, quotes static. ?>
-								</span>
-								<span class="awts-inbox__tags">
+							<div class="awts-inbox__main">
+								<div class="awts-inbox__chips">
 									<?php if ( ! empty( $row['deleted'] ) ) : ?>
 										<span class="awts-inbox__tag is-danger"><?php esc_html_e( 'Deleted', 'order-updates-for-woo' ); ?></span>
 									<?php endif; ?>
 									<?php if ( '' !== (string) $row['context'] ) : ?>
-										<span class="awts-inbox__tag"><?php echo esc_html( (string) $row['context'] ); ?></span>
+										<span class="awts-inbox__type"><span class="awts-inbox__type-dot" aria-hidden="true"></span><?php echo esc_html( (string) $row['context'] ); ?></span>
 									<?php endif; ?>
 									<?php if ( (int) $row['order_id'] > 0 ) : ?>
-										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: order id */ esc_html__( 'Order: %d', 'order-updates-for-woo' ), (int) $row['order_id'] ); ?></span>
+										<span class="awts-inbox__chip"><?php printf( /* translators: %d: order id */ esc_html__( 'Order %d', 'order-updates-for-woo' ), (int) $row['order_id'] ); ?></span>
 									<?php endif; ?>
 									<?php if ( (int) $row['update_id'] > 0 ) : ?>
-										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: update id */ esc_html__( 'Update: %d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
+										<span class="awts-inbox__chip"><?php printf( /* translators: %d: update id */ esc_html__( 'Update %d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
 									<?php endif; ?>
 									<?php if ( (int) $row['note_id'] > 0 ) : ?>
-										<span class="awts-inbox__idtag"><?php printf( /* translators: %d: note id */ esc_html__( 'Note: %d', 'order-updates-for-woo' ), (int) $row['note_id'] ); ?></span>
+										<span class="awts-inbox__chip"><?php printf( /* translators: %d: note id */ esc_html__( 'Note %d', 'order-updates-for-woo' ), (int) $row['note_id'] ); ?></span>
 									<?php endif; ?>
-									<?php if ( '' !== (string) $row['actor'] ) : ?>
-										<?php /* translators: %s: sender display name */ ?>
-										<span class="awts-inbox__by"><?php echo esc_html( sprintf( __( 'By %s', 'order-updates-for-woo' ), (string) $row['actor'] ) ); ?></span>
-									<?php endif; ?>
-								</span>
-							<?php echo $open ? '</a>' : '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static closing tag. ?>
+								</div>
 
+								<?php
+								$open = '' !== (string) $row['deep_url'];
+								if ( $open ) :
+									?>
+									<a class="awts-inbox__msg" href="<?php echo esc_url( (string) $row['deep_url'] ); ?>">
+								<?php else : ?>
+									<span class="awts-inbox__msg">
+								<?php endif; ?>
+									<span class="awts-inbox__dot" aria-hidden="true"></span>
+									<span class="awts-inbox__msg-text">
+										<?php echo $is_message ? '&ldquo;' . esc_html( $primary ) . '&rdquo;' : esc_html( $primary ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- message escaped, quotes static. ?>
+									</span>
+								<?php echo $open ? '</a>' : '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static closing tag. ?>
+
+								<?php if ( '' !== (string) $row['actor'] ) : ?>
+									<div class="awts-inbox__author">
+										<?php /* translators: %s: sender display name */ ?>
+										<?php printf( esc_html__( 'by %s', 'order-updates-for-woo' ), '<strong>' . esc_html( (string) $row['actor'] ) . '</strong>' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- name escaped above. ?>
+									</div>
+								<?php endif; ?>
+							</div>
+
+							<div class="awts-inbox__right">
 							<span class="awts-inbox__time"><?php echo esc_html( (string) $row['time'] ); ?></span>
 
 							<span class="awts-inbox__actions">
@@ -186,6 +196,7 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 									<span class="dashicons dashicons-trash" aria-hidden="true"></span>
 								</a>
 							</span>
+							</div>
 						</li>
 					<?php endforeach; ?>
 				</ul>

@@ -292,6 +292,8 @@ final class NotificationsPageController {
 					'favorite'   => __( 'Favorite', 'order-updates-for-woo' ),
 					'unfavorite' => __( 'Remove favorite', 'order-updates-for-woo' ),
 				),
+				/* translators: %d: number of selected notifications */
+				'selectedFmt' => __( '%d selected', 'order-updates-for-woo' ),
 			)
 		);
 
@@ -437,6 +439,7 @@ final class NotificationsPageController {
 			'favorited'   => $favorited,
 			'archived'    => $archived,
 			'icon'        => self::icon_for_type( $type ),
+			'kind'        => self::kind_for_type( $type, (string) ( $n['note_type'] ?? '' ) ),
 			'label'       => self::label_for_type( $type ),
 			'snippet'     => trim( (string) ( $n['title'] ?? '' ) ),
 			'actor'       => trim( (string) ( $n['actor'] ?? '' ) ),
@@ -573,6 +576,19 @@ final class NotificationsPageController {
 				? __( 'Customer note', 'order-updates-for-woo' )
 				: __( 'Internal note', 'order-updates-for-woo' ),
 			default                         => '',
+		};
+	}
+
+	/**
+	 * Note-type family that colours the row's avatar tile and type tag:
+	 * customer-thread activity vs internal/staff activity. Assignment and
+	 * system events fall back to the internal (slate) treatment.
+	 */
+	private static function kind_for_type( string $type, string $note_type ): string {
+		return match ( $type ) {
+			'customer_reply', 'staff_reply' => 'customer',
+			'participant_reply'             => 'customer' === $note_type ? 'customer' : 'internal',
+			default                         => 'internal',
 		};
 	}
 

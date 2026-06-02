@@ -18,11 +18,30 @@
 	}
 
 	// ----- Select-all + bulk bar -----
-	var $selectAll = $form.find( '#awts-inbox-select-all' );
-	var $bulkbar   = $form.find( '.awts-inbox__bulkbar' );
+	var $selectAll  = $form.find( '#awts-inbox-select-all' );
+	var $bulkbar    = $form.find( '.awts-inbox__bulkbar' );
+	var $bulkBtns   = $form.find( '.awts-inbox__bulk-btn' );
+	var $selLabel   = $form.find( '.awts-inbox__selectall-text' );
+	var labelAll    = $selLabel.attr( 'data-label-all' ) || $selLabel.text();
+	var selectedFmt = cfg.selectedFmt || '%d selected';
 
 	function refreshBulkbar() {
-		$bulkbar.toggleClass( 'is-active', $form.find( '.awts-inbox__check:checked' ).length > 0 );
+		var $checks = $form.find( '.awts-inbox__check' );
+		var n       = $checks.filter( ':checked' ).length;
+
+		$bulkbar.toggleClass( 'is-active', n > 0 );
+		$bulkBtns.prop( 'disabled', 0 === n );
+		$selLabel.text( n > 0 ? selectedFmt.replace( '%d', n ) : labelAll );
+
+		// Keep the header checkbox in sync: checked when all on the page are,
+		// indeterminate on a partial selection.
+		$selectAll.prop( 'checked', n > 0 && n === $checks.length );
+		$selectAll.prop( 'indeterminate', n > 0 && n < $checks.length );
+
+		// Tint the selected rows (used by browsers without :has support too).
+		$checks.each( function () {
+			$( this ).closest( '.awts-inbox__row' ).toggleClass( 'is-selected', this.checked );
+		} );
 	}
 
 	$selectAll.on( 'change', function () {
@@ -70,6 +89,7 @@
 		$row.css( 'opacity', 0 );
 		window.setTimeout( function () {
 			$row.remove();
+			refreshBulkbar();
 		}, 150 );
 	}
 
