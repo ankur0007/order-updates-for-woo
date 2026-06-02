@@ -224,6 +224,50 @@ html {
 	color: #d63638;
 }
 
+/* ---- Assignee page (scoped so the notifications page is untouched) ---- */
+
+/* Top-aligned rows with breathing room — the body is three lines. */
+.awts-assignments .awts-inbox__row {
+	align-items: flex-start;
+	gap: 14px;
+	padding: 16px 20px;
+}
+
+.awts-assignments .awts-inbox__icon {
+	margin-top: 2px;
+}
+
+.awts-assignments .awts-inbox__tags {
+	margin: 0 0 6px;
+}
+
+/* Update name — the line that should read first. Wraps instead of truncating. */
+.awts-assignments .awts-inbox__text {
+	font-size: 14px;
+	font-weight: 600;
+	white-space: normal;
+}
+
+.awts-assignments .awts-inbox__meta {
+	margin-top: 6px;
+	font-size: 12px;
+	line-height: 1.6;
+}
+
+/* Status shown as coloured text (colour comes from the update's status). */
+.awts-inbox__status {
+	font-weight: 600;
+}
+
+/* SLA badge sits on the right, vertically centred — before any row actions. */
+.awts-inbox__sla-cell {
+	display: flex;
+	flex: 0 0 auto;
+	align-self: center;
+	margin-left: auto;
+	padding-left: 12px;
+}
+
 /* SLA "waiting" badge (Assignee page) — colour by how long staff has owed a reply. */
 .awts-inbox__sla {
 	padding: 1px 9px;

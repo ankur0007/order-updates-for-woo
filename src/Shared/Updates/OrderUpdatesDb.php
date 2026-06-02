@@ -1075,9 +1075,11 @@ final class OrderUpdatesDb {
 			: $wpdb->get_var( $count_sql ) );
 
 		$list_sql = "SELECT updates.id, updates.order_id, updates.title, updates.is_resolved,
-				updates.last_updated_at, updates.created_at,
+				updates.status, updates.color, updates.created_by, updates.created_at, updates.last_updated_at,
+				creator.display_name AS created_by_name,
 				a.assignee_user_id, assignee.display_name AS assignee_name
 			FROM {$updates} AS updates
+			LEFT JOIN {$users} AS creator ON creator.ID = updates.created_by
 			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
 			LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
 			WHERE {$where_sql}
@@ -1112,6 +1114,15 @@ final class OrderUpdatesDb {
 			return array();
 		}
 
+		// Short cache keyed by the id set — the row data (who/when) is stable;
+		// the SLA "waiting" age recomputes live in PHP from these timestamps.
+		sort( $update_ids );
+		$cache_key = 'latest_cust_msgs_' . md5( implode( ',', $update_ids ) );
+		$cached    = $this->cache_get( $cache_key );
+		if ( false !== $cached ) {
+			return $cached;
+		}
+
 		$cn           = $this->updates_table->customer_notes;
 		$placeholders = implode( ', ', array_fill( 0, count( $update_ids ), '%d' ) );
 
@@ -1135,6 +1146,8 @@ final class OrderUpdatesDb {
 				'created_by' => (int) ( $row['created_by'] ?? 0 ),
 			);
 		}
+
+		$this->cache_set( $cache_key, $out, 30 );
 
 		return $out;
 	}

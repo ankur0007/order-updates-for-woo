@@ -28,7 +28,7 @@ $tab  = static function ( string $key, string $label ) use ( $status, $base ): s
 	return '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 };
 ?>
-<div class="wrap awts-inbox">
+<div class="wrap awts-inbox awts-assignments">
 	<h1 class="awts-inbox__title"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
 
 	<div class="awts-inbox__card">
@@ -84,39 +84,52 @@ $tab  = static function ( string $key, string $label ) use ( $status, $base ): s
 			</p>
 		<?php else : ?>
 			<ul class="awts-inbox__list">
-				<?php foreach ( $rows as $row ) : ?>
+				<?php
+				foreach ( $rows as $row ) :
+					$assignee_name = '' !== (string) $row['assignee'] ? (string) $row['assignee'] : __( 'Unassigned', 'order-updates-for-woo' );
+					$open          = '' !== (string) $row['edit_url'];
+					?>
 					<li class="awts-inbox__row<?php echo empty( $row['resolved'] ) ? ' is-unread' : ' is-read'; ?>">
 						<span class="awts-inbox__icon">
 							<span class="dashicons <?php echo empty( $row['resolved'] ) ? 'dashicons-clock' : 'dashicons-yes-alt'; ?>"></span>
 						</span>
 
-						<?php $open = '' !== (string) $row['edit_url']; ?>
 						<?php if ( $open ) : ?>
 							<a class="awts-inbox__body" href="<?php echo esc_url( (string) $row['edit_url'] ); ?>">
 						<?php else : ?>
 							<span class="awts-inbox__body">
 						<?php endif; ?>
-							<span class="awts-inbox__text"><?php echo esc_html( '' !== (string) $row['title'] ? (string) $row['title'] : __( '(untitled update)', 'order-updates-for-woo' ) ); ?></span>
 							<span class="awts-inbox__tags">
-								<span class="awts-inbox__tag"><?php echo empty( $row['resolved'] ) ? esc_html__( 'Open', 'order-updates-for-woo' ) : esc_html__( 'Solved', 'order-updates-for-woo' ); ?></span>
-								<?php if ( '' !== (string) $row['sla_label'] ) : ?>
-									<span class="awts-inbox__sla <?php echo esc_attr( (string) $row['sla_class'] ); ?>"><?php echo esc_html( (string) $row['sla_label'] ); ?></span>
-								<?php endif; ?>
 								<?php /* translators: %s: order number */ ?>
-								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Order: %s', 'order-updates-for-woo' ), esc_html( (string) $row['order_no'] ) ); ?></span>
+								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Order #%s', 'order-updates-for-woo' ), esc_html( (string) $row['order_no'] ) ); ?></span>
 								<?php /* translators: %d: update id */ ?>
-								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Update: %d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
-								<?php if ( '' !== (string) $row['customer'] ) : ?>
-									<span class="awts-inbox__meta"><?php echo esc_html( (string) $row['customer'] ); ?></span>
+								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Update #%d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
+								<span class="awts-inbox__status" style="color: <?php echo esc_attr( (string) $row['status_color'] ); ?>"><?php echo esc_html( (string) $row['status'] ); ?></span>
+							</span>
+
+							<span class="awts-inbox__text"><?php echo esc_html( '' !== (string) $row['title'] ? (string) $row['title'] : __( '(untitled update)', 'order-updates-for-woo' ) ); ?></span>
+
+							<span class="awts-inbox__meta">
+								<?php if ( '' !== (string) $row['created_by'] ) : ?>
+									<?php
+									/* translators: 1: creator name, 2: created date */
+									printf( esc_html__( 'Created by: %1$s, %2$s', 'order-updates-for-woo' ), esc_html( (string) $row['created_by'] ), esc_html( (string) $row['created_date'] ) );
+									?>
+									&nbsp;·&nbsp;
 								<?php endif; ?>
-								<?php if ( ! empty( $view_data['sees_all'] ) && '' !== (string) $row['assignee'] ) : ?>
-									<?php /* translators: %s: assignee display name */ ?>
-									<span class="awts-inbox__by"><?php printf( esc_html__( 'Assignee: %s', 'order-updates-for-woo' ), esc_html( (string) $row['assignee'] ) ); ?></span>
-								<?php endif; ?>
+								<?php /* translators: %s: assignee display name */ ?>
+								<?php printf( esc_html__( 'Assigned to: %s', 'order-updates-for-woo' ), esc_html( $assignee_name ) ); ?>
+								&nbsp;·&nbsp;
+								<?php /* translators: %s: status label */ ?>
+								<?php printf( esc_html__( 'Status: %s', 'order-updates-for-woo' ), esc_html( (string) $row['status'] ) ); ?>
 							</span>
 						<?php echo $open ? '</a>' : '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static closing tag. ?>
 
-						<span class="awts-inbox__time"><?php echo esc_html( (string) $row['time'] ); ?></span>
+						<?php if ( '' !== (string) $row['sla_label'] ) : ?>
+							<span class="awts-inbox__sla-cell">
+								<span class="awts-inbox__sla <?php echo esc_attr( (string) $row['sla_class'] ); ?>"><?php echo esc_html( (string) $row['sla_label'] ); ?></span>
+							</span>
+						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>

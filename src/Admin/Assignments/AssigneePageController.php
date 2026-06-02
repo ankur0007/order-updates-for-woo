@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Helpers\AssetHelper;
+use OrderUpdatesForWoo\Helpers\DateHelper;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
@@ -158,19 +159,33 @@ final class AssigneePageController {
 		$resolved  = ! empty( $row['is_resolved'] );
 		$sla       = $this->sla_for( $resolved, $latest[ $update_id ] ?? null );
 
+		$status = trim( (string) ( $row['status'] ?? '' ) );
+		if ( '' === $status ) {
+			$status = $resolved ? __( 'Solved', 'order-updates-for-woo' ) : __( 'Open', 'order-updates-for-woo' );
+		}
+
 		return array(
-			'update_id' => $update_id,
-			'order_id'  => $order_id,
-			'order_no'  => $order ? (string) $order->get_order_number() : (string) $order_id,
-			'customer'  => $order ? trim( (string) $order->get_formatted_billing_full_name() ) : '',
-			'title'     => (string) ( $row['title'] ?? '' ),
-			'resolved'  => $resolved,
-			'assignee'  => (string) ( $row['assignee_name'] ?? '' ),
-			'edit_url'  => $order ? strtok( (string) $order->get_edit_order_url(), '#' ) . '#awts-update-' . $update_id : '',
-			'time'      => $this->time_ago( (string) ( $row['last_updated_at'] ?? '' ) ),
-			'sla_label' => $sla['label'],
-			'sla_class' => $sla['class'],
+			'update_id'    => $update_id,
+			'order_id'     => $order_id,
+			'order_no'     => $order ? (string) $order->get_order_number() : (string) $order_id,
+			'customer'     => $order ? trim( (string) $order->get_formatted_billing_full_name() ) : '',
+			'title'        => (string) ( $row['title'] ?? '' ),
+			'resolved'     => $resolved,
+			'status'       => $status,
+			'status_color' => $this->safe_color( (string) ( $row['color'] ?? '' ) ),
+			'created_by'   => (string) ( $row['created_by_name'] ?? '' ),
+			'created_date' => '' !== (string) ( $row['created_at'] ?? '' ) ? DateHelper::format_date( (string) $row['created_at'] ) : '',
+			'assignee'     => (string) ( $row['assignee_name'] ?? '' ),
+			'edit_url'     => $order ? strtok( (string) $order->get_edit_order_url(), '#' ) . '#awts-update-' . $update_id : '',
+			'time'         => $this->time_ago( (string) ( $row['last_updated_at'] ?? '' ) ),
+			'sla_label'    => $sla['label'],
+			'sla_class'    => $sla['class'],
 		);
+	}
+
+	/** Only allow a hex colour through to an inline style; fall back to a neutral grey. */
+	private function safe_color( string $color ): string {
+		return preg_match( '/^#[0-9a-fA-F]{3,8}$/', $color ) ? $color : '#646970';
 	}
 
 	/**
