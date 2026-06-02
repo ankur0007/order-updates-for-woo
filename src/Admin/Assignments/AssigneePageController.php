@@ -155,6 +155,13 @@ final class AssigneePageController {
 			array(),
 			AssetHelper::version( 'assets/Admin/css/assignments.css' )
 		);
+		wp_enqueue_script(
+			'order-updates-for-woo-assignments',
+			AssetHelper::url( 'assets/Admin/js/assignments.js' ),
+			array( 'jquery' ),
+			AssetHelper::version( 'assets/Admin/js/assignments.js' ),
+			true
+		);
 
 		$sees_all = $this->sees_all();
 		$user_id  = get_current_user_id();
