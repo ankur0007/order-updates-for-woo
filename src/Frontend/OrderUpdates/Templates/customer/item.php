@@ -18,32 +18,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Local template scope; not global namespace.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-$view_data            = isset( $view_data ) && is_array( $view_data ) ? $view_data : array();
-$update               = isset( $view_data['update'] ) && is_array( $view_data['update'] ) ? $view_data['update'] : array();
-$is_first_in_section  = ! empty( $view_data['is_first_in_section'] );
-$show_assignee        = ! empty( $view_data['show_assignee'] );
-$rating_enabled       = ! empty( $view_data['rating_enabled'] );
+$view_data              = isset( $view_data ) && is_array( $view_data ) ? $view_data : array();
+$update                 = isset( $view_data['update'] ) && is_array( $view_data['update'] ) ? $view_data['update'] : array();
+$is_first_in_section    = ! empty( $view_data['is_first_in_section'] );
+$show_assignee          = ! empty( $view_data['show_assignee'] );
+$rating_enabled         = ! empty( $view_data['rating_enabled'] );
 $rating_comment_enabled = ! empty( $view_data['rating_comment_enabled'] );
-$labels               = isset( $view_data['labels'] ) && is_array( $view_data['labels'] ) ? $view_data['labels'] : array();
+$labels                 = isset( $view_data['labels'] ) && is_array( $view_data['labels'] ) ? $view_data['labels'] : array();
 
 if ( empty( $update ) ) {
 	return;
 }
 
-$created_label        = (string) ( $labels['created'] ?? '' );
-$open_label           = (string) ( $labels['open'] ?? '' );
-$resolved_label       = (string) ( $labels['resolved'] ?? '' );
-$no_notes_label       = (string) ( $labels['no_notes'] ?? '' );
-$reply_label          = (string) ( $labels['reply'] ?? '' );
-$reply_placeholder    = (string) ( $labels['reply_placeholder'] ?? '' );
-$reply_submit_label   = (string) ( $labels['reply_submit'] ?? '' );
-$reply_attach_label   = (string) ( $labels['reply_attach'] ?? '' );
-$reopen_button_label  = (string) ( $labels['reopen'] ?? '' );
-$rating_heading       = (string) ( $labels['rating_heading'] ?? '' );
-$rating_intro         = (string) ( $labels['rating_intro'] ?? '' );
-$rating_comment_label = (string) ( $labels['rating_comment_label'] ?? '' );
-$rating_comment_ph    = (string) ( $labels['rating_comment_ph'] ?? '' );
-$rating_submit_label  = (string) ( $labels['rating_submit'] ?? '' );
+$created_label          = (string) ( $labels['created'] ?? '' );
+$open_label             = (string) ( $labels['open'] ?? '' );
+$resolved_label         = (string) ( $labels['resolved'] ?? '' );
+$no_notes_label         = (string) ( $labels['no_notes'] ?? '' );
+$reply_label            = (string) ( $labels['reply'] ?? '' );
+$reply_placeholder      = (string) ( $labels['reply_placeholder'] ?? '' );
+$reply_submit_label     = (string) ( $labels['reply_submit'] ?? '' );
+$reply_attach_label     = (string) ( $labels['reply_attach'] ?? '' );
+$reopen_button_label    = (string) ( $labels['reopen'] ?? '' );
+$rating_heading         = (string) ( $labels['rating_heading'] ?? '' );
+$rating_intro           = (string) ( $labels['rating_intro'] ?? '' );
+$rating_comment_label   = (string) ( $labels['rating_comment_label'] ?? '' );
+$rating_comment_ph      = (string) ( $labels['rating_comment_ph'] ?? '' );
+$rating_submit_label    = (string) ( $labels['rating_submit'] ?? '' );
 $rating_thanks_template = (string) ( $labels['rating_thanks_template'] ?? '' );
 $rating_star_template   = (string) ( $labels['rating_star_template'] ?? '' );
 $rating_star1_label     = (string) ( $labels['rating_star1'] ?? '' );
@@ -70,9 +70,9 @@ $has_response   = ! empty( $rating['created_at'] );
 // Closed only when resolved AND rated. Resolved-but-unrated still
 // renders the reply form (hidden by default; the "Still has issue?"
 // button just un-hides it).
-$thread_closed = $is_resolved && $has_response;
-$can_reopen    = $is_resolved && ! $has_response;
-$reply_hidden  = $can_reopen;
+$thread_closed  = $is_resolved && $has_response;
+$can_reopen     = $is_resolved && ! $has_response;
+$reply_hidden   = $can_reopen;
 $has_more_notes = ! empty( $update['has_more_notes'] );
 ?>
 <li id="awts-update-<?php echo esc_attr( (string) $update_id_attr ); ?>"
@@ -119,7 +119,11 @@ $has_more_notes = ! empty( $update['has_more_notes'] );
 			<?php endif; ?>
 		</summary>
 
-		<div class="awts_cou_notes"<?php if ( $has_more_notes && ! empty( $notes ) ) : ?> data-awts-cou-earliest-note-id="<?php echo esc_attr( (string) ( $notes[0]['id'] ?? 0 ) ); ?>"<?php endif; ?>>
+		<div class="awts_cou_notes"
+		<?php
+		if ( $has_more_notes && ! empty( $notes ) ) :
+			?>
+			data-awts-cou-earliest-note-id="<?php echo esc_attr( (string) ( $notes[0]['id'] ?? 0 ) ); ?>"<?php endif; ?>>
 			<?php if ( empty( $notes ) ) : ?>
 				<p class="awts_cou_notes__empty"><?php echo esc_html( $no_notes_label ); ?></p>
 			<?php else : ?>
@@ -128,7 +132,8 @@ $has_more_notes = ! empty( $update['has_more_notes'] );
 						<?php esc_html_e( 'Load previous', 'order-updates-for-woo' ); ?>
 					</button>
 				<?php endif; ?>
-				<?php foreach ( $notes as $note ) :
+				<?php
+				foreach ( $notes as $note ) :
 					// System events (status_change, assignee_change, etc.) render
 					// as a compact centered marker, not a chat bubble. Mirrors
 					// the JS path (createSystemNoteElement) for the initial paint.
@@ -190,7 +195,8 @@ $has_more_notes = ! empty( $update['has_more_notes'] );
 
 							<?php if ( ! empty( $attachments ) ) : ?>
 								<ul class="awts_cou_attachments">
-									<?php foreach ( $attachments as $attachment ) :
+									<?php
+									foreach ( $attachments as $attachment ) :
 										$is_image = ! empty( $attachment['is_image'] );
 										?>
 										<li>
@@ -256,8 +262,9 @@ $has_more_notes = ! empty( $update['has_more_notes'] );
 			<?php endif; ?>
 
 			<?php $show_rating = $is_resolved && $update_id_attr > 0 && $rating_enabled; ?>
-			<?php if ( $show_rating && $has_response ) :
-				$stars = max( 0, min( 5, (int) ( $rating['stars'] ?? 0 ) ) );
+			<?php
+			if ( $show_rating && $has_response ) :
+				$stars       = max( 0, min( 5, (int) ( $rating['stars'] ?? 0 ) ) );
 				$thanks_text = sprintf( $rating_thanks_template, $stars );
 				?>
 				<div class="awts_cou_rating awts_cou_rating--submitted">
@@ -277,7 +284,8 @@ $has_more_notes = ! empty( $update['has_more_notes'] );
 					<p class="awts_cou_rating__intro"><?php echo esc_html( $rating_intro ); ?></p>
 
 					<div class="awts_cou_rating__stars" role="radiogroup" aria-label="<?php echo esc_attr( $rating_heading ); ?>">
-						<?php for ( $i = 1; $i <= 5; $i++ ) :
+						<?php
+						for ( $i = 1; $i <= 5; $i++ ) :
 							$star_aria = 1 === $i ? $rating_star1_label : sprintf( $rating_star_template, $i );
 							?>
 							<button type="button" class="awts_cou_rating__star_btn"

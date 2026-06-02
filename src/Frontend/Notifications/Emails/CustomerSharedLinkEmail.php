@@ -47,7 +47,7 @@ final class CustomerSharedLinkEmail extends OrderUpdateEmailBase {
 			return false;
 		}
 
-		$this->order         = $order;
+		$this->order = $order;
 
 		// Order-level trigger skips load_context (no update row), so set the
 		// subject placeholders here or {order_number} stays literal in the subject.

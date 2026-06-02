@@ -35,8 +35,8 @@ final class ReopenUpdateEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -75,7 +75,7 @@ final class ReopenUpdateEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$update = $this->order_updates_db->get_update( $update_id );
+		$update    = $this->order_updates_db->get_update( $update_id );
 
 		if ( empty( $update['id'] ) ) {
 			return $this->update_not_found_error();
@@ -122,7 +122,7 @@ final class ReopenUpdateEndpoint implements Registrable {
 		do_action( 'order_updates_for_woo_after_reopen_update', $update_id, $reopened_update, $request );
 
 		$response = array(
-			'message' => __( 'Update re-opened.', 'order-updates-for-woo' ),
+			'message'  => __( 'Update re-opened.', 'order-updates-for-woo' ),
 			'updateId' => $update_id,
 			'cardHtml' => $this->render_card_html( $reopened_update ),
 		);

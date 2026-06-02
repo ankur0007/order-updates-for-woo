@@ -18,27 +18,27 @@ use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
 final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
-	public function __construct(OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db) {
-		$this->id = Constants::EMAIL_ID_CUSTOMER_UPDATE;
-		$this->title = __('Order update notification for customer', 'order-updates-for-woo');
-		$this->description = __('Send an email to the customer when a visible order update is created.', 'order-updates-for-woo');
+	public function __construct( OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db ) {
+		$this->id             = Constants::EMAIL_ID_CUSTOMER_UPDATE;
+		$this->title          = __( 'Order update notification for customer', 'order-updates-for-woo' );
+		$this->description    = __( 'Send an email to the customer when a visible order update is created.', 'order-updates-for-woo' );
 		$this->customer_email = true;
 
-		parent::__construct($order_updates_db);
+		parent::__construct( $order_updates_db );
 		$this->attachments_db = $attachments_db;
 		$this->template_html  = 'src/Frontend/Notifications/Templates/order-update-notification.php';
 	}
 
-	public function trigger(int $update_id, int $note_id = 0, string $context = ''): bool {
+	public function trigger( int $update_id, int $note_id = 0, string $context = '' ): bool {
 		$this->reset_trigger_state();
 
-		if (! $this->load_context($update_id) || ! UpdateState::is_customer_visible((array) $this->order_update)) {
+		if ( ! $this->load_context( $update_id ) || ! UpdateState::is_customer_visible( (array) $this->order_update ) ) {
 			return false;
 		}
 
 		$billing_email = $this->order ? $this->order->get_billing_email() : '';
 
-		if (! $billing_email) {
+		if ( ! $billing_email ) {
 			return false;
 		}
 
@@ -56,14 +56,14 @@ final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
 			return false;
 		}
 
-		$this->recipient = sanitize_email($billing_email);
+		$this->recipient     = sanitize_email( $billing_email );
 		$this->greeting_name = $this->order ? (string) $this->order->get_billing_first_name() : '';
 
 		// `customer_submitted` is the receipt case: customer just opened a new
 		// update from the portal and we're confirming we received it. The
 		// generic "we have a new update for you" wording reads as if the store
 		// is updating them — confusing when they're the one who initiated.
-		$order_number       = $this->order ? $this->order->get_order_number() : '';
+		$order_number        = $this->order ? $this->order->get_order_number() : '';
 		$is_customer_receipt = 'customer_submitted' === $context;
 
 		if ( $is_customer_receipt ) {
@@ -116,23 +116,23 @@ final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
 			'value' => wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES ),
 		);
 
-		$this->detail_rows = apply_filters(
+		$this->detail_rows           = apply_filters(
 			'order_updates_for_woo_customer_email_detail_rows',
 			$base_detail_rows,
 			$this->order_update,
 			$this->order,
 			$this
 		);
-		$this->action_url = CustomerOrderUpdatesController::get_signed_email_url(
+		$this->action_url            = CustomerOrderUpdatesController::get_signed_email_url(
 			(int) $this->order->get_id()
 		) . '#awts-update-' . absint( $update_id );
-		$this->action_label = __( 'View and reply', 'order-updates-for-woo' );
-		$this->status_label = __( 'Update on your order', 'order-updates-for-woo' );
+		$this->action_label          = __( 'View and reply', 'order-updates-for-woo' );
+		$this->status_label          = __( 'Update on your order', 'order-updates-for-woo' );
 		$this->customer_visible_pill = true;
 
 		$this->object = $this->order;
 
-		if (! $this->is_enabled() || ! $this->get_recipient()) {
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return false;
 		}
 
@@ -140,10 +140,10 @@ final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
 	}
 
 	public function get_default_subject(): string {
-		return __('[{site_title}] New update for order #{order_number}', 'order-updates-for-woo');
+		return __( '[{site_title}] New update for order #{order_number}', 'order-updates-for-woo' );
 	}
 
 	public function get_default_heading(): string {
-		return __('Order update', 'order-updates-for-woo');
+		return __( 'Order update', 'order-updates-for-woo' );
 	}
 }

@@ -28,12 +28,12 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  */
 final class NotificationsPageController {
 
-	public const SLUG        = 'order-updates-for-woo-notifications';
-	private const NONCE_KEY  = 'awts_notifications_bulk';
-	private const BULK_NONCE = 'awts_notifications_bulk_action';
+	public const SLUG         = 'order-updates-for-woo-notifications';
+	private const NONCE_KEY   = 'awts_notifications_bulk';
+	private const BULK_NONCE  = 'awts_notifications_bulk_action';
 	private const AJAX_ACTION = 'awts_notif_row_action';
 	private const AJAX_NONCE  = 'awts_notif_ajax';
-	private const PER_PAGE   = 10;
+	private const PER_PAGE    = 10;
 
 	/** Rows-per-page choices for the footer dropdown; the first is the default. */
 	private const PER_PAGE_OPTIONS = array( 10, 20, 50, 100 );
@@ -195,7 +195,7 @@ final class NotificationsPageController {
 		} else {
 			// Bulk path — the inbox form carries our own nonce field.
 			check_admin_referer( self::BULK_NONCE );
-			$raw = isset( $_REQUEST['notif_keys'] ) ? (array) wp_unslash( $_REQUEST['notif_keys'] ) : array();
+			$raw  = isset( $_REQUEST['notif_keys'] ) ? (array) wp_unslash( $_REQUEST['notif_keys'] ) : array();
 			$keys = array_values( array_filter( array_map( 'sanitize_text_field', $raw ) ) );
 		}
 
@@ -285,11 +285,11 @@ final class NotificationsPageController {
 			'order-updates-for-woo-notifications',
 			'awtsNotif',
 			array(
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'action'  => self::AJAX_ACTION,
-				'nonce'   => wp_create_nonce( self::AJAX_NONCE ),
-				'status'  => $status,
-				'tips'    => array(
+				'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+				'action'      => self::AJAX_ACTION,
+				'nonce'       => wp_create_nonce( self::AJAX_NONCE ),
+				'status'      => $status,
+				'tips'        => array(
 					'markRead'   => __( 'Mark as read', 'order-updates-for-woo' ),
 					'markUnread' => __( 'Mark as unread', 'order-updates-for-woo' ),
 					'favorite'   => __( 'Favorite', 'order-updates-for-woo' ),
@@ -316,22 +316,22 @@ final class NotificationsPageController {
 		View::render(
 			'src/Admin/Notifications/Views/NotificationsView',
 			array(
-				'rows'             => array_map( array( $this, 'to_view_row' ), $page_items ),
-				'tabs'             => $this->build_tabs( $status, $counts ),
-				'search'           => $search,
-				'filter_order'     => $order_id,
-				'filter_update'    => $update_id,
-				'filter_status'    => $status,
-				'slug'             => self::SLUG,
-				'form_action'      => $this->current_url(),
-				'bulk_nonce'       => wp_nonce_field( self::BULK_NONCE, '_wpnonce', true, false ),
-				'has_filters'      => ( '' !== $status || $order_id > 0 || $update_id > 0 || '' !== $search ),
-				'is_archived'      => ( 'archived' === $status ),
+				'rows'              => array_map( array( $this, 'to_view_row' ), $page_items ),
+				'tabs'              => $this->build_tabs( $status, $counts ),
+				'search'            => $search,
+				'filter_order'      => $order_id,
+				'filter_update'     => $update_id,
+				'filter_status'     => $status,
+				'slug'              => self::SLUG,
+				'form_action'       => $this->current_url(),
+				'bulk_nonce'        => wp_nonce_field( self::BULK_NONCE, '_wpnonce', true, false ),
+				'has_filters'       => ( '' !== $status || $order_id > 0 || $update_id > 0 || '' !== $search ),
+				'is_archived'       => ( 'archived' === $status ),
 				'auto_archive_days' => (int) get_option( self::OPT_ARCHIVE_AFTER_DAYS, 30 ),
 				'auto_delete_days'  => (int) get_option( self::OPT_AUTODELETE_DAYS, 30 ),
-				'per_page'         => $per_page,
-				'per_page_options' => self::PER_PAGE_OPTIONS,
-				'pagination'       => $this->build_pagination( $paged, $total_pages, $total, $offset, $per_page ),
+				'per_page'          => $per_page,
+				'per_page_options'  => self::PER_PAGE_OPTIONS,
+				'pagination'        => $this->build_pagination( $paged, $total_pages, $total, $offset, $per_page ),
 			)
 		);
 	}

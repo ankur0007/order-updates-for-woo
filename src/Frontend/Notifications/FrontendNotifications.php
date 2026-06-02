@@ -29,15 +29,15 @@ final class FrontendNotifications {
 	) {}
 
 	public function init(): void {
-		add_filter('woocommerce_email_classes', [ $this, 'register_email_classes' ]);
+		add_filter( 'woocommerce_email_classes', array( $this, 'register_email_classes' ) );
 	}
 
-	public function register_email_classes(array $emails): array {
+	public function register_email_classes( array $emails ): array {
 		$emails[ Constants::EMAIL_ID_CUSTOMER_UPDATE ]          = new CustomerOrderUpdateEmail( $this->order_updates_db, $this->attachments_db );
 		$emails[ Constants::EMAIL_ID_CUSTOMER_UPDATE_DELETED ]  = new CustomerUpdateDeletedEmail( $this->order_updates_db );
 		$emails[ Constants::EMAIL_ID_CUSTOMER_RATING_REQUEST ]  = new CustomerRatingRequestEmail( $this->order_updates_db );
 		$emails[ Constants::EMAIL_ID_CUSTOMER_RATING_FOLLOWUP ] = new CustomerRatingFollowupEmail( $this->order_updates_db );
-		$emails[ Constants::EMAIL_ID_CUSTOMER_SHARED_LINK ]    = new CustomerSharedLinkEmail( $this->order_updates_db );
+		$emails[ Constants::EMAIL_ID_CUSTOMER_SHARED_LINK ]     = new CustomerSharedLinkEmail( $this->order_updates_db );
 
 		return $emails;
 	}

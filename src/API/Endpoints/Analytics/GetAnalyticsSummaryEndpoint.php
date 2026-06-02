@@ -33,7 +33,9 @@ final class GetAnalyticsSummaryEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$range = $this->parse_analytics_date_range( $request );
-		if ( is_wp_error( $range ) ) return $range;
+		if ( is_wp_error( $range ) ) {
+			return $range;
+		}
 		[ $from, $to ] = $range;
 
 		$response = $this->analytics_lookup_db->summary( $from, $to );

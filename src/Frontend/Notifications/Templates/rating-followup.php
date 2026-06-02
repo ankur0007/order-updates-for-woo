@@ -64,7 +64,7 @@ $status_label = $status_label ?? '';
 	<p style="margin:0 0 24px;">
 		<?php foreach ( $share_links as $share_link ) : ?>
 			<a href="<?php echo esc_url( (string) ( $share_link['url'] ?? '' ) ); ?>"
-			   style="display:inline-block; margin:0 8px 8px 0; padding:9px 16px; background:#7f54b3; color:#ffffff; text-decoration:none; border-radius:4px; font-weight:600; font-size:14px;">
+				style="display:inline-block; margin:0 8px 8px 0; padding:9px 16px; background:#7f54b3; color:#ffffff; text-decoration:none; border-radius:4px; font-weight:600; font-size:14px;">
 				<?php echo esc_html( (string) ( $share_link['label'] ?? '' ) ); ?>
 			</a>
 		<?php endforeach; ?>

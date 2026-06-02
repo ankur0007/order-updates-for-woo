@@ -56,12 +56,12 @@ final class OrderLockBanner {
 	private $lock_holder_cache = null;
 
 	public function init(): void {
-		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_enqueue_assets' ] );
-		add_filter( 'admin_body_class', [ $this, 'maybe_add_body_class' ] );
+		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ) );
+		add_filter( 'admin_body_class', array( $this, 'maybe_add_body_class' ) );
 		// Run after WC's own admin_footer dialog (priority 10). Layout
 		// doesn't depend on it (banner is position:fixed) but it keeps
 		// the rendered DOM in a predictable order.
-		add_action( 'admin_footer', [ $this, 'maybe_render_banner' ], 20 );
+		add_action( 'admin_footer', array( $this, 'maybe_render_banner' ), 20 );
 	}
 
 	/**
@@ -188,14 +188,14 @@ final class OrderLockBanner {
 		wp_enqueue_style(
 			'order-updates-for-woo-order-lock',
 			AssetHelper::url( 'assets/Admin/css/order-lock-banner.css' ),
-			[],
+			array(),
 			AssetHelper::version( 'assets/Admin/css/order-lock-banner.css' )
 		);
 
 		wp_enqueue_script(
 			'order-updates-for-woo-order-lock',
 			AssetHelper::url( 'assets/Admin/js/order-lock-banner.js' ),
-			[ 'jquery', 'heartbeat' ],
+			array( 'jquery', 'heartbeat' ),
 			AssetHelper::version( 'assets/Admin/js/order-lock-banner.js' ),
 			true
 		);
@@ -204,9 +204,9 @@ final class OrderLockBanner {
 		wp_localize_script(
 			'order-updates-for-woo-order-lock',
 			'awtsOrderLockData',
-			[
+			array(
 				'currentHolderName' => $holder ? $holder->display_name : '',
-			]
+			)
 		);
 	}
 
@@ -238,7 +238,7 @@ final class OrderLockBanner {
 			$sendback_url = HposHelper::orders_list_url();
 		}
 
-		$avatar_src = get_option( 'show_avatars' ) ? get_avatar_url( $user->ID, [ 'size' => 64 ] ) : '';
+		$avatar_src = get_option( 'show_avatars' ) ? get_avatar_url( $user->ID, array( 'size' => 64 ) ) : '';
 
 		// translators: %s is the team member's display name.
 		$message = sprintf( __( '%s is currently editing this order.', 'order-updates-for-woo' ), $user->display_name );

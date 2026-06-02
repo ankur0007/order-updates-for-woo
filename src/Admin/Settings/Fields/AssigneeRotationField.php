@@ -47,8 +47,8 @@ final class AssigneeRotationField {
 			return;
 		}
 
-		$saved       = $this->load_saved( $option_id );
-		$ordered     = $this->order_members( $this->team_roster->get_team_members(), array_keys( $saved ) );
+		$saved   = $this->load_saved( $option_id );
+		$ordered = $this->order_members( $this->team_roster->get_team_members(), array_keys( $saved ) );
 
 		$tooltip = ! empty( $value['desc_tip'] ) ? wc_help_tip( (string) ( $value['desc'] ?? '' ) ) : '';
 		$desc    = ! empty( $value['desc'] ) && empty( $value['desc_tip'] )
@@ -108,8 +108,8 @@ final class AssigneeRotationField {
 			return array();
 		}
 
-		$order  = $this->validator->sanitize_mentioned_user_ids( $raw_value['order'] ?? array() );
-		$active = $this->validator->sanitize_mentioned_user_ids( $raw_value['active'] ?? array() );
+		$order         = $this->validator->sanitize_mentioned_user_ids( $raw_value['order'] ?? array() );
+		$active        = $this->validator->sanitize_mentioned_user_ids( $raw_value['active'] ?? array() );
 		$active_lookup = array_fill_keys( $active, true );
 
 		$result = array();
@@ -222,7 +222,7 @@ final class AssigneeRotationField {
 
 		foreach ( $raw as $key => $value ) {
 			if ( is_int( $key ) || ctype_digit( (string) $key ) ) {
-				$id = (int) ( is_array( $value ) || is_bool( $value ) ? $key : $value );
+				$id     = (int) ( is_array( $value ) || is_bool( $value ) ? $key : $value );
 				$active = is_bool( $value ) ? $value : true;
 			} else {
 				continue;
@@ -242,7 +242,7 @@ final class AssigneeRotationField {
 	 * admin can opt them in.
 	 *
 	 * @param array<int,array{id:int,name:string,email:string,avatar:string}> $members
-	 * @param int[]                                                            $saved_order
+	 * @param int[]                                                           $saved_order
 	 * @return array<int,array{id:int,name:string,email:string,avatar:string}>
 	 */
 	private function order_members( array $members, array $saved_order ): array {

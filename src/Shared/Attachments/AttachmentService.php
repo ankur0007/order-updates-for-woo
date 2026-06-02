@@ -20,23 +20,23 @@ final class AttachmentService {
 	 * lock readers out of files already in storage.
 	 */
 	private const SUPPORTED_MIMES = array(
-		'application/pdf'                                                         => 'pdf',
-		'image/jpeg'                                                              => 'jpg',
-		'image/png'                                                               => 'png',
-		'image/gif'                                                               => 'gif',
-		'image/webp'                                                              => 'webp',
-		'application/msword'                                                      => 'doc',
+		'application/pdf'                                 => 'pdf',
+		'image/jpeg'                                      => 'jpg',
+		'image/png'                                       => 'png',
+		'image/gif'                                       => 'gif',
+		'image/webp'                                      => 'webp',
+		'application/msword'                              => 'doc',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-		'application/vnd.ms-excel'                                                => 'xls',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'       => 'xlsx',
-		'application/vnd.ms-powerpoint'                                           => 'ppt',
+		'application/vnd.ms-excel'                        => 'xls',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+		'application/vnd.ms-powerpoint'                   => 'ppt',
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-		'application/vnd.oasis.opendocument.text'                                 => 'odt',
-		'application/vnd.oasis.opendocument.spreadsheet'                          => 'ods',
-		'application/vnd.oasis.opendocument.presentation'                         => 'odp',
-		'application/rtf'                                                         => 'rtf',
-		'text/plain'                                                              => 'txt',
-		'text/csv'                                                                => 'csv',
+		'application/vnd.oasis.opendocument.text'         => 'odt',
+		'application/vnd.oasis.opendocument.spreadsheet'  => 'ods',
+		'application/vnd.oasis.opendocument.presentation' => 'odp',
+		'application/rtf'                                 => 'rtf',
+		'text/plain'                                      => 'txt',
+		'text/csv'                                        => 'csv',
 	);
 
 	/**
@@ -61,17 +61,46 @@ final class AttachmentService {
 	 */
 	private const BANNED_FILENAME_FRAGMENTS = array(
 		// PHP variants.
-		'.php', '.phtml', '.phar', '.pht', '.php3', '.php4', '.php5', '.php7', '.phps',
+		'.php',
+		'.phtml',
+		'.phar',
+		'.pht',
+		'.php3',
+		'.php4',
+		'.php5',
+		'.php7',
+		'.phps',
 		// Server-rendered scripts.
-		'.html', '.htm', '.shtml', '.shtm', '.dhtml', '.xhtml',
+		'.html',
+		'.htm',
+		'.shtml',
+		'.shtm',
+		'.dhtml',
+		'.xhtml',
 		// Client scripts.
-		'.js', '.mjs', '.jse', '.svg',
+		'.js',
+		'.mjs',
+		'.jse',
+		'.svg',
 		// Other interpreters.
-		'.pl', '.cgi', '.py', '.rb', '.lua',
+		'.pl',
+		'.cgi',
+		'.py',
+		'.rb',
+		'.lua',
 		// Native executables / shells.
-		'.exe', '.bat', '.cmd', '.com', '.scr', '.msi', '.vbs', '.ps1', '.sh',
+		'.exe',
+		'.bat',
+		'.cmd',
+		'.com',
+		'.scr',
+		'.msi',
+		'.vbs',
+		'.ps1',
+		'.sh',
 		// Server config files.
-		'.htaccess', '.htpasswd',
+		'.htaccess',
+		'.htpasswd',
 	);
 
 	/**
@@ -80,9 +109,13 @@ final class AttachmentService {
 	 * a file whose mime / filename look benign.
 	 */
 	private const BANNED_TEXT_SIGNATURES = array(
-		'<?php', '<?=',
-		'<script', '<html', '<!doctype html',
-		'#!/bin/', '#!/usr/',
+		'<?php',
+		'<?=',
+		'<script',
+		'<html',
+		'<!doctype html',
+		'#!/bin/',
+		'#!/usr/',
 	);
 
 	/**
@@ -143,8 +176,8 @@ final class AttachmentService {
 	/**
 	 * Store an uploaded file and insert a DB row.
 	 *
-	 * @param array{name:string,tmp_name:string,type:string,size:int,error:int} $file  PHP $_FILES entry.
-	 * @param array{order_id:int,update_id:int,note_id:int,note_type:string,uploaded_by:int}    $context
+	 * @param array{name:string,tmp_name:string,type:string,size:int,error:int}              $file  PHP $_FILES entry.
+	 * @param array{order_id:int,update_id:int,note_id:int,note_type:string,uploaded_by:int} $context
 	 * @return array|WP_Error
 	 */
 	public function store_upload( array $file, array $context ): array|WP_Error {
@@ -217,10 +250,10 @@ final class AttachmentService {
 			return new WP_Error( 'order_updates_for_woo_attachment_invalid_note_type', __( 'Invalid note type.', 'order-updates-for-woo' ), array( 'status' => 400 ) );
 		}
 
-		$dir = AttachmentStorage::ensure_note_dir( $order_id, $update_id, $note_id );
+		$dir           = AttachmentStorage::ensure_note_dir( $order_id, $update_id, $note_id );
 		$original_name = sanitize_file_name( (string) ( $file['name'] ?? 'file' ) );
-		$extension = self::SUPPORTED_MIMES[ $mime ];
-		$stored_name = wp_generate_uuid4() . '.' . $extension;
+		$extension     = self::SUPPORTED_MIMES[ $mime ];
+		$stored_name   = wp_generate_uuid4() . '.' . $extension;
 
 		$moved = $this->move_via_wp_handle_upload( $file, $dir, $stored_name );
 
@@ -231,18 +264,20 @@ final class AttachmentService {
 		$destination = $moved;
 		AttachmentStorage::filesystem()?->chmod( $destination, FS_CHMOD_FILE );
 
-		$id = $this->attachments_db->create( array(
-			'order_id'      => $order_id,
-			'update_id'     => $update_id,
-			'note_id'       => $note_id,
-			'note_type'     => $note_type,
-			'file_name'     => $stored_name,
-			'original_name' => $original_name,
-			'mime_type'     => $mime,
-			'file_size'     => $size,
-			'uploaded_by'   => (int) $context['uploaded_by'],
-			'uploaded_at'   => current_time( 'mysql', true ),
-		) );
+		$id = $this->attachments_db->create(
+			array(
+				'order_id'      => $order_id,
+				'update_id'     => $update_id,
+				'note_id'       => $note_id,
+				'note_type'     => $note_type,
+				'file_name'     => $stored_name,
+				'original_name' => $original_name,
+				'mime_type'     => $mime,
+				'file_size'     => $size,
+				'uploaded_by'   => (int) $context['uploaded_by'],
+				'uploaded_at'   => current_time( 'mysql', true ),
+			) 
+		);
 
 		if ( ! $id ) {
 			AttachmentStorage::delete_file( $destination );

@@ -80,7 +80,7 @@ final class OrderTableFiltersService {
 	}
 
 	public function modify_clauses( array &$clauses, array $order_ids ): array {
-		if (! $this->is_hpos_enabled() ) {
+		if ( ! $this->is_hpos_enabled() ) {
 			// Classic orders table uses different table aliases, so we can't reuse the same clause modifications.
 			return $clauses;
 		}
@@ -92,7 +92,7 @@ final class OrderTableFiltersService {
 			return $clauses;
 		}
 
-		$ids_placeholder = implode( ',', array_map( 'absint', $order_ids ) );
+		$ids_placeholder  = implode( ',', array_map( 'absint', $order_ids ) );
 		$clauses['where'] = ( $clauses['where'] ?? '' ) . " AND $table.id IN ({$ids_placeholder})";
 		
 		return $clauses;

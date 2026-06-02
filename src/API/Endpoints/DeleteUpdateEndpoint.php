@@ -30,8 +30,8 @@ final class DeleteUpdateEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::DELETABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::DELETABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -55,7 +55,7 @@ final class DeleteUpdateEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$update = $this->order_updates_db->get_update( $update_id );
+		$update    = $this->order_updates_db->get_update( $update_id );
 
 		if ( empty( $update['id'] ) ) {
 			return $this->update_not_found_error();
@@ -96,7 +96,7 @@ final class DeleteUpdateEndpoint implements Registrable {
 		do_action( 'order_updates_for_woo_after_delete_update', $update_id, $update, $request );
 
 		$response = array(
-			'message' => __( 'Update deleted.', 'order-updates-for-woo' ),
+			'message'  => __( 'Update deleted.', 'order-updates-for-woo' ),
 			'updateId' => $update_id,
 		);
 

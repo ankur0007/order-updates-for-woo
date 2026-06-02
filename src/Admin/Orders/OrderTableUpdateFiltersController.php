@@ -273,11 +273,11 @@ final class OrderTableUpdateFiltersController {
 	 * Output the filter <select> elements.
 	 */
 	private function output_filter_html(): void {
-		$users            = $this->order_updates_db->get_users_with_active_assignments();
-		$active_assignee  = $this->filters_service->get_active_assignee_filter();
-		$active_unsolved  = $this->filters_service->get_active_unsolved_filter();
-		$assignee_param   = $this->filters_service->assignee_param();
-		$unsolved_param   = $this->filters_service->unsolved_param();
+		$users           = $this->order_updates_db->get_users_with_active_assignments();
+		$active_assignee = $this->filters_service->get_active_assignee_filter();
+		$active_unsolved = $this->filters_service->get_active_unsolved_filter();
+		$assignee_param  = $this->filters_service->assignee_param();
+		$unsolved_param  = $this->filters_service->unsolved_param();
 
 		// Assignee dropdown.
 		echo '<select name="' . esc_attr( $assignee_param ) . '" id="awts_filter_assignee">';
@@ -326,7 +326,6 @@ final class OrderTableUpdateFiltersController {
 		}
 
 		$this->filters_service->modify_query( $query, $order_ids );
-		
 	}
 
 	// -------------------------------------------------------------------------
@@ -348,7 +347,7 @@ final class OrderTableUpdateFiltersController {
 			return $clauses;
 		}
 
-		$clauses = $this->filters_service->modify_clauses($clauses, $order_ids);
+		$clauses = $this->filters_service->modify_clauses( $clauses, $order_ids );
 		
 		
 		return $clauses;

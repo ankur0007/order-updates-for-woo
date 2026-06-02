@@ -23,14 +23,14 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WP_Admin_Bar;
 
 final class AdminBarNotifications {
-	private const NODE_ID         = 'awts_assigned_updates';
-	private const ASSIGNED_HEADER = 'awts_admin_bar_assigned_header';
-	private const MENTIONS_HEADER = 'awts_admin_bar_mentions_header';
-	private const REPLIES_HEADER  = 'awts_admin_bar_replies_header';
+	private const NODE_ID                 = 'awts_assigned_updates';
+	private const ASSIGNED_HEADER         = 'awts_admin_bar_assigned_header';
+	private const MENTIONS_HEADER         = 'awts_admin_bar_mentions_header';
+	private const REPLIES_HEADER          = 'awts_admin_bar_replies_header';
 	private const DELETED_HEADER          = 'awts_admin_bar_deleted_header';
 	private const ASSIGNEE_CHANGED_HEADER = 'awts_admin_bar_assignee_changed_header';
-	private const CLEAR_ALL_ROW   = 'awts_admin_bar_clear_all';
-	private const SNIPPET_LEN     = 60;
+	private const CLEAR_ALL_ROW           = 'awts_admin_bar_clear_all';
+	private const SNIPPET_LEN             = 60;
 
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
@@ -108,9 +108,13 @@ final class AdminBarNotifications {
 		// thread silently miss the customer's response.
 		$participants = $this->order_updates_db->get_staff_participant_user_ids( $update_id );
 
-		$recipients = array_values( array_unique( array_filter(
-			array_merge( array( $assignee_id, $owner_user_id ), $participants )
-		) ) );
+		$recipients = array_values(
+			array_unique(
+				array_filter(
+					array_merge( array( $assignee_id, $owner_user_id ), $participants )
+				) 
+			) 
+		);
 
 		$recipients = $this->prune_admin_bar_recipients( $recipients, $update_id, $order_id );
 
@@ -247,11 +251,11 @@ final class AdminBarNotifications {
 			return;
 		}
 
-		$assigned          = array_values( array_filter( $notifications, fn( $notification ) => 'assigned' === $notification['type'] ) );
-		$mentions          = array_values( array_filter( $notifications, fn( $notification ) => 'mention' === $notification['type'] ) );
-		$replies           = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'customer_reply', 'staff_reply', 'participant_reply' ), true ) ) );
-		$deleted           = array_values( array_filter( $notifications, fn( $notification ) => 'deleted' === $notification['type'] ) );
-		$assignee_changed  = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'unassigned', 'assignee_changed' ), true ) ) );
+		$assigned         = array_values( array_filter( $notifications, fn( $notification ) => 'assigned' === $notification['type'] ) );
+		$mentions         = array_values( array_filter( $notifications, fn( $notification ) => 'mention' === $notification['type'] ) );
+		$replies          = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'customer_reply', 'staff_reply', 'participant_reply' ), true ) ) );
+		$deleted          = array_values( array_filter( $notifications, fn( $notification ) => 'deleted' === $notification['type'] ) );
+		$assignee_changed = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'unassigned', 'assignee_changed' ), true ) ) );
 
 		if ( ! empty( $assigned ) ) {
 			$wp_admin_bar->add_node(
@@ -282,8 +286,8 @@ final class AdminBarNotifications {
 							esc_html( sprintf( /* translators: %s: order number */ __( 'Order #%s', 'order-updates-for-woo' ), (string) $order->get_order_number() ) )
 								. ' &middot; ' . esc_html( $time_ago )
 						),
-						'href'  => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'], (int) ( $notification['note_id'] ?? 0 ), $this->tab_for_notification( $notification ) ),
-						'meta'  => array( 'class' => $css_class ),
+						'href'   => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'], (int) ( $notification['note_id'] ?? 0 ), $this->tab_for_notification( $notification ) ),
+						'meta'   => array( 'class' => $css_class ),
 					)
 				);
 			}
@@ -318,8 +322,8 @@ final class AdminBarNotifications {
 							esc_html( sprintf( /* translators: %s: order number */ __( 'Order #%s', 'order-updates-for-woo' ), (string) $order->get_order_number() ) )
 								. ' &middot; ' . esc_html( $time_ago )
 						),
-						'href'  => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'], (int) ( $notification['note_id'] ?? 0 ), $this->tab_for_notification( $notification ) ),
-						'meta'  => array( 'class' => $css_class ),
+						'href'   => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'], (int) ( $notification['note_id'] ?? 0 ), $this->tab_for_notification( $notification ) ),
+						'meta'   => array( 'class' => $css_class ),
 					)
 				);
 			}
@@ -358,8 +362,8 @@ final class AdminBarNotifications {
 							esc_html( sprintf( /* translators: %s: order number */ __( 'Order #%s', 'order-updates-for-woo' ), (string) $order->get_order_number() ) )
 								. ' &middot; ' . esc_html( $time_ago )
 						),
-						'href'  => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'], (int) ( $notification['note_id'] ?? 0 ), $this->tab_for_notification( $notification ) ),
-						'meta'  => array( 'class' => $css_class ),
+						'href'   => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'], (int) ( $notification['note_id'] ?? 0 ), $this->tab_for_notification( $notification ) ),
+						'meta'   => array( 'class' => $css_class ),
 					)
 				);
 			}
@@ -400,8 +404,8 @@ final class AdminBarNotifications {
 						// Deleted update — link to the order edit page (no hash;
 						// the update row is gone). The DeletedUpdatesMetaBox on
 						// that page shows the audit log.
-						'href'  => $order->get_edit_order_url(),
-						'meta'  => array( 'class' => $css_class ),
+						'href'   => $order->get_edit_order_url(),
+						'meta'   => array( 'class' => $css_class ),
 					)
 				);
 			}
@@ -440,8 +444,8 @@ final class AdminBarNotifications {
 							esc_html( sprintf( /* translators: %s: order number */ __( 'Order #%s', 'order-updates-for-woo' ), (string) $order->get_order_number() ) )
 								. ' &middot; ' . esc_html( $time_ago )
 						),
-						'href'  => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'] ),
-						'meta'  => array( 'class' => $css_class ),
+						'href'   => $this->build_deep_link( $order->get_edit_order_url(), (int) $notification['update_id'] ),
+						'meta'   => array( 'class' => $css_class ),
 					)
 				);
 			}
@@ -602,11 +606,11 @@ final class AdminBarNotifications {
 	 * @return array<int, array{type:string, ...}>
 	 */
 	private function build_items_for_js( array $notifications ): array {
-		$assigned_items          = array();
-		$mention_items           = array();
-		$reply_items             = array();
-		$deleted_items           = array();
-		$assignee_changed_items  = array();
+		$assigned_items         = array();
+		$mention_items          = array();
+		$reply_items            = array();
+		$deleted_items          = array();
+		$assignee_changed_items = array();
 
 		foreach ( $notifications as $notification ) {
 			$order = function_exists( 'wc_get_order' ) ? wc_get_order( $notification['order_id'] ) : null;
@@ -642,8 +646,8 @@ final class AdminBarNotifications {
 				$item['url']     = $order->get_edit_order_url();
 				$deleted_items[] = $item;
 			} elseif ( in_array( $notification['type'], array( 'unassigned', 'assignee_changed' ), true ) ) {
-				$untitled      = __( '(untitled)', 'order-updates-for-woo' );
-				$item['title'] = 'unassigned' === $notification['type']
+				$untitled                 = __( '(untitled)', 'order-updates-for-woo' );
+				$item['title']            = 'unassigned' === $notification['type']
 					? sprintf( /* translators: %s: update title. */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), $notification['title'] !== '' ? $notification['title'] : $untitled )
 					: sprintf( /* translators: %s: update title. */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), $notification['title'] !== '' ? $notification['title'] : $untitled );
 				$assignee_changed_items[] = $item;
@@ -655,35 +659,50 @@ final class AdminBarNotifications {
 		$result = array();
 
 		if ( ! empty( $assigned_items ) ) {
-			$result[] = array( 'type' => 'header', 'label' => __( 'Assigned to you', 'order-updates-for-woo' ) );
+			$result[] = array(
+				'type'  => 'header',
+				'label' => __( 'Assigned to you', 'order-updates-for-woo' ),
+			);
 			foreach ( $assigned_items as $item ) {
 				$result[] = $item;
 			}
 		}
 
 		if ( ! empty( $mention_items ) ) {
-			$result[] = array( 'type' => 'header', 'label' => __( 'You were tagged', 'order-updates-for-woo' ) );
+			$result[] = array(
+				'type'  => 'header',
+				'label' => __( 'You were tagged', 'order-updates-for-woo' ),
+			);
 			foreach ( $mention_items as $item ) {
 				$result[] = $item;
 			}
 		}
 
 		if ( ! empty( $reply_items ) ) {
-			$result[] = array( 'type' => 'header', 'label' => __( 'Replies', 'order-updates-for-woo' ) );
+			$result[] = array(
+				'type'  => 'header',
+				'label' => __( 'Replies', 'order-updates-for-woo' ),
+			);
 			foreach ( $reply_items as $item ) {
 				$result[] = $item;
 			}
 		}
 
 		if ( ! empty( $deleted_items ) ) {
-			$result[] = array( 'type' => 'header', 'label' => __( 'Updates you created — deleted', 'order-updates-for-woo' ) );
+			$result[] = array(
+				'type'  => 'header',
+				'label' => __( 'Updates you created — deleted', 'order-updates-for-woo' ),
+			);
 			foreach ( $deleted_items as $item ) {
 				$result[] = $item;
 			}
 		}
 
 		if ( ! empty( $assignee_changed_items ) ) {
-			$result[] = array( 'type' => 'header', 'label' => __( 'Assignee changed', 'order-updates-for-woo' ) );
+			$result[] = array(
+				'type'  => 'header',
+				'label' => __( 'Assignee changed', 'order-updates-for-woo' ),
+			);
 			foreach ( $assignee_changed_items as $item ) {
 				$result[] = $item;
 			}
@@ -746,7 +765,7 @@ final class AdminBarNotifications {
 			// switch to the right tab on landing — Internal vs Customer.
 			// Empty $note_type falls through to the legacy `-note-N` shape
 			// (which lands the user on whichever tab is currently open).
-			$tab = in_array( $note_type, array( 'internal', 'customer' ), true ) ? $note_type : '';
+			$tab   = in_array( $note_type, array( 'internal', 'customer' ), true ) ? $note_type : '';
 			$hash .= '' !== $tab
 				? '-' . $tab . '-note-' . $note_id
 				: '-note-' . $note_id;

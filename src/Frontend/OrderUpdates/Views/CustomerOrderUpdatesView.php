@@ -21,7 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $view_data           = isset( $view_data ) && is_array( $view_data ) ? $view_data : array();
 $updates             = isset( $view_data['updates'] ) && is_array( $view_data['updates'] ) ? $view_data['updates'] : array();
-$rating_config       = isset( $view_data['rating'] ) && is_array( $view_data['rating'] ) ? $view_data['rating'] : array( 'enabled' => false, 'comment_enabled' => false );
+$rating_config       = isset( $view_data['rating'] ) && is_array( $view_data['rating'] ) ? $view_data['rating'] : array(
+	'enabled'         => false,
+	'comment_enabled' => false,
+);
 $show_assignee       = ! empty( $view_data['show_assignee'] );
 $email_notifications = isset( $view_data['email_notifications'] ) ? (bool) $view_data['email_notifications'] : true;
 
@@ -97,7 +100,8 @@ $heading_label = __( 'Order updates', 'order-updates-for-woo' );
 				?>
 			</summary>
 			<ul class="awts_cou__list awts_cou__list--active">
-				<?php foreach ( $active_updates as $index => $update ) :
+				<?php
+				foreach ( $active_updates as $index => $update ) :
 					View::render(
 						'src/Frontend/OrderUpdates/Templates/customer/item',
 						array_merge(
@@ -108,7 +112,8 @@ $heading_label = __( 'Order updates', 'order-updates-for-woo' );
 							)
 						)
 					);
-				endforeach; ?>
+				endforeach;
+				?>
 			</ul>
 		</details>
 	<?php endif; ?>
@@ -127,7 +132,8 @@ $heading_label = __( 'Order updates', 'order-updates-for-woo' );
 				?>
 			</summary>
 			<ul class="awts_cou__list awts_cou__list--archived">
-				<?php foreach ( $archived_updates as $update ) :
+				<?php
+				foreach ( $archived_updates as $update ) :
 					// Archived items stay collapsed; never first-in-section auto-open.
 					View::render(
 						'src/Frontend/OrderUpdates/Templates/customer/item',
@@ -139,7 +145,8 @@ $heading_label = __( 'Order updates', 'order-updates-for-woo' );
 							)
 						)
 					);
-				endforeach; ?>
+				endforeach;
+				?>
 			</ul>
 		</details>
 	<?php endif; ?>

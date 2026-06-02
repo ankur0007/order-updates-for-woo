@@ -41,7 +41,11 @@ final class AttachmentsSettingsService {
 				'type'              => 'number',
 				'default'           => 5,
 				'desc_tip'          => true,
-				'custom_attributes' => array( 'min' => 1, 'max' => 50, 'step' => 1 ),
+				'custom_attributes' => array(
+					'min'  => 1,
+					'max'  => 50,
+					'step' => 1,
+				),
 			),
 			array(
 				'name'              => __( 'Max file size (MB)', 'order-updates-for-woo' ),
@@ -50,7 +54,11 @@ final class AttachmentsSettingsService {
 				'type'              => 'number',
 				'default'           => 10,
 				'desc_tip'          => false,
-				'custom_attributes' => array( 'min' => 1, 'max' => $this->server_max_upload_mb(), 'step' => 1 ),
+				'custom_attributes' => array(
+					'min'  => 1,
+					'max'  => $this->server_max_upload_mb(),
+					'step' => 1,
+				),
 			),
 			array(
 				'name'     => __( 'Allowed file types', 'order-updates-for-woo' ),
@@ -75,23 +83,23 @@ final class AttachmentsSettingsService {
 	 */
 	private function mime_options(): array {
 		return array(
-			'application/pdf'                                                           => __( 'PDF (.pdf)', 'order-updates-for-woo' ),
-			'application/msword'                                                        => __( 'Word — legacy (.doc)', 'order-updates-for-woo' ),
-			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'   => __( 'Word (.docx)', 'order-updates-for-woo' ),
-			'application/vnd.ms-excel'                                                  => __( 'Excel — legacy (.xls)', 'order-updates-for-woo' ),
-			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'         => __( 'Excel (.xlsx)', 'order-updates-for-woo' ),
-			'application/vnd.ms-powerpoint'                                             => __( 'PowerPoint — legacy (.ppt)', 'order-updates-for-woo' ),
+			'application/pdf'                         => __( 'PDF (.pdf)', 'order-updates-for-woo' ),
+			'application/msword'                      => __( 'Word — legacy (.doc)', 'order-updates-for-woo' ),
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => __( 'Word (.docx)', 'order-updates-for-woo' ),
+			'application/vnd.ms-excel'                => __( 'Excel — legacy (.xls)', 'order-updates-for-woo' ),
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => __( 'Excel (.xlsx)', 'order-updates-for-woo' ),
+			'application/vnd.ms-powerpoint'           => __( 'PowerPoint — legacy (.ppt)', 'order-updates-for-woo' ),
 			'application/vnd.openxmlformats-officedocument.presentationml.presentation' => __( 'PowerPoint (.pptx)', 'order-updates-for-woo' ),
-			'application/vnd.oasis.opendocument.text'                                   => __( 'OpenDocument Text (.odt)', 'order-updates-for-woo' ),
-			'application/vnd.oasis.opendocument.spreadsheet'                            => __( 'OpenDocument Spreadsheet (.ods)', 'order-updates-for-woo' ),
-			'application/vnd.oasis.opendocument.presentation'                           => __( 'OpenDocument Presentation (.odp)', 'order-updates-for-woo' ),
-			'application/rtf'                                                           => __( 'RTF (.rtf)', 'order-updates-for-woo' ),
-			'text/plain'                                                                => __( 'Plain text (.txt)', 'order-updates-for-woo' ),
-			'text/csv'                                                                  => __( 'CSV (.csv)', 'order-updates-for-woo' ),
-			'image/jpeg'                                                                => __( 'JPEG (.jpg, .jpeg)', 'order-updates-for-woo' ),
-			'image/png'                                                                 => __( 'PNG (.png)', 'order-updates-for-woo' ),
-			'image/gif'                                                                 => __( 'GIF (.gif)', 'order-updates-for-woo' ),
-			'image/webp'                                                                => __( 'WebP (.webp)', 'order-updates-for-woo' ),
+			'application/vnd.oasis.opendocument.text' => __( 'OpenDocument Text (.odt)', 'order-updates-for-woo' ),
+			'application/vnd.oasis.opendocument.spreadsheet' => __( 'OpenDocument Spreadsheet (.ods)', 'order-updates-for-woo' ),
+			'application/vnd.oasis.opendocument.presentation' => __( 'OpenDocument Presentation (.odp)', 'order-updates-for-woo' ),
+			'application/rtf'                         => __( 'RTF (.rtf)', 'order-updates-for-woo' ),
+			'text/plain'                              => __( 'Plain text (.txt)', 'order-updates-for-woo' ),
+			'text/csv'                                => __( 'CSV (.csv)', 'order-updates-for-woo' ),
+			'image/jpeg'                              => __( 'JPEG (.jpg, .jpeg)', 'order-updates-for-woo' ),
+			'image/png'                               => __( 'PNG (.png)', 'order-updates-for-woo' ),
+			'image/gif'                               => __( 'GIF (.gif)', 'order-updates-for-woo' ),
+			'image/webp'                              => __( 'WebP (.webp)', 'order-updates-for-woo' ),
 		);
 	}
 

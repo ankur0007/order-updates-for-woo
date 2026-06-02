@@ -35,12 +35,12 @@ final class OrderUpdatesPanelController {
 	) {}
 
 	public function init(): void {
-		add_action('add_meta_boxes', [ $this, 'register_meta_box' ]);
-		add_action('admin_enqueue_scripts', [ $this, 'enqueue_assets' ]);
+		add_action( 'add_meta_boxes', array( $this, 'register_meta_box' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
 	public function register_meta_box(): void {
-		if (wp_doing_ajax()) {
+		if ( wp_doing_ajax() ) {
 			return;
 		}
 
@@ -54,7 +54,7 @@ final class OrderUpdatesPanelController {
 		add_meta_box(
 			'order-updates-for-woo-meta-box',
 			__( 'Order Updates', 'order-updates-for-woo' ),
-			[ $this, 'render' ],
+			array( $this, 'render' ),
 			$screen_id,
 			'normal',
 			'high'
@@ -62,7 +62,7 @@ final class OrderUpdatesPanelController {
 	}
 
 	public function enqueue_assets(): void {
-		if (! $this->panel_service->should_enqueue_assets()) {
+		if ( ! $this->panel_service->should_enqueue_assets() ) {
 			return;
 		}
 
@@ -73,9 +73,9 @@ final class OrderUpdatesPanelController {
 		$this->panel_service->enqueue_assets();
 	}
 
-	public function render($order = null): void {
-		$order_id = $this->get_order_id($order);
-		$order_updates_array = $this->order_updates_db->get_order_updates($order_id, Variables::getUpdatesPageSize(), 0);
+	public function render( $order = null ): void {
+		$order_id            = $this->get_order_id( $order );
+		$order_updates_array = $this->order_updates_db->get_order_updates( $order_id, Variables::getUpdatesPageSize(), 0 );
 
 		// Pre-warm the rating cache for all updates in a single query so the
 		// per-update parse() calls below hit cache instead of hitting the DB N times.
@@ -84,7 +84,7 @@ final class OrderUpdatesPanelController {
 		);
 
 		$card_variables_list = array_map(
-			[ $this->update_card_variable_parser, 'parse' ],
+			array( $this->update_card_variable_parser, 'parse' ),
 			$order_updates_array
 		);
 
@@ -95,8 +95,8 @@ final class OrderUpdatesPanelController {
 		$customer_url = '';
 		$order_obj    = $order_id ? wc_get_order( $order_id ) : null;
 		if ( $order_obj ) {
-			$shared_link  = SharedLink::ensure( $order_obj, get_current_user_id() );
-			$customer_url = CustomerOrderUpdatesController::get_shared_link_url( $order_id, (string) $shared_link['hash'] );
+			$shared_link                        = SharedLink::ensure( $order_obj, get_current_user_id() );
+			$customer_url                       = CustomerOrderUpdatesController::get_shared_link_url( $order_id, (string) $shared_link['hash'] );
 			$shared_link['expiry_endpoint']     = RestUrlHelper::route( 'orders/' . $order_id . '/shared-link/expiry' );
 			$shared_link['regenerate_endpoint'] = RestUrlHelper::route( 'orders/' . $order_id . '/shared-link/regenerate' );
 			$shared_link['default_days']        = Variables::getCustomerLinkExpiryDays();
@@ -104,26 +104,26 @@ final class OrderUpdatesPanelController {
 
 		View::render(
 			'src/Admin/Orders/Views/OrderUpdatesPanelViewModern',
-			[
-				'settings' => $this->settings_service->get_feature_settings(),
-				'order_id' => $order_id,
-				'order_updates' => $card_variables_list,
-				'order_updates_total' => $this->order_updates_db->count_order_updates($order_id),
-				'show_onboarding' => $this->onboarding->should_show(),
-				'statuses' => $this->settings_service->get_statuses(),
-				'customer_url' => $customer_url,
-				'shared_link' => $shared_link,
-			]
+			array(
+				'settings'            => $this->settings_service->get_feature_settings(),
+				'order_id'            => $order_id,
+				'order_updates'       => $card_variables_list,
+				'order_updates_total' => $this->order_updates_db->count_order_updates( $order_id ),
+				'show_onboarding'     => $this->onboarding->should_show(),
+				'statuses'            => $this->settings_service->get_statuses(),
+				'customer_url'        => $customer_url,
+				'shared_link'         => $shared_link,
+			)
 		);
 	}
 
-	private function get_order_id($order): int {
-		if (is_object($order) && method_exists($order, 'get_id')) {
-			return absint($order->get_id());
+	private function get_order_id( $order ): int {
+		if ( is_object( $order ) && method_exists( $order, 'get_id' ) ) {
+			return absint( $order->get_id() );
 		}
 
-		if (is_object($order) && isset($order->ID)) {
-			return absint($order->ID);
+		if ( is_object( $order ) && isset( $order->ID ) ) {
+			return absint( $order->ID );
 		}
 
 		return 0;

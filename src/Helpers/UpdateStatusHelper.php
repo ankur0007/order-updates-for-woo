@@ -32,43 +32,43 @@ final class UpdateStatusHelper {
 		return '';
 	}
 
-	public static function get_formatted_is_solved(array|object|int $update, ?OrderUpdatesDb $order_updates_db = null): string {
-		$resolved_update = UpdateResolver::normalize_update($update, $order_updates_db);
-		$solved_line     = UpdateState::is_resolved($resolved_update)
-			? __('Yes', 'order-updates-for-woo')
-			: __('Pending', 'order-updates-for-woo');
+	public static function get_formatted_is_solved( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
+		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
+		$solved_line     = UpdateState::is_resolved( $resolved_update )
+			? __( 'Yes', 'order-updates-for-woo' )
+			: __( 'Pending', 'order-updates-for-woo' );
 
-		return (string) apply_filters('order_updates_for_woo_solved_line', $solved_line, $resolved_update);
+		return (string) apply_filters( 'order_updates_for_woo_solved_line', $solved_line, $resolved_update );
 	}
 
-	public static function get_solved_by_name(array|object|int $update, ?OrderUpdatesDb $order_updates_db = null): string {
-		$resolved_update = UpdateResolver::normalize_update($update, $order_updates_db);
+	public static function get_solved_by_name( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
+		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 
-		if (UpdateState::is_resolved($resolved_update) && ! empty($resolved_update['solved_by_name'])) {
+		if ( UpdateState::is_resolved( $resolved_update ) && ! empty( $resolved_update['solved_by_name'] ) ) {
 			return (string) $resolved_update['solved_by_name'];
 		}
 
-		return __('Not solved yet', 'order-updates-for-woo');
+		return __( 'Not solved yet', 'order-updates-for-woo' );
 	}
 
-	public static function get_formatted_solved_by(array|object|int $update, ?OrderUpdatesDb $order_updates_db = null): string {
-		$resolved_update = UpdateResolver::normalize_update($update, $order_updates_db);
+	public static function get_formatted_solved_by( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
+		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 
-		if (! UpdateState::is_resolved($resolved_update)) {
+		if ( ! UpdateState::is_resolved( $resolved_update ) ) {
 			return '';
 		}
 
-		$name = ! empty($resolved_update['solved_by_name'])
+		$name = ! empty( $resolved_update['solved_by_name'] )
 			? (string) $resolved_update['solved_by_name']
-			: __('Unknown user', 'order-updates-for-woo');
+			: __( 'Unknown user', 'order-updates-for-woo' );
 
 		$solved_line = sprintf(
 			/* translators: 1: solver name, 2: date */
-			__('Marked solved by %1$s at %2$s', 'order-updates-for-woo'),
+			__( 'Marked solved by %1$s at %2$s', 'order-updates-for-woo' ),
 			$name,
-			DateHelper::format_date((string) ($resolved_update['solved_at'] ?? ''))
+			DateHelper::format_date( (string) ( $resolved_update['solved_at'] ?? '' ) )
 		);
 
-		return (string) apply_filters('order_updates_for_woo_solved_line_formatted', $solved_line, $resolved_update);
+		return (string) apply_filters( 'order_updates_for_woo_solved_line_formatted', $solved_line, $resolved_update );
 	}
 }

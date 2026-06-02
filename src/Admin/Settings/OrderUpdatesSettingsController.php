@@ -248,7 +248,7 @@ final class OrderUpdatesSettingsController {
 		$links   = array();
 
 		foreach ( $this->sections() as $section ) {
-			$url   = add_query_arg(
+			$url     = add_query_arg(
 				array(
 					'page'    => 'wc-settings',
 					'tab'     => self::TAB_ID,
@@ -256,7 +256,7 @@ final class OrderUpdatesSettingsController {
 				),
 				admin_url( 'admin.php' )
 			);
-			$class = $section->id() === $current ? 'current' : '';
+			$class   = $section->id() === $current ? 'current' : '';
 			$links[] = sprintf(
 				'<li><a href="%1$s" class="%2$s">%3$s</a></li>',
 				esc_url( $url ),
@@ -284,10 +284,10 @@ final class OrderUpdatesSettingsController {
 		$url        = wp_nonce_url(
 			add_query_arg(
 				array(
-					'page'                          => 'wc-settings',
-					'tab'                           => self::TAB_ID,
-					'section'                       => $section_id,
-					'order_updates_for_woo_action'  => 'reset_section',
+					'page'                         => 'wc-settings',
+					'tab'                          => self::TAB_ID,
+					'section'                      => $section_id,
+					'order_updates_for_woo_action' => 'reset_section',
 				),
 				admin_url( 'admin.php' )
 			),

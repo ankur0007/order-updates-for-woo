@@ -24,8 +24,8 @@ final class UpdateActionHistoryEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::READABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);

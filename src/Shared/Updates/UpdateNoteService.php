@@ -50,9 +50,9 @@ final class UpdateNoteService {
 			);
 		}
 
-		$note_author = $this->get_current_note_author();
+		$note_author        = $this->get_current_note_author();
 		$mentioned_user_ids = array_values( array_unique( array_filter( array_map( 'absint', $mentioned_user_ids ) ) ) );
-		$note_id = $this->order_updates_db->create_update_note(
+		$note_id            = $this->order_updates_db->create_update_note(
 			$update_id,
 			$note,
 			$note_author['id'],
@@ -62,7 +62,7 @@ final class UpdateNoteService {
 		);
 
 		if ( $note_id ) {
-			$snippet  = mb_strlen( $note ) > 80 ? mb_substr( $note, 0, 79 ) . '…' : $note;
+			$snippet = mb_strlen( $note ) > 80 ? mb_substr( $note, 0, 79 ) . '…' : $note;
 
 			if ( ! empty( $mentioned_user_ids ) ) {
 				$this->order_updates_db->invalidate_mention_caches( $mentioned_user_ids );
@@ -108,7 +108,7 @@ final class UpdateNoteService {
 	 * for this thread). Queues both the email and the admin-bar entry.
 	 *
 	 * @param array{id:int,name:string,created_at:string} $note_author
-	 * @param int[]                                        $exclude_user_ids
+	 * @param int[]                                       $exclude_user_ids
 	 */
 	private function queue_participant_notifications(
 		int $update_id,
@@ -124,7 +124,7 @@ final class UpdateNoteService {
 
 		$actor_id = absint( $note_author['id'] ?? 0 );
 
-		$skip = array();
+		$skip              = array();
 		$skip[ $actor_id ] = true;
 		foreach ( $exclude_user_ids as $excluded ) {
 			$excluded = absint( $excluded );

@@ -28,8 +28,8 @@ final class DeleteAttachmentEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::DELETABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::DELETABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -51,7 +51,7 @@ final class DeleteAttachmentEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$attachment_id = absint( $request->get_param( 'attachment_id' ) );
-		$record = $this->attachments_db->get( $attachment_id );
+		$record        = $this->attachments_db->get( $attachment_id );
 
 		if ( empty( $record ) ) {
 			return new WP_Error( 'order_updates_for_woo_attachment_missing', __( 'Attachment not found.', 'order-updates-for-woo' ), array( 'status' => 404 ) );
@@ -67,6 +67,16 @@ final class DeleteAttachmentEndpoint implements Registrable {
 
 		do_action( 'order_updates_for_woo_after_delete_attachment', $attachment_id, $record, $request );
 
-		return rest_ensure_response( apply_filters( 'order_updates_for_woo_delete_attachment_response', array( 'deleted' => true, 'id' => $attachment_id ), $record, $request ) );
+		return rest_ensure_response(
+			apply_filters(
+				'order_updates_for_woo_delete_attachment_response',
+				array(
+					'deleted' => true,
+					'id'      => $attachment_id,
+				),
+				$record,
+				$request 
+			) 
+		);
 	}
 }

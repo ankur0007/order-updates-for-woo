@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class WelcomeController {
 	private const REDIRECT_OPTION = 'order_updates_for_woo_do_activation_redirect';
-	private const SLUG = 'order-updates-for-woo-welcome';
+	private const SLUG            = 'order-updates-for-woo-welcome';
 
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );

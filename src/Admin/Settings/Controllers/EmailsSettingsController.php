@@ -90,9 +90,9 @@ final class EmailsSettingsController implements SettingsSectionController {
 		return wp_nonce_url(
 			add_query_arg(
 				array(
-					'page'             => 'wc-settings',
-					'tab'              => 'order_updates_for_woo',
-					'section'          => self::id_static(),
+					'page'            => 'wc-settings',
+					'tab'             => 'order_updates_for_woo',
+					'section'         => self::id_static(),
 					self::QUERY_PARAM => $email_id,
 				),
 				admin_url( 'admin.php' )

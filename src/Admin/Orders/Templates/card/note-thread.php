@@ -31,23 +31,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Local file-scope template variables, not globals.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-$type      = (string) ( $view_data['type'] ?? 'internal' );
-$update_id = (int) ( $view_data['update_id'] ?? 0 );
-$tab_id    = (string) ( $view_data['tab_id'] ?? '' );
-$panel_id  = (string) ( $view_data['panel_id'] ?? '' );
-$is_active = ! empty( $view_data['is_active'] );
-$is_resolved = ! empty( $view_data['is_resolved'] );
-$is_rated     = ! empty( $view_data['is_rated'] );
+$type                 = (string) ( $view_data['type'] ?? 'internal' );
+$update_id            = (int) ( $view_data['update_id'] ?? 0 );
+$tab_id               = (string) ( $view_data['tab_id'] ?? '' );
+$panel_id             = (string) ( $view_data['panel_id'] ?? '' );
+$is_active            = ! empty( $view_data['is_active'] );
+$is_resolved          = ! empty( $view_data['is_resolved'] );
+$is_rated             = ! empty( $view_data['is_rated'] );
 $composer_placeholder = (string) ( $view_data['composer_placeholder'] ?? '' );
-$submit_label = (string) ( $view_data['submit_label'] ?? __( 'Add Note', 'order-updates-for-woo' ) );
+$submit_label         = (string) ( $view_data['submit_label'] ?? __( 'Add Note', 'order-updates-for-woo' ) );
 
 // Class names differ between the two thread types so existing CSS and JS
 // selectors keep working without changes.
-$is_customer = 'customer' === $type;
-$wrap_class    = $is_customer ? 'awts_customer_notes_wrap' : 'awts_notes_wrap';
-$thread_class  = $is_customer ? 'awts_customer_notes_thread' : 'awts_notes_thread';
-$loading_class = $is_customer ? 'awts_customer_notes_loading' : 'awts_notes_loading';
-$loading_text  = $is_customer
+$is_customer         = 'customer' === $type;
+$wrap_class          = $is_customer ? 'awts_customer_notes_wrap' : 'awts_notes_wrap';
+$thread_class        = $is_customer ? 'awts_customer_notes_thread' : 'awts_notes_thread';
+$loading_class       = $is_customer ? 'awts_customer_notes_loading' : 'awts_notes_loading';
+$loading_text        = $is_customer
 	? __( 'Loading customer notes...', 'order-updates-for-woo' )
 	: __( 'Loading notes...', 'order-updates-for-woo' );
 $input_wrap_class    = $is_customer ? 'awts_customer_notes_input_wrap' : 'awts_notes_input_wrap';

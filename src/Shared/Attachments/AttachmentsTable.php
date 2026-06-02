@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 final class AttachmentsTable {
-	private const VERSION = '1.0.0';
+	private const VERSION     = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_attachments_table_version';
 
 	public string $attachments;
@@ -23,7 +23,7 @@ final class AttachmentsTable {
 	}
 
 	public function init(): void {
-		add_action( 'init', [ $this, 'maybe_create_tables' ] );
+		add_action( 'init', array( $this, 'maybe_create_tables' ) );
 	}
 
 	public function maybe_create_tables(): void {
@@ -42,7 +42,8 @@ final class AttachmentsTable {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$c = $wpdb->get_charset_collate();
 
-		dbDelta( "CREATE TABLE {$this->attachments} (
+		dbDelta(
+			"CREATE TABLE {$this->attachments} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			order_id BIGINT(20) UNSIGNED NOT NULL,
 			update_id BIGINT(20) UNSIGNED NOT NULL,
@@ -58,7 +59,8 @@ final class AttachmentsTable {
 			KEY order_id (order_id),
 			KEY update_id (update_id),
 			KEY note_lookup (note_id, note_type)
-		) {$c};" );
+		) {$c};" 
+		);
 
 		update_option( self::VERSION_KEY, self::VERSION );
 	}

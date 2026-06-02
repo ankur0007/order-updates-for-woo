@@ -31,8 +31,8 @@ final class UploadAttachmentEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);

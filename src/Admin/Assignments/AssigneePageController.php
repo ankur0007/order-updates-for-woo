@@ -105,9 +105,9 @@ final class AssigneePageController {
 			return $cached;
 		}
 
-		$counts  = $this->order_updates_db->get_assignee_counts( $scope );
-		$ids     = $this->order_updates_db->get_open_update_ids_for_assignee( $scope );
-		$latest  = $this->order_updates_db->get_latest_customer_messages( $ids );
+		$counts = $this->order_updates_db->get_assignee_counts( $scope );
+		$ids    = $this->order_updates_db->get_open_update_ids_for_assignee( $scope );
+		$latest = $this->order_updates_db->get_latest_customer_messages( $ids );
 
 		$urgent  = 0;
 		$medium  = 0;
@@ -121,11 +121,11 @@ final class AssigneePageController {
 			}
 			$longest = max( $longest, $waited );
 			if ( $waited > self::SLA_AMBER_MAX ) {
-				$urgent++;
+				++$urgent;
 			} elseif ( $waited > self::SLA_BLUE_MAX ) {
-				$medium++;
+				++$medium;
 			} else {
-				$low++;
+				++$low;
 			}
 		}
 
@@ -167,12 +167,12 @@ final class AssigneePageController {
 		$sees_all = $this->sees_all();
 		$user_id  = get_current_user_id();
 
-		$status   = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( (string) $_GET['status'] ) ) : '';
-		$status   = in_array( $status, array( 'open', 'solved' ), true ) ? $status : '';
-		$search   = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['s'] ) ) : '';
-		$orderby  = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( (string) $_GET['orderby'] ) ) : 'newest';
-		$orderby  = in_array( $orderby, array( 'newest', 'oldest', 'assignee' ), true ) ? $orderby : 'newest';
-		$paged    = isset( $_GET['paged'] ) ? max( 1, absint( wp_unslash( (string) $_GET['paged'] ) ) ) : 1;
+		$status       = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( (string) $_GET['status'] ) ) : '';
+		$status       = in_array( $status, array( 'open', 'solved' ), true ) ? $status : '';
+		$search       = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['s'] ) ) : '';
+		$orderby      = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( (string) $_GET['orderby'] ) ) : 'newest';
+		$orderby      = in_array( $orderby, array( 'newest', 'oldest', 'assignee' ), true ) ? $orderby : 'newest';
+		$paged        = isset( $_GET['paged'] ) ? max( 1, absint( wp_unslash( (string) $_GET['paged'] ) ) ) : 1;
 		$req_assignee = isset( $_GET['assignee'] ) ? absint( wp_unslash( (string) $_GET['assignee'] ) ) : 0;
 
 		// Security: only an administrator may filter by (or see) other people's

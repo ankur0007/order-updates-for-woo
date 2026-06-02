@@ -37,8 +37,8 @@ final class SaveUpdateEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -71,21 +71,23 @@ final class SaveUpdateEndpoint implements Registrable {
 		$status_color = $resolved['color'];
 		$status_key   = $resolved['key'];
 
-		$validated = $this->validator->validate_update_payload( array(
-			'update_id' => $request->get_param( 'update_id' ),
-			'order_id' => $request->get_param( 'order_id' ),
-			'title' => $request->get_param( 'title' ),
-			'internal_note' => $request->get_param( 'internal_note' ),
-			'customer_note' => $request->get_param( 'customer_note' ),
-			'color' => $status_color,
-			'assignee_id' => $request->get_param( 'assignee_id' ),
-		) );
+		$validated = $this->validator->validate_update_payload(
+			array(
+				'update_id'     => $request->get_param( 'update_id' ),
+				'order_id'      => $request->get_param( 'order_id' ),
+				'title'         => $request->get_param( 'title' ),
+				'internal_note' => $request->get_param( 'internal_note' ),
+				'customer_note' => $request->get_param( 'customer_note' ),
+				'color'         => $status_color,
+				'assignee_id'   => $request->get_param( 'assignee_id' ),
+			) 
+		);
 
 		if ( is_wp_error( $validated ) ) {
 			return $validated;
 		}
 
-		$is_edit = ! empty( $validated['update_id'] );
+		$is_edit  = ! empty( $validated['update_id'] );
 		$existing = array();
 
 		if ( $is_edit ) {
@@ -107,7 +109,7 @@ final class SaveUpdateEndpoint implements Registrable {
 		}
 
 		$user_id = get_current_user_id();
-		$now = current_time( 'mysql', true );
+		$now     = current_time( 'mysql', true );
 
 		// Any staff member with the order cap can edit any update (title,
 		// status, assignee). No creator-only gate — same model as Zendesk.
@@ -115,25 +117,30 @@ final class SaveUpdateEndpoint implements Registrable {
 		// customer_visible defaults to 0 on CREATE and auto-flips to 1 the
 		// moment a customer-facing note is added. On EDIT, keep the existing
 		// value so editing title/status/assignee doesn't reset visibility.
-		$update_data = apply_filters( 'order_updates_for_woo_update_data', array(
-			'order_id' => $validated['order_id'],
-			'title' => $validated['title'],
-			'customer_visible' => $is_edit ? (int) ( $existing['customer_visible'] ?? 0 ) : 0,
-			'status' => $status_key,
-			'color' => $validated['color'],
-			'created_by' => $is_edit ? absint( $existing['created_by'] ?? $user_id ) : $user_id,
-			'created_at' => $is_edit ? (string) ( $existing['created_at'] ?? $now ) : $now,
-			'last_updated_by' => $user_id,
-			'last_updated_at' => $now,
-		), $validated, $request );
+		$update_data = apply_filters(
+			'order_updates_for_woo_update_data',
+			array(
+				'order_id'         => $validated['order_id'],
+				'title'            => $validated['title'],
+				'customer_visible' => $is_edit ? (int) ( $existing['customer_visible'] ?? 0 ) : 0,
+				'status'           => $status_key,
+				'color'            => $validated['color'],
+				'created_by'       => $is_edit ? absint( $existing['created_by'] ?? $user_id ) : $user_id,
+				'created_at'       => $is_edit ? (string) ( $existing['created_at'] ?? $now ) : $now,
+				'last_updated_by'  => $user_id,
+				'last_updated_at'  => $now,
+			),
+			$validated,
+			$request 
+		);
 
 		do_action( 'order_updates_for_woo_before_update_save', $validated, $update_data, $request );
 
 		if ( $is_edit ) {
 			$update_saved = $this->order_updates_db->edit_order_update( $validated['update_id'], $update_data );
-			$update_id = $validated['update_id'];
+			$update_id    = $validated['update_id'];
 		} else {
-			$update_id = $this->order_updates_db->create_order_update( $update_data );
+			$update_id    = $this->order_updates_db->create_order_update( $update_data );
 			$update_saved = (bool) $update_id;
 		}
 
@@ -153,19 +160,19 @@ final class SaveUpdateEndpoint implements Registrable {
 			$saved_payload['assignee_id'] = 0;
 		}
 
-		$mentioned_ids = $this->validator->sanitize_mentioned_user_ids( (array) $request->get_param( 'mentioned_user_ids' ) );
-		$created_note  = $this->update_note_service->create_internal_note(
+		$mentioned_ids       = $this->validator->sanitize_mentioned_user_ids( (array) $request->get_param( 'mentioned_user_ids' ) );
+		$created_note        = $this->update_note_service->create_internal_note(
 			$update_id,
 			(string) ( $validated['internal_note'] ?? '' ),
 			$mentioned_ids
 		);
-		$created_note_id = absint( $created_note['id'] ?? 0 );
-		$customer_note_id = 0;
+		$created_note_id     = absint( $created_note['id'] ?? 0 );
+		$customer_note_id    = 0;
 		$notification_queued = false;
 
 		if ( ! $is_edit ) {
-			$customer_note = $this->update_note_service->create_customer_note( $update_id, (string) ( $validated['customer_note'] ?? '' ), true );
-			$customer_note_id = absint( $customer_note['id'] ?? 0 );
+			$customer_note       = $this->update_note_service->create_customer_note( $update_id, (string) ( $validated['customer_note'] ?? '' ), true );
+			$customer_note_id    = absint( $customer_note['id'] ?? 0 );
 			$notification_queued = ! empty( $customer_note['notification_queued'] );
 		}
 
@@ -180,12 +187,12 @@ final class SaveUpdateEndpoint implements Registrable {
 				: __( 'Update saved successfully.', 'order-updates-for-woo' ) );
 
 		$response = array(
-			'message' => $message,
-			'updateId' => $update_id,
-			'isEdit' => $is_edit,
-			'cardHtml' => $this->render_card_html( $updated_record ),
-			'noteId' => $created_note_id ?: null,
-			'customerNoteId' => $customer_note_id ?: null,
+			'message'                    => $message,
+			'updateId'                   => $update_id,
+			'isEdit'                     => $is_edit,
+			'cardHtml'                   => $this->render_card_html( $updated_record ),
+			'noteId'                     => $created_note_id ?: null,
+			'customerNoteId'             => $customer_note_id ?: null,
 			'customerNotificationQueued' => $notification_queued,
 		);
 
@@ -213,7 +220,10 @@ final class SaveUpdateEndpoint implements Registrable {
 			}
 		}
 
-		$fallback = $statuses[0] ?? array( 'key' => '', 'color' => Constants::STATUS_FALLBACK_COLOR );
+		$fallback = $statuses[0] ?? array(
+			'key'   => '',
+			'color' => Constants::STATUS_FALLBACK_COLOR,
+		);
 
 		return array(
 			'key'   => (string) ( $fallback['key'] ?? '' ),

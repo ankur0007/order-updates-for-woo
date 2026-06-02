@@ -47,7 +47,7 @@ final class GetCustomerNoteHistoryEndpoint implements Registrable {
 			return $error;
 		}
 
-		$update = $this->order_updates_db->get_update( absint( $request->get_param( 'update_id' ) ) );
+		$update   = $this->order_updates_db->get_update( absint( $request->get_param( 'update_id' ) ) );
 		$order_id = absint( $update['order_id'] ?? 0 );
 
 		// Staff path — full access regardless of visibility.
@@ -82,15 +82,18 @@ final class GetCustomerNoteHistoryEndpoint implements Registrable {
 
 		$rows = $this->order_updates_db->get_customer_note_history( $note_id );
 
-		$revisions = array_map( static function ( array $row ): array {
-			return array(
-				'id'             => (int) $row['id'],
-				'prior_note'     => (string) $row['prior_note'],
-				'edited_by_name' => (string) ( $row['edited_by_name'] ?? '' ),
-				'edited_at'      => DateHelper::format_date( (string) ( $row['edited_at'] ?? '' ) ),
-				'edited_at_utc'  => (string) ( $row['edited_at'] ?? '' ),
-			);
-		}, $rows );
+		$revisions = array_map(
+			static function ( array $row ): array {
+				return array(
+					'id'             => (int) $row['id'],
+					'prior_note'     => (string) $row['prior_note'],
+					'edited_by_name' => (string) ( $row['edited_by_name'] ?? '' ),
+					'edited_at'      => DateHelper::format_date( (string) ( $row['edited_at'] ?? '' ) ),
+					'edited_at_utc'  => (string) ( $row['edited_at'] ?? '' ),
+				);
+			},
+			$rows 
+		);
 
 		$response = array(
 			'note_id'   => $note_id,

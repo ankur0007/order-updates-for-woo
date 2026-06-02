@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 final class UpdatesTable {
-	private const VERSION = '1.0.0';
+	private const VERSION     = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_table_version';
 
 	public string $updates;
@@ -35,7 +35,7 @@ final class UpdatesTable {
 	}
 
 	public function init(): void {
-		add_action( 'init', [ $this, 'maybe_create_tables' ] );
+		add_action( 'init', array( $this, 'maybe_create_tables' ) );
 	}
 
 	public function maybe_create_tables(): void {
@@ -59,7 +59,8 @@ final class UpdatesTable {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$c = $wpdb->get_charset_collate();
 
-		dbDelta( "CREATE TABLE {$this->updates} (
+		dbDelta(
+			"CREATE TABLE {$this->updates} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			order_id BIGINT(20) UNSIGNED NOT NULL,
 			title VARCHAR(191) NOT NULL,
@@ -83,9 +84,11 @@ final class UpdatesTable {
 			KEY resolved_order (is_resolved, order_id),
 			KEY created_at (created_at),
 			KEY resolved_created_at (is_resolved, created_at)
-		) {$c};" );
+		) {$c};" 
+		);
 
-		dbDelta( "CREATE TABLE {$this->assignees} (
+		dbDelta(
+			"CREATE TABLE {$this->assignees} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			update_id BIGINT(20) UNSIGNED NOT NULL,
 			assignee_user_id BIGINT(20) UNSIGNED NOT NULL,
@@ -104,9 +107,11 @@ final class UpdatesTable {
 			KEY update_assignee (update_id, assignee_user_id),
 			KEY update_active (update_id, is_active),
 			KEY update_assigned_at (update_id, assigned_at)
-		) {$c};" );
+		) {$c};" 
+		);
 
-		dbDelta( "CREATE TABLE {$this->notes} (
+		dbDelta(
+			"CREATE TABLE {$this->notes} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			update_id BIGINT(20) UNSIGNED NOT NULL,
 			note VARCHAR(500) NOT NULL,
@@ -117,9 +122,11 @@ final class UpdatesTable {
 			edited_at DATETIME NULL,
 			PRIMARY KEY  (id),
 			KEY update_id (update_id)
-		) {$c};" );
+		) {$c};" 
+		);
 
-		dbDelta( "CREATE TABLE {$this->ratings} (
+		dbDelta(
+			"CREATE TABLE {$this->ratings} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			update_id BIGINT(20) UNSIGNED NOT NULL,
 			order_id BIGINT(20) UNSIGNED NOT NULL,
@@ -134,9 +141,11 @@ final class UpdatesTable {
 			UNIQUE KEY update_id (update_id),
 			KEY order_id (order_id),
 			KEY stars (stars)
-		) {$c};" );
+		) {$c};" 
+		);
 
-		dbDelta( "CREATE TABLE {$this->customer_notes} (
+		dbDelta(
+			"CREATE TABLE {$this->customer_notes} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			update_id BIGINT(20) UNSIGNED NOT NULL,
 			note VARCHAR(500) NOT NULL,
@@ -150,7 +159,8 @@ final class UpdatesTable {
 			PRIMARY KEY  (id),
 			KEY update_id (update_id),
 			KEY update_notified (update_id, notified_at)
-		) {$c};" );
+		) {$c};" 
+		);
 
 		// dbDelta only ADDs columns, it doesn't drop them — explicitly remove
 		// the legacy `status` column on customer_notes if it survived from an
@@ -160,7 +170,8 @@ final class UpdatesTable {
 			$wpdb->query( "ALTER TABLE {$this->customer_notes} DROP COLUMN status" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange -- own-schema table.
 		}
 
-		dbDelta( "CREATE TABLE {$this->customer_note_history} (
+		dbDelta(
+			"CREATE TABLE {$this->customer_note_history} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			note_id BIGINT(20) UNSIGNED NOT NULL,
 			prior_note VARCHAR(500) NOT NULL,
@@ -169,7 +180,8 @@ final class UpdatesTable {
 			edited_at DATETIME NOT NULL,
 			PRIMARY KEY  (id),
 			KEY note_id (note_id)
-		) {$c};" );
+		) {$c};" 
+		);
 
 		$this->backfill_status_from_color();
 		$this->drop_orphaned_options();
@@ -223,14 +235,16 @@ final class UpdatesTable {
 			}
 
 			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$wpdb->query( $wpdb->prepare(
-				"UPDATE {$this->updates}
+			$wpdb->query(
+				$wpdb->prepare(
+					"UPDATE {$this->updates}
 				SET status = %s
 				WHERE ( status = '' OR status IS NULL )
 				  AND LOWER( color ) = %s",
-				$key,
-				$color
-			) );
+					$key,
+					$color
+				) 
+			);
 		}
 	}
 

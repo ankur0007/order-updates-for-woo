@@ -223,7 +223,10 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 
 		$queued = $this->async_job->queue(
 			Constants::HOOK_CUSTOMER_NOTIFICATION,
-			array( 'update_id' => $update_id, 'note_id' => $note_id )
+			array(
+				'update_id' => $update_id,
+				'note_id'   => $note_id,
+			)
 		);
 
 		if ( $queued ) {

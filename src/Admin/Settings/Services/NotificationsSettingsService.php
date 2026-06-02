@@ -43,7 +43,11 @@ final class NotificationsSettingsService {
 				'type'              => 'number',
 				'default'           => 30,
 				'desc_tip'          => true,
-				'custom_attributes' => array( 'min' => 0, 'max' => 365, 'step' => 1 ),
+				'custom_attributes' => array(
+					'min'  => 0,
+					'max'  => 365,
+					'step' => 1,
+				),
 			),
 			array(
 				'name'              => __( 'Delete from Archived after (days)', 'order-updates-for-woo' ),
@@ -52,7 +56,11 @@ final class NotificationsSettingsService {
 				'type'              => 'number',
 				'default'           => 30,
 				'desc_tip'          => true,
-				'custom_attributes' => array( 'min' => 0, 'max' => 365, 'step' => 1 ),
+				'custom_attributes' => array(
+					'min'  => 0,
+					'max'  => 365,
+					'step' => 1,
+				),
 			),
 			array(
 				'type' => 'sectionend',

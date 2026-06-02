@@ -67,7 +67,16 @@ final class StatusListField {
 				</button>
 
 				<template data-awts-status-template>
-					<?php $this->render_row( $option_id, array( 'key' => '', 'label' => '', 'color' => '#2563eb' ) ); ?>
+					<?php
+					$this->render_row(
+						$option_id,
+						array(
+							'key'   => '',
+							'label' => '',
+							'color' => '#2563eb',
+						) 
+					);
+					?>
 				</template>
 			</td>
 		</tr>
@@ -120,7 +129,7 @@ final class StatusListField {
 			$suffix    = 2;
 			while ( isset( $used_keys[ $candidate ] ) ) {
 				$candidate = $key . '-' . $suffix;
-				$suffix++;
+				++$suffix;
 			}
 
 			$used_keys[ $candidate ] = true;

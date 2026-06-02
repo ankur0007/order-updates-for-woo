@@ -37,8 +37,8 @@ final class AddUpdateNoteEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -109,28 +109,28 @@ final class AddUpdateNoteEndpoint implements Registrable {
 
 		$response = array(
 			'message' => __( 'Note added.', 'order-updates-for-woo' ),
-			'note' => array(
-				'id' => (int) $created['id'],
-				'note' => $note,
-				'created_by' => $current_user_id,
-				'created_by_name' => (string) ( $created['created_by_name'] ?? '' ),
-				'avatar_url' => $current_user_id > 0 ? (string) get_avatar_url( $current_user_id, array( 'size' => 56 ) ) : '',
-				'created_at' => DateHelper::format_date( (string) ( $created['created_at_utc'] ?? '' ) ),
-				'created_at_utc' => (string) ( $created['created_at_utc'] ?? '' ),
-				'edited_at' => null,
-				'edited_at_utc' => null,
+			'note'    => array(
+				'id'                 => (int) $created['id'],
+				'note'               => $note,
+				'created_by'         => $current_user_id,
+				'created_by_name'    => (string) ( $created['created_by_name'] ?? '' ),
+				'avatar_url'         => $current_user_id > 0 ? (string) get_avatar_url( $current_user_id, array( 'size' => 56 ) ) : '',
+				'created_at'         => DateHelper::format_date( (string) ( $created['created_at_utc'] ?? '' ) ),
+				'created_at_utc'     => (string) ( $created['created_at_utc'] ?? '' ),
+				'edited_at'          => null,
+				'edited_at_utc'      => null,
 				'mentioned_user_ids' => array_map( 'absint', (array) ( $created['mentioned_user_ids'] ?? array() ) ),
 				// Run the just-written note through the same edit policy used
 				// by GetUpdateNotesEndpoint so the bubble matches the post-
 				// reload state. Hardcoding `true` here meant the pencil showed
 				// even when the admin had "Allow editing notes" switched off.
-				'can_edit' => $this->note_action_policy->can_edit_internal_note(
+				'can_edit'           => $this->note_action_policy->can_edit_internal_note(
 					array(
 						'created_by' => get_current_user_id(),
 						'created_at' => (string) ( $created['created_at_utc'] ?? '' ),
 					)
 				),
-				'can_delete' => $this->note_action_policy->can_delete_internal_note(
+				'can_delete'         => $this->note_action_policy->can_delete_internal_note(
 					array(
 						'created_by' => get_current_user_id(),
 						'created_at' => (string) ( $created['created_at_utc'] ?? '' ),

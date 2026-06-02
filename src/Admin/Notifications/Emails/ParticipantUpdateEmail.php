@@ -71,13 +71,13 @@ final class ParticipantUpdateEmail extends OrderUpdateEmailBase {
 
 		if ( 'customer' === $note_type ) {
 			/* translators: %s: order number. */
-			$this->subject    = sprintf( __( '[{site_title}] New customer message for #%s', 'order-updates-for-woo' ), $order_number );
+			$this->subject = sprintf( __( '[{site_title}] New customer message for #%s', 'order-updates-for-woo' ), $order_number );
 			/* translators: 1: author name, 2: order number. */
 			$this->intro_text = sprintf( __( '%1$s sent a new message on order #%2$s.', 'order-updates-for-woo' ), $author, $order_number );
 			$this->note_label = __( 'Customer note', 'order-updates-for-woo' );
 		} else {
 			/* translators: %s: order number. */
-			$this->subject    = sprintf( __( '[{site_title}] New internal note on order #%s', 'order-updates-for-woo' ), $order_number );
+			$this->subject = sprintf( __( '[{site_title}] New internal note on order #%s', 'order-updates-for-woo' ), $order_number );
 			/* translators: 1: author name, 2: order number. */
 			$this->intro_text = sprintf( __( '%1$s added an internal note on order #%2$s.', 'order-updates-for-woo' ), $author, $order_number );
 			$this->note_label = __( 'Internal note', 'order-updates-for-woo' );

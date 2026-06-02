@@ -20,7 +20,7 @@ final class RatingShareLinks {
 	 * @return array<int, array{platform:string, label:string, url:string}>
 	 */
 	public static function build( string $site_name, string $site_url ): array {
-		$site_url = '' !== $site_url ? $site_url : (string) home_url( '/' );
+		$site_url  = '' !== $site_url ? $site_url : (string) home_url( '/' );
 		$site_name = '' !== $site_name ? $site_name : (string) wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
 
 		$share_text_template = (string) get_option(
@@ -38,8 +38,8 @@ final class RatingShareLinks {
 			$share_text_template
 		);
 
-		$encoded_url  = rawurlencode( $site_url );
-		$encoded_text = rawurlencode( $share_text );
+		$encoded_url      = rawurlencode( $site_url );
+		$encoded_text     = rawurlencode( $share_text );
 		$encoded_combined = rawurlencode( $share_text . ' ' . $site_url );
 
 		$links = array(

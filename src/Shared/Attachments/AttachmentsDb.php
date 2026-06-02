@@ -50,7 +50,7 @@ final class AttachmentsDb {
 		}
 
 		$cache_key = "attachment_{$attachment_id}";
-		$cached = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
+		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
 
 		if ( false !== $cached ) {
 			return $cached;
@@ -81,7 +81,7 @@ final class AttachmentsDb {
 		}
 
 		$cache_key = "attachments_note_{$note_id}_{$note_type}";
-		$cached = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
+		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
 
 		if ( false !== $cached ) {
 			return $cached;

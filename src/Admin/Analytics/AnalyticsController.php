@@ -42,8 +42,8 @@ final class AnalyticsController {
 	}
 
 	public function render(): void {
-		$css_path = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/css/analytics.css';
-		$js_path  = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/js/analytics.js';
+		$css_path   = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/css/analytics.css';
+		$js_path    = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/js/analytics.js';
 		$chart_path = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/js/vendor/chart.umd.min.js';
 
 		wp_enqueue_style(
@@ -76,27 +76,27 @@ final class AnalyticsController {
 				'apiBase'  => rest_url( Constants::REST_NAMESPACE ),
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
 				'adminUrl' => admin_url( 'post.php' ),
-				'strings' => array(
-					'loading'       => __( 'Loading…', 'order-updates-for-woo' ),
-					'noData'        => __( 'No data for this period.', 'order-updates-for-woo' ),
-					'total'         => __( 'Total', 'order-updates-for-woo' ),
-					'solved'        => __( 'Solved', 'order-updates-for-woo' ),
-					'pending'       => __( 'Pending', 'order-updates-for-woo' ),
-					'avgRating'     => __( 'Avg Rating', 'order-updates-for-woo' ),
-					'agent'         => __( 'Agent', 'order-updates-for-woo' ),
-					'product'       => __( 'Product', 'order-updates-for-woo' ),
-					'ticketsLabel'  => __( 'Tickets', 'order-updates-for-woo' ),
-					'solvedLabel'   => __( 'Solved', 'order-updates-for-woo' ),
-					'na'            => __( 'N/A', 'order-updates-for-woo' ),
-					'thisMonth'     => __( 'This month', 'order-updates-for-woo' ),
-					'lastMonth'     => __( 'Last month', 'order-updates-for-woo' ),
-					'last3Months'   => __( 'Last 3 months', 'order-updates-for-woo' ),
-					'last6Months'   => __( 'Last 6 months', 'order-updates-for-woo' ),
-					'lastYear'      => __( 'Last year', 'order-updates-for-woo' ),
-					'allTime'       => __( 'All time', 'order-updates-for-woo' ),
-					'custom'        => __( 'Custom', 'order-updates-for-woo' ),
-					'apply'         => __( 'Apply', 'order-updates-for-woo' ),
-					'error'         => __( 'Failed to load analytics. Please try again.', 'order-updates-for-woo' ),
+				'strings'  => array(
+					'loading'      => __( 'Loading…', 'order-updates-for-woo' ),
+					'noData'       => __( 'No data for this period.', 'order-updates-for-woo' ),
+					'total'        => __( 'Total', 'order-updates-for-woo' ),
+					'solved'       => __( 'Solved', 'order-updates-for-woo' ),
+					'pending'      => __( 'Pending', 'order-updates-for-woo' ),
+					'avgRating'    => __( 'Avg Rating', 'order-updates-for-woo' ),
+					'agent'        => __( 'Agent', 'order-updates-for-woo' ),
+					'product'      => __( 'Product', 'order-updates-for-woo' ),
+					'ticketsLabel' => __( 'Tickets', 'order-updates-for-woo' ),
+					'solvedLabel'  => __( 'Solved', 'order-updates-for-woo' ),
+					'na'           => __( 'N/A', 'order-updates-for-woo' ),
+					'thisMonth'    => __( 'This month', 'order-updates-for-woo' ),
+					'lastMonth'    => __( 'Last month', 'order-updates-for-woo' ),
+					'last3Months'  => __( 'Last 3 months', 'order-updates-for-woo' ),
+					'last6Months'  => __( 'Last 6 months', 'order-updates-for-woo' ),
+					'lastYear'     => __( 'Last year', 'order-updates-for-woo' ),
+					'allTime'      => __( 'All time', 'order-updates-for-woo' ),
+					'custom'       => __( 'Custom', 'order-updates-for-woo' ),
+					'apply'        => __( 'Apply', 'order-updates-for-woo' ),
+					'error'        => __( 'Failed to load analytics. Please try again.', 'order-updates-for-woo' ),
 				),
 			)
 		);

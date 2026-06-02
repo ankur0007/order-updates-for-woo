@@ -56,7 +56,7 @@ final class CreatorUpdateDeletedEmail extends OrderUpdateEmailBase {
 		// to the deleted update reflected accurately. Caller picks the role
 		// ('creator' or 'assignee') based on which user this notification is
 		// for; the email body shape stays identical otherwise.
-		$this->intro_text    = 'assignee' === $recipient_role
+		$this->intro_text = 'assignee' === $recipient_role
 			? sprintf(
 				/* translators: 1: actor name, 2: order number. */
 				__( '%1$s deleted an update that was assigned to you on order #%2$s.', 'order-updates-for-woo' ),

@@ -25,13 +25,13 @@ final class SingleOrderUpdateEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::READABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
-				'args' => array(
+				'args'                => array(
 					'update_id' => array(
-						'required' => true,
-						'type' => 'integer',
+						'required'          => true,
+						'type'              => 'integer',
 						'sanitize_callback' => 'absint',
 					),
 				),
@@ -45,8 +45,8 @@ final class SingleOrderUpdateEndpoint implements Registrable {
 		}
 
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$update = UpdateResolver::get_update( $update_id, $this->order_updates_db );
-		$order_id = absint( $update['order_id'] ?? 0 );
+		$update    = UpdateResolver::get_update( $update_id, $this->order_updates_db );
+		$order_id  = absint( $update['order_id'] ?? 0 );
 
 		if ( ! $update_id || ! $order_id ) {
 			return $this->update_not_found_error();
@@ -61,7 +61,7 @@ final class SingleOrderUpdateEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$update = UpdateResolver::get_update( $update_id, $this->order_updates_db );
+		$update    = UpdateResolver::get_update( $update_id, $this->order_updates_db );
 
 		if ( empty( $update['id'] ) ) {
 			return $this->update_not_found_error();

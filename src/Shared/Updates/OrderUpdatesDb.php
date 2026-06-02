@@ -31,7 +31,7 @@ final class OrderUpdatesDb {
 	}
 
 	private function increment_order_updates_cache_version( int $order_id ): void {
-		$key = "order_updates_ver_{$order_id}";
+		$key     = "order_updates_ver_{$order_id}";
 		$version = (int) $this->cache_get( $key );
 		$this->cache_set( $key, $version + 1 );
 	}
@@ -158,7 +158,7 @@ final class OrderUpdatesDb {
 	 * Use this when you have an update_id but no order_id at hand.
 	 */
 	private function invalidate_for_update( int $update_id ): void {
-		$update = $this->get_update( $update_id );
+		$update   = $this->get_update( $update_id );
 		$order_id = absint( $update['order_id'] ?? 0 );
 
 		if ( $order_id ) {
@@ -182,16 +182,16 @@ final class OrderUpdatesDb {
 		$wpdb->insert(
 			$this->updates_table->updates,
 			array(
-				'order_id' => $update_data['order_id'],
-				'title' => $update_data['title'],
-				'status' => (string) ( $update_data['status'] ?? '' ),
+				'order_id'         => $update_data['order_id'],
+				'title'            => $update_data['title'],
+				'status'           => (string) ( $update_data['status'] ?? '' ),
 				'customer_visible' => $update_data['customer_visible'],
-				'color' => $update_data['color'],
-				'created_by' => $update_data['created_by'],
-				'last_updated_by' => $update_data['created_by'],
-				'is_resolved' => 0,
-				'created_at' => $update_data['created_at'],
-				'last_updated_at' => $update_data['created_at'],
+				'color'            => $update_data['color'],
+				'created_by'       => $update_data['created_by'],
+				'last_updated_by'  => $update_data['created_by'],
+				'is_resolved'      => 0,
+				'created_at'       => $update_data['created_at'],
+				'last_updated_at'  => $update_data['created_at'],
 			),
 			array( '%d', '%s', '%s', '%d', '%s', '%d', '%d', '%d', '%s', '%s' )
 		);
@@ -220,12 +220,12 @@ final class OrderUpdatesDb {
 		$result = false !== $wpdb->update(
 			$this->updates_table->updates,
 			array(
-				'title' => $new_title,
-				'status' => (string) ( $update_data['status'] ?? '' ),
+				'title'            => $new_title,
+				'status'           => (string) ( $update_data['status'] ?? '' ),
 				'customer_visible' => $update_data['customer_visible'],
-				'color' => $update_data['color'],
-				'last_updated_by' => $update_data['last_updated_by'],
-				'last_updated_at' => $update_data['last_updated_at'],
+				'color'            => $update_data['color'],
+				'last_updated_by'  => $update_data['last_updated_by'],
+				'last_updated_at'  => $update_data['last_updated_at'],
 			),
 			array( 'id' => $update_id ),
 			array( '%s', '%s', '%d', '%s', '%d', '%s' ),
@@ -417,12 +417,12 @@ final class OrderUpdatesDb {
 		$result = false !== $wpdb->insert(
 			$this->updates_table->assignees,
 			array(
-				'update_id' => $update_id,
+				'update_id'        => $update_id,
 				'assignee_user_id' => $assignee_user_id,
-				'assigned_by' => $assigned_by,
-				'assigned_at' => $assigned_at,
-				'is_active' => 1,
-				'last_updated_at' => $assigned_at,
+				'assigned_by'      => $assigned_by,
+				'assigned_at'      => $assigned_at,
+				'is_active'        => 1,
+				'last_updated_at'  => $assigned_at,
 			),
 			array( '%d', '%d', '%d', '%s', '%d', '%s' )
 		);
@@ -439,7 +439,7 @@ final class OrderUpdatesDb {
 	public function sync_assignee( int $update_id, int $assignee_user_id, int $assigned_by, string $assigned_at ): bool {
 		global $wpdb;
 
-		$current = $this->get_update( $update_id );
+		$current             = $this->get_update( $update_id );
 		$current_assignee_id = absint( $current['assignee_user_id'] ?? 0 );
 
 		if ( $current_assignee_id === $assignee_user_id ) {
@@ -484,8 +484,8 @@ final class OrderUpdatesDb {
 		$result = $this->create_assignee( $update_id, $assignee_user_id, $assigned_by, $assigned_at );
 
 		if ( $result ) {
-			$new_user      = get_userdata( $assignee_user_id );
-			$new_name      = $new_user instanceof \WP_User ? (string) $new_user->display_name : '';
+			$new_user = get_userdata( $assignee_user_id );
+			$new_name = $new_user instanceof \WP_User ? (string) $new_user->display_name : '';
 
 			$this->log_assignee_change_in_thread(
 				$update_id,
@@ -587,15 +587,15 @@ final class OrderUpdatesDb {
 			return false;
 		}
 
-		$current = $this->get_update( $update_id );
+		$current  = $this->get_update( $update_id );
 		$order_id = absint( $current['order_id'] ?? 0 );
 
 		$result = false !== $wpdb->update(
 			$this->updates_table->updates,
 			array(
-				'is_resolved' => 1,
-				'solved_by' => $solved_by,
-				'solved_at' => $solved_at,
+				'is_resolved'     => 1,
+				'solved_by'       => $solved_by,
+				'solved_at'       => $solved_at,
 				'last_updated_at' => $solved_at,
 			),
 			array( 'id' => $update_id ),
@@ -626,13 +626,13 @@ final class OrderUpdatesDb {
 			return false;
 		}
 
-		$current = $this->get_update( $update_id );
+		$current  = $this->get_update( $update_id );
 		$order_id = absint( $current['order_id'] ?? 0 );
 
 		$result = false !== $wpdb->update(
 			$this->updates_table->updates,
 			array(
-				'is_resolved' => 0,
+				'is_resolved'     => 0,
 				'last_updated_by' => $reopened_by ?: null,
 				'last_updated_at' => current_time( 'mysql', true ),
 			),
@@ -697,10 +697,12 @@ final class OrderUpdatesDb {
 		// Capture customer-note ids first so the history cascade still has
 		// something to match against after the parent rows are wiped.
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$customer_note_ids = $wpdb->get_col( $wpdb->prepare(
-			"SELECT id FROM {$this->updates_table->customer_notes} WHERE update_id IN ({$placeholders})",
-			...$update_ids
-		) );
+		$customer_note_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id FROM {$this->updates_table->customer_notes} WHERE update_id IN ({$placeholders})",
+				...$update_ids
+			) 
+		);
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$this->updates_table->customer_notes} WHERE update_id IN ({$placeholders})", ...$update_ids ) );
@@ -710,10 +712,12 @@ final class OrderUpdatesDb {
 		if ( ! empty( $customer_note_ids ) ) {
 			$history_placeholders = implode( ',', array_fill( 0, count( $customer_note_ids ), '%d' ) );
 			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- placeholders generated above
-			$wpdb->query( $wpdb->prepare(
-				"DELETE FROM {$this->updates_table->customer_note_history} WHERE note_id IN ({$history_placeholders})",
-				...array_map( 'intval', $customer_note_ids )
-			) );
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM {$this->updates_table->customer_note_history} WHERE note_id IN ({$history_placeholders})",
+					...array_map( 'intval', $customer_note_ids )
+				) 
+			);
 		}
 
 		$wpdb->delete( $this->updates_table->updates, array( 'order_id' => $order_id ), array( '%d' ) );
@@ -739,7 +743,7 @@ final class OrderUpdatesDb {
 			return false;
 		}
 
-		$update = $this->get_update( $update_id );
+		$update   = $this->get_update( $update_id );
 		$order_id = absint( $update['order_id'] ?? 0 );
 
 		$result = false !== $wpdb->delete(
@@ -755,10 +759,12 @@ final class OrderUpdatesDb {
 			// Capture customer-note ids before the parent rows are gone so we
 			// can cascade their history. Skipped this until now and the
 			// history table would orphan rows on every update delete.
-			$customer_note_ids = $wpdb->get_col( $wpdb->prepare(
-				"SELECT id FROM {$this->updates_table->customer_notes} WHERE update_id = %d",
-				$update_id
-			) );
+			$customer_note_ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT id FROM {$this->updates_table->customer_notes} WHERE update_id = %d",
+					$update_id
+				) 
+			);
 
 			$wpdb->delete( $this->updates_table->customer_notes, array( 'update_id' => $update_id ), array( '%d' ) );
 			$wpdb->delete( $this->updates_table->ratings, array( 'update_id' => $update_id ), array( '%d' ) );
@@ -766,10 +772,12 @@ final class OrderUpdatesDb {
 			if ( ! empty( $customer_note_ids ) ) {
 				$placeholders = implode( ',', array_fill( 0, count( $customer_note_ids ), '%d' ) );
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- placeholders generated above
-				$wpdb->query( $wpdb->prepare(
-					"DELETE FROM {$this->updates_table->customer_note_history} WHERE note_id IN ({$placeholders})",
-					...array_map( 'intval', $customer_note_ids )
-				) );
+				$wpdb->query(
+					$wpdb->prepare(
+						"DELETE FROM {$this->updates_table->customer_note_history} WHERE note_id IN ({$placeholders})",
+						...array_map( 'intval', $customer_note_ids )
+					) 
+				);
 			}
 
 			$this->invalidate_update_caches( $update_id, $order_id );
@@ -789,13 +797,13 @@ final class OrderUpdatesDb {
 		$result = false !== $wpdb->update(
 			$this->updates_table->assignees,
 			array(
-				'notified_at' => $notified_at,
+				'notified_at'     => $notified_at,
 				'last_updated_at' => $notified_at,
 			),
 			array(
-				'update_id' => $update_id,
+				'update_id'        => $update_id,
 				'assignee_user_id' => $assignee_user_id,
-				'is_active' => 1,
+				'is_active'        => 1,
 			),
 			array( '%s', '%s' ),
 			array( '%d', '%d', '%d' )
@@ -816,13 +824,13 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "assigned_orders_{$user_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
 		}
 
-		$updates_table = $this->updates_table->updates;
+		$updates_table   = $this->updates_table->updates;
 		$assignees_table = $this->updates_table->assignees;
 
 		// Return orders where the user is either the active assignee OR the update
@@ -852,10 +860,10 @@ final class OrderUpdatesDb {
 
 	public function get_order_update_summary( int $order_id ): array {
 		$empty = array(
-			'update_count' => 0,
-			'unsolved_count' => 0,
+			'update_count'         => 0,
+			'unsolved_count'       => 0,
 			'has_customer_visible' => false,
-			'assignee_name' => '',
+			'assignee_name'        => '',
 		);
 
 		if ( ! $order_id ) {
@@ -863,14 +871,14 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "summary_{$order_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
 		}
 
 		$summaries = $this->get_order_update_summaries( array( $order_id ) );
-		$summary = $summaries[ $order_id ] ?? $empty;
+		$summary   = $summaries[ $order_id ] ?? $empty;
 		$this->cache_set( $cache_key, $summary, Variables::getUpdateCacheTtl() );
 
 		return $summary;
@@ -885,7 +893,7 @@ final class OrderUpdatesDb {
 			return array();
 		}
 
-		$results = array();
+		$results  = array();
 		$uncached = array();
 
 		foreach ( $order_ids as $oid ) {
@@ -898,10 +906,10 @@ final class OrderUpdatesDb {
 		}
 
 		if ( ! empty( $uncached ) ) {
-			$updates_table = $this->updates_table->updates;
+			$updates_table   = $this->updates_table->updates;
 			$assignees_table = $this->updates_table->assignees;
-			$users_table = $wpdb->users;
-			$placeholders = implode( ', ', array_fill( 0, count( $uncached ), '%d' ) );
+			$users_table     = $wpdb->users;
+			$placeholders    = implode( ', ', array_fill( 0, count( $uncached ), '%d' ) );
 
 			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 			$rows = $wpdb->get_results(
@@ -924,25 +932,25 @@ final class OrderUpdatesDb {
 			);
 
 			$empty = array(
-				'update_count' => 0,
-				'unsolved_count' => 0,
+				'update_count'         => 0,
+				'unsolved_count'       => 0,
 				'has_customer_visible' => false,
-				'assignee_name' => '',
+				'assignee_name'        => '',
 			);
 
 			$fetched = array();
 			foreach ( ( is_array( $rows ) ? $rows : array() ) as $row ) {
-				$oid = (int) $row['order_id'];
+				$oid             = (int) $row['order_id'];
 				$fetched[ $oid ] = array(
-					'update_count' => (int) $row['update_count'],
-					'unsolved_count' => (int) $row['unsolved_count'],
+					'update_count'         => (int) $row['update_count'],
+					'unsolved_count'       => (int) $row['unsolved_count'],
 					'has_customer_visible' => (bool) $row['has_customer_visible'],
-					'assignee_name' => (string) ( $row['assignee_name'] ?? '' ),
+					'assignee_name'        => (string) ( $row['assignee_name'] ?? '' ),
 				);
 			}
 
 			foreach ( $uncached as $oid ) {
-				$summary = $fetched[ $oid ] ?? $empty;
+				$summary         = $fetched[ $oid ] ?? $empty;
 				$results[ $oid ] = $summary;
 				$this->cache_set( "summary_{$oid}", $summary, Variables::getUpdateCacheTtl() );
 			}
@@ -1078,7 +1086,7 @@ final class OrderUpdatesDb {
 			FROM {$updates} AS updates
 			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
 			WHERE {$where_sql}";
-		$total = (int) $wpdb->get_var( $params ? $wpdb->prepare( $count_sql, $params ) : $count_sql );
+		$total     = (int) $wpdb->get_var( $params ? $wpdb->prepare( $count_sql, $params ) : $count_sql );
 
 		$list_sql = "SELECT updates.id, updates.order_id, updates.title, updates.is_resolved,
 				updates.status, updates.color, updates.created_by, updates.created_at, updates.last_updated_at,
@@ -1091,7 +1099,7 @@ final class OrderUpdatesDb {
 			WHERE {$where_sql}
 			ORDER BY {$order_sql}
 			LIMIT %d OFFSET %d";
-		$rows = $wpdb->get_results( $wpdb->prepare( $list_sql, array_merge( $params, array( $per_page, $offset ) ) ), ARRAY_A );
+		$rows     = $wpdb->get_results( $wpdb->prepare( $list_sql, array_merge( $params, array( $per_page, $offset ) ) ), ARRAY_A );
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$result = array(
@@ -1133,7 +1141,7 @@ final class OrderUpdatesDb {
 		$placeholders = implode( ', ', array_fill( 0, count( $update_ids ), '%d' ) );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from UpdatesTable; ids bound via %d placeholders.
-		$sql = "SELECT cn.update_id, cn.created_by, cn.created_at
+		$sql  = "SELECT cn.update_id, cn.created_by, cn.created_at
 			FROM {$cn} AS cn
 			INNER JOIN (
 				SELECT update_id, MAX( id ) AS max_id
@@ -1307,7 +1315,7 @@ final class OrderUpdatesDb {
 		global $wpdb;
 
 		$cache_key = 'users_with_assignments';
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
@@ -1338,7 +1346,7 @@ final class OrderUpdatesDb {
 		global $wpdb;
 
 		$cache_key = 'unsolved_order_ids';
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
@@ -1364,20 +1372,20 @@ final class OrderUpdatesDb {
 			return array();
 		}
 
-		$limit = max( 1, $limit ?? Variables::getUpdatesPageSize() );
-		$offset = max( 0, $offset );
-		$version = $this->get_order_updates_cache_version( $order_id );
+		$limit     = max( 1, $limit ?? Variables::getUpdatesPageSize() );
+		$offset    = max( 0, $offset );
+		$version   = $this->get_order_updates_cache_version( $order_id );
 		$cache_key = "order_updates_{$order_id}_v{$version}_{$limit}_{$offset}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
 		}
 
-		$updates = $this->updates_table->updates;
+		$updates   = $this->updates_table->updates;
 		$assignees = $this->updates_table->assignees;
-		$cn = $this->updates_table->customer_notes;
-		$users = $wpdb->users;
+		$cn        = $this->updates_table->customer_notes;
+		$users     = $wpdb->users;
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
@@ -1417,16 +1425,16 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "update_{$update_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
 		}
 
-		$updates = $this->updates_table->updates;
+		$updates   = $this->updates_table->updates;
 		$assignees = $this->updates_table->assignees;
-		$cn = $this->updates_table->customer_notes;
-		$users = $wpdb->users;
+		$cn        = $this->updates_table->customer_notes;
+		$users     = $wpdb->users;
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare(
@@ -1465,7 +1473,7 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "count_{$order_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return (int) $cached;
@@ -1506,16 +1514,16 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "history_{$update_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
 		}
 
-		$updates_table = $this->updates_table->updates;
+		$updates_table   = $this->updates_table->updates;
 		$assignees_table = $this->updates_table->assignees;
-		$cn_table = $this->updates_table->customer_notes;
-		$users = $wpdb->users;
+		$cn_table        = $this->updates_table->customer_notes;
+		$users           = $wpdb->users;
 
 		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- table names from UpdatesTable / $wpdb->users; no user input in identifiers.
 		$update = $wpdb->get_row(
@@ -1552,8 +1560,8 @@ final class OrderUpdatesDb {
 			: (string) ( $update['created_by_name'] ?? '' );
 
 		$events[] = array(
-			'type' => 'created',
-			'timestamp' => $update['created_at'] ?? '',
+			'type'              => 'created',
+			'timestamp'         => $update['created_at'] ?? '',
 			'performed_by_name' => $creator_label,
 		);
 
@@ -1577,34 +1585,34 @@ final class OrderUpdatesDb {
 
 		foreach ( ( is_array( $rows ) ? $rows : array() ) as $row ) {
 			$events[] = array(
-				'type' => 'assigned',
-				'timestamp' => $row['assigned_at'] ?? '',
+				'type'              => 'assigned',
+				'timestamp'         => $row['assigned_at'] ?? '',
 				'performed_by_name' => $row['assigned_by_name'] ?? '',
-				'assignee_name' => $row['assignee_name'] ?? '',
+				'assignee_name'     => $row['assignee_name'] ?? '',
 			);
 
 			if ( ! empty( $row['notified_at'] ) ) {
 				$events[] = array(
-					'type' => 'notified_assignee',
-					'timestamp' => $row['notified_at'],
+					'type'          => 'notified_assignee',
+					'timestamp'     => $row['notified_at'],
 					'assignee_name' => $row['assignee_name'] ?? '',
 				);
 			}
 
 			if ( ! empty( $row['unassigned_at'] ) ) {
 				$events[] = array(
-					'type' => 'unassigned',
-					'timestamp' => $row['unassigned_at'],
+					'type'              => 'unassigned',
+					'timestamp'         => $row['unassigned_at'],
 					'performed_by_name' => $row['unassigned_by_name'] ?? '',
-					'assignee_name' => $row['assignee_name'] ?? '',
+					'assignee_name'     => $row['assignee_name'] ?? '',
 				);
 			}
 		}
 
 		if ( ! empty( $update['solved_at'] ) ) {
 			$events[] = array(
-				'type' => 'solved',
-				'timestamp' => $update['solved_at'],
+				'type'              => 'solved',
+				'timestamp'         => $update['solved_at'],
 				'performed_by_name' => $update['solved_by_name'] ?? '',
 			);
 		}
@@ -1616,7 +1624,7 @@ final class OrderUpdatesDb {
 
 		if ( ! empty( $update['notified_customer_at'] ) ) {
 			$events[] = array(
-				'type' => 'notified_customer',
+				'type'      => 'notified_customer',
 				'timestamp' => $update['notified_customer_at'],
 			);
 		}
@@ -1644,7 +1652,7 @@ final class OrderUpdatesDb {
 		);
 
 		foreach ( ( is_array( $system_rows ) ? $system_rows : array() ) as $row ) {
-			$kind = (string) ( $row['kind'] ?? '' );
+			$kind     = (string) ( $row['kind'] ?? '' );
 			$events[] = array(
 				'type'              => $kind_to_type[ $kind ] ?? 'status_changed',
 				'timestamp'         => (string) ( $row['created_at'] ?? '' ),
@@ -1675,12 +1683,12 @@ final class OrderUpdatesDb {
 		$wpdb->insert(
 			$this->updates_table->notes,
 			array(
-				'update_id' => $update_id,
-				'note' => $note,
+				'update_id'          => $update_id,
+				'note'               => $note,
 				'mentioned_user_ids' => $this->encode_mention_ids( $mentioned_user_ids ),
-				'created_by' => $created_by,
-				'created_by_name' => $created_by_name,
-				'created_at' => $created_at,
+				'created_by'         => $created_by,
+				'created_by_name'    => $created_by_name,
+				'created_at'         => $created_at,
 			),
 			array( '%d', '%s', '%s', '%d', '%s', '%s' )
 		);
@@ -1702,7 +1710,7 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "notes_{$update_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
@@ -1788,7 +1796,10 @@ final class OrderUpdatesDb {
 		global $wpdb;
 
 		if ( ! $update_id || $limit < 1 ) {
-			return array( 'notes' => array(), 'has_more' => false );
+			return array(
+				'notes'    => array(),
+				'has_more' => false,
+			);
 		}
 
 		$version   = $this->get_update_notes_cache_version( $update_id );
@@ -1809,7 +1820,9 @@ final class OrderUpdatesDb {
 					WHERE update_id = %d AND id < %d
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
-					$update_id, $before_id, $fetch
+					$update_id,
+					$before_id,
+					$fetch
 				),
 				ARRAY_A
 			);
@@ -1821,7 +1834,8 @@ final class OrderUpdatesDb {
 					WHERE update_id = %d
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
-					$update_id, $fetch
+					$update_id,
+					$fetch
 				),
 				ARRAY_A
 			);
@@ -1839,7 +1853,10 @@ final class OrderUpdatesDb {
 		}
 		unset( $row );
 
-		$result = array( 'notes' => array_reverse( $rows ), 'has_more' => $has_more );
+		$result = array(
+			'notes'    => array_reverse( $rows ),
+			'has_more' => $has_more,
+		);
 
 		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
 
@@ -1859,7 +1876,11 @@ final class OrderUpdatesDb {
 	public function get_update_notes_around( int $update_id, int $note_id, int $span = 8 ): array {
 		global $wpdb;
 
-		$empty = array( 'notes' => array(), 'has_more' => false, 'has_newer' => false );
+		$empty = array(
+			'notes'     => array(),
+			'has_more'  => false,
+			'has_newer' => false,
+		);
 
 		if ( ! $update_id || ! $note_id || $span < 1 ) {
 			return $empty;
@@ -1878,7 +1899,8 @@ final class OrderUpdatesDb {
 		$target = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT {$columns} FROM {$this->updates_table->notes} WHERE id = %d AND update_id = %d LIMIT 1",
-				$note_id, $update_id
+				$note_id,
+				$update_id
 			),
 			ARRAY_A
 		);
@@ -1890,13 +1912,15 @@ final class OrderUpdatesDb {
 
 		$fetch = $span + 1;
 
-		$older = $wpdb->get_results(
+		$older    = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT {$columns} FROM {$this->updates_table->notes}
 				WHERE update_id = %d AND id < %d
 				ORDER BY created_at DESC, id DESC
 				LIMIT %d",
-				$update_id, $note_id, $fetch
+				$update_id,
+				$note_id,
+				$fetch
 			),
 			ARRAY_A
 		);
@@ -1907,13 +1931,15 @@ final class OrderUpdatesDb {
 		}
 		$older = array_reverse( $older );
 
-		$newer = $wpdb->get_results(
+		$newer     = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT {$columns} FROM {$this->updates_table->notes}
 				WHERE update_id = %d AND id > %d
 				ORDER BY created_at ASC, id ASC
 				LIMIT %d",
-				$update_id, $note_id, $fetch
+				$update_id,
+				$note_id,
+				$fetch
 			),
 			ARRAY_A
 		);
@@ -1930,7 +1956,11 @@ final class OrderUpdatesDb {
 		}
 		unset( $row );
 
-		$result = array( 'notes' => $rows, 'has_more' => $has_more, 'has_newer' => $has_newer );
+		$result = array(
+			'notes'     => $rows,
+			'has_more'  => $has_more,
+			'has_newer' => $has_newer,
+		);
 
 		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
 
@@ -2059,11 +2089,11 @@ final class OrderUpdatesDb {
 		$wpdb->insert(
 			$this->updates_table->customer_notes,
 			array(
-				'update_id' => $update_id,
-				'note' => $note,
-				'created_by' => $created_by,
+				'update_id'       => $update_id,
+				'note'            => $note,
+				'created_by'      => $created_by,
 				'created_by_name' => $created_by_name,
-				'created_at' => $created_at,
+				'created_at'      => $created_at,
 			),
 			array( '%d', '%s', '%d', '%s', '%s' )
 		);
@@ -2096,7 +2126,7 @@ final class OrderUpdatesDb {
 		}
 
 		$cache_key = "customer_notes_{$update_id}";
-		$cached = $this->cache_get( $cache_key );
+		$cached    = $this->cache_get( $cache_key );
 
 		if ( false !== $cached ) {
 			return $cached;
@@ -2130,7 +2160,10 @@ final class OrderUpdatesDb {
 		global $wpdb;
 
 		if ( ! $update_id || $limit < 1 ) {
-			return array( 'notes' => array(), 'has_more' => false );
+			return array(
+				'notes'    => array(),
+				'has_more' => false,
+			);
 		}
 
 		$version   = $this->get_customer_notes_cache_version( $update_id );
@@ -2151,7 +2184,9 @@ final class OrderUpdatesDb {
 					WHERE update_id = %d AND id < %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' )
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
-					$update_id, $before_id, $fetch
+					$update_id,
+					$before_id,
+					$fetch
 				),
 				ARRAY_A
 			);
@@ -2163,7 +2198,8 @@ final class OrderUpdatesDb {
 					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' )
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
-					$update_id, $fetch
+					$update_id,
+					$fetch
 				),
 				ARRAY_A
 			);
@@ -2176,7 +2212,10 @@ final class OrderUpdatesDb {
 			array_pop( $rows );
 		}
 
-		$result = array( 'notes' => array_reverse( $rows ), 'has_more' => $has_more );
+		$result = array(
+			'notes'    => array_reverse( $rows ),
+			'has_more' => $has_more,
+		);
 
 		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
 
@@ -2194,7 +2233,11 @@ final class OrderUpdatesDb {
 	public function get_customer_notes_around( int $update_id, int $note_id, int $span = 8 ): array {
 		global $wpdb;
 
-		$empty = array( 'notes' => array(), 'has_more' => false, 'has_newer' => false );
+		$empty = array(
+			'notes'     => array(),
+			'has_more'  => false,
+			'has_newer' => false,
+		);
 
 		if ( ! $update_id || ! $note_id || $span < 1 ) {
 			return $empty;
@@ -2214,7 +2257,8 @@ final class OrderUpdatesDb {
 		$target = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT {$columns} FROM {$this->updates_table->customer_notes} WHERE id = %d AND update_id = %d AND {$exclude} LIMIT 1",
-				$note_id, $update_id
+				$note_id,
+				$update_id
 			),
 			ARRAY_A
 		);
@@ -2226,13 +2270,15 @@ final class OrderUpdatesDb {
 
 		$fetch = $span + 1;
 
-		$older = $wpdb->get_results(
+		$older    = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT {$columns} FROM {$this->updates_table->customer_notes}
 				WHERE update_id = %d AND id < %d AND {$exclude}
 				ORDER BY created_at DESC, id DESC
 				LIMIT %d",
-				$update_id, $note_id, $fetch
+				$update_id,
+				$note_id,
+				$fetch
 			),
 			ARRAY_A
 		);
@@ -2243,13 +2289,15 @@ final class OrderUpdatesDb {
 		}
 		$older = array_reverse( $older );
 
-		$newer = $wpdb->get_results(
+		$newer     = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT {$columns} FROM {$this->updates_table->customer_notes}
 				WHERE update_id = %d AND id > %d AND {$exclude}
 				ORDER BY created_at ASC, id ASC
 				LIMIT %d",
-				$update_id, $note_id, $fetch
+				$update_id,
+				$note_id,
+				$fetch
 			),
 			ARRAY_A
 		);
@@ -2260,7 +2308,11 @@ final class OrderUpdatesDb {
 		}
 
 		$rows   = array_merge( $older, array( $target ), $newer );
-		$result = array( 'notes' => $rows, 'has_more' => $has_more, 'has_newer' => $has_newer );
+		$result = array(
+			'notes'     => $rows,
+			'has_more'  => $has_more,
+			'has_newer' => $has_newer,
+		);
 
 		$this->cache_set( $cache_key, $result, Variables::getUpdateCacheTtl() );
 
@@ -2762,9 +2814,12 @@ final class OrderUpdatesDb {
 		}
 
 		// Only fetch what isn't already in cache.
-		$missing = array_filter( $update_ids, function ( int $id ): bool {
-			return false === $this->cache_get( "rating_{$id}" );
-		} );
+		$missing = array_filter(
+			$update_ids,
+			function ( int $id ): bool {
+				return false === $this->cache_get( "rating_{$id}" );
+			} 
+		);
 
 		if ( empty( $missing ) ) {
 			return;
@@ -2960,9 +3015,9 @@ final class OrderUpdatesDb {
 		$result = false !== $wpdb->update(
 			$this->updates_table->assignees,
 			array(
-				'is_active' => 0,
-				'unassigned_at' => $unassigned_at,
-				'unassigned_by' => $unassigned_by,
+				'is_active'       => 0,
+				'unassigned_at'   => $unassigned_at,
+				'unassigned_by'   => $unassigned_by,
 				'last_updated_at' => $unassigned_at,
 			),
 			array(

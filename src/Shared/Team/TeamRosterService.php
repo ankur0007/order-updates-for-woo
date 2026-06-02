@@ -9,21 +9,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class TeamRosterService {
-	public const ROLES_OPTION   = 'order_updates_for_woo_internal_team_roles';
+	public const ROLES_OPTION     = 'order_updates_for_woo_internal_team_roles';
 	public const ROSTER_TRANSIENT = 'order_updates_for_woo_team_roster';
-	public const ROSTER_TTL      = 12 * HOUR_IN_SECONDS;
-	public const MAX_MEMBERS     = 200;
+	public const ROSTER_TTL       = 12 * HOUR_IN_SECONDS;
+	public const MAX_MEMBERS      = 200;
 
-	public const DEFAULT_ROLES = [ 'administrator', 'shop_manager', 'editor' ];
+	public const DEFAULT_ROLES = array( 'administrator', 'shop_manager', 'editor' );
 
 	public function init(): void {
-		add_action( 'user_register',          [ $this, 'flush_cache' ] );
-		add_action( 'set_user_role',          [ $this, 'flush_cache' ] );
-		add_action( 'delete_user',            [ $this, 'flush_cache' ] );
-		add_action( 'profile_update',         [ $this, 'flush_cache' ] );
-		add_action( 'add_user_role',          [ $this, 'flush_cache' ] );
-		add_action( 'remove_user_role',       [ $this, 'flush_cache' ] );
-		add_action( 'update_option_' . self::ROLES_OPTION, [ $this, 'flush_cache' ] );
+		add_action( 'user_register', array( $this, 'flush_cache' ) );
+		add_action( 'set_user_role', array( $this, 'flush_cache' ) );
+		add_action( 'delete_user', array( $this, 'flush_cache' ) );
+		add_action( 'profile_update', array( $this, 'flush_cache' ) );
+		add_action( 'add_user_role', array( $this, 'flush_cache' ) );
+		add_action( 'remove_user_role', array( $this, 'flush_cache' ) );
+		add_action( 'update_option_' . self::ROLES_OPTION, array( $this, 'flush_cache' ) );
 	}
 
 	/**
@@ -55,21 +55,23 @@ final class TeamRosterService {
 			return $cached;
 		}
 
-		$users = get_users( [
-			'role__in' => $this->get_role_slugs(),
-			'number'   => self::MAX_MEMBERS,
-			'orderby'  => 'display_name',
-			'order'    => 'ASC',
-			'fields'   => [ 'ID', 'display_name', 'user_email' ],
-		] );
+		$users = get_users(
+			array(
+				'role__in' => $this->get_role_slugs(),
+				'number'   => self::MAX_MEMBERS,
+				'orderby'  => 'display_name',
+				'order'    => 'ASC',
+				'fields'   => array( 'ID', 'display_name', 'user_email' ),
+			) 
+		);
 
 		$roster = array_map(
-			fn( $user ) => [
+			fn( $user ) => array(
 				'id'     => absint( $user->ID ),
 				'name'   => sanitize_text_field( (string) $user->display_name ),
 				'email'  => sanitize_email( (string) $user->user_email ),
-				'avatar' => (string) get_avatar_url( $user->ID, [ 'size' => 32 ] ),
-			],
+				'avatar' => (string) get_avatar_url( $user->ID, array( 'size' => 32 ) ),
+			),
 			$users
 		);
 

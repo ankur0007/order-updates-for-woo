@@ -125,11 +125,11 @@ final class ApiSettingsService {
 	 * defaults derived from their declared type so the JSON is parseable
 	 * as-is.
 	 *
-	 * @param string[] $methods
+	 * @param string[]                                                                                      $methods
 	 * @param array<int, array{name:string, source:string, type:string, required:bool, description:string}> $params
 	 */
 	public function curl_template_for( string $url, array $methods, array $params ): string {
-		$method = $this->primary_method( $methods );
+		$method   = $this->primary_method( $methods );
 		$has_body = ! in_array( $method, array( 'GET', 'DELETE' ), true );
 
 		$lines = array(
@@ -146,7 +146,7 @@ final class ApiSettingsService {
 				// safe to paste; replace the trailing line-continuation on
 				// the previous line by concatenating in place.
 				$lines[ count( $lines ) - 1 ] = rtrim( end( $lines ), '\\ ' ) . ' \\';
-				$lines[] = "  -d '" . $body . "'";
+				$lines[]                      = "  -d '" . $body . "'";
 			} else {
 				$lines[ count( $lines ) - 1 ] = rtrim( end( $lines ), '\\ ' );
 			}
@@ -266,7 +266,7 @@ final class ApiSettingsService {
 	 * @param array<int, array{name:string, source:string, type:string, required:bool, description:string}> $params
 	 */
 	private function body_template( array $params ): string {
-		$body = array();
+		$body        = array();
 		$body_label  = __( 'Body', 'order-updates-for-woo' );
 		$query_label = __( 'Query', 'order-updates-for-woo' );
 

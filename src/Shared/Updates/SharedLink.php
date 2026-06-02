@@ -80,7 +80,7 @@ final class SharedLink {
 	public static function set_expiry( WC_Order $order, int $days, int $actor_user_id = 0 ): array {
 		$days = self::clamp_days( $days );
 
-		$existing_at = (int) $order->get_meta( self::META_EXPIRES_AT, true );
+		$existing_at   = (int) $order->get_meta( self::META_EXPIRES_AT, true );
 		$existing_hash = (string) $order->get_meta( self::META_HASH, true );
 
 		// First-time call on an order that has never had a link minted: fall

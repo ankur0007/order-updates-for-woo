@@ -130,15 +130,17 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		// Skip the work entirely on no-op edits — also avoids creating an
 		// empty history row that just clutters the audit trail.
 		if ( $prior === $note ) {
-			return rest_ensure_response( array(
-				'message' => __( 'No changes to save.', 'order-updates-for-woo' ),
-				'note'    => $this->presentation( $note_row, $note, null ),
-			) );
+			return rest_ensure_response(
+				array(
+					'message' => __( 'No changes to save.', 'order-updates-for-woo' ),
+					'note'    => $this->presentation( $note_row, $note, null ),
+				) 
+			);
 		}
 
 		do_action( 'order_updates_for_woo_before_update_customer_note', $note_id, $update_id, $note, $request );
 
-		$editor    = $this->get_note_editor_identity( $note_row );
+		$editor   = $this->get_note_editor_identity( $note_row );
 		$archived = $this->order_updates_db->archive_customer_note_revision(
 			$note_id,
 			$prior,
@@ -207,7 +209,10 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 				$name = (string) ( $note_row['created_by_name'] ?? '' );
 			}
 
-			return array( 'id' => $user_id, 'name' => $name );
+			return array(
+				'id'   => $user_id,
+				'name' => $name,
+			);
 		}
 
 		return array(
@@ -217,8 +222,8 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 	}
 
 	private function can_manage_customer_note_as_member( array $note, int $latest_note_id ): bool {
-		$update    = $this->order_updates_db->get_update( absint( $note['update_id'] ?? 0 ) );
-		$order_id  = absint( $update['order_id'] ?? 0 );
+		$update   = $this->order_updates_db->get_update( absint( $note['update_id'] ?? 0 ) );
+		$order_id = absint( $update['order_id'] ?? 0 );
 
 		if ( ! $this->is_authorized_for_order( $order_id ) ) {
 			return false;

@@ -220,8 +220,16 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 					<span class="awts-inbox__pager">
 						<?php
 						$nav = array(
-							array( 'url' => (string) ( $pg['first_url'] ?? '' ), 'glyph' => '«', 'label' => __( 'First page', 'order-updates-for-woo' ) ),
-							array( 'url' => (string) ( $pg['prev_url'] ?? '' ), 'glyph' => '‹', 'label' => __( 'Previous page', 'order-updates-for-woo' ) ),
+							array(
+								'url'   => (string) ( $pg['first_url'] ?? '' ),
+								'glyph' => '«',
+								'label' => __( 'First page', 'order-updates-for-woo' ),
+							),
+							array(
+								'url'   => (string) ( $pg['prev_url'] ?? '' ),
+								'glyph' => '‹',
+								'label' => __( 'Previous page', 'order-updates-for-woo' ),
+							),
 						);
 						foreach ( $nav as $item ) :
 							if ( '' !== $item['url'] ) :
@@ -248,8 +256,16 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 						endforeach;
 
 						$nav = array(
-							array( 'url' => (string) ( $pg['next_url'] ?? '' ), 'glyph' => '›', 'label' => __( 'Next page', 'order-updates-for-woo' ) ),
-							array( 'url' => (string) ( $pg['last_url'] ?? '' ), 'glyph' => '»', 'label' => __( 'Last page', 'order-updates-for-woo' ) ),
+							array(
+								'url'   => (string) ( $pg['next_url'] ?? '' ),
+								'glyph' => '›',
+								'label' => __( 'Next page', 'order-updates-for-woo' ),
+							),
+							array(
+								'url'   => (string) ( $pg['last_url'] ?? '' ),
+								'glyph' => '»',
+								'label' => __( 'Last page', 'order-updates-for-woo' ),
+							),
 						);
 						foreach ( $nav as $item ) :
 							if ( '' !== $item['url'] ) :

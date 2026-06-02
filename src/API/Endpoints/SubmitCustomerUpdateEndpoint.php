@@ -36,7 +36,7 @@ use WP_REST_Response;
 final class SubmitCustomerUpdateEndpoint implements Registrable {
 	use VerifiesAccess;
 
-	private const ROUTE = '/customer-updates';
+	private const ROUTE         = '/customer-updates';
 	private const DEFAULT_COLOR = '#2563eb';
 
 	public function __construct(
@@ -237,15 +237,17 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 			$status_color   = (string) ( $default_status['color'] ?? self::DEFAULT_COLOR );
 			$status_key     = (string) ( $default_status['key'] ?? '' );
 
-			$update_id = $this->order_updates_db->create_order_update( array(
-				'order_id'         => $order_id,
-				'title'            => $title,
-				'customer_visible' => 1,
-				'status'           => $status_key,
-				'color'            => $status_color,
-				'created_by'       => $note_author['id'],
-				'created_at'       => $now,
-			) );
+			$update_id = $this->order_updates_db->create_order_update(
+				array(
+					'order_id'         => $order_id,
+					'title'            => $title,
+					'customer_visible' => 1,
+					'status'           => $status_key,
+					'color'            => $status_color,
+					'created_by'       => $note_author['id'],
+					'created_at'       => $now,
+				) 
+			);
 
 			if ( ! $update_id ) {
 				return new WP_Error( 'order_updates_for_woo_save_failed', __( 'Could not save your note. Please try again.', 'order-updates-for-woo' ), array( 'status' => 500 ) );
@@ -271,13 +273,16 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		$uploaded_attachments = array();
 
 		foreach ( $files as $file ) {
-			$stored = $this->attachment_service->store_upload( $file, array(
-				'order_id'    => $order_id,
-				'update_id'   => $update_id,
-				'note_id'     => $note_id,
-				'note_type'   => Constants::NOTE_TYPE_CUSTOMER,
-				'uploaded_by' => $note_author['id'],
-			) );
+			$stored = $this->attachment_service->store_upload(
+				$file,
+				array(
+					'order_id'    => $order_id,
+					'update_id'   => $update_id,
+					'note_id'     => $note_id,
+					'note_type'   => Constants::NOTE_TYPE_CUSTOMER,
+					'uploaded_by' => $note_author['id'],
+				) 
+			);
 
 			if ( is_wp_error( $stored ) ) {
 				// Roll back the note + any partial uploads. Otherwise every
@@ -489,7 +494,7 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 	 * @return array<int,array{name:string,tmp_name:string,type:string,size:int,error:int}>
 	 */
 	private function collect_upload_files( WP_REST_Request $request ): array {
-		$raw = $request->get_file_params();
+		$raw   = $request->get_file_params();
 		$files = array();
 
 		if ( isset( $raw['files'] ) && is_array( $raw['files']['name'] ?? null ) ) {
@@ -514,5 +519,4 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 
 		return $files;
 	}
-
 }

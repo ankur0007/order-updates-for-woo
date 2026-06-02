@@ -22,9 +22,9 @@ final class NotificationScheduler {
 	}
 
 	public function schedule_notifications( int $update_id, array $validated_payload, array $update_data, WP_REST_Request $request, array $existing_update = array() ): void {
-		$is_edit = ! empty( $existing_update );
-		$new_assignee_id = absint( $validated_payload['assignee_id'] ?? 0 );
-		$old_assignee_id = absint( $existing_update['assignee_user_id'] ?? 0 );
+		$is_edit          = ! empty( $existing_update );
+		$new_assignee_id  = absint( $validated_payload['assignee_id'] ?? 0 );
+		$old_assignee_id  = absint( $existing_update['assignee_user_id'] ?? 0 );
 		$assignee_changed = $new_assignee_id !== $old_assignee_id;
 
 		$admin_context = 'created';
@@ -62,7 +62,10 @@ final class NotificationScheduler {
 			if ( ! StaffEmailPreference::is_muted( $update_id, $admin_user_id ) ) {
 				$this->async_job->queue(
 					Constants::HOOK_ADMIN_NOTIFICATION,
-					array( 'update_id' => $update_id, 'context' => $admin_context )
+					array(
+						'update_id' => $update_id,
+						'context'   => $admin_context,
+					)
 				);
 				if ( $admin_user_id > 0 ) {
 					$notified_user_ids[] = $admin_user_id;
@@ -82,9 +85,9 @@ final class NotificationScheduler {
 				$this->async_job->queue(
 					Constants::HOOK_ADMIN_NOTIFICATION,
 					array(
-						'update_id'          => $update_id,
-						'recipient_user_id'  => $creator_id,
-						'context'            => $admin_context,
+						'update_id'         => $update_id,
+						'recipient_user_id' => $creator_id,
+						'context'           => $admin_context,
 					)
 				);
 				$notified_user_ids[] = $creator_id;

@@ -41,9 +41,9 @@ $is_resolved  = ! empty( $flags['is_resolved'] );
 // A resolved update is locked: no assignee / status editing until re-opened.
 $can_edit_meta = $can_edit && ! $is_resolved;
 
-$statuses          = isset( $view_data['statuses'] ) && is_array( $view_data['statuses'] ) ? $view_data['statuses'] : array();
+$statuses           = isset( $view_data['statuses'] ) && is_array( $view_data['statuses'] ) ? $view_data['statuses'] : array();
 $current_status_key = (string) ( $raw['status'] ?? '' );
-$current_color     = strtolower( (string) ( $raw['color'] ?? '' ) );
+$current_color      = strtolower( (string) ( $raw['color'] ?? '' ) );
 
 // Resolve the current status row from the admin's list. Color and label are
 // derived here so the footer pill stays in sync when the admin renames or
@@ -115,7 +115,8 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 		</span>
 	<?php endif; ?>
 
-	<?php if ( ! empty( $statuses ) ) :
+	<?php
+	if ( ! empty( $statuses ) ) :
 		$current_status_label = $current_status ? (string) ( $current_status['label'] ?? '' ) : '';
 		?>
 		<span class="awts_footer_item awts_status_item" data-awts-update-id="<?php echo esc_attr( (string) ( $raw['id'] ?? '' ) ); ?>">
@@ -141,7 +142,8 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 			<?php if ( $can_edit_meta ) : ?>
 				<div class="awts_inline_status_wrap" hidden>
 					<select class="awts_status_picker" data-awts-status-picker aria-label="<?php echo esc_attr__( 'Pick a new status', 'order-updates-for-woo' ); ?>">
-						<?php foreach ( $statuses as $status ) :
+						<?php
+						foreach ( $statuses as $status ) :
 							$option_key   = (string) ( $status['key'] ?? '' );
 							$option_label = (string) ( $status['label'] ?? '' );
 							if ( '' === $option_key || '' === $option_label ) {
@@ -194,10 +196,12 @@ if ( $rating_stars > 0 ) :
 			<span class="awts_footer_rating__label">
 				<?php esc_html_e( 'Customer rated', 'order-updates-for-woo' ); ?>
 			</span>
-			<span class="awts_footer_rating__stars" role="img" aria-label="<?php
+			<span class="awts_footer_rating__stars" role="img" aria-label="
+			<?php
 				/* translators: %s: rating value out of 5. */
 				echo esc_attr( sprintf( __( '%s out of 5 stars', 'order-updates-for-woo' ), $rating_stars ) );
-			?>">
+			?>
+			">
 				<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
 					<span class="awts_footer_rating__star<?php echo $i <= $rating_stars ? ' awts_footer_rating__star--filled' : ''; ?>" aria-hidden="true">
 						<?php echo $i <= $rating_stars ? '&#9733;' : '&#9734;'; ?>

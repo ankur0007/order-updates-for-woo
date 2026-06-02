@@ -38,8 +38,8 @@ final class AddCustomerNoteEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -61,7 +61,7 @@ final class AddCustomerNoteEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$update = $this->order_updates_db->get_update( $update_id );
+		$update    = $this->order_updates_db->get_update( $update_id );
 
 		if ( empty( $update['id'] ) ) {
 			return $this->update_not_found_error();
@@ -105,15 +105,18 @@ final class AddCustomerNoteEndpoint implements Registrable {
 		// Auto-email the customer unless they've turned off the email option
 		// on their portal. `CustomerEmailPreference::get` reads from user-meta
 		// (logged-in) or order-meta (guest).
-		$order_id        = (int) ( $update['order_id'] ?? 0 );
-		$order           = $order_id && function_exists( 'wc_get_order' ) ? wc_get_order( $order_id ) : null;
-		$customer_id     = $order instanceof WC_Order ? (int) $order->get_customer_id() : 0;
-		$queued_at_utc   = '';
+		$order_id      = (int) ( $update['order_id'] ?? 0 );
+		$order         = $order_id && function_exists( 'wc_get_order' ) ? wc_get_order( $order_id ) : null;
+		$customer_id   = $order instanceof WC_Order ? (int) $order->get_customer_id() : 0;
+		$queued_at_utc = '';
 
 		if ( $order instanceof WC_Order && $this->async_job && CustomerEmailPreference::get( $order_id, $customer_id ) ) {
 			$queued = $this->async_job->queue(
 				Constants::HOOK_CUSTOMER_NOTIFICATION,
-				array( 'update_id' => $update_id, 'note_id' => (int) $created['id'] )
+				array(
+					'update_id' => $update_id,
+					'note_id'   => (int) $created['id'],
+				)
 			);
 
 			if ( $queued ) {
@@ -128,25 +131,25 @@ final class AddCustomerNoteEndpoint implements Registrable {
 		$current_user_id = get_current_user_id();
 
 		$response = array(
-			'message' => __( 'Customer note added.', 'order-updates-for-woo' ),
+			'message'                  => __( 'Customer note added.', 'order-updates-for-woo' ),
 			'customer_visible_changed' => $visibility_changed,
-			'note' => array(
-				'id' => (int) $created['id'],
-				'note' => $note,
-				'created_by' => $current_user_id,
+			'note'                     => array(
+				'id'              => (int) $created['id'],
+				'note'            => $note,
+				'created_by'      => $current_user_id,
 				'created_by_name' => (string) ( $created['created_by_name'] ?? '' ),
-				'avatar_url' => $current_user_id > 0 ? (string) get_avatar_url( $current_user_id, array( 'size' => 56 ) ) : '',
-				'created_at' => DateHelper::format_date( (string) ( $created['created_at_utc'] ?? '' ) ),
-				'created_at_utc' => (string) ( $created['created_at_utc'] ?? '' ),
-				'edited_at' => null,
-				'edited_at_utc' => null,
-				'notified_at' => null,
-				'queued_at' => '' !== $queued_at_utc ? DateHelper::format_date( $queued_at_utc ) : null,
-				'queued_at_utc' => '' !== $queued_at_utc ? $queued_at_utc : null,
+				'avatar_url'      => $current_user_id > 0 ? (string) get_avatar_url( $current_user_id, array( 'size' => 56 ) ) : '',
+				'created_at'      => DateHelper::format_date( (string) ( $created['created_at_utc'] ?? '' ) ),
+				'created_at_utc'  => (string) ( $created['created_at_utc'] ?? '' ),
+				'edited_at'       => null,
+				'edited_at_utc'   => null,
+				'notified_at'     => null,
+				'queued_at'       => '' !== $queued_at_utc ? DateHelper::format_date( $queued_at_utc ) : null,
+				'queued_at_utc'   => '' !== $queued_at_utc ? $queued_at_utc : null,
 				// Match the post-reload policy — when the admin has "Allow
 				// editing notes" off, no pencil. Hardcoding `true` made the
 				// pencil show on the just-written bubble regardless.
-				'can_edit' => $this->note_action_policy->can_edit_member_customer_note(
+				'can_edit'        => $this->note_action_policy->can_edit_member_customer_note(
 					array(
 						'created_by' => $current_user_id,
 						'created_at' => (string) ( $created['created_at_utc'] ?? '' ),

@@ -27,9 +27,9 @@ final class AssetHelper {
 	 * Falls back to the original path if the .min variant doesn't exist on disk.
 	 */
 	public static function url( string $relative_path ): string {
-		$min_path  = self::min_path_for( $relative_path );
-		$min_file  = ORDER_UPDATES_FOR_WOO_PATH . $min_path;
-		$want_min  = ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
+		$min_path = self::min_path_for( $relative_path );
+		$min_file = ORDER_UPDATES_FOR_WOO_PATH . $min_path;
+		$want_min = ! ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
 		if ( $want_min && file_exists( $min_file ) ) {
 			return ORDER_UPDATES_FOR_WOO_URL . $min_path;

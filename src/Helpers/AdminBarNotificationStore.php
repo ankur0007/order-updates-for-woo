@@ -347,10 +347,12 @@ final class AdminBarNotificationStore {
 
 		global $wpdb;
 
-		$user_ids = $wpdb->get_col( $wpdb->prepare(
-			"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s",
-			self::META_KEY
-		) );
+		$user_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s",
+				self::META_KEY
+			) 
+		);
 
 		$now = time();
 

@@ -18,13 +18,13 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Helpers\UpdateState;
 
 final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
-	public function __construct(OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db) {
-		$this->id = Constants::EMAIL_ID_ADMIN_UPDATE;
-		$this->title = __('Order update notification for admin', 'order-updates-for-woo');
-		$this->description = __('Send an email to the store admin when a new order update is created.', 'order-updates-for-woo');
+	public function __construct( OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db ) {
+		$this->id             = Constants::EMAIL_ID_ADMIN_UPDATE;
+		$this->title          = __( 'Order update notification for admin', 'order-updates-for-woo' );
+		$this->description    = __( 'Send an email to the store admin when a new order update is created.', 'order-updates-for-woo' );
 		$this->customer_email = false;
 
-		parent::__construct($order_updates_db);
+		parent::__construct( $order_updates_db );
 		$this->attachments_db = $attachments_db;
 		$this->template_html  = 'src/Admin/Notifications/Templates/order-update-notification.php';
 	}
@@ -35,28 +35,28 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 	 * @param int $update_id        Update ID.
 	 * @param int $recipient_user_id Optional user to send to instead of the store admin.
 	 */
-	public function trigger(int $update_id, int $recipient_user_id = 0, string $context = 'created', int $trigger_note_id = 0, string $trigger_note_type = ''): bool {
+	public function trigger( int $update_id, int $recipient_user_id = 0, string $context = 'created', int $trigger_note_id = 0, string $trigger_note_type = '' ): bool {
 		$this->reset_trigger_state();
 
-		if (! $this->load_context($update_id)) {
+		if ( ! $this->load_context( $update_id ) ) {
 			return false;
 		}
 
-		if ($recipient_user_id) {
-			$recipient_user          = get_user_by('id', $recipient_user_id);
-			$this->recipient         = $recipient_user ? sanitize_email((string) $recipient_user->user_email) : '';
-			$this->greeting_name     = $recipient_user ? (string) $recipient_user->first_name : '';
+		if ( $recipient_user_id ) {
+			$recipient_user      = get_user_by( 'id', $recipient_user_id );
+			$this->recipient     = $recipient_user ? sanitize_email( (string) $recipient_user->user_email ) : '';
+			$this->greeting_name = $recipient_user ? (string) $recipient_user->first_name : '';
 		} else {
 			// Falls back to the site admin when no specific recipient is set
 			// (e.g. a customer opens an update before any staff owns the
 			// thread). The greeting should address the admin reading the
 			// email, not the creator who triggered it.
-			$this->recipient     = (string) get_option('admin_email');
-			$admin_user          = get_user_by('email', $this->recipient);
+			$this->recipient     = (string) get_option( 'admin_email' );
+			$admin_user          = get_user_by( 'email', $this->recipient );
 			$this->greeting_name = $admin_user ? (string) $admin_user->first_name : '';
 		}
-		$this->intro_text   = $this->get_intro_text( $context );
-		$this->status_label = $this->get_status_label( $context );
+		$this->intro_text            = $this->get_intro_text( $context );
+		$this->status_label          = $this->get_status_label( $context );
 		$this->customer_visible_pill = (bool) ( $this->order_update['customer_visible'] ?? false );
 
 		$is_customer_msg = in_array( $context, array( 'customer_submitted', 'customer_reply' ), true );
@@ -74,9 +74,9 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 			$comment      = trim( (string) ( $rating['comment'] ?? '' ) );
 
 			if ( $rating_stars > 0 ) {
-				$star_visual         = str_repeat( '★', $rating_stars ) . str_repeat( '☆', 5 - $rating_stars );
-				$this->note_label    = __( 'Customer rating', 'order-updates-for-woo' );
-				$this->note_content  = $star_visual . ' (' . $rating_stars . '/5)';
+				$star_visual        = str_repeat( '★', $rating_stars ) . str_repeat( '☆', 5 - $rating_stars );
+				$this->note_label   = __( 'Customer rating', 'order-updates-for-woo' );
+				$this->note_content = $star_visual . ' (' . $rating_stars . '/5)';
 
 				if ( '' !== $comment ) {
 					$this->secondary_note_label   = __( 'Customer comment', 'order-updates-for-woo' );
@@ -124,27 +124,27 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 			}
 		}
 
-		$this->detail_rows = apply_filters(
+		$this->detail_rows  = apply_filters(
 			'order_updates_for_woo_admin_email_detail_rows',
-			[
-				[
-					'label' => __('Assigned to', 'order-updates-for-woo'),
-					'value' => AssigneeHelper::get_formatted_assigned_to($this->order_update),
-				],
-				[
-					'label' => __('Created by', 'order-updates-for-woo'),
-					'value' => UpdateAuthorHelper::get_formatted_created_by($this->order_update),
-				],
-			],
+			array(
+				array(
+					'label' => __( 'Assigned to', 'order-updates-for-woo' ),
+					'value' => AssigneeHelper::get_formatted_assigned_to( $this->order_update ),
+				),
+				array(
+					'label' => __( 'Created by', 'order-updates-for-woo' ),
+					'value' => UpdateAuthorHelper::get_formatted_created_by( $this->order_update ),
+				),
+			),
 			$this->order_update,
 			$this->order,
 			$this
 		);
-		$this->action_url = $this->order ? ( (string) $this->order->get_edit_order_url() . '#awts-update-' . absint( $update_id ) ) : '';
-		$this->action_label = __('View and reply', 'order-updates-for-woo');
-		$this->object = $this->order;
+		$this->action_url   = $this->order ? ( (string) $this->order->get_edit_order_url() . '#awts-update-' . absint( $update_id ) ) : '';
+		$this->action_label = __( 'View and reply', 'order-updates-for-woo' );
+		$this->object       = $this->order;
 
-		if (! $this->is_enabled() || ! $this->get_recipient()) {
+		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return false;
 		}
 
@@ -152,11 +152,11 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 	}
 
 	public function get_default_subject(): string {
-		return __('[{site_title}] New update for #{order_number}', 'order-updates-for-woo');
+		return __( '[{site_title}] New update for #{order_number}', 'order-updates-for-woo' );
 	}
 
 	public function get_default_heading(): string {
-		return __('Order update', 'order-updates-for-woo');
+		return __( 'Order update', 'order-updates-for-woo' );
 	}
 
 
@@ -208,21 +208,21 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 			return __( 'The customer has replied with a new message on this update. Their message is shown below.', 'order-updates-for-woo' );
 		}
 
-		$notifications = [];
+		$notifications = array();
 
-		if (UpdateState::has_assignee((array) $this->order_update)) {
-			$notifications[] = __('assignee', 'order-updates-for-woo');
+		if ( UpdateState::has_assignee( (array) $this->order_update ) ) {
+			$notifications[] = __( 'assignee', 'order-updates-for-woo' );
 		}
 
-		if (UpdateState::is_customer_visible((array) $this->order_update)) {
-			$notifications[] = __('customer', 'order-updates-for-woo');
+		if ( UpdateState::is_customer_visible( (array) $this->order_update ) ) {
+			$notifications[] = __( 'customer', 'order-updates-for-woo' );
 		}
 
-		if (empty($notifications)) {
-			return __('The new update has been created. Please find update details below.', 'order-updates-for-woo');
+		if ( empty( $notifications ) ) {
+			return __( 'The new update has been created. Please find update details below.', 'order-updates-for-woo' );
 		}
 
 		/* translators: %s: list of notified parties (e.g. "assignee and customer"). */
-		return sprintf( __('The new update has been created and notified to %s. Please find update details below.', 'order-updates-for-woo'), implode(' and ', $notifications) );
+		return sprintf( __( 'The new update has been created and notified to %s. Please find update details below.', 'order-updates-for-woo' ), implode( ' and ', $notifications ) );
 	}
 }

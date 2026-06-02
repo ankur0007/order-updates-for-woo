@@ -48,7 +48,7 @@ final class InternalMentionEmail extends OrderUpdateEmailBase {
 			? $mentioned_by_name
 			: (string) ( $note_row['created_by_name'] ?? '' );
 
-		$this->intro_text   = sprintf(
+		$this->intro_text = sprintf(
 			/* translators: 1: author name, 2: order number. */
 			__( '%1$s tagged you in an internal note on order #%2$s.', 'order-updates-for-woo' ),
 			$author,
@@ -60,23 +60,23 @@ final class InternalMentionEmail extends OrderUpdateEmailBase {
 
 		$this->detail_rows = apply_filters(
 			'order_updates_for_woo_mention_email_detail_rows',
-			[
-				[
+			array(
+				array(
 					'label' => __( 'Created by', 'order-updates-for-woo' ),
 					'value' => UpdateAuthorHelper::get_formatted_created_by( $this->order_update ),
-				],
-			],
+				),
+			),
 			$this->order_update,
 			$this->order,
 			$note_row,
 			$this
 		);
 
-		$this->action_url   = $this->order ? ( (string) $this->order->get_edit_order_url() . '#awts-update-' . absint( $update_id ) ) : '';
-		$this->action_label = __( 'View and reply', 'order-updates-for-woo' );
-		$this->status_label = __( 'You were mentioned', 'order-updates-for-woo' );
+		$this->action_url            = $this->order ? ( (string) $this->order->get_edit_order_url() . '#awts-update-' . absint( $update_id ) ) : '';
+		$this->action_label          = __( 'View and reply', 'order-updates-for-woo' );
+		$this->status_label          = __( 'You were mentioned', 'order-updates-for-woo' );
 		$this->customer_visible_pill = (bool) ( $this->order_update['customer_visible'] ?? false );
-		$this->object       = $this->order;
+		$this->object                = $this->order;
 
 		if ( ! $this->is_enabled() || ! $this->get_recipient() ) {
 			return false;

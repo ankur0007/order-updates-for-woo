@@ -104,7 +104,11 @@ final class AdminOnlySettingsService {
 				'type'              => 'number',
 				'default'           => 1,
 				'desc_tip'          => true,
-				'custom_attributes' => array( 'min' => 1, 'max' => 1440, 'step' => 1 ),
+				'custom_attributes' => array(
+					'min'  => 1,
+					'max'  => 1440,
+					'step' => 1,
+				),
 			),
 			array(
 				'type' => 'sectionend',

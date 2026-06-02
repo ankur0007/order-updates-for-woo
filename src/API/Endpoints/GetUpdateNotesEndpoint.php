@@ -33,8 +33,8 @@ final class GetUpdateNotesEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::READABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -78,29 +78,32 @@ final class GetUpdateNotesEndpoint implements Registrable {
 
 		$latest_id = $this->order_updates_db->get_latest_internal_note_id( $update_id );
 
-		$notes = array_map( function ( array $note ) use ( $latest_id ): array {
-			$mention_ids = array_map( 'absint', (array) ( $note['mentioned_user_ids'] ?? array() ) );
-			$created_by  = (int) ( $note['created_by'] ?? 0 );
+		$notes = array_map(
+			function ( array $note ) use ( $latest_id ): array {
+				$mention_ids = array_map( 'absint', (array) ( $note['mentioned_user_ids'] ?? array() ) );
+				$created_by  = (int) ( $note['created_by'] ?? 0 );
 
-			return array(
-				'id' => (int) $note['id'],
-				'note' => (string) $note['note'],
-				'created_by' => $created_by,
-				'created_by_name' => (string) $note['created_by_name'],
-				'avatar_url' => $created_by > 0 ? (string) get_avatar_url( $created_by, array( 'size' => 56 ) ) : '',
-				'created_at' => DateHelper::format_date( (string) $note['created_at'] ),
-				'created_at_utc' => (string) $note['created_at'],
-				'edited_at' => ! empty( $note['edited_at'] ) ? DateHelper::format_date( (string) $note['edited_at'] ) : null,
-				'edited_at_utc' => ! empty( $note['edited_at'] ) ? (string) $note['edited_at'] : null,
-				'attachments' => AttachmentPresenter::format_many(
-					$this->attachments_db->get_for_note( (int) $note['id'], Constants::NOTE_TYPE_INTERNAL )
-				),
-				'mentioned_user_ids' => $mention_ids,
-				'mentions' => $this->lookup_mention_display_names( $mention_ids ),
-				'can_edit' => $this->note_action_policy->can_edit_internal_note( $note, $latest_id ),
-				'can_delete' => $this->note_action_policy->can_delete_internal_note( $note, $latest_id ),
-			);
-		}, $paged['notes'] );
+				return array(
+					'id'                 => (int) $note['id'],
+					'note'               => (string) $note['note'],
+					'created_by'         => $created_by,
+					'created_by_name'    => (string) $note['created_by_name'],
+					'avatar_url'         => $created_by > 0 ? (string) get_avatar_url( $created_by, array( 'size' => 56 ) ) : '',
+					'created_at'         => DateHelper::format_date( (string) $note['created_at'] ),
+					'created_at_utc'     => (string) $note['created_at'],
+					'edited_at'          => ! empty( $note['edited_at'] ) ? DateHelper::format_date( (string) $note['edited_at'] ) : null,
+					'edited_at_utc'      => ! empty( $note['edited_at'] ) ? (string) $note['edited_at'] : null,
+					'attachments'        => AttachmentPresenter::format_many(
+						$this->attachments_db->get_for_note( (int) $note['id'], Constants::NOTE_TYPE_INTERNAL )
+					),
+					'mentioned_user_ids' => $mention_ids,
+					'mentions'           => $this->lookup_mention_display_names( $mention_ids ),
+					'can_edit'           => $this->note_action_policy->can_edit_internal_note( $note, $latest_id ),
+					'can_delete'         => $this->note_action_policy->can_delete_internal_note( $note, $latest_id ),
+				);
+			},
+			$paged['notes'] 
+		);
 
 		$response = array(
 			'notes'     => $notes,
@@ -127,10 +130,12 @@ final class GetUpdateNotesEndpoint implements Registrable {
 			return array();
 		}
 
-		$users = get_users( [
-			'include' => $user_ids,
-			'fields'  => [ 'ID', 'display_name' ],
-		] );
+		$users = get_users(
+			array(
+				'include' => $user_ids,
+				'fields'  => array( 'ID', 'display_name' ),
+			) 
+		);
 
 		$display_name_by_user_id = array();
 

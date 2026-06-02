@@ -39,13 +39,17 @@ final class NewsletterController {
 			true
 		);
 
-		wp_localize_script( 'order-updates-for-woo-newsletter', 'awtsNewsletter', array(
-			'nonce' => wp_create_nonce( 'wp_rest' ),
-			'subscribe' => __( 'Subscribe', 'order-updates-for-woo' ),
-			'subscribing' => __( 'Subscribing...', 'order-updates-for-woo' ),
-			'invalidEmail' => __( 'Please enter a valid email address.', 'order-updates-for-woo' ),
-			'failed' => __( 'Something went wrong. Please try again.', 'order-updates-for-woo' ),
-		) );
+		wp_localize_script(
+			'order-updates-for-woo-newsletter',
+			'awtsNewsletter',
+			array(
+				'nonce'        => wp_create_nonce( 'wp_rest' ),
+				'subscribe'    => __( 'Subscribe', 'order-updates-for-woo' ),
+				'subscribing'  => __( 'Subscribing...', 'order-updates-for-woo' ),
+				'invalidEmail' => __( 'Please enter a valid email address.', 'order-updates-for-woo' ),
+				'failed'       => __( 'Something went wrong. Please try again.', 'order-updates-for-woo' ),
+			) 
+		);
 	}
 
 	public function subscribe(): void {
@@ -93,14 +97,19 @@ final class NewsletterController {
 	 * Returns null on success, or an error string suitable for display.
 	 */
 	private function send_to_worker( string $email ): ?string {
-		$response = wp_remote_post( Constants::NEWSLETTER_SUBSCRIBE_URL, array(
-			'headers' => array( 'Content-Type' => 'application/json' ),
-			'body' => wp_json_encode( array(
-				'email' => $email,
-				'site' => home_url(),
-			) ),
-			'timeout' => 15,
-		) );
+		$response = wp_remote_post(
+			Constants::NEWSLETTER_SUBSCRIBE_URL,
+			array(
+				'headers' => array( 'Content-Type' => 'application/json' ),
+				'body'    => wp_json_encode(
+					array(
+						'email' => $email,
+						'site'  => home_url(),
+					) 
+				),
+				'timeout' => 15,
+			) 
+		);
 
 		if ( is_wp_error( $response ) ) {
 			return __( 'Network error — please try again in a minute.', 'order-updates-for-woo' );

@@ -189,9 +189,9 @@ final class CustomerOrderUpdatesController {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$link_hash = isset( $_GET[ SharedLink::QUERY_PARAM ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SharedLink::QUERY_PARAM ] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$token     = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
+		$token = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$expires   = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
+		$expires = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
 
 		if ( '' === $link_hash && ( '' === $token || $expires <= 0 ) ) {
 			return '';
@@ -270,9 +270,9 @@ final class CustomerOrderUpdatesController {
 		// Tell "your link expired" from "this URL is wrong" so the page can
 		// show an honest message. Tampered tokens fall through to denial.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$token     = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
+		$token = isset( $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SignedCustomerUrl::QUERY_TOKEN ] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$expires   = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
+		$expires = isset( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) ? absint( $_GET[ SignedCustomerUrl::QUERY_EXPIRES ] ) : 0;
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$link_hash = isset( $_GET[ SharedLink::QUERY_PARAM ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ SharedLink::QUERY_PARAM ] ) ) : '';
 
@@ -462,32 +462,32 @@ final class CustomerOrderUpdatesController {
 			'order-updates-for-woo-customer',
 			'AWTS_COU_CONFIG',
 			array(
-				'restUrl'        => esc_url_raw( RestUrlHelper::route( 'customer-updates' ) ),
+				'restUrl'                   => esc_url_raw( RestUrlHelper::route( 'customer-updates' ) ),
 				'customerNotesEndpointBase' => esc_url_raw( RestUrlHelper::route( 'updates/' ) ),
-				'ratingUrlBase'  => esc_url_raw( RestUrlHelper::route( 'updates/' ) ),
-				'notesPageSize'       => Constants::CUSTOMER_NOTES_PAGE_SIZE,
-				'emailPrefUrl'        => esc_url_raw( RestUrlHelper::route( 'customer-email-preference' ) ),
-				'pollUrl'         => esc_url_raw( RestUrlHelper::route( 'customer-thread/poll' ) ),
-				'pollIntervalMin' => (int) apply_filters( 'order_updates_for_woo_poll_interval_min', Constants::POLL_INTERVAL_MIN_SECONDS ) * 1000,
-				'pollIntervalMid' => (int) apply_filters( 'order_updates_for_woo_poll_interval_mid', Constants::POLL_INTERVAL_MID_SECONDS ) * 1000,
-				'pollIntervalMax' => (int) apply_filters( 'order_updates_for_woo_poll_interval_max', Constants::POLL_INTERVAL_MAX_SECONDS ) * 1000,
+				'ratingUrlBase'             => esc_url_raw( RestUrlHelper::route( 'updates/' ) ),
+				'notesPageSize'             => Constants::CUSTOMER_NOTES_PAGE_SIZE,
+				'emailPrefUrl'              => esc_url_raw( RestUrlHelper::route( 'customer-email-preference' ) ),
+				'pollUrl'                   => esc_url_raw( RestUrlHelper::route( 'customer-thread/poll' ) ),
+				'pollIntervalMin'           => (int) apply_filters( 'order_updates_for_woo_poll_interval_min', Constants::POLL_INTERVAL_MIN_SECONDS ) * 1000,
+				'pollIntervalMid'           => (int) apply_filters( 'order_updates_for_woo_poll_interval_mid', Constants::POLL_INTERVAL_MID_SECONDS ) * 1000,
+				'pollIntervalMax'           => (int) apply_filters( 'order_updates_for_woo_poll_interval_max', Constants::POLL_INTERVAL_MAX_SECONDS ) * 1000,
 				// Addons (e.g. Pusher/WebSocket) inject their config here via
 				// this filter. If non-empty the JS driver abstraction picks it
 				// up and can skip polling entirely.
-				'realtimeConfig'  => (array) apply_filters( 'order_updates_for_woo_realtime_config', array(), $order_id ),
-				'nonce'          => wp_create_nonce( 'wp_rest' ),
-				'orderId'        => $order_id,
-				'orderKey'       => $order_key,
-				'pageUrl'        => self::get_page_url( $order_id, '' !== $order_key ? $order_key : null ),
-				'maxFiles'       => Variables::getMaxAttachmentFiles(),
-				'maxBytes'       => AttachmentService::max_bytes(),
+				'realtimeConfig'            => (array) apply_filters( 'order_updates_for_woo_realtime_config', array(), $order_id ),
+				'nonce'                     => wp_create_nonce( 'wp_rest' ),
+				'orderId'                   => $order_id,
+				'orderKey'                  => $order_key,
+				'pageUrl'                   => self::get_page_url( $order_id, '' !== $order_key ? $order_key : null ),
+				'maxFiles'                  => Variables::getMaxAttachmentFiles(),
+				'maxBytes'                  => AttachmentService::max_bytes(),
 				// Mirror the Restricted-features master toggle so the Up-arrow
 				// autofill on the reply field doesn't trigger an edit that the
 				// server will 403 anyway.
-				'allowNoteEdit'  => $this->settings_service->allow_note_edit(),
-				'acceptMime'     => implode( ',', $allowed_mime ),
-				'rating'         => $rating_config,
-				'labels'         => array(
+				'allowNoteEdit'             => $this->settings_service->allow_note_edit(),
+				'acceptMime'                => implode( ',', $allowed_mime ),
+				'rating'                    => $rating_config,
+				'labels'                    => array(
 					'submitting'            => (string) Labels::get( 'customerWriteNoteSubmitting' ),
 					'success'               => (string) Labels::get( 'customerWriteNoteSuccess' ),
 					'genericFail'           => (string) Labels::get( 'customerWriteNoteGenericFail' ),

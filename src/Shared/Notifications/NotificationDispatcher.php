@@ -48,13 +48,13 @@ final class NotificationDispatcher {
 			return;
 		}
 
-		$update_id = absint( $payload['update_id'] ?? 0 );
+		$update_id        = absint( $payload['update_id'] ?? 0 );
 		$assignee_user_id = absint( $payload['assignee_user_id'] ?? 0 );
-		$context = (string) ( $payload['context'] ?? 'assigned' );
-		$note_id = absint( $payload['note_id'] ?? 0 );
-		$note_type = (string) ( $payload['note_type'] ?? '' );
-		$actor_user_id = absint( $payload['actor_user_id'] ?? 0 );
-		$sent = $email->trigger( $update_id, $assignee_user_id, $context, $note_id, $note_type, $actor_user_id );
+		$context          = (string) ( $payload['context'] ?? 'assigned' );
+		$note_id          = absint( $payload['note_id'] ?? 0 );
+		$note_type        = (string) ( $payload['note_type'] ?? '' );
+		$actor_user_id    = absint( $payload['actor_user_id'] ?? 0 );
+		$sent             = $email->trigger( $update_id, $assignee_user_id, $context, $note_id, $note_type, $actor_user_id );
 
 		if ( $sent ) {
 			do_action(
@@ -75,9 +75,9 @@ final class NotificationDispatcher {
 		}
 
 		$update_id = absint( $payload['update_id'] ?? 0 );
-		$note_id = absint( $payload['note_id'] ?? 0 );
-		$context = (string) ( $payload['context'] ?? '' );
-		$sent = $email->trigger( $update_id, $note_id, $context );
+		$note_id   = absint( $payload['note_id'] ?? 0 );
+		$context   = (string) ( $payload['context'] ?? '' );
+		$sent      = $email->trigger( $update_id, $note_id, $context );
 
 		if ( $sent ) {
 			do_action(

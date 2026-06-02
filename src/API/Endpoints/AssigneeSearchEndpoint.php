@@ -19,22 +19,22 @@ final class AssigneeSearchEndpoint implements Registrable {
 
 	private const ROUTE = '/assignee-search';
 
-	public function __construct(private ?TeamRosterService $team_roster = null) {}
+	public function __construct( private ?TeamRosterService $team_roster = null ) {}
 
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::READABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
-				'args' => array(
+				'args'                => array(
 					'query' => array(
-						'required' => true,
-						'type' => 'string',
-						'minLength' => 3,
-						'maxLength' => 50,
+						'required'          => true,
+						'type'              => 'string',
+						'minLength'         => 3,
+						'maxLength'         => 50,
 						'sanitize_callback' => 'sanitize_text_field',
 						'validate_callback' => array( $this, 'validate_query' ),
 					),
@@ -56,9 +56,9 @@ final class AssigneeSearchEndpoint implements Registrable {
 	}
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
-		$query = (string) $request->get_param( 'query' );
+		$query     = (string) $request->get_param( 'query' );
 		$cache_key = 'assignees_' . md5( strtolower( $query ) );
-		$cached = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
+		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
 
 		if ( false !== $cached ) {
 			return rest_ensure_response( $cached );
@@ -66,16 +66,18 @@ final class AssigneeSearchEndpoint implements Registrable {
 
 		$roster = $this->team_roster ?? new TeamRosterService();
 
-		$user_query = new WP_User_Query( array(
-			'search' => '*' . $query . '*',
-			'search_columns' => array( 'user_login', 'user_email', 'display_name' ),
-			'role__in' => $roster->get_role_slugs(),
-			'number' => 10,
-			'orderby' => 'display_name',
-			'order' => 'ASC',
-			'fields' => array( 'ID', 'display_name', 'user_email' ),
-			'count_total' => false,
-		) );
+		$user_query = new WP_User_Query(
+			array(
+				'search'         => '*' . $query . '*',
+				'search_columns' => array( 'user_login', 'user_email', 'display_name' ),
+				'role__in'       => $roster->get_role_slugs(),
+				'number'         => 10,
+				'orderby'        => 'display_name',
+				'order'          => 'ASC',
+				'fields'         => array( 'ID', 'display_name', 'user_email' ),
+				'count_total'    => false,
+			) 
+		);
 
 		$users = $user_query->get_results();
 
@@ -95,9 +97,9 @@ final class AssigneeSearchEndpoint implements Registrable {
 
 	private function format_user( object $user ): array {
 		return array(
-			'id' => absint( $user->ID ),
-			'name' => sanitize_text_field( $user->display_name ),
-			'email' => sanitize_email( $user->user_email ),
+			'id'     => absint( $user->ID ),
+			'name'   => sanitize_text_field( $user->display_name ),
+			'email'  => sanitize_email( $user->user_email ),
 			'avatar' => get_avatar_url( $user->ID, array( 'size' => 32 ) ),
 		);
 	}

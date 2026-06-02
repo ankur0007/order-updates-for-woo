@@ -93,7 +93,7 @@ final class MembersSettingsService {
 		$roles   = function_exists( 'wp_roles' ) ? wp_roles()->roles : array();
 
 		foreach ( $roles as $slug => $role ) {
-			$name                       = isset( $role['name'] ) ? translate_user_role( (string) $role['name'] ) : (string) $slug;
+			$name                      = isset( $role['name'] ) ? translate_user_role( (string) $role['name'] ) : (string) $slug;
 			$options[ (string) $slug ] = $name;
 		}
 

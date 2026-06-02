@@ -162,7 +162,11 @@ final class OrderUpdatesSettingsService {
 				continue;
 			}
 
-			$clean[] = array( 'key' => $key, 'label' => $label, 'color' => $color );
+			$clean[] = array(
+				'key'   => $key,
+				'label' => $label,
+				'color' => $color,
+			);
 		}
 
 		return ! empty( $clean ) ? $clean : Constants::STATUS_SEED_DEFAULTS;

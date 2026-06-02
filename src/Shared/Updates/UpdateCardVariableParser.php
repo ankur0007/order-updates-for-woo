@@ -14,10 +14,10 @@ final class UpdateCardVariableParser {
 		private ?ParticipantResolver $participant_resolver = null
 	) {}
 
-	public function parse(array $order_update): array {
-		$formatted = UpdatePresentationHelper::get_card_details($order_update);
+	public function parse( array $order_update ): array {
+		$formatted = UpdatePresentationHelper::get_card_details( $order_update );
 
-		$rating = array();
+		$rating    = array();
 		$update_id = absint( $order_update['id'] ?? 0 );
 
 		if ( $update_id > 0 && $this->order_updates_db instanceof OrderUpdatesDb ) {
@@ -32,13 +32,13 @@ final class UpdateCardVariableParser {
 
 		return apply_filters(
 			'order_updates_for_woo_update_card_variables',
-			[
+			array(
 				'raw'               => $order_update,
 				'formatted'         => $formatted,
 				'rating'            => $rating,
 				'participants'      => $participants,
 				'staff_email_muted' => StaffEmailPreference::is_muted( $update_id, get_current_user_id() ),
-			],
+			),
 			$order_update
 		);
 	}

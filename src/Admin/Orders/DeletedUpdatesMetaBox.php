@@ -95,7 +95,8 @@ final class DeletedUpdatesMetaBox {
 					</span>
 				</summary>
 				<ol class="awts_deleted_updates_log__events">
-					<?php foreach ( $events as $event ) :
+					<?php
+					foreach ( $events as $event ) :
 						$line = $this->format_event( (array) $event );
 						if ( '' === $line ) {
 							continue;

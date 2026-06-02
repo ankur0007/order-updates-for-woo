@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -29,10 +29,10 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-add_action('plugins_loaded', 'order_updates_for_woo_load_plugin');
-add_action('before_woocommerce_init', 'order_updates_for_woo_declare_hpos_compatibility');
-add_action('admin_init', 'order_updates_for_woo_boot_github_updater');
-register_activation_hook(__FILE__, 'order_updates_for_woo_activate');
+add_action( 'plugins_loaded', 'order_updates_for_woo_load_plugin' );
+add_action( 'before_woocommerce_init', 'order_updates_for_woo_declare_hpos_compatibility' );
+add_action( 'admin_init', 'order_updates_for_woo_boot_github_updater' );
+register_activation_hook( __FILE__, 'order_updates_for_woo_activate' );
 
 /**
  * Check GitHub Releases for updates on installs that came from GitHub.
@@ -58,27 +58,27 @@ function order_updates_for_woo_boot_github_updater(): void {
 // plugin is already active, fire a clean table install in that subsite's
 // context. The `init` hook would lazily create tables on the new site's
 // first request anyway — this just makes sure they exist immediately.
-add_action('wp_initialize_site', 'order_updates_for_woo_install_on_new_subsite', 20, 1);
+add_action( 'wp_initialize_site', 'order_updates_for_woo_install_on_new_subsite', 20, 1 );
 
-function order_updates_for_woo_install_on_new_subsite($new_site): void {
-	if (! function_exists('is_plugin_active_for_network')) {
+function order_updates_for_woo_install_on_new_subsite( $new_site ): void {
+	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
 	// Only act when the plugin is genuinely active for the new site.
 	// If the admin didn't network-activate, the new subsite gets the
 	// plugin on its own terms via standard per-site activation.
-	$plugin = plugin_basename(__FILE__);
-	if (! is_plugin_active_for_network($plugin)) {
+	$plugin = plugin_basename( __FILE__ );
+	if ( ! is_plugin_active_for_network( $plugin ) ) {
 		return;
 	}
 
-	$site_id = is_object($new_site) ? (int) $new_site->blog_id : (int) $new_site;
-	if (! $site_id) {
+	$site_id = is_object( $new_site ) ? (int) $new_site->blog_id : (int) $new_site;
+	if ( ! $site_id ) {
 		return;
 	}
 
-	switch_to_blog($site_id);
+	switch_to_blog( $site_id );
 	try {
 		// Tables auto-create on next `init` tick, but force a fast path here
 		// so the new subsite is fully provisioned without waiting for a request.
@@ -96,7 +96,7 @@ function order_updates_for_woo_activate(): void {
 	\OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController::on_activation();
 }
 
-register_deactivation_hook(__FILE__, 'order_updates_for_woo_deactivate');
+register_deactivation_hook( __FILE__, 'order_updates_for_woo_deactivate' );
 
 /**
  * Runs when the plugin is deactivated (NOT when it is deleted).
@@ -117,7 +117,7 @@ function order_updates_for_woo_deactivate(): void {
  * Declare HPOS compatibility.
  */
 function order_updates_for_woo_declare_hpos_compatibility(): void {
-	if (! class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+	if ( ! class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 		return;
 	}
 
@@ -132,8 +132,8 @@ function order_updates_for_woo_declare_hpos_compatibility(): void {
  * Load the plugin after dependencies are available.
  */
 function order_updates_for_woo_load_plugin(): void {
-	if (! class_exists(\WooCommerce::class)) {
-		add_action('admin_notices', 'order_updates_for_woo_missing_woocommerce_notice');
+	if ( ! class_exists( \WooCommerce::class ) ) {
+		add_action( 'admin_notices', 'order_updates_for_woo_missing_woocommerce_notice' );
 
 		return;
 	}
@@ -149,7 +149,7 @@ function order_updates_for_woo_missing_woocommerce_notice(): void {
 	?>
 	<div class="notice notice-error">
 		<p>
-			<?php esc_html_e('Order Updates for WooCommerce requires WooCommerce to be installed and active.', 'order-updates-for-woo'); ?>
+			<?php esc_html_e( 'Order Updates for WooCommerce requires WooCommerce to be installed and active.', 'order-updates-for-woo' ); ?>
 		</p>
 	</div>
 	<?php

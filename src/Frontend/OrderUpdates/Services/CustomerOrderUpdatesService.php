@@ -169,10 +169,10 @@ final class CustomerOrderUpdatesService {
 			return array();
 		}
 
-		$order             = wc_get_order( $order_id );
-		$customer_user_id  = $order instanceof WC_Order ? (int) $order->get_customer_id() : 0;
-		$update_rows       = $this->order_updates_db->get_order_updates( $order_id, PHP_INT_MAX, 0 );
-		$customer_visible  = array();
+		$order            = wc_get_order( $order_id );
+		$customer_user_id = $order instanceof WC_Order ? (int) $order->get_customer_id() : 0;
+		$update_rows      = $this->order_updates_db->get_order_updates( $order_id, PHP_INT_MAX, 0 );
+		$customer_visible = array();
 
 		foreach ( $update_rows as $update_row ) {
 			if ( ! UpdateState::is_customer_visible( $update_row ) ) {
@@ -234,8 +234,8 @@ final class CustomerOrderUpdatesService {
 			$customer_user_id
 		);
 
-		$note_id     = (int) $note['id'];
-		$is_latest   = $latest_note_id > 0 && $note_id === $latest_note_id;
+		$note_id   = (int) $note['id'];
+		$is_latest = $latest_note_id > 0 && $note_id === $latest_note_id;
 		// Pass $latest_note_id so the policy applies the same latest-only
 		// rule as the JS. The local $is_latest below is the fallback when
 		// the caller didn't resolve a latest id.
@@ -284,12 +284,15 @@ final class CustomerOrderUpdatesService {
 	 */
 	private function resolve_staff_identity( array $note, bool $is_staff ): array {
 		if ( ! $is_staff ) {
-			return array( 'name' => '', 'avatar_url' => '' );
+			return array(
+				'name'       => '',
+				'avatar_url' => '',
+			);
 		}
 
-		$features      = $this->settings_service->get_feature_settings();
-		$reveal        = ! empty( $features['show_assignee_to_customers'] );
-		$store_name    = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
+		$features   = $this->settings_service->get_feature_settings();
+		$reveal     = ! empty( $features['show_assignee_to_customers'] );
+		$store_name = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
 
 		if ( ! $reveal ) {
 			return array(
@@ -313,8 +316,8 @@ final class CustomerOrderUpdatesService {
 		// Never show user_login to customers — it's half of the login surface,
 		// and WP defaults `display_name` to user_login for staff who haven't
 		// set a profile name. Use first + last name only.
-		$first = (string) get_user_meta( $user->ID, 'first_name', true );
-		$last  = (string) get_user_meta( $user->ID, 'last_name', true );
+		$first     = (string) get_user_meta( $user->ID, 'first_name', true );
+		$last      = (string) get_user_meta( $user->ID, 'last_name', true );
 		$real_name = trim( $first . ' ' . $last );
 
 		if ( '' === $real_name ) {

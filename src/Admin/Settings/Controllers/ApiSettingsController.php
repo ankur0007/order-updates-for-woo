@@ -96,52 +96,100 @@ final class ApiSettingsController implements SettingsSectionController {
 		$prefix = '/' . \OrderUpdatesForWoo\Shared\Config\Constants::REST_NAMESPACE;
 
 		return array(
-			$prefix . '/updates' => array(
+			$prefix . '/updates'                           => array(
 				'summary' => __( 'List or create order updates. GET filters by order_id; POST creates a new update for an order.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'order_id'         => array( 'type' => 'integer', 'required' => true,  'description' => __( 'WooCommerce order ID the update belongs to.', 'order-updates-for-woo' ) ),
-					'title'            => array( 'type' => 'string',  'required' => true,  'description' => __( 'Update title.', 'order-updates-for-woo' ) ),
-					'internal_note'    => array( 'type' => 'string',  'required' => false, 'description' => __( 'Internal staff note saved with the update.', 'order-updates-for-woo' ) ),
-					'customer_note'    => array( 'type' => 'string',  'required' => false, 'description' => __( 'Customer-visible note (also creates a customer-thread entry).', 'order-updates-for-woo' ) ),
-					'color'            => array( 'type' => 'string',  'required' => false, 'description' => __( 'Hex highlight color for the card.', 'order-updates-for-woo' ) ),
-					'assignee_id'      => array( 'type' => 'integer', 'required' => false, 'description' => __( 'Staff user ID to assign. Pass 0 to leave unassigned.', 'order-updates-for-woo' ) ),
+					'order_id'      => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'WooCommerce order ID the update belongs to.', 'order-updates-for-woo' ),
+					),
+					'title'         => array(
+						'type'        => 'string',
+						'required'    => true,
+						'description' => __( 'Update title.', 'order-updates-for-woo' ),
+					),
+					'internal_note' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Internal staff note saved with the update.', 'order-updates-for-woo' ),
+					),
+					'customer_note' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Customer-visible note (also creates a customer-thread entry).', 'order-updates-for-woo' ),
+					),
+					'color'         => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Hex highlight color for the card.', 'order-updates-for-woo' ),
+					),
+					'assignee_id'   => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'Staff user ID to assign. Pass 0 to leave unassigned.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/updates/(?P<update_id>\d+)' => array(
+			$prefix . '/updates/(?P<update_id>\d+)'        => array(
 				'summary' => __( 'Edit or delete a single update. PUT/POST updates fields; DELETE removes the update and its notes.', 'order-updates-for-woo' ),
 				'params'  => array(),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/customer-notes' => array(
 				'summary' => __( 'List the customer-thread notes on an update, or post a new customer-visible note as staff.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'note' => array( 'type' => 'string', 'required' => true, 'description' => __( 'Note body. Max 500 chars.', 'order-updates-for-woo' ) ),
+					'note' => array(
+						'type'        => 'string',
+						'required'    => true,
+						'description' => __( 'Note body. Max 500 chars.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/customer-notes/(?P<note_id>\d+)' => array(
 				'summary' => __( 'Edit a previously posted customer note. The original is archived to the edit-history table.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'note' => array( 'type' => 'string', 'required' => true, 'description' => __( 'Replacement note body.', 'order-updates-for-woo' ) ),
+					'note' => array(
+						'type'        => 'string',
+						'required'    => true,
+						'description' => __( 'Replacement note body.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/customer-notes/(?P<note_id>\d+)/notify' => array(
 				'summary' => __( 'Manually email a customer-visible note to the customer. Use when the auto-notify path was skipped.', 'order-updates-for-woo' ),
 				'params'  => array(),
 			),
-			$prefix . '/updates/(?P<update_id>\d+)/notes' => array(
+			$prefix . '/updates/(?P<update_id>\d+)/notes'  => array(
 				'summary' => __( 'List internal staff notes on an update, or post a new internal note (with optional @mentions).', 'order-updates-for-woo' ),
 				'params'  => array(
-					'note'               => array( 'type' => 'string', 'required' => true,  'description' => __( 'Internal note body. Max 500 chars.', 'order-updates-for-woo' ) ),
-					'mentioned_user_ids' => array( 'type' => 'array',  'required' => false, 'description' => __( 'Array of staff user IDs to @mention.', 'order-updates-for-woo' ) ),
+					'note'               => array(
+						'type'        => 'string',
+						'required'    => true,
+						'description' => __( 'Internal note body. Max 500 chars.', 'order-updates-for-woo' ),
+					),
+					'mentioned_user_ids' => array(
+						'type'        => 'array',
+						'required'    => false,
+						'description' => __( 'Array of staff user IDs to @mention.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/notes/(?P<note_id>\d+)' => array(
 				'summary' => __( 'Edit or delete a single internal note. Edit window is enforced by the configured limit.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'note'               => array( 'type' => 'string', 'required' => true,  'description' => __( 'Replacement note body.', 'order-updates-for-woo' ) ),
-					'mentioned_user_ids' => array( 'type' => 'array',  'required' => false, 'description' => __( 'Updated array of @mention user IDs.', 'order-updates-for-woo' ) ),
+					'note'               => array(
+						'type'        => 'string',
+						'required'    => true,
+						'description' => __( 'Replacement note body.', 'order-updates-for-woo' ),
+					),
+					'mentioned_user_ids' => array(
+						'type'        => 'array',
+						'required'    => false,
+						'description' => __( 'Updated array of @mention user IDs.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/updates/(?P<update_id>\d+)/solve' => array(
+			$prefix . '/updates/(?P<update_id>\d+)/solve'  => array(
 				'summary' => __( 'Mark an update as solved. Triggers the rating-request email if the customer has rating enabled.', 'order-updates-for-woo' ),
 				'params'  => array(),
 			),
@@ -149,24 +197,52 @@ final class ApiSettingsController implements SettingsSectionController {
 				'summary' => __( 'Re-open a previously solved update so customers and staff can resume the thread.', 'order-updates-for-woo' ),
 				'params'  => array(),
 			),
-			$prefix . '/customer-updates' => array(
+			$prefix . '/customer-updates'                  => array(
 				'summary' => __( 'Customer-side write endpoint — creates a new update or replies to an existing one. Accepts logged-in customers and guests (via order_key).', 'order-updates-for-woo' ),
 				'params'  => array(
-					'order_id'  => array( 'type' => 'integer', 'required' => true,  'description' => __( 'Order ID the customer is writing about.', 'order-updates-for-woo' ) ),
-					'message'   => array( 'type' => 'string',  'required' => true,  'description' => __( 'Customer message body.', 'order-updates-for-woo' ) ),
-					'title'     => array( 'type' => 'string',  'required' => false, 'description' => __( 'Subject line — required for new (non-reply) submissions.', 'order-updates-for-woo' ) ),
-					'update_id' => array( 'type' => 'integer', 'required' => false, 'description' => __( 'Existing update ID to reply to. Omit for a brand-new submission.', 'order-updates-for-woo' ) ),
-					'order_key' => array( 'type' => 'string',  'required' => false, 'description' => __( 'Guest auth: the order_key from the customer notification email link.', 'order-updates-for-woo' ) ),
+					'order_id'  => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'Order ID the customer is writing about.', 'order-updates-for-woo' ),
+					),
+					'message'   => array(
+						'type'        => 'string',
+						'required'    => true,
+						'description' => __( 'Customer message body.', 'order-updates-for-woo' ),
+					),
+					'title'     => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Subject line — required for new (non-reply) submissions.', 'order-updates-for-woo' ),
+					),
+					'update_id' => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'Existing update ID to reply to. Omit for a brand-new submission.', 'order-updates-for-woo' ),
+					),
+					'order_key' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Guest auth: the order_key from the customer notification email link.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/rating' => array(
 				'summary' => __( 'Submit a customer rating (1–5 stars) on a resolved update. Triggers the follow-up email.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'stars'   => array( 'type' => 'integer', 'required' => true,  'description' => __( 'Rating 1–5.', 'order-updates-for-woo' ) ),
-					'comment' => array( 'type' => 'string',  'required' => false, 'description' => __( 'Optional rating comment.', 'order-updates-for-woo' ) ),
+					'stars'   => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'Rating 1–5.', 'order-updates-for-woo' ),
+					),
+					'comment' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Optional rating comment.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/attachments' => array(
+			$prefix . '/attachments'                       => array(
 				'summary' => __( 'Upload an attachment for a note. Multipart upload — file under "file", context fields (order_id, update_id, note_id, note_type) alongside.', 'order-updates-for-woo' ),
 				'params'  => array(),
 			),
@@ -178,20 +254,44 @@ final class ApiSettingsController implements SettingsSectionController {
 				'summary' => __( 'Delete a stored attachment. Removes both the DB row and the file on disk.', 'order-updates-for-woo' ),
 				'params'  => array(),
 			),
-			$prefix . '/order-updates' => array(
+			$prefix . '/order-updates'                     => array(
 				'summary' => __( 'List every update (with notes + assignee + counts) for an order — used by the admin meta box and the customer portal.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'order_id' => array( 'type' => 'integer', 'required' => true, 'description' => __( 'Order to list updates for.', 'order-updates-for-woo' ) ),
-					'limit'    => array( 'type' => 'integer', 'required' => false, 'description' => __( 'Max updates to return. Defaults to the configured page size.', 'order-updates-for-woo' ) ),
-					'offset'   => array( 'type' => 'integer', 'required' => false, 'description' => __( 'Pagination offset for "Load more" calls.', 'order-updates-for-woo' ) ),
+					'order_id' => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'Order to list updates for.', 'order-updates-for-woo' ),
+					),
+					'limit'    => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'Max updates to return. Defaults to the configured page size.', 'order-updates-for-woo' ),
+					),
+					'offset'   => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'Pagination offset for "Load more" calls.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/customer-notes/previous' => array(
 				'summary' => __( 'Fetch the next older page of customer-thread notes — backs the "Load previous" button on long threads.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'before_note_id' => array( 'type' => 'integer', 'required' => true,  'description' => __( 'Return notes older than this id.', 'order-updates-for-woo' ) ),
-					'limit'          => array( 'type' => 'integer', 'required' => false, 'description' => __( 'Page size. Defaults to the configured customer-notes page size.', 'order-updates-for-woo' ) ),
-					'order_key'      => array( 'type' => 'string',  'required' => false, 'description' => __( 'Guest auth — same order_key as on /customer-updates.', 'order-updates-for-woo' ) ),
+					'before_note_id' => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'Return notes older than this id.', 'order-updates-for-woo' ),
+					),
+					'limit'          => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'Page size. Defaults to the configured customer-notes page size.', 'order-updates-for-woo' ),
+					),
+					'order_key'      => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Guest auth — same order_key as on /customer-updates.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 			$prefix . '/updates/(?P<update_id>\d+)/customer-notes/(?P<note_id>\d+)/history' => array(
@@ -205,58 +305,126 @@ final class ApiSettingsController implements SettingsSectionController {
 			$prefix . '/updates/(?P<update_id>\d+)/staff-email-preference' => array(
 				'summary' => __( 'Toggle the current staff member\'s personal "email me about this update" preference. Per-user, per-update.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'enabled' => array( 'type' => 'boolean', 'required' => true, 'description' => __( 'Whether the current user wants emails for this update.', 'order-updates-for-woo' ) ),
+					'enabled' => array(
+						'type'        => 'boolean',
+						'required'    => true,
+						'description' => __( 'Whether the current user wants emails for this update.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/customer-email-preference' => array(
+			$prefix . '/customer-email-preference'         => array(
 				'summary' => __( 'Customer-side opt-out toggle. Saves on user_meta for logged-in customers, post_meta for guests.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'order_id'  => array( 'type' => 'integer', 'required' => true,  'description' => __( 'Order the preference applies to.', 'order-updates-for-woo' ) ),
-					'enabled'   => array( 'type' => 'boolean', 'required' => true,  'description' => __( 'true → customer wants email notifications; false → opt out.', 'order-updates-for-woo' ) ),
-					'order_key' => array( 'type' => 'string',  'required' => false, 'description' => __( 'Required for guests — the order_key from the email link.', 'order-updates-for-woo' ) ),
+					'order_id'  => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'Order the preference applies to.', 'order-updates-for-woo' ),
+					),
+					'enabled'   => array(
+						'type'        => 'boolean',
+						'required'    => true,
+						'description' => __( 'true → customer wants email notifications; false → opt out.', 'order-updates-for-woo' ),
+					),
+					'order_key' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Required for guests — the order_key from the email link.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/customer-thread/poll' => array(
+			$prefix . '/customer-thread/poll'              => array(
 				'summary' => __( 'Customer-side polling endpoint. Returns notes added since since_note_id so the customer page picks up staff replies in near-realtime.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'order_id'      => array( 'type' => 'integer', 'required' => true,  'description' => __( 'Order whose threads the customer is viewing.', 'order-updates-for-woo' ) ),
-					'since_note_id' => array( 'type' => 'integer', 'required' => false, 'description' => __( 'Map of update_id → highest note_id the client has seen.', 'order-updates-for-woo' ) ),
-					'order_key'     => array( 'type' => 'string',  'required' => false, 'description' => __( 'Guest auth.', 'order-updates-for-woo' ) ),
+					'order_id'      => array(
+						'type'        => 'integer',
+						'required'    => true,
+						'description' => __( 'Order whose threads the customer is viewing.', 'order-updates-for-woo' ),
+					),
+					'since_note_id' => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'Map of update_id → highest note_id the client has seen.', 'order-updates-for-woo' ),
+					),
+					'order_key'     => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Guest auth.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/assignee-search' => array(
+			$prefix . '/assignee-search'                   => array(
 				'summary' => __( 'Type-ahead search across the configured Internal Team roles. Backs the inline assignee picker on update cards.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'q' => array( 'type' => 'string', 'required' => false, 'description' => __( 'Search term — matches against display name and email.', 'order-updates-for-woo' ) ),
+					'q' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Search term — matches against display name and email.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/analytics/summary' => array(
+			$prefix . '/analytics/summary'                 => array(
 				'summary' => __( 'Top-line analytics for the dashboard widget — open / solved / pending counts and SLA stats over the date window.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'from' => array( 'type' => 'string', 'required' => false, 'description' => __( 'Start date (YYYY-MM-DD). Defaults to 30 days ago.', 'order-updates-for-woo' ) ),
-					'to'   => array( 'type' => 'string', 'required' => false, 'description' => __( 'End date (YYYY-MM-DD). Defaults to today.', 'order-updates-for-woo' ) ),
+					'from' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Start date (YYYY-MM-DD). Defaults to 30 days ago.', 'order-updates-for-woo' ),
+					),
+					'to'   => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'End date (YYYY-MM-DD). Defaults to today.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/analytics/by-date' => array(
+			$prefix . '/analytics/by-date'                 => array(
 				'summary' => __( 'Time-series analytics — daily open/solved counts inside the date window, ready for a line chart.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'from' => array( 'type' => 'string', 'required' => false, 'description' => __( 'Start date (YYYY-MM-DD).', 'order-updates-for-woo' ) ),
-					'to'   => array( 'type' => 'string', 'required' => false, 'description' => __( 'End date (YYYY-MM-DD).', 'order-updates-for-woo' ) ),
+					'from' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Start date (YYYY-MM-DD).', 'order-updates-for-woo' ),
+					),
+					'to'   => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'End date (YYYY-MM-DD).', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/analytics/products' => array(
+			$prefix . '/analytics/products'                => array(
 				'summary' => __( 'Top products by update volume — shows which SKUs are generating the most customer questions.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'from'  => array( 'type' => 'string',  'required' => false, 'description' => __( 'Start date.', 'order-updates-for-woo' ) ),
-					'to'    => array( 'type' => 'string',  'required' => false, 'description' => __( 'End date.', 'order-updates-for-woo' ) ),
-					'limit' => array( 'type' => 'integer', 'required' => false, 'description' => __( 'How many top products to return. Defaults to 10.', 'order-updates-for-woo' ) ),
+					'from'  => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Start date.', 'order-updates-for-woo' ),
+					),
+					'to'    => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'End date.', 'order-updates-for-woo' ),
+					),
+					'limit' => array(
+						'type'        => 'integer',
+						'required'    => false,
+						'description' => __( 'How many top products to return. Defaults to 10.', 'order-updates-for-woo' ),
+					),
 				),
 			),
-			$prefix . '/analytics/assignees' => array(
+			$prefix . '/analytics/assignees'               => array(
 				'summary' => __( 'Per-assignee breakdown — number of updates handled, average time-to-solve, ratings received.', 'order-updates-for-woo' ),
 				'params'  => array(
-					'from' => array( 'type' => 'string', 'required' => false, 'description' => __( 'Start date.', 'order-updates-for-woo' ) ),
-					'to'   => array( 'type' => 'string', 'required' => false, 'description' => __( 'End date.', 'order-updates-for-woo' ) ),
+					'from' => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'Start date.', 'order-updates-for-woo' ),
+					),
+					'to'   => array(
+						'type'        => 'string',
+						'required'    => false,
+						'description' => __( 'End date.', 'order-updates-for-woo' ),
+					),
 				),
 			),
 		);

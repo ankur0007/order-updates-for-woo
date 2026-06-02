@@ -39,9 +39,9 @@ final class CustomerRatingRequestEmail extends OrderUpdateEmailBase {
 			return false;
 		}
 
-		$this->recipient    = sanitize_email( $billing_email );
+		$this->recipient     = sanitize_email( $billing_email );
 		$this->greeting_name = $this->order ? (string) $this->order->get_billing_first_name() : '';
-		$this->intro_text   = sprintf(
+		$this->intro_text    = sprintf(
 			/* translators: %s: order number. */
 			__( 'We\'ve resolved an update on your order #%s. Could you take a moment to rate your experience?', 'order-updates-for-woo' ),
 			$this->order ? $this->order->get_order_number() : ''

@@ -68,9 +68,9 @@ if ( $flags['is_resolved'] && ! empty( $raw['solved_at'] ) ) {
 
 if ( ! empty( $settings['enable_customer_rating'] ) && $flags['is_customer_visible'] && ! empty( $rating ) ) {
 	if ( ! empty( $rating['created_at'] ) ) {
-		$flags['rating_status'] = 'received';
-		$stars                  = max( 0, min( 5, (int) ( $rating['stars'] ?? 0 ) ) );
-		$flags['rating_stars']  = $stars;
+		$flags['rating_status']      = 'received';
+		$stars                       = max( 0, min( 5, (int) ( $rating['stars'] ?? 0 ) ) );
+		$flags['rating_stars']       = $stars;
 		$flags['rating_status_text'] = sprintf(
 			/* translators: %s: rating value out of 5. */
 			__( 'Customer rated %s/5', 'order-updates-for-woo' ),
@@ -104,7 +104,7 @@ $update_color = ! empty( $raw['color'] ) ? (string) $raw['color'] : '#dc3232';
 $status_lookup_by_color = isset( $view_data['status_lookup_by_color'] ) && is_array( $view_data['status_lookup_by_color'] )
 	? $view_data['status_lookup_by_color']
 	: array();
-$flags['status_label'] = (string) ( $status_lookup_by_color[ strtolower( $update_color ) ]['label'] ?? '' );
+$flags['status_label']  = (string) ( $status_lookup_by_color[ strtolower( $update_color ) ]['label'] ?? '' );
 
 $customer_notes_enabled = ! empty( $settings['enable_customer_note'] );
 $default_tab            = 'internal';
@@ -129,17 +129,23 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 	<div class="awts_card_content">
 
 		<?php
-		View::render( 'src/Admin/Orders/Templates/card/header', array(
-			'raw'      => $raw,
-			'settings' => $settings,
-			'flags'    => $flags,
-		) );
+		View::render(
+			'src/Admin/Orders/Templates/card/header',
+			array(
+				'raw'      => $raw,
+				'settings' => $settings,
+				'flags'    => $flags,
+			) 
+		);
 		?>
 
 		<?php
-		View::render( 'src/Admin/Orders/Templates/card/tags', array(
-			'flags' => $flags,
-		) );
+		View::render(
+			'src/Admin/Orders/Templates/card/tags',
+			array(
+				'flags' => $flags,
+			) 
+		);
 		?>
 
 		<div class="awts_card_body">
@@ -147,13 +153,16 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 			<?php do_action( 'order_updates_for_woo_update_card_before_details', $raw, $settings ); ?>
 
 			<?php
-			View::render( 'src/Admin/Orders/Templates/card/footer', array(
-				'raw'       => $raw,
-				'settings'  => $settings,
-				'formatted' => $formatted,
-				'flags'     => $flags,
-				'statuses'  => isset( $view_data['statuses'] ) && is_array( $view_data['statuses'] ) ? $view_data['statuses'] : array(),
-			) );
+			View::render(
+				'src/Admin/Orders/Templates/card/footer',
+				array(
+					'raw'       => $raw,
+					'settings'  => $settings,
+					'formatted' => $formatted,
+					'flags'     => $flags,
+					'statuses'  => isset( $view_data['statuses'] ) && is_array( $view_data['statuses'] ) ? $view_data['statuses'] : array(),
+				) 
+			);
 			?>
 
 			<?php do_action( 'order_updates_for_woo_update_card_after_details', $raw, $settings ); ?>
@@ -161,25 +170,31 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 		</div>
 
 		<?php
-		View::render( 'src/Admin/Orders/Templates/card/tabs', array(
-			'update_id'              => $update_id,
-			'customer_notes_enabled' => $customer_notes_enabled,
-			'default_tab'            => $default_tab,
-			'raw'                    => $raw,
-			'settings'               => $settings,
-		) );
+		View::render(
+			'src/Admin/Orders/Templates/card/tabs',
+			array(
+				'update_id'              => $update_id,
+				'customer_notes_enabled' => $customer_notes_enabled,
+				'default_tab'            => $default_tab,
+				'raw'                    => $raw,
+				'settings'               => $settings,
+			) 
+		);
 		?>
 
 		<?php
 		// Participants are derived server-side by the panel controller and
 		// passed through `card_variables['participants']`. Small list (rarely
 		// more than ~10 names), so no AJAX needed for v1.
-		View::render( 'src/Admin/Orders/Templates/card/participants', array(
-			'update_id'    => $update_id,
-			'tab_id'       => $tab_id_for( 'participants' ),
-			'panel_id'     => $panel_id_for( 'participants' ),
-			'participants' => isset( $card_variables['participants'] ) && is_array( $card_variables['participants'] ) ? $card_variables['participants'] : array(),
-		) );
+		View::render(
+			'src/Admin/Orders/Templates/card/participants',
+			array(
+				'update_id'    => $update_id,
+				'tab_id'       => $tab_id_for( 'participants' ),
+				'panel_id'     => $panel_id_for( 'participants' ),
+				'participants' => isset( $card_variables['participants'] ) && is_array( $card_variables['participants'] ) ? $card_variables['participants'] : array(),
+			) 
+		);
 		?>
 
 		<!-- Tracking-log panel — JS lazy-loads the rows on tab activation. -->
@@ -195,17 +210,20 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 
 		<?php
 		// Internal notes thread.
-		View::render( 'src/Admin/Orders/Templates/card/note-thread', array(
-			'type'                 => 'internal',
-			'update_id'            => $update_id,
-			'tab_id'               => $tab_id_for( 'internal' ),
-			'panel_id'             => $panel_id_for( 'internal' ),
-			'is_active'            => 'internal' === $default_tab,
-			'is_resolved'          => $flags['is_resolved'],
-			'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
-			'composer_placeholder' => __( 'Write a note...', 'order-updates-for-woo' ),
-			'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
-		) );
+		View::render(
+			'src/Admin/Orders/Templates/card/note-thread',
+			array(
+				'type'                 => 'internal',
+				'update_id'            => $update_id,
+				'tab_id'               => $tab_id_for( 'internal' ),
+				'panel_id'             => $panel_id_for( 'internal' ),
+				'is_active'            => 'internal' === $default_tab,
+				'is_resolved'          => $flags['is_resolved'],
+				'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
+				'composer_placeholder' => __( 'Write a note...', 'order-updates-for-woo' ),
+				'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
+			) 
+		);
 		?>
 
 		<?php if ( $customer_notes_enabled ) : ?>
@@ -213,26 +231,32 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 			// The visibility notice renders inside the customer-notes panel,
 			// above the thread. Hook it onto the slot action that note-thread
 			// fires; clean up after to keep the closure scoped to this card.
-			$is_customer_visible = ! empty( $raw['customer_visible'] );
+			$is_customer_visible      = ! empty( $raw['customer_visible'] );
 			$render_visibility_notice = static function () use ( $is_guest_order, $is_customer_visible ): void {
-				View::render( 'src/Admin/Orders/Templates/card/customer-visibility-notice', array(
-					'is_guest_order'      => $is_guest_order,
-					'is_customer_visible' => $is_customer_visible,
-				) );
+				View::render(
+					'src/Admin/Orders/Templates/card/customer-visibility-notice',
+					array(
+						'is_guest_order'      => $is_guest_order,
+						'is_customer_visible' => $is_customer_visible,
+					) 
+				);
 			};
 			add_action( 'order_updates_for_woo_customer_notes_before_thread', $render_visibility_notice );
 
-			View::render( 'src/Admin/Orders/Templates/card/note-thread', array(
-				'type'                 => 'customer',
-				'update_id'            => $update_id,
-				'tab_id'               => $tab_id_for( 'customer' ),
-				'panel_id'             => $panel_id_for( 'customer' ),
-				'is_active'            => 'customer' === $default_tab,
-				'is_resolved'          => $flags['is_resolved'],
-			'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
-				'composer_placeholder' => __( 'Write a note for the customer...', 'order-updates-for-woo' ),
-				'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
-			) );
+			View::render(
+				'src/Admin/Orders/Templates/card/note-thread',
+				array(
+					'type'                 => 'customer',
+					'update_id'            => $update_id,
+					'tab_id'               => $tab_id_for( 'customer' ),
+					'panel_id'             => $panel_id_for( 'customer' ),
+					'is_active'            => 'customer' === $default_tab,
+					'is_resolved'          => $flags['is_resolved'],
+					'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
+					'composer_placeholder' => __( 'Write a note for the customer...', 'order-updates-for-woo' ),
+					'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
+				) 
+			);
 
 			remove_action( 'order_updates_for_woo_customer_notes_before_thread', $render_visibility_notice );
 			?>

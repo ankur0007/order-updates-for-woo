@@ -15,37 +15,37 @@ final class AsyncHealth {
 	private const INTERVAL        = 5 * MINUTE_IN_SECONDS;
 
 	public function init(): void {
-		add_action(self::HEARTBEAT_HOOK, [ $this, 'tick' ]);
-		add_action('init', [ $this, 'maybe_schedule' ]);
+		add_action( self::HEARTBEAT_HOOK, array( $this, 'tick' ) );
+		add_action( 'init', array( $this, 'maybe_schedule' ) );
 	}
 
 	public function maybe_schedule(): void {
-		if (! function_exists('as_has_scheduled_action') || ! function_exists('as_schedule_recurring_action')) {
+		if ( ! function_exists( 'as_has_scheduled_action' ) || ! function_exists( 'as_schedule_recurring_action' ) ) {
 			return;
 		}
 
-		if (as_has_scheduled_action(self::HEARTBEAT_HOOK)) {
+		if ( as_has_scheduled_action( self::HEARTBEAT_HOOK ) ) {
 			return;
 		}
 
-		as_schedule_recurring_action(time(), self::INTERVAL, self::HEARTBEAT_HOOK, [], 'order-updates-for-woo');
+		as_schedule_recurring_action( time(), self::INTERVAL, self::HEARTBEAT_HOOK, array(), 'order-updates-for-woo' );
 	}
 
 	public function tick(): void {
-		update_option(self::HEARTBEAT_OPTION, time(), false);
+		update_option( self::HEARTBEAT_OPTION, time(), false );
 	}
 
 	public function is_async_healthy(): bool {
-		if (! function_exists('as_enqueue_async_action')) {
+		if ( ! function_exists( 'as_enqueue_async_action' ) ) {
 			return false;
 		}
 
-		$last = (int) get_option(self::HEARTBEAT_OPTION, 0);
+		$last = (int) get_option( self::HEARTBEAT_OPTION, 0 );
 
-		if ($last <= 0) {
+		if ( $last <= 0 ) {
 			return false;
 		}
 
-		return (time() - $last) < self::STALE_AFTER;
+		return ( time() - $last ) < self::STALE_AFTER;
 	}
 }

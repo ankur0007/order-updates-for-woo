@@ -38,7 +38,7 @@ final class ReviewRequestNotice {
 
 	private const FIRST_SEEN_OPTION = 'order_updates_for_woo_review_notice_first_seen';
 
-	private const STATE_USER_META   = '_order_updates_for_woo_review_notice_state';
+	private const STATE_USER_META = '_order_updates_for_woo_review_notice_state';
 
 	/** WordPress.org review page — confirmed slug. */
 	private const REVIEW_URL = 'https://wordpress.org/support/plugin/order-updates-for-woo/reviews/#new-post';
@@ -57,12 +57,12 @@ final class ReviewRequestNotice {
 	public function init(): void {
 		// Stamp the install time exactly once so MIN_DAYS_INSTALLED can be
 		// measured relative to a stable baseline.
-		add_action( 'admin_init', [ $this, 'stamp_first_seen' ] );
+		add_action( 'admin_init', array( $this, 'stamp_first_seen' ) );
 
-		add_action( 'admin_notices', [ $this, 'maybe_render' ] );
+		add_action( 'admin_notices', array( $this, 'maybe_render' ) );
 
 		// Three buttons on the notice — each posts back here.
-		add_action( 'admin_init', [ $this, 'handle_action' ] );
+		add_action( 'admin_init', array( $this, 'handle_action' ) );
 	}
 
 	/**
@@ -96,9 +96,12 @@ final class ReviewRequestNotice {
 			<!-- Star picker — click to expand the rating form. -->
 			<div class="awts-stars" data-awts-stars role="radiogroup" aria-label="<?php esc_attr_e( 'Rate Order Updates for WooCommerce', 'order-updates-for-woo' ); ?>" style="display:flex;gap:4px;font-size:28px;line-height:1;margin:6px 0 4px;cursor:pointer;color:#cbd5e1;user-select:none;">
 				<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-					<span data-awts-star="<?php echo esc_attr( (string) $i ); ?>" role="radio" tabindex="0" aria-label="<?php
+					<span data-awts-star="<?php echo esc_attr( (string) $i ); ?>" role="radio" tabindex="0" aria-label="
+					<?php
 						/* translators: %d is a number of stars */
-						echo esc_attr( sprintf( _n( '%d star', '%d stars', $i, 'order-updates-for-woo' ), $i ) ); ?>" style="transition:color .1s ease;">&#9733;</span>
+						echo esc_attr( sprintf( _n( '%d star', '%d stars', $i, 'order-updates-for-woo' ), $i ) );
+					?>
+						" style="transition:color .1s ease;">&#9733;</span>
 				<?php endfor; ?>
 			</div>
 
@@ -289,10 +292,13 @@ final class ReviewRequestNotice {
 				$this->set_user_state( $user_id, array( 'status' => 'already' ) );
 				break;
 			case 'snooze':
-				$this->set_user_state( $user_id, array(
-					'status' => 'snoozed',
-					'until'  => time() + ( self::SNOOZE_DAYS * DAY_IN_SECONDS ),
-				) );
+				$this->set_user_state(
+					$user_id,
+					array(
+						'status' => 'snoozed',
+						'until'  => time() + ( self::SNOOZE_DAYS * DAY_IN_SECONDS ),
+					) 
+				);
 				break;
 			default:
 				return;

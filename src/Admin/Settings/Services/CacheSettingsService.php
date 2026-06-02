@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class CacheSettingsService {
 	public const SECTION_ID = 'cache';
 
-	public const ACTION_TEAM             = 'clear_team_cache';
-	public const ACTION_ANALYTICS        = 'clear_analytics_cache';
+	public const ACTION_TEAM              = 'clear_team_cache';
+	public const ACTION_ANALYTICS         = 'clear_analytics_cache';
 	public const ACTION_REBUILD_ANALYTICS = 'rebuild_analytics_lookup';
 
 	public function __construct(

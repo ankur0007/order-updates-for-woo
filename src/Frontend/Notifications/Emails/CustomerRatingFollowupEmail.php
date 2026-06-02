@@ -21,8 +21,8 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  * detractors get an empathetic note + a reply CTA.
  */
 final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
-	private bool $is_promoter = false;
-	private int $stars = 0;
+	private bool $is_promoter      = false;
+	private int $stars             = 0;
 	private string $rating_comment = '';
 	/** @var array<int, array{platform:string, label:string, url:string}> */
 	private array $share_links = array();
@@ -59,7 +59,7 @@ final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
 		$this->stars          = (int) $rating['stars'];
 		$this->rating_comment = (string) ( $rating['comment'] ?? '' );
 
-		$threshold = (int) apply_filters(
+		$threshold         = (int) apply_filters(
 			'order_updates_for_woo_rating_followup_promoter_threshold',
 			(int) get_option( Constants::RATING_FOLLOWUP_PROMOTER_MIN_OPTION, Constants::RATING_FOLLOWUP_PROMOTER_MIN_DEFAULT ),
 			$this->stars,
@@ -94,9 +94,9 @@ final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
 			$this->action_label = '';
 			$this->status_label = __( 'Thanks for the rating', 'order-updates-for-woo' );
 		} else {
-			$this->intro_text = __( 'Thanks for taking the time to rate your experience. We hear you, and we want to make this right.', 'order-updates-for-woo' );
-			$this->share_links = array();
-			$this->action_url  = CustomerOrderUpdatesController::get_signed_email_url(
+			$this->intro_text   = __( 'Thanks for taking the time to rate your experience. We hear you, and we want to make this right.', 'order-updates-for-woo' );
+			$this->share_links  = array();
+			$this->action_url   = CustomerOrderUpdatesController::get_signed_email_url(
 				(int) $this->order->get_id()
 			) . '#awts-update-' . $update_id;
 			$this->action_label = __( 'View this update', 'order-updates-for-woo' );

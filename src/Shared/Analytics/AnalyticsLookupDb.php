@@ -36,9 +36,9 @@ final class AnalyticsLookupDb {
 		private UpdatesTable $updates_table
 	) {}
 
-	private const BACKFILL_HOOK   = 'order_updates_for_woo_analytics_backfill_batch';
-	private const BACKFILL_GROUP  = 'order-updates-for-woo';
-	private const BACKFILL_DONE   = 'order_updates_for_woo_analytics_backfill_done';
+	private const BACKFILL_HOOK  = 'order_updates_for_woo_analytics_backfill_batch';
+	private const BACKFILL_GROUP = 'order-updates-for-woo';
+	private const BACKFILL_DONE  = 'order_updates_for_woo_analytics_backfill_done';
 
 	/**
 	 * Subscribe to the OrderUpdatesDb mutation hooks. Wiring the sync via
@@ -300,10 +300,12 @@ final class AnalyticsLookupDb {
 		}
 
 		$user_ids = array_column( $rows, 'user_id' );
-		$users    = get_users( array(
-			'include' => $user_ids,
-			'fields'  => array( 'ID', 'display_name' ),
-		) );
+		$users    = get_users(
+			array(
+				'include' => $user_ids,
+				'fields'  => array( 'ID', 'display_name' ),
+			) 
+		);
 
 		$names = array();
 		foreach ( $users as $user ) {
@@ -493,18 +495,18 @@ final class AnalyticsLookupDb {
 		// solved_at stays populated in the live table even after a reopen
 		// (audit trail of the most recent solve). For analytics, "solved"
 		// means *currently* resolved, so null it out when is_resolved = 0.
-		$solved_at   = ( $is_resolved && ! empty( $update['solved_at'] ) ) ? (string) $update['solved_at'] : null;
-		$created_by  = (int) ( $update['created_by'] ?? 0 );
+		$solved_at  = ( $is_resolved && ! empty( $update['solved_at'] ) ) ? (string) $update['solved_at'] : null;
+		$created_by = (int) ( $update['created_by'] ?? 0 );
 
 		$resolution_seconds = null;
 		if ( $solved_at && $created_at ) {
-			$delta = strtotime( $solved_at ) - strtotime( $created_at );
+			$delta              = strtotime( $solved_at ) - strtotime( $created_at );
 			$resolution_seconds = $delta > 0 ? $delta : 0;
 		}
 
-		$rating_stars     = $rating && null !== $rating['stars'] ? (int) $rating['stars'] : null;
-		$rating_comment   = (string) ( $rating['comment'] ?? '' );
-		$rating_at        = $rating && ! empty( $rating['created_at'] ) ? (string) $rating['created_at'] : null;
+		$rating_stars   = $rating && null !== $rating['stars'] ? (int) $rating['stars'] : null;
+		$rating_comment = (string) ( $rating['comment'] ?? '' );
+		$rating_at      = $rating && ! empty( $rating['created_at'] ) ? (string) $rating['created_at'] : null;
 
 		return array(
 			'update_id'             => $update_id,

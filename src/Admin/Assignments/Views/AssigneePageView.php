@@ -150,12 +150,12 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 		<?php else : ?>
 			<?php
 			foreach ( $rows as $row ) :
-				$waiting  = ! empty( $row['waiting'] );
-				$resolved = ! empty( $row['resolved'] );
-				$open     = '' !== (string) $row['edit_url'];
-				$tag      = $open ? 'a' : 'div';
-				$href     = $open ? ' href="' . esc_url( (string) $row['edit_url'] ) . '"' : '';
-				$accent   = $waiting ? '#f59e0b' : (string) $row['status_color'];
+				$waiting     = ! empty( $row['waiting'] );
+				$resolved    = ! empty( $row['resolved'] );
+				$open        = '' !== (string) $row['edit_url'];
+				$tag         = $open ? 'a' : 'div';
+				$href        = $open ? ' href="' . esc_url( (string) $row['edit_url'] ) . '"' : '';
+				$accent      = $waiting ? '#f59e0b' : (string) $row['status_color'];
 				$created     = (string) ( $row['created_avatar'] ?? '' );
 				$assignee_av = (string) ( $row['assignee_avatar'] ?? '' );
 				?>
@@ -231,11 +231,11 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 			</span>
 
 			<?php
-			$pages       = (int) ( $view_data['total_pages'] ?? 1 );
-			$current     = (int) ( $view_data['page'] ?? 1 );
-			$page_url    = (string) ( $view_data['page_url'] ?? '' );
-			$prev_url    = (string) ( $view_data['prev_url'] ?? '' );
-			$next_url    = (string) ( $view_data['next_url'] ?? '' );
+			$pages    = (int) ( $view_data['total_pages'] ?? 1 );
+			$current  = (int) ( $view_data['page'] ?? 1 );
+			$page_url = (string) ( $view_data['page_url'] ?? '' );
+			$prev_url = (string) ( $view_data['prev_url'] ?? '' );
+			$next_url = (string) ( $view_data['next_url'] ?? '' );
 			if ( $pages > 1 ) :
 				?>
 				<div class="awts-asg__pager">

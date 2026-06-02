@@ -102,21 +102,21 @@ use OrderUpdatesForWoo\Shared\Validation\Validator;
 final class Plugin {
 	public function powerOn(): void {
 		$table = new UpdatesTable();
-		$db = new OrderUpdatesDb( $table );
+		$db    = new OrderUpdatesDb( $table );
 
 		$analytics_lookup_table = new AnalyticsLookupTable();
 		$analytics_lookup_db    = new AnalyticsLookupDb( $analytics_lookup_table, $table );
-		$participant_resolver = new \OrderUpdatesForWoo\Helpers\ParticipantResolver( $db );
-		$update_card_parser = new UpdateCardVariableParser( $db, $participant_resolver );
-		$team_roster = new TeamRosterService();
-		$settings = new OrderUpdatesSettingsService();
-		$async_health = new AsyncHealth();
-		$async = new AsyncJob( $async_health );
-		$note_service = new UpdateNoteService( $db, $async, $participant_resolver );
-		$note_action_policy = new NoteActionPolicy( $settings );
+		$participant_resolver   = new \OrderUpdatesForWoo\Helpers\ParticipantResolver( $db );
+		$update_card_parser     = new UpdateCardVariableParser( $db, $participant_resolver );
+		$team_roster            = new TeamRosterService();
+		$settings               = new OrderUpdatesSettingsService();
+		$async_health           = new AsyncHealth();
+		$async                  = new AsyncJob( $async_health );
+		$note_service           = new UpdateNoteService( $db, $async, $participant_resolver );
+		$note_action_policy     = new NoteActionPolicy( $settings );
 
-		$attachments_table = new AttachmentsTable();
-		$attachments_db = new AttachmentsDb( $attachments_table );
+		$attachments_table  = new AttachmentsTable();
+		$attachments_db     = new AttachmentsDb( $attachments_table );
 		$attachment_service = new AttachmentService( $attachments_db );
 
 		$customer_updates_service = new CustomerOrderUpdatesService( $db, $attachments_db, $settings, $note_action_policy );
@@ -218,9 +218,12 @@ final class Plugin {
 		( new AdminBarNotifications( $db ) )->init();
 		( new AnalyticsController( $analytics_lookup_db ) )->init();
 
-		add_action( 'order_updates_for_woo_after_delete_update', function ( int $update_id ) {
-			StaffEmailPreference::delete_all_for_update( $update_id );
-		} );
+		add_action(
+			'order_updates_for_woo_after_delete_update',
+			function ( int $update_id ) {
+				StaffEmailPreference::delete_all_for_update( $update_id );
+			} 
+		);
 
 		// Analytics cache invalidation is handled by AnalyticsLookupDb,
 		// which listens to `order_updates_for_woo_update_changed` / `_deleted`.

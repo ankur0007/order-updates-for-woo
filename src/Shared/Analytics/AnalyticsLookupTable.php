@@ -47,7 +47,8 @@ final class AnalyticsLookupTable {
 		global $wpdb;
 		$c = $wpdb->get_charset_collate();
 
-		dbDelta( "CREATE TABLE {$this->lookup} (
+		dbDelta(
+			"CREATE TABLE {$this->lookup} (
 			id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			update_id BIGINT(20) UNSIGNED NOT NULL,
 			order_id BIGINT(20) UNSIGNED NOT NULL,
@@ -72,7 +73,8 @@ final class AnalyticsLookupTable {
 			KEY assignee_created (assignee_user_id, created_date),
 			KEY rating (rating),
 			KEY product_id (product_id)
-		) {$c};" );
+		) {$c};" 
+		);
 
 		update_option( self::VERSION_KEY, self::VERSION );
 	}

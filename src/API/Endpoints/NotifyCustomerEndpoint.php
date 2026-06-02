@@ -31,8 +31,8 @@ final class NotifyCustomerEndpoint implements Registrable {
 			Constants::REST_NAMESPACE,
 			self::ROUTE,
 			array(
-				'methods' => \WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'handle' ),
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'handle' ),
 				'permission_callback' => array( $this, 'can_access' ),
 			)
 		);
@@ -54,7 +54,7 @@ final class NotifyCustomerEndpoint implements Registrable {
 
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$update_id = absint( $request->get_param( 'update_id' ) );
-		$note_id = absint( $request->get_param( 'note_id' ) );
+		$note_id   = absint( $request->get_param( 'note_id' ) );
 
 		if ( empty( $this->order_updates_db->get_update( $update_id )['id'] ) ) {
 			return $this->update_not_found_error();
@@ -70,23 +70,28 @@ final class NotifyCustomerEndpoint implements Registrable {
 			return new WP_Error( 'order_updates_for_woo_already_notified', __( 'This customer note has already been queued or sent.', 'order-updates-for-woo' ), array( 'status' => 409 ) );
 		}
 
-		$force    = rest_sanitize_boolean( $request->get_param( 'force' ) );
-		$update   = $this->order_updates_db->get_update( $update_id );
-		$order    = wc_get_order( (int) ( $update['order_id'] ?? 0 ) );
+		$force       = rest_sanitize_boolean( $request->get_param( 'force' ) );
+		$update      = $this->order_updates_db->get_update( $update_id );
+		$order       = wc_get_order( (int) ( $update['order_id'] ?? 0 ) );
 		$customer_id = $order instanceof WC_Order ? (int) $order->get_customer_id() : 0;
 
 		if ( ! $force && ! CustomerEmailPreference::get( (int) ( $update['order_id'] ?? 0 ), $customer_id ) ) {
-			return rest_ensure_response( array(
-				'opted_out' => true,
-				'message'   => __( 'This customer has opted out of email notifications.', 'order-updates-for-woo' ),
-			) );
+			return rest_ensure_response(
+				array(
+					'opted_out' => true,
+					'message'   => __( 'This customer has opted out of email notifications.', 'order-updates-for-woo' ),
+				) 
+			);
 		}
 
 		do_action( 'order_updates_for_woo_before_notify_customer', $update_id, $note_id, $note, $request );
 
 		$queued = $this->async_job->queue(
 			Constants::HOOK_CUSTOMER_NOTIFICATION,
-			array( 'update_id' => $update_id, 'note_id' => $note_id )
+			array(
+				'update_id' => $update_id,
+				'note_id'   => $note_id,
+			)
 		);
 
 		if ( ! $queued ) {
@@ -99,12 +104,12 @@ final class NotifyCustomerEndpoint implements Registrable {
 		do_action( 'order_updates_for_woo_after_notify_customer', $update_id, $note_id, $queued_at_utc, $request );
 
 		$response = array(
-			'message' => __( 'Customer notification queued.', 'order-updates-for-woo' ),
-			'updateId' => $update_id,
-			'noteId' => $note_id,
-			'status' => 'queued',
-			'hook' => Constants::HOOK_CUSTOMER_NOTIFICATION,
-			'queuedAt' => DateHelper::format_date( $queued_at_utc ),
+			'message'     => __( 'Customer notification queued.', 'order-updates-for-woo' ),
+			'updateId'    => $update_id,
+			'noteId'      => $note_id,
+			'status'      => 'queued',
+			'hook'        => Constants::HOOK_CUSTOMER_NOTIFICATION,
+			'queuedAt'    => DateHelper::format_date( $queued_at_utc ),
 			'queuedAtUtc' => $queued_at_utc,
 		);
 

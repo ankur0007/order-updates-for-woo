@@ -48,10 +48,10 @@ final class AdminHeartbeatHandler {
 			return $response;
 		}
 
-		$payload              = $data[ Constants::HEARTBEAT_KEY ];
-		$since_map            = isset( $payload['since'] ) && is_array( $payload['since'] ) ? $payload['since'] : array();
-		$since_internal_map   = isset( $payload['since_internal'] ) && is_array( $payload['since_internal'] ) ? $payload['since_internal'] : array();
-		$notes_by_update      = array();
+		$payload                  = $data[ Constants::HEARTBEAT_KEY ];
+		$since_map                = isset( $payload['since'] ) && is_array( $payload['since'] ) ? $payload['since'] : array();
+		$since_internal_map       = isset( $payload['since_internal'] ) && is_array( $payload['since_internal'] ) ? $payload['since_internal'] : array();
+		$notes_by_update          = array();
 		$internal_notes_by_update = array();
 
 		// Customer thread notes.
@@ -187,7 +187,10 @@ final class AdminHeartbeatHandler {
 			$user    = $user_id ? get_user_by( 'id', $user_id ) : false;
 
 			if ( $user ) {
-				$mentions[] = array( 'id' => $user_id, 'name' => $user->display_name );
+				$mentions[] = array(
+					'id'   => $user_id,
+					'name' => $user->display_name,
+				);
 			}
 		}
 

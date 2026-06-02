@@ -91,17 +91,17 @@ final class OrderEditorPanelService {
 		wp_localize_script(
 			'order-updates-for-woo-admin-script',
 			'awtsData',
-			[
-				'nonce' => wp_create_nonce( 'wp_rest' ),
-				'searchEndpoint' => RestUrlHelper::route( 'assignee-search' ),
-				'listEndpoint' => RestUrlHelper::route( 'order-updates' ),
-				'saveEndpoint' => RestUrlHelper::route( 'updates' ),
-				'updateEndpointBase' => RestUrlHelper::updates_base(),
-				'solveEndpointBase'  => RestUrlHelper::updates_base(),
-				'reopenEndpointBase' => RestUrlHelper::updates_base(),
-				'historyEndpointBase'  => RestUrlHelper::updates_base(),
-				'deleteEndpointBase'   => RestUrlHelper::updates_base(),
-				'notifyEndpointBase'   => RestUrlHelper::updates_base(),
+			array(
+				'nonce'                     => wp_create_nonce( 'wp_rest' ),
+				'searchEndpoint'            => RestUrlHelper::route( 'assignee-search' ),
+				'listEndpoint'              => RestUrlHelper::route( 'order-updates' ),
+				'saveEndpoint'              => RestUrlHelper::route( 'updates' ),
+				'updateEndpointBase'        => RestUrlHelper::updates_base(),
+				'solveEndpointBase'         => RestUrlHelper::updates_base(),
+				'reopenEndpointBase'        => RestUrlHelper::updates_base(),
+				'historyEndpointBase'       => RestUrlHelper::updates_base(),
+				'deleteEndpointBase'        => RestUrlHelper::updates_base(),
+				'notifyEndpointBase'        => RestUrlHelper::updates_base(),
 				'notesEndpointBase'         => RestUrlHelper::updates_base(),
 				'customerNotesEndpointBase' => RestUrlHelper::updates_base(),
 				'attachmentsEndpoint'       => RestUrlHelper::route( 'attachments' ),
@@ -115,11 +115,11 @@ final class OrderEditorPanelService {
 				// guards still apply when the cached DOM has stale edit buttons.
 				'allowNoteEdit'             => $this->settings_service()->allow_note_edit(),
 				'allowNoteDelete'           => $this->settings_service()->allow_note_delete(),
-				'successMessage' => __('Update saved successfully.', 'order-updates-for-woo'),
-				'heartbeatKey'   => \OrderUpdatesForWoo\Shared\Config\Constants::HEARTBEAT_KEY,
-				'emailPrefUrl'   => \OrderUpdatesForWoo\Helpers\RestUrlHelper::route( 'customer-email-preference' ),
-				'strings' => apply_filters('order_updates_for_woo_admin_strings', $this->get_labels()),
-			]
+				'successMessage'            => __( 'Update saved successfully.', 'order-updates-for-woo' ),
+				'heartbeatKey'              => \OrderUpdatesForWoo\Shared\Config\Constants::HEARTBEAT_KEY,
+				'emailPrefUrl'              => \OrderUpdatesForWoo\Helpers\RestUrlHelper::route( 'customer-email-preference' ),
+				'strings'                   => apply_filters( 'order_updates_for_woo_admin_strings', $this->get_labels() ),
+			)
 		);
 
 		// No-login chat-link panel behaviour. Depends on the meta-box script so

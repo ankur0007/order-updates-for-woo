@@ -57,12 +57,12 @@ final class CustomerUpdateDeletedEmail extends OrderUpdateEmailBase {
 			__( 'An update on your order #%s has been removed by our team.', 'order-updates-for-woo' ),
 			$order->get_order_number()
 		);
-		$this->note_label    = __( 'Removed update', 'order-updates-for-woo' );
-		$this->note_content  = $update_title;
-		$this->detail_rows   = array();
-		$this->status_label  = __( 'Update removed', 'order-updates-for-woo' );
-		$this->action_url    = (string) $order->get_view_order_url();
-		$this->action_label  = __( 'View order', 'order-updates-for-woo' );
+		$this->note_label   = __( 'Removed update', 'order-updates-for-woo' );
+		$this->note_content = $update_title;
+		$this->detail_rows  = array();
+		$this->status_label = __( 'Update removed', 'order-updates-for-woo' );
+		$this->action_url   = (string) $order->get_view_order_url();
+		$this->action_label = __( 'View order', 'order-updates-for-woo' );
 
 		$this->object = $order;
 
