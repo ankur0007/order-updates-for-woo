@@ -17,7 +17,11 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  */
 final class UpdateResolver {
 
-	/** @var array<int, array> Update rows seen this request, keyed by update id. */
+	/**
+	 * Update rows seen this request, keyed by update id.
+	 *
+	 * @var array<int, array>
+	 */
 	private static array $update_cache = array();
 
 	/**
