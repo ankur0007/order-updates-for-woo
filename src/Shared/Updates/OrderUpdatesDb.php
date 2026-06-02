@@ -1097,6 +1097,49 @@ final class OrderUpdatesDb {
 	}
 
 	/**
+	 * Latest real customer-thread message (not a status/system row) for each
+	 * update, used by the Assignee page SLA badge to tell who spoke last and
+	 * how long ago. One indexed query for the whole visible page.
+	 *
+	 * @param int[] $update_ids
+	 * @return array<int, array{created_at:string, created_by:int}>
+	 */
+	public function get_latest_customer_messages( array $update_ids ): array {
+		global $wpdb;
+
+		$update_ids = array_values( array_unique( array_filter( array_map( 'absint', $update_ids ) ) ) );
+		if ( empty( $update_ids ) ) {
+			return array();
+		}
+
+		$cn           = $this->updates_table->customer_notes;
+		$placeholders = implode( ', ', array_fill( 0, count( $update_ids ), '%d' ) );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from UpdatesTable; ids bound via %d placeholders.
+		$sql = "SELECT cn.update_id, cn.created_by, cn.created_at
+			FROM {$cn} AS cn
+			INNER JOIN (
+				SELECT update_id, MAX( id ) AS max_id
+				FROM {$cn}
+				WHERE update_id IN ( {$placeholders} )
+					AND kind NOT IN ( 'title_change', 'status_change', 'assignee_change', 'reopen', 'rating' )
+				GROUP BY update_id
+			) AS latest ON latest.max_id = cn.id";
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $update_ids ), ARRAY_A );
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$out = array();
+		foreach ( (array) $rows as $row ) {
+			$out[ (int) $row['update_id'] ] = array(
+				'created_at' => (string) ( $row['created_at'] ?? '' ),
+				'created_by' => (int) ( $row['created_by'] ?? 0 ),
+			);
+		}
+
+		return $out;
+	}
+
+	/**
 	 * Recent internal notes that mention the user, joined with their parent update.
 	 *
 	 * @return array<int, array{note_id:int, update_id:int, order_id:int, title:string, snippet:string, created_at:string, created_by_name:string}>

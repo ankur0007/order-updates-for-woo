@@ -224,6 +224,34 @@ html {
 	color: #d63638;
 }
 
+/* SLA "waiting" badge (Assignee page) — colour by how long staff has owed a reply. */
+.awts-inbox__sla {
+	padding: 1px 9px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.awts-inbox__sla.is-green {
+	background: #edfaef;
+	color: #1a7f37;
+}
+
+.awts-inbox__sla.is-blue {
+	background: #eaf2fb;
+	color: #2271b1;
+}
+
+.awts-inbox__sla.is-amber {
+	background: #fcf3e6;
+	color: #bb5a00;
+}
+
+.awts-inbox__sla.is-red {
+	background: #fcebec;
+	color: #d63638;
+}
+
 /* Order / Update / Note reference pills — outlined, lighter than the context pill. */
 .awts-inbox__idtag {
 	padding: 1px 8px;

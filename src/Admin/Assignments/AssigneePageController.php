@@ -31,6 +31,12 @@ final class AssigneePageController {
 	public const SLUG      = 'order-updates-for-woo-assignments';
 	private const PER_PAGE = 20;
 
+	// SLA "waiting on a reply" colour bands, in seconds: green ≤ 30 min,
+	// blue ≤ 2 h, amber ≤ 4 h, red beyond.
+	private const SLA_GREEN_MAX = 1800;
+	private const SLA_BLUE_MAX  = 7200;
+	private const SLA_AMBER_MAX = 14400;
+
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private TeamRosterService $team_roster
@@ -103,10 +109,15 @@ final class AssigneePageController {
 		$total_pages = max( 1, (int) ceil( $total / self::PER_PAGE ) );
 		$paged       = min( $paged, $total_pages );
 
+		// One batched lookup of who spoke last per visible update — feeds the
+		// SLA "waiting" badge without a query per row.
+		$update_ids = array_map( static fn( array $r ): int => (int) ( $r['id'] ?? 0 ), $data['rows'] );
+		$latest     = $this->order_updates_db->get_latest_customer_messages( $update_ids );
+
 		View::render(
 			'src/Admin/Assignments/Views/AssigneePageView',
 			array(
-				'rows'        => array_map( array( $this, 'to_view_row' ), $data['rows'] ),
+				'rows'        => array_map( fn( array $row ): array => $this->to_view_row( $row, $latest ), $data['rows'] ),
 				'sees_all'    => $sees_all,
 				'status'      => $status,
 				'search'      => $search,
@@ -133,11 +144,19 @@ final class AssigneePageController {
 		return current_user_can( 'manage_woocommerce' );
 	}
 
-	/** Flatten one DB row into the shape the view renders (escaped at output there). */
-	private function to_view_row( array $row ): array {
+	/**
+	 * Flatten one DB row into the shape the view renders (escaped at output
+	 * there). $latest maps update_id → the last customer-thread message, used
+	 * for the SLA badge.
+	 *
+	 * @param array<int, array{created_at:string, created_by:int}> $latest
+	 */
+	private function to_view_row( array $row, array $latest = array() ): array {
 		$update_id = (int) ( $row['id'] ?? 0 );
 		$order_id  = (int) ( $row['order_id'] ?? 0 );
 		$order     = $order_id && function_exists( 'wc_get_order' ) ? wc_get_order( $order_id ) : null;
+		$resolved  = ! empty( $row['is_resolved'] );
+		$sla       = $this->sla_for( $resolved, $latest[ $update_id ] ?? null );
 
 		return array(
 			'update_id' => $update_id,
@@ -145,10 +164,56 @@ final class AssigneePageController {
 			'order_no'  => $order ? (string) $order->get_order_number() : (string) $order_id,
 			'customer'  => $order ? trim( (string) $order->get_formatted_billing_full_name() ) : '',
 			'title'     => (string) ( $row['title'] ?? '' ),
-			'resolved'  => ! empty( $row['is_resolved'] ),
+			'resolved'  => $resolved,
 			'assignee'  => (string) ( $row['assignee_name'] ?? '' ),
 			'edit_url'  => $order ? strtok( (string) $order->get_edit_order_url(), '#' ) . '#awts-update-' . $update_id : '',
 			'time'      => $this->time_ago( (string) ( $row['last_updated_at'] ?? '' ) ),
+			'sla_label' => $sla['label'],
+			'sla_class' => $sla['class'],
+		);
+	}
+
+	/**
+	 * SLA badge for an update: only shown when it's open AND the customer
+	 * spoke last (so staff owes a reply). Colour bands by how long they've
+	 * waited. Returns empty label/class when no reply is owed.
+	 *
+	 * @param array{created_at:string, created_by:int}|null $last_message
+	 * @return array{label:string, class:string}
+	 */
+	private function sla_for( bool $resolved, ?array $last_message ): array {
+		$none = array( 'label' => '', 'class' => '' );
+
+		if ( $resolved || null === $last_message ) {
+			return $none;
+		}
+
+		// Staff (a team member) spoke last → nothing owed. A guest (id 0) or a
+		// non-team user is the customer → the clock is on staff.
+		if ( TeamRosterService::user_is_team_member( (int) $last_message['created_by'] ) ) {
+			return $none;
+		}
+
+		$timestamp = '' !== $last_message['created_at'] ? (int) strtotime( $last_message['created_at'] . ' UTC' ) : 0;
+		if ( $timestamp <= 0 ) {
+			return $none;
+		}
+
+		$waited = max( 0, time() - $timestamp );
+		if ( $waited <= self::SLA_GREEN_MAX ) {
+			$class = 'is-green';
+		} elseif ( $waited <= self::SLA_BLUE_MAX ) {
+			$class = 'is-blue';
+		} elseif ( $waited <= self::SLA_AMBER_MAX ) {
+			$class = 'is-amber';
+		} else {
+			$class = 'is-red';
+		}
+
+		return array(
+			/* translators: %s: human-readable time difference, e.g. "2 hours" */
+			'label' => sprintf( __( 'Waiting %s', 'order-updates-for-woo' ), human_time_diff( $timestamp, time() ) ),
+			'class' => $class,
 		);
 	}
 

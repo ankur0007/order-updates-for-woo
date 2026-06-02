@@ -99,6 +99,9 @@ $tab  = static function ( string $key, string $label ) use ( $status, $base ): s
 							<span class="awts-inbox__text"><?php echo esc_html( '' !== (string) $row['title'] ? (string) $row['title'] : __( '(untitled update)', 'order-updates-for-woo' ) ); ?></span>
 							<span class="awts-inbox__tags">
 								<span class="awts-inbox__tag"><?php echo empty( $row['resolved'] ) ? esc_html__( 'Open', 'order-updates-for-woo' ) : esc_html__( 'Solved', 'order-updates-for-woo' ); ?></span>
+								<?php if ( '' !== (string) $row['sla_label'] ) : ?>
+									<span class="awts-inbox__sla <?php echo esc_attr( (string) $row['sla_class'] ); ?>"><?php echo esc_html( (string) $row['sla_label'] ); ?></span>
+								<?php endif; ?>
 								<?php /* translators: %s: order number */ ?>
 								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Order: %s', 'order-updates-for-woo' ), esc_html( (string) $row['order_no'] ) ); ?></span>
 								<?php /* translators: %d: update id */ ?>
