@@ -1,4 +1,9 @@
 <?php
+/**
+ * Watches whether Action Scheduler is actually running.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -8,17 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * A recurring "heartbeat" job stamps the time; if that stamp goes stale, async
+ * processing has stalled and callers can fall back to running work inline.
+ */
 final class AsyncHealth {
 	public const HEARTBEAT_OPTION = 'order_updates_for_woo_async_heartbeat';
 	public const HEARTBEAT_HOOK   = 'order_updates_for_woo_async_heartbeat_tick';
 	private const STALE_AFTER     = 15 * MINUTE_IN_SECONDS;
 	private const INTERVAL        = 5 * MINUTE_IN_SECONDS;
 
+	/** Hook the heartbeat tick and its scheduler. */
 	public function init(): void {
 		add_action( self::HEARTBEAT_HOOK, array( $this, 'tick' ) );
 		add_action( 'init', array( $this, 'maybe_schedule' ) );
 	}
 
+	/** Schedule the recurring heartbeat once, if it isn't already. */
 	public function maybe_schedule(): void {
 		if ( ! function_exists( 'as_has_scheduled_action' ) || ! function_exists( 'as_schedule_recurring_action' ) ) {
 			return;
@@ -31,10 +42,12 @@ final class AsyncHealth {
 		as_schedule_recurring_action( time(), self::INTERVAL, self::HEARTBEAT_HOOK, array(), 'order-updates-for-woo' );
 	}
 
+	/** Stamp the current time — proof the scheduler is alive. */
 	public function tick(): void {
 		update_option( self::HEARTBEAT_OPTION, time(), false );
 	}
 
+	/** True when the heartbeat stamp is recent enough to trust async processing. */
 	public function is_async_healthy(): bool {
 		if ( ! function_exists( 'as_enqueue_async_action' ) ) {
 			return false;

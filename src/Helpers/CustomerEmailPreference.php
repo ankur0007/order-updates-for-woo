@@ -1,4 +1,9 @@
 <?php
+/**
+ * Stores whether a customer wants email updates for an order.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -7,11 +12,28 @@ namespace OrderUpdatesForWoo\Helpers;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 
+/**
+ * Reads and writes the customer's email on/off preference — keyed to the user
+ * for logged-in customers, or to the order for guests. Cached per request.
+ */
 final class CustomerEmailPreference {
+
+	/**
+	 * Cache key for the preference — per user when logged in, else per order.
+	 *
+	 * @param int $order_id Order id (used for guests).
+	 * @param int $user_id  Customer user id, or 0 for a guest.
+	 */
 	private static function cache_key( int $order_id, int $user_id ): string {
 		return $user_id > 0 ? "customer_email_pref_user_{$user_id}" : "customer_email_pref_order_{$order_id}";
 	}
 
+	/**
+	 * Whether the customer wants emails for this order — defaults to on (true).
+	 *
+	 * @param int $order_id Order id.
+	 * @param int $user_id  Customer user id, or 0 for a guest.
+	 */
 	public static function get( int $order_id, int $user_id ): bool {
 		$key    = self::cache_key( $order_id, $user_id );
 		$cached = wp_cache_get( $key, Constants::CACHE_GROUP );
@@ -38,6 +60,13 @@ final class CustomerEmailPreference {
 		return $result;
 	}
 
+	/**
+	 * Save the customer's email preference and bust the cache.
+	 *
+	 * @param int  $order_id Order id.
+	 * @param int  $user_id  Customer user id, or 0 for a guest.
+	 * @param bool $enabled  True to receive emails, false to mute.
+	 */
 	public static function set( int $order_id, int $user_id, bool $enabled ): void {
 		$value = $enabled ? 'yes' : 'no';
 

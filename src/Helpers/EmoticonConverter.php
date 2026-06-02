@@ -20,6 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Swaps text emoticons like :) for their emoji glyphs.
+ */
 final class EmoticonConverter {
 	/**
 	 * Pattern => replacement glyph. Mirrors the smileys block of the
@@ -45,6 +48,11 @@ final class EmoticonConverter {
 		'/\^\^/u'   => "\u{1F60A}",
 	);
 
+	/**
+	 * Replace text emoticons with emoji, leaving URLs untouched.
+	 *
+	 * @param string $text Note text to convert.
+	 */
 	public static function convert( string $text ): string {
 		if ( '' === $text ) {
 			return $text;

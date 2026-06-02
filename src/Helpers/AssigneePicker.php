@@ -1,4 +1,9 @@
 <?php
+/**
+ * Round-robin picker for assigning customer-initiated updates to staff.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -78,6 +83,7 @@ final class AssigneePicker {
 		return array_values( array_filter( $ids ) );
 	}
 
+	/** First administrator's user id (lowest ID), or 0 if the site has none. */
 	private static function first_admin_user_id(): int {
 		$admins = get_users(
 			array(
