@@ -110,6 +110,9 @@ final class OrderUpdatesDb {
 	 * Default rule for everything else: call invalidate_update_caches().
 	 * Coarse-but-correct beats fine-but-fragile when a missed bust shows
 	 * customers stale data.
+	 *
+	 * @param int $update_id Update id.
+	 * @param int $order_id  Parent order id.
 	 */
 	private function invalidate_update_row_cache( int $update_id, int $order_id ): void {
 		$this->cache_delete( "update_{$update_id}" );
@@ -125,6 +128,10 @@ final class OrderUpdatesDb {
 	 * state. Prefer this over inventing fine-grained busts unless a
 	 * specific path has been profiled and proven hot — see
 	 * invalidate_update_row_cache() for the only narrower variant in use.
+	 *
+	 * @param int $update_id Update id.
+	 * @param int $order_id  Parent order id.
+	 * @param int $user_id   Optional assignee whose assigned-orders cache to drop.
 	 */
 	private function invalidate_update_caches( int $update_id, int $order_id, int $user_id = 0 ): void {
 		$this->cache_delete( "update_{$update_id}" );
@@ -142,23 +149,43 @@ final class OrderUpdatesDb {
 		$this->cache_delete( 'users_with_assignments' );
 	}
 
+	/**
+	 * Bump the cache version for an update's customer notes (invalidates it).
+	 *
+	 * @param int $update_id Update id.
+	 */
 	private function increment_customer_notes_cache_version( int $update_id ): void {
 		$key     = "customer_notes_ver_{$update_id}";
 		$version = (int) $this->cache_get( $key );
 		$this->cache_set( $key, $version + 1 );
 	}
 
+	/**
+	 * Current cache version for an update's customer notes.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	private function get_customer_notes_cache_version( int $update_id ): int {
 		$cached = $this->cache_get( "customer_notes_ver_{$update_id}" );
 		return false !== $cached ? (int) $cached : 0;
 	}
 
+	/**
+	 * Bump the cache version for an update's internal notes (invalidates it).
+	 *
+	 * @param int $update_id Update id.
+	 */
 	private function increment_update_notes_cache_version( int $update_id ): void {
 		$key     = "update_notes_ver_{$update_id}";
 		$version = (int) $this->cache_get( $key );
 		$this->cache_set( $key, $version + 1 );
 	}
 
+	/**
+	 * Current cache version for an update's internal notes.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	private function get_update_notes_cache_version( int $update_id ): int {
 		$cached = $this->cache_get( "update_notes_ver_{$update_id}" );
 		return false !== $cached ? (int) $cached : 0;
@@ -179,6 +206,11 @@ final class OrderUpdatesDb {
 		}
 	}
 
+	/**
+	 * Bust the mentions cache for everyone @mentioned anywhere on an update.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	private function invalidate_mention_caches_for_update( int $update_id ): void {
 		global $wpdb;
 
@@ -207,6 +239,8 @@ final class OrderUpdatesDb {
 	/**
 	 * Look up the order_id for an update and invalidate all related caches.
 	 * Use this when you have an update_id but no order_id at hand.
+	 *
+	 * @param int $update_id Update id.
 	 */
 	private function invalidate_for_update( int $update_id ): void {
 		$update   = $this->get_update( $update_id );
@@ -227,6 +261,11 @@ final class OrderUpdatesDb {
 		$this->increment_update_notes_cache_version( $update_id );
 	}
 
+	/**
+	 * Insert a new update row; returns its id (0 on failure).
+	 *
+	 * @param array $update_data Column values for the new update.
+	 */
 	public function create_order_update( array $update_data ): int {
 		global $wpdb;
 
@@ -257,6 +296,12 @@ final class OrderUpdatesDb {
 		return $insert_id;
 	}
 
+	/**
+	 * Update an existing update row; returns true when a row changed.
+	 *
+	 * @param int   $update_id   Update id.
+	 * @param array $update_data Column values to write.
+	 */
 	public function edit_order_update( int $update_id, array $update_data ): bool {
 		global $wpdb;
 
