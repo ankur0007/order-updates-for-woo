@@ -1,0 +1,162 @@
+<?php
+
+declare(strict_types=1);
+
+namespace OrderUpdatesForWoo\Admin\Assignments;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use OrderUpdatesForWoo\Admin\AdminMenuController;
+use OrderUpdatesForWoo\Helpers\AssetHelper;
+use OrderUpdatesForWoo\Helpers\View;
+use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
+use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
+
+// Filter / search / paging reads via $_GET are idempotent listing params,
+// sanitised inline. No nonce for read-only navigation; access is gated by
+// capability + team membership, and a non-admin can only ever see their own.
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+
+/**
+ * "Assignments" page — the list of order updates by assignee. Team members
+ * see the updates assigned to them; store managers see everyone's, with an
+ * assignee filter. Rendered in the same lightweight inbox style as the
+ * Notifications page. Data + view are kept separate so a future
+ * customer/assignee front-end page can reuse the same view.
+ */
+final class AssigneePageController {
+
+	public const SLUG      = 'order-updates-for-woo-assignments';
+	private const PER_PAGE = 20;
+
+	public function __construct(
+		private OrderUpdatesDb $order_updates_db,
+		private TeamRosterService $team_roster
+	) {}
+
+	public function init(): void {
+		add_action( 'admin_menu', array( $this, 'register_page' ) );
+	}
+
+	public function register_page(): void {
+		// Hide the menu item from anyone who can't see any assignments.
+		if ( ! $this->can_view() ) {
+			return;
+		}
+
+		// 'read' so team members without manage_woocommerce still reach it;
+		// render() re-checks access.
+		add_submenu_page(
+			AdminMenuController::PARENT_SLUG,
+			__( 'Assignments', 'order-updates-for-woo' ),
+			__( 'Assignments', 'order-updates-for-woo' ),
+			'read',
+			self::SLUG,
+			array( $this, 'render' )
+		);
+	}
+
+	public function render(): void {
+		if ( ! $this->can_view() ) {
+			wp_die( esc_html__( 'You are not allowed to view assignments.', 'order-updates-for-woo' ), 403 );
+		}
+
+		wp_enqueue_style( 'dashicons' );
+		wp_enqueue_style(
+			'order-updates-for-woo-notifications',
+			AssetHelper::url( 'assets/Admin/css/notifications.css' ),
+			array(),
+			AssetHelper::version( 'assets/Admin/css/notifications.css' )
+		);
+
+		$sees_all = $this->sees_all();
+		$user_id  = get_current_user_id();
+
+		$status   = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( (string) $_GET['status'] ) ) : '';
+		$status   = in_array( $status, array( 'open', 'solved' ), true ) ? $status : '';
+		$search   = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['s'] ) ) : '';
+		$paged    = isset( $_GET['paged'] ) ? max( 1, absint( wp_unslash( (string) $_GET['paged'] ) ) ) : 1;
+		$req_assignee = isset( $_GET['assignee'] ) ? absint( wp_unslash( (string) $_GET['assignee'] ) ) : 0;
+
+		// Security: only a store manager may filter by (or see) other people's
+		// assignments. Everyone else is pinned to their own id server-side, so
+		// a hand-edited ?assignee= can't surface another user's updates.
+		$assignee_id = $sees_all ? $req_assignee : $user_id;
+
+		$args = apply_filters(
+			'order_updates_for_woo_assignee_page_query_args',
+			array(
+				'assignee_id' => $assignee_id,
+				'status'      => $status,
+				'search'      => $search,
+				'per_page'    => self::PER_PAGE,
+				'paged'       => $paged,
+			),
+			$sees_all,
+			$user_id
+		);
+
+		$data        = $this->order_updates_db->get_assignee_page_updates( $args );
+		$total       = (int) $data['total'];
+		$total_pages = max( 1, (int) ceil( $total / self::PER_PAGE ) );
+		$paged       = min( $paged, $total_pages );
+
+		View::render(
+			'src/Admin/Assignments/Views/AssigneePageView',
+			array(
+				'rows'        => array_map( array( $this, 'to_view_row' ), $data['rows'] ),
+				'sees_all'    => $sees_all,
+				'status'      => $status,
+				'search'      => $search,
+				'assignee'    => $assignee_id,
+				'team'        => $sees_all ? $this->team_roster->get_team_members() : array(),
+				'slug'        => self::SLUG,
+				'has_filters' => ( '' !== $status || '' !== $search || $req_assignee > 0 ),
+				'total'       => $total,
+				'page'        => $paged,
+				'total_pages' => $total_pages,
+				'prev_url'    => $paged > 1 ? esc_url_raw( add_query_arg( 'paged', $paged - 1 ) ) : '',
+				'next_url'    => $paged < $total_pages ? esc_url_raw( add_query_arg( 'paged', $paged + 1 ) ) : '',
+			)
+		);
+	}
+
+	/** Anyone on the team — or a store manager — may open the page. */
+	private function can_view(): bool {
+		return current_user_can( 'manage_woocommerce' ) || TeamRosterService::user_is_team_member();
+	}
+
+	/** Store managers see every assignee; plain team members see only their own. */
+	private function sees_all(): bool {
+		return current_user_can( 'manage_woocommerce' );
+	}
+
+	/** Flatten one DB row into the shape the view renders (escaped at output there). */
+	private function to_view_row( array $row ): array {
+		$update_id = (int) ( $row['id'] ?? 0 );
+		$order_id  = (int) ( $row['order_id'] ?? 0 );
+		$order     = $order_id && function_exists( 'wc_get_order' ) ? wc_get_order( $order_id ) : null;
+
+		return array(
+			'update_id' => $update_id,
+			'order_id'  => $order_id,
+			'order_no'  => $order ? (string) $order->get_order_number() : (string) $order_id,
+			'customer'  => $order ? trim( (string) $order->get_formatted_billing_full_name() ) : '',
+			'title'     => (string) ( $row['title'] ?? '' ),
+			'resolved'  => ! empty( $row['is_resolved'] ),
+			'assignee'  => (string) ( $row['assignee_name'] ?? '' ),
+			'edit_url'  => $order ? strtok( (string) $order->get_edit_order_url(), '#' ) . '#awts-update-' . $update_id : '',
+			'time'      => $this->time_ago( (string) ( $row['last_updated_at'] ?? '' ) ),
+		);
+	}
+
+	/** "2 hours ago" from a UTC datetime, or '' when missing. */
+	private function time_ago( string $mysql_utc ): string {
+		$timestamp = '' !== $mysql_utc ? (int) strtotime( $mysql_utc . ' UTC' ) : 0;
+
+		/* translators: %s: human-readable time difference, e.g. "2 hours" */
+		return $timestamp > 0 ? sprintf( __( '%s ago', 'order-updates-for-woo' ), human_time_diff( $timestamp, time() ) ) : '';
+	}
+}

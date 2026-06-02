@@ -165,6 +165,7 @@ final class Plugin {
 		$rest->init();
 		( new AdminMenuController() )->init();
 		( new NotificationsPageController( $db ) )->init();
+		( new \OrderUpdatesForWoo\Admin\Assignments\AssigneePageController( $db, $team_roster ) )->init();
 		( new OrderDeletionController( $db, $attachment_service ) )->init();
 		( new \OrderUpdatesForWoo\Admin\Orders\DeletedUpdatesMetaBox() )->init();
 		( new AdminHeartbeatHandler( $db, $note_action_policy, $attachments_db ) )->init();

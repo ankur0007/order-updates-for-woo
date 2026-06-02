@@ -1014,6 +1014,89 @@ final class OrderUpdatesDb {
 	}
 
 	/**
+	 * Updates for the Assignee page. assignee_id = 0 lists every update (the
+	 * admin view); a positive id limits to that assignee. Supports a status
+	 * filter ('open' | 'solved'), a title/order search, and paging. Returns
+	 * the page rows plus the total count for the pager. Not cached — it's a
+	 * filtered admin listing read on demand.
+	 *
+	 * @param array{assignee_id?:int,status?:string,search?:string,per_page?:int,paged?:int} $args
+	 * @return array{rows:array<int,array<string,mixed>>, total:int}
+	 */
+	public function get_assignee_page_updates( array $args ): array {
+		global $wpdb;
+
+		$assignee_id = max( 0, (int) ( $args['assignee_id'] ?? 0 ) );
+		$status      = (string) ( $args['status'] ?? '' );
+		$search      = trim( (string) ( $args['search'] ?? '' ) );
+		$per_page    = max( 1, (int) ( $args['per_page'] ?? 20 ) );
+		$paged       = max( 1, (int) ( $args['paged'] ?? 1 ) );
+		$offset      = ( $paged - 1 ) * $per_page;
+
+		// Short cache — the listing is read on demand and changes as updates
+		// flow, so a brief TTL trims repeat queries without lingering stale.
+		$cache_key = 'assignee_page_' . md5( $assignee_id . '|' . $status . '|' . $search . '|' . $per_page . '|' . $paged );
+		$cached    = $this->cache_get( $cache_key );
+		if ( false !== $cached ) {
+			return $cached;
+		}
+
+		$updates   = $this->updates_table->updates;
+		$assignees = $this->updates_table->assignees;
+		$users     = $wpdb->users;
+
+		$where  = array( '1 = 1' );
+		$params = array();
+
+		if ( $assignee_id > 0 ) {
+			$where[]  = 'a.assignee_user_id = %d';
+			$params[] = $assignee_id;
+		}
+		if ( 'open' === $status ) {
+			$where[] = 'updates.is_resolved = 0';
+		} elseif ( 'solved' === $status ) {
+			$where[] = 'updates.is_resolved = 1';
+		}
+		if ( '' !== $search ) {
+			$where[]  = '( updates.title LIKE %s OR updates.order_id = %d )';
+			$params[] = '%' . $wpdb->esc_like( $search ) . '%';
+			$params[] = (int) $search;
+		}
+
+		$where_sql = implode( ' AND ', $where );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names from UpdatesTable; the WHERE is fixed fragments with %d/%s placeholders bound from $params.
+		$count_sql = "SELECT COUNT( DISTINCT updates.id )
+			FROM {$updates} AS updates
+			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
+			WHERE {$where_sql}";
+		$total = (int) ( $params
+			? $wpdb->get_var( $wpdb->prepare( $count_sql, $params ) )
+			: $wpdb->get_var( $count_sql ) );
+
+		$list_sql = "SELECT updates.id, updates.order_id, updates.title, updates.is_resolved,
+				updates.last_updated_at, updates.created_at,
+				a.assignee_user_id, assignee.display_name AS assignee_name
+			FROM {$updates} AS updates
+			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
+			LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
+			WHERE {$where_sql}
+			ORDER BY updates.last_updated_at DESC, updates.id DESC
+			LIMIT %d OFFSET %d";
+		$rows = $wpdb->get_results( $wpdb->prepare( $list_sql, array_merge( $params, array( $per_page, $offset ) ) ), ARRAY_A );
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$result = array(
+			'rows'  => is_array( $rows ) ? $rows : array(),
+			'total' => $total,
+		);
+
+		$this->cache_set( $cache_key, $result, 30 );
+
+		return $result;
+	}
+
+	/**
 	 * Recent internal notes that mention the user, joined with their parent update.
 	 *
 	 * @return array<int, array{note_id:int, update_id:int, order_id:int, title:string, snippet:string, created_at:string, created_by_name:string}>
