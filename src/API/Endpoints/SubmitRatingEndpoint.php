@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint: customer submits a star rating for a resolved update.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -36,6 +41,7 @@ final class SubmitRatingEndpoint implements Registrable {
 		private AsyncJob $async_job
 	) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -54,6 +60,12 @@ final class SubmitRatingEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check — customer (logged-in or guest via order_key) on a
+	 * customer-visible update.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;
@@ -80,6 +92,11 @@ final class SubmitRatingEndpoint implements Registrable {
 		return true;
 	}
 
+	/**
+	 * Validate and save the rating, then notify the assignee (and admin on low scores).
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$features = $this->settings_service->get_feature_settings();
 
