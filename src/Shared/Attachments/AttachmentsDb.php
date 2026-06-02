@@ -11,6 +11,11 @@ use OrderUpdatesForWoo\Shared\Config\Variables;
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 final class AttachmentsDb {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AttachmentsTable $table Injected dependency.
+	 */
 	public function __construct( private AttachmentsTable $table ) {}
 
 	public function create( array $data ): int {

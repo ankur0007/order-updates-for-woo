@@ -24,6 +24,13 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  * rating) is never overwritten or re-queued.
  */
 final class RatingRequestScheduler {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 * @param AsyncJob                    $async_job        Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private OrderUpdatesSettingsService $settings_service,

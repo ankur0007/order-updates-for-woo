@@ -19,6 +19,12 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
  * we don't track a separate "sent" state.
  */
 final class RatingFollowupScheduler {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 * @param AsyncJob                    $async_job        Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesSettingsService $settings_service,
 		private AsyncJob $async_job

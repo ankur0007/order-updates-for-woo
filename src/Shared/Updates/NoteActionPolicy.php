@@ -20,6 +20,11 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 final class NoteActionPolicy {
 	private const DEFAULT_EDIT_WINDOW_MINUTES = 1;
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesSettingsService $settings_service
 	) {}

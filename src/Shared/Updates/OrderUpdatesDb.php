@@ -14,6 +14,11 @@ use OrderUpdatesForWoo\Shared\Config\Variables;
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 final class OrderUpdatesDb {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param UpdatesTable $updates_table Injected dependency.
+	 */
 	public function __construct( private UpdatesTable $updates_table ) {}
 
 	public static function orders_table_alias(): string {

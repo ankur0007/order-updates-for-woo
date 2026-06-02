@@ -14,6 +14,11 @@ use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use WP_Error;
 
 final class Validator {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param TeamRosterService $team_roster Injected dependency.
+	 */
 	public function __construct( private ?TeamRosterService $team_roster = null ) {}
 
 	private function team_roster(): TeamRosterService {

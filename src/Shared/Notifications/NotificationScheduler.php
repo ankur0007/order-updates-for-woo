@@ -15,6 +15,11 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use WP_REST_Request;
 
 final class NotificationScheduler {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AsyncJob $async_job Injected dependency.
+	 */
 	public function __construct( private AsyncJob $async_job ) {}
 
 	public function init(): void {

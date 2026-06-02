@@ -17,6 +17,11 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
 final class NotificationStatusUpdater {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
 	public function init(): void {

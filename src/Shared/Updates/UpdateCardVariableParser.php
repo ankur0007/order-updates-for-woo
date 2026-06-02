@@ -9,6 +9,12 @@ use OrderUpdatesForWoo\Helpers\StaffEmailPreference;
 use OrderUpdatesForWoo\Helpers\UpdatePresentationHelper;
 
 final class UpdateCardVariableParser {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb      $order_updates_db     Injected dependency.
+	 * @param ParticipantResolver $participant_resolver Injected dependency.
+	 */
 	public function __construct(
 		private ?OrderUpdatesDb $order_updates_db = null,
 		private ?ParticipantResolver $participant_resolver = null

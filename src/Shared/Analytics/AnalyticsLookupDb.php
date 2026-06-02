@@ -31,6 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * filter keeps the join bounded.
  */
 final class AnalyticsLookupDb {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AnalyticsLookupTable $table         Injected dependency.
+	 * @param UpdatesTable         $updates_table Injected dependency.
+	 */
 	public function __construct(
 		private AnalyticsLookupTable $table,
 		private UpdatesTable $updates_table

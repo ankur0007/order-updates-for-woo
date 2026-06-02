@@ -132,6 +132,11 @@ final class AttachmentService {
 		"\xCA\xFE\xBA\xBF", // Mach-O FAT binary.
 	);
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AttachmentsDb $attachments_db Injected dependency.
+	 */
 	public function __construct( private AttachmentsDb $attachments_db ) {}
 
 	/**
