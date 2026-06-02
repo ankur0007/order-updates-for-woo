@@ -1,4 +1,9 @@
 <?php
+/**
+ * Shared access check and date-range parsing for analytics endpoints.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -13,6 +18,11 @@ use WP_REST_Request;
 trait ValidatesAnalyticsRequest {
 	use VerifiesAccess;
 
+	/**
+	 * Permission check for analytics routes — nonce + manage_woocommerce.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function analytics_can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;
@@ -30,6 +40,9 @@ trait ValidatesAnalyticsRequest {
 	}
 
 	/**
+	 * Parse and validate the from/to date range (YYYY-MM-DD, from ≤ to).
+	 *
+	 * @param WP_REST_Request $request Incoming request.
 	 * @return array{0:string,1:string}|WP_Error
 	 */
 	protected function parse_analytics_date_range( WP_REST_Request $request ): array|WP_Error {

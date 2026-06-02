@@ -1,4 +1,9 @@
 <?php
+/**
+ * Renders an update card to an HTML string for REST responses.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -6,7 +11,16 @@ namespace OrderUpdatesForWoo\API\Concerns;
 
 use OrderUpdatesForWoo\Helpers\View;
 
+/**
+ * Shared by endpoints that return fresh card markup after a write.
+ */
 trait RendersCardHtml {
+
+	/**
+	 * Render one update's card to an HTML string.
+	 *
+	 * @param array $order_update Update row to render.
+	 */
 	private function render_card_html( array $order_update ): string {
 		ob_start();
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Shared REST access checks: nonce, order capability, and canonical errors.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -7,7 +12,18 @@ namespace OrderUpdatesForWoo\API\Concerns;
 use WP_Error;
 use WP_REST_Request;
 
+/**
+ * Reused by every REST endpoint for nonce + capability gating and the shared
+ * "not found" error shapes.
+ */
 trait VerifiesAccess {
+
+	/**
+	 * Verify the request's `wp_rest` nonce. Returns an error to short-circuit
+	 * the permission callback, or null when the nonce is valid.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	protected function verify_nonce( WP_REST_Request $request ): ?WP_Error {
 		$nonce = $request->get_header( 'X-WP-Nonce' );
 
@@ -18,15 +34,26 @@ trait VerifiesAccess {
 		return null;
 	}
 
+	/**
+	 * Whether the current user can edit the given order.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	protected function can_edit_order( int $order_id ): bool {
 		return $order_id > 0
 			&& ( current_user_can( 'edit_shop_order', $order_id ) || current_user_can( 'edit_post', $order_id ) );
 	}
 
+	/**
+	 * Whether the current user may act on the given order's updates.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	protected function is_authorized_for_order( int $order_id ): bool {
 		return current_user_can( 'manage_woocommerce' ) || $this->can_edit_order( $order_id );
 	}
 
+	/** Whether the current user may list order updates. */
 	protected function is_list_authorized(): bool {
 		return current_user_can( 'edit_shop_orders' ) || current_user_can( 'manage_woocommerce' );
 	}
@@ -62,6 +89,8 @@ trait VerifiesAccess {
 	 * missing, WC isn't loaded, or the row isn't actually an order. Lets
 	 * callers replace the four-line `wc_get_order` + `instanceof` dance
 	 * with one explicit null-check.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	protected function resolve_order( int $order_id ): ?\WC_Order {
 		if ( ! $order_id || ! function_exists( 'wc_get_order' ) ) {
