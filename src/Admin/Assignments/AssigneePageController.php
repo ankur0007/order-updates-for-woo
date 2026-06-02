@@ -75,7 +75,7 @@ final class AssigneePageController {
 	 * Empty string when nothing is waiting.
 	 */
 	private function badge_html(): string {
-		$badge = $this->sla_badge();
+		$badge = $this->sla_badge( $this->sees_all() ? 0 : get_current_user_id() );
 		if ( $badge['total'] < 1 ) {
 			return '';
 		}
@@ -100,8 +100,7 @@ final class AssigneePageController {
 	 *
 	 * @return array{total:int, urgent:int, medium:int, low:int}
 	 */
-	private function sla_badge(): array {
-		$scope     = $this->sees_all() ? 0 : get_current_user_id();
+	private function sla_badge( int $scope ): array {
 		$cache_key = 'awts_assignee_sla_' . ( 0 === $scope ? 'all' : $scope );
 		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
 		if ( is_array( $cached ) ) {
@@ -202,6 +201,7 @@ final class AssigneePageController {
 			'src/Admin/Assignments/Views/AssigneePageView',
 			array(
 				'rows'        => array_map( fn( array $row ): array => $this->to_view_row( $row, $latest ), $data['rows'] ),
+				'glance'      => $this->sla_badge( $assignee_id ),
 				'sees_all'    => $sees_all,
 				'status'      => $status,
 				'search'      => $search,

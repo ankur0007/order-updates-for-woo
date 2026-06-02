@@ -31,6 +31,35 @@ $tab  = static function ( string $key, string $label ) use ( $status, $base ): s
 <div class="wrap awts-inbox awts-assignments">
 	<h1 class="awts-inbox__title"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
 
+	<?php
+	$glance = isset( $view_data['glance'] ) && is_array( $view_data['glance'] ) ? $view_data['glance'] : array();
+	if ( (int) ( $glance['total'] ?? 0 ) > 0 ) :
+		?>
+		<div class="awts-glance">
+			<span class="awts-glance__total">
+				<?php
+				printf(
+					/* translators: %s: number of updates waiting on a reply */
+					esc_html( _n( '%s update waiting on a reply', '%s updates waiting on a reply', (int) $glance['total'], 'order-updates-for-woo' ) ),
+					esc_html( number_format_i18n( (int) $glance['total'] ) )
+				);
+				?>
+			</span>
+			<?php if ( (int) $glance['urgent'] > 0 ) : ?>
+				<?php /* translators: %s: count of urgent (4h+ wait) updates */ ?>
+				<span class="awts-glance__chip is-red"><?php printf( esc_html__( '%s urgent', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $glance['urgent'] ) ) ); ?></span>
+			<?php endif; ?>
+			<?php if ( (int) $glance['medium'] > 0 ) : ?>
+				<?php /* translators: %s: count of medium (2-4h wait) updates */ ?>
+				<span class="awts-glance__chip is-amber"><?php printf( esc_html__( '%s medium', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $glance['medium'] ) ) ); ?></span>
+			<?php endif; ?>
+			<?php if ( (int) $glance['low'] > 0 ) : ?>
+				<?php /* translators: %s: count of low (under 2h wait) updates */ ?>
+				<span class="awts-glance__chip is-blue"><?php printf( esc_html__( '%s low', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $glance['low'] ) ) ); ?></span>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
+
 	<div class="awts-inbox__card">
 		<div class="awts-inbox__head">
 			<nav class="awts-inbox__tabs">

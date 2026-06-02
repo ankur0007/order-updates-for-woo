@@ -226,6 +226,44 @@ html {
 
 /* ---- Assignee page (scoped so the notifications page is untouched) ---- */
 
+/* At-a-glance SLA strip above the list. */
+.awts-glance {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0 0 16px;
+}
+
+.awts-glance__total {
+	margin-right: 4px;
+	color: #1d2327;
+	font-weight: 600;
+}
+
+.awts-glance__chip {
+	padding: 3px 12px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.awts-glance__chip.is-red {
+	background: #fcebec;
+	color: #d63638;
+}
+
+.awts-glance__chip.is-amber {
+	background: #fcf3e6;
+	color: #bb5a00;
+}
+
+.awts-glance__chip.is-blue {
+	background: #eaf2fb;
+	color: #2271b1;
+}
+
+
 /* Top-aligned rows with breathing room — the body is three lines. */
 .awts-assignments .awts-inbox__row {
 	align-items: flex-start;
