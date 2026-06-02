@@ -25,6 +25,7 @@ final class SharedLinkEndpoint implements Registrable {
 
 	public function __construct( private AsyncJob $async_job ) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -47,6 +48,11 @@ final class SharedLinkEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check for the route.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;

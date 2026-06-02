@@ -31,6 +31,7 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		private OrderUpdatesSettingsService $settings_service
 	) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -43,6 +44,11 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check for the route.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		// Master toggle — admin opts in from the Restricted Features block.
 		// Off by default; the endpoint stays registered so callers get a
@@ -100,6 +106,11 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		return new WP_Error( 'order_updates_for_woo_forbidden', __( 'You are not allowed to edit this customer note.', 'order-updates-for-woo' ), array( 'status' => 403 ) );
 	}
 
+	/**
+	 * Handle the request: validate, run the action, and return the response.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$note_id   = absint( $request->get_param( 'note_id' ) );
 		$update_id = absint( $request->get_param( 'update_id' ) );

@@ -32,6 +32,7 @@ final class SaveUpdateEndpoint implements Registrable {
 		private UpdateNoteService $update_note_service
 	) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -44,6 +45,11 @@ final class SaveUpdateEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check for the route.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;
@@ -62,6 +68,11 @@ final class SaveUpdateEndpoint implements Registrable {
 		return new WP_Error( 'order_updates_for_woo_forbidden', __( 'You are not allowed to save order updates.', 'order-updates-for-woo' ), array( 'status' => 403 ) );
 	}
 
+	/**
+	 * Handle the request: validate, run the action, and return the response.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		// Status is the source of truth — admin's configured list owns it.
 		// Resolve the picked key to its color now so the rest of the save

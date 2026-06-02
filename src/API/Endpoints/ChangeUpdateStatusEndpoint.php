@@ -38,6 +38,7 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 		private AsyncJob $async_job
 	) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -50,6 +51,11 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check for the route.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;
@@ -68,6 +74,11 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Handle the request: validate, run the action, and return the response.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$update_id  = absint( $request->get_param( 'update_id' ) );
 		$status_key = sanitize_key( (string) $request->get_param( 'status' ) );

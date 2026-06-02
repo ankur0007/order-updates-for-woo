@@ -27,6 +27,7 @@ final class OrderUpdatesListEndpoint implements Registrable {
 		private UpdateCardVariableParser $update_card_variable_parser
 	) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -52,6 +53,11 @@ final class OrderUpdatesListEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check for the route.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;
@@ -64,6 +70,11 @@ final class OrderUpdatesListEndpoint implements Registrable {
 		return new WP_Error( 'order_updates_for_woo_forbidden', __( 'You are not allowed to view order updates.', 'order-updates-for-woo' ), array( 'status' => 403 ) );
 	}
 
+	/**
+	 * Handle the request: validate, run the action, and return the response.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$order_id    = absint( $request->get_param( 'order_id' ) );
 		$offset      = max( 0, absint( $request->get_param( 'offset' ) ) );

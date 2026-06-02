@@ -19,6 +19,7 @@ final class GetAnalyticsSummaryEndpoint implements Registrable {
 
 	public function __construct( private AnalyticsLookupDb $analytics_lookup_db ) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -31,6 +32,11 @@ final class GetAnalyticsSummaryEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Handle the request: validate, run the action, and return the response.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$range = $this->parse_analytics_date_range( $request );
 		if ( is_wp_error( $range ) ) {

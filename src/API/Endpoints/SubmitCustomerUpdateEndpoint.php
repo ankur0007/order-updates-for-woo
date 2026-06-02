@@ -49,6 +49,7 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		private Validator $validator
 	) {}
 
+	/** Register the REST route. */
 	public function register(): void {
 		register_rest_route(
 			Constants::REST_NAMESPACE,
@@ -61,6 +62,11 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Permission check for the route.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function can_access( WP_REST_Request $request ): bool|WP_Error {
 		if ( $error = $this->verify_nonce( $request ) ) {
 			return $error;
@@ -128,6 +134,11 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		return true;
 	}
 
+	/**
+	 * Handle the request: validate, run the action, and return the response.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$order_id = absint( $request->get_param( 'order_id' ) );
 		$order    = wc_get_order( $order_id );
