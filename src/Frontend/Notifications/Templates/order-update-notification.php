@@ -41,6 +41,17 @@ do_action('woocommerce_email_header', $email_heading, $email);
 	<p style="margin:0 0 20px; font-size:15px; color:#515151;"><?php echo esc_html($intro_text); ?></p>
 <?php endif; ?>
 
+<?php
+// Only draw the card when it has something to show. Link-only emails (e.g. the
+// chat-link refresh) carry no title, note, attachments or detail rows, so the
+// box would otherwise render empty.
+$has_card_content = ! empty($order_update['title'])
+	|| ! empty($note_content)
+	|| ! empty($note_attachments)
+	|| ! empty($detail_rows);
+?>
+
+<?php if ($has_card_content) : ?>
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%; margin:0 0 24px; background:#fafafa; border:1px solid #e5e5e5; border-radius:6px;">
 	<tr>
 		<td style="padding:20px 22px;">
@@ -132,6 +143,7 @@ do_action('woocommerce_email_header', $email_heading, $email);
 		</td>
 	</tr>
 </table>
+<?php endif; ?>
 
 <?php if (! empty($action_url) && ! empty($action_label)) : ?>
 	<p style="margin:0 0 28px;">
