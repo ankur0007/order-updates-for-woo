@@ -33,6 +33,10 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 ?>
 <div class="wrap awts-asg">
 
+	<?php // Accessible page heading + anchor so WordPress drops admin notices here, above the cards, instead of over them. ?>
+	<h1 class="screen-reader-text"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
+	<hr class="wp-header-end" />
+
 	<div class="awts-asg__stats">
 		<div class="awts-asg__stat">
 			<div class="awts-asg__stat-top">
@@ -81,7 +85,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 	<div class="awts-asg__card">
 		<div class="awts-asg__head">
 			<div class="awts-asg__heading">
-				<h1 class="awts-asg__title"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
+				<h2 class="awts-asg__title"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h2>
 				<span class="awts-asg__count">
 					<?php
 					/* translators: %s: number of updates */
