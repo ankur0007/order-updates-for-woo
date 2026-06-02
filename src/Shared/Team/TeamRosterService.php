@@ -1,4 +1,9 @@
 <?php
+/**
+ * Resolves and caches the internal-team roster (who can see internal notes).
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -8,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Reads the configured team roles, lists matching users, and answers
+ * "is this user on the team?" — cached, with cache busting on user changes.
+ */
 final class TeamRosterService {
 	public const ROLES_OPTION     = 'order_updates_for_woo_internal_team_roles';
 	public const ROSTER_TRANSIENT = 'order_updates_for_woo_team_roster';
@@ -16,6 +25,7 @@ final class TeamRosterService {
 
 	public const DEFAULT_ROLES = array( 'administrator', 'shop_manager', 'editor' );
 
+	/** Hook cache busting to the WordPress user lifecycle events. */
 	public function init(): void {
 		add_action( 'user_register', array( $this, 'flush_cache' ) );
 		add_action( 'set_user_role', array( $this, 'flush_cache' ) );
@@ -80,6 +90,7 @@ final class TeamRosterService {
 		return $roster;
 	}
 
+	/** Drop the cached roster so the next read rebuilds it. */
 	public function flush_cache(): void {
 		delete_transient( self::ROSTER_TRANSIENT );
 	}
@@ -88,6 +99,8 @@ final class TeamRosterService {
 	 * True when the user holds at least one of the configured internal-team
 	 * roles. Used to gate internal-note endpoints + UI so a shop_manager not
 	 * in the team list cannot see or post internal notes.
+	 *
+	 * @param int|null $user_id User to check; defaults to the current user.
 	 */
 	public static function user_is_team_member( ?int $user_id = null ): bool {
 		$user_id = $user_id ?? get_current_user_id();
