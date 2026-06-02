@@ -1,4 +1,9 @@
 <?php
+/**
+ * Data access for order updates, notes, assignees, ratings and attachments.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -11,8 +16,13 @@ use OrderUpdatesForWoo\Shared\Config\Variables;
 // UpdatesTable; all user input is bound via $wpdb->prepare() %d/%s placeholders.
 // SqlPreparationTest independently enforces prepare()-or-safe-literal on every
 // $wpdb call here, so the sniffs below only silence the table-name-interpolation noise.
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// Joins against $wpdb->users are read-only lookups of display names.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
 
+/**
+ * The plugin's main database gateway: reads and writes updates, internal and
+ * customer notes, assignees, ratings, and their caches.
+ */
 final class OrderUpdatesDb {
 	/**
 	 * Inject dependencies.
@@ -21,34 +31,67 @@ final class OrderUpdatesDb {
 	 */
 	public function __construct( private UpdatesTable $updates_table ) {}
 
+	/** HPOS orders table name (prefix + wc_orders). */
 	public static function orders_table_alias(): string {
 		global $wpdb;
 		return "{$wpdb->prefix}wc_orders";
 	}
 
+	/**
+	 * Read a value from the plugin's object cache group.
+	 *
+	 * @param string $key Cache key.
+	 */
 	private function cache_get( string $key ): mixed {
 		return wp_cache_get( $key, Constants::CACHE_GROUP );
 	}
 
+	/**
+	 * Write a value to the plugin's object cache group.
+	 *
+	 * @param string $key   Cache key.
+	 * @param mixed  $value Value to store.
+	 * @param int    $ttl   Lifetime in seconds (0 = default).
+	 */
 	private function cache_set( string $key, mixed $value, int $ttl = 0 ): void {
 		wp_cache_set( $key, $value, Constants::CACHE_GROUP, $ttl );
 	}
 
+	/**
+	 * Delete a value from the plugin's object cache group.
+	 *
+	 * @param string $key Cache key.
+	 */
 	private function cache_delete( string $key ): void {
 		wp_cache_delete( $key, Constants::CACHE_GROUP );
 	}
 
+	/**
+	 * Bump the cache version for an order's update list (invalidates it).
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function increment_order_updates_cache_version( int $order_id ): void {
 		$key     = "order_updates_ver_{$order_id}";
 		$version = (int) $this->cache_get( $key );
 		$this->cache_set( $key, $version + 1 );
 	}
 
+	/**
+	 * Current cache version for an order's update list.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function get_order_updates_cache_version( int $order_id ): int {
 		$cached = $this->cache_get( "order_updates_ver_{$order_id}" );
 		return $cached !== false ? (int) $cached : 0;
 	}
 
+	/**
+	 * Drop the summary/count caches for an order and bump its list version.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function invalidate_order_caches( int $order_id ): void {
 		$this->cache_delete( "summary_{$order_id}" );
 		$this->cache_delete( "count_{$order_id}" );
