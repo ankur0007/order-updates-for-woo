@@ -121,6 +121,16 @@ final class OrderEditorPanelService {
 				'strings' => apply_filters('order_updates_for_woo_admin_strings', $this->get_labels()),
 			]
 		);
+
+		// No-login chat-link panel behaviour. Depends on the meta-box script so
+		// awtsData (nonce + strings) is defined before it runs.
+		wp_enqueue_script(
+			'order-updates-for-woo-shared-link',
+			AssetHelper::url( 'assets/Admin/js/shared-link-panel.js' ),
+			array( 'order-updates-for-woo-admin-script' ),
+			AssetHelper::version( 'assets/Admin/js/shared-link-panel.js' ),
+			true
+		);
 	}
 
 	/**

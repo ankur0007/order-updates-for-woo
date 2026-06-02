@@ -1400,6 +1400,76 @@ button.awts_onboarding_dismiss {
 	border-radius: 999px;
 	object-fit: cover;
 }
+
+/* No-login chat-link panel (order edit screen). */
+.awts_panel__customer_link {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	padding: 10px 12px;
+	margin: 0 0 12px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	font-size: 13px;
+}
+
+.awts_panel__customer_link_url {
+	flex: 1 1 240px;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 2px 6px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+}
+
+.awts_panel__customer_link_expiry {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: #646970;
+}
+
+.awts_panel__customer_link_days {
+	width: 64px;
+}
+
+.awts_panel__customer_link_status {
+	flex-basis: 100%;
+	color: #646970;
+}
+
+.awts_panel__customer_link_status.is-success {
+	color: #15803d;
+}
+
+.awts_panel__customer_link_status.is-error {
+	color: #b91c1c;
+}
+
+.awts_panel__customer_link_confirm {
+	flex-basis: 100%;
+	padding: 10px 12px;
+	margin-top: 6px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.awts_panel__customer_link_confirm_text {
+	margin: 0 0 8px;
+}
+
+.awts_panel__customer_link_notify {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0 0 10px;
+}
 .awts_notes_input:focus {
 	outline: none;
 	border-color: #2563eb;

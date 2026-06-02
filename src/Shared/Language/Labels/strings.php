@@ -143,6 +143,16 @@ $labels = [
 	'alreadySolved' => __('This update has already been resolved.', 'order-updates-for-woo'),
 	'alreadyOpen'   => __('This update is already open.', 'order-updates-for-woo'),
 
+	// Admin — no-login chat-link panel (copy / set expiry / regenerate).
+	'sharedLinkSaving'             => __('Saving…', 'order-updates-for-woo'),
+	'sharedLinkSaved'              => __('Saved.', 'order-updates-for-woo'),
+	'sharedLinkRegenerating'       => __('Regenerating…', 'order-updates-for-woo'),
+	'sharedLinkRegenerated'        => __('New link generated. The old one no longer works.', 'order-updates-for-woo'),
+	'sharedLinkRegeneratedEmailed' => __('New link generated and emailed to the customer.', 'order-updates-for-woo'),
+	'sharedLinkSaveError'          => __('Could not save. Please try again.', 'order-updates-for-woo'),
+	'sharedLinkNetworkError'       => __('Network error. Please try again.', 'order-updates-for-woo'),
+	'sharedLinkCopied'             => __('Copied!', 'order-updates-for-woo'),
+
 ];
 
 return apply_filters('order_updates_for_woo_admin_labels', $labels);

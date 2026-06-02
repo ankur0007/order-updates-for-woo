@@ -68,21 +68,16 @@ $settings = wp_parse_args(
 			class="awts_panel__customer_link"
 			data-awts-link-expiry-endpoint="<?php echo esc_url( $link_expiry_endpoint ); ?>"
 			data-awts-link-regenerate-endpoint="<?php echo esc_url( $link_regen_endpoint ); ?>"
-			style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin:0 0 12px;background:#f6f7f7;border:1px solid #dcdcde;border-radius:4px;font-size:13px;"
 		>
 			<strong><?php esc_html_e( 'Customers no-login chat link:', 'order-updates-for-woo' ); ?></strong>
-			<code
-				data-awts-link-display
-				style="flex:1 1 240px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 6px;background:#fff;border:1px solid #dcdcde;border-radius:3px;"
-			><?php echo esc_html( $customer_url ); ?></code>
+			<code class="awts_panel__customer_link_url" data-awts-link-display><?php echo esc_html( $customer_url ); ?></code>
 			<button
 				type="button"
 				class="button"
 				data-awts-copy-link="<?php echo esc_attr( $customer_url ); ?>"
-				data-copied-label="<?php echo esc_attr__( 'Copied!', 'order-updates-for-woo' ); ?>"
 			><?php esc_html_e( 'Copy link', 'order-updates-for-woo' ); ?></button>
 
-			<label style="display:flex;align-items:center;gap:6px;color:#646970;">
+			<label class="awts_panel__customer_link_expiry">
 				<?php esc_html_e( 'Expires in', 'order-updates-for-woo' ); ?>
 				<input
 					type="number"
@@ -91,7 +86,7 @@ $settings = wp_parse_args(
 					step="1"
 					value="<?php echo esc_attr( (string) ( $link_days_left > 0 ? $link_days_left : $link_default_days ) ); ?>"
 					data-awts-link-days
-					style="width:64px;"
+					class="awts_panel__customer_link_days"
 				/>
 				<?php esc_html_e( 'days', 'order-updates-for-woo' ); ?>
 			</label>
@@ -105,7 +100,6 @@ $settings = wp_parse_args(
 			<span
 				data-awts-link-status
 				class="awts_panel__customer_link_status"
-				style="color:#646970;flex-basis:100%;"
 				role="status"
 				aria-live="polite"
 			></span>
@@ -113,10 +107,10 @@ $settings = wp_parse_args(
 			<div
 				data-awts-link-confirm
 				hidden
-				style="flex-basis:100%;padding:10px 12px;margin-top:6px;background:#fff;border:1px solid #dcdcde;border-radius:4px;"
+				class="awts_panel__customer_link_confirm"
 			>
-				<p style="margin:0 0 8px;"><?php esc_html_e( 'Regenerate the link? The current one will stop working immediately.', 'order-updates-for-woo' ); ?></p>
-				<label style="display:flex;align-items:center;gap:6px;margin:0 0 10px;">
+				<p class="awts_panel__customer_link_confirm_text"><?php esc_html_e( 'Regenerate the link? The current one will stop working immediately.', 'order-updates-for-woo' ); ?></p>
+				<label class="awts_panel__customer_link_notify">
 					<input type="checkbox" data-awts-link-notify />
 					<?php esc_html_e( 'Email the new link to the customer', 'order-updates-for-woo' ); ?>
 				</label>
@@ -124,153 +118,6 @@ $settings = wp_parse_args(
 				<button type="button" class="button" data-awts-link-confirm-cancel><?php esc_html_e( 'Cancel', 'order-updates-for-woo' ); ?></button>
 			</div>
 		</div>
-		<script>
-		( function () {
-			var panel = document.querySelector( '.awts_panel__customer_link' );
-			if ( ! panel ) { return; }
-
-			var copyBtn   = panel.querySelector( '[data-awts-copy-link]' );
-			var display   = panel.querySelector( '[data-awts-link-display]' );
-			var daysInput = panel.querySelector( '[data-awts-link-days]' );
-			var regenBtn  = panel.querySelector( '[data-awts-link-regenerate]' );
-			var status    = panel.querySelector( '[data-awts-link-status]' );
-
-			var expiryEndpoint = panel.getAttribute( 'data-awts-link-expiry-endpoint' ) || '';
-			var regenEndpoint  = panel.getAttribute( 'data-awts-link-regenerate-endpoint' ) || '';
-
-			// awtsData is localised on the footer script, so it isn't defined yet
-			// when this inline block first runs. Read the nonce fresh on each
-			// request instead of capturing an empty value at parse time.
-			function restNonce() {
-				return ( window.awtsData && window.awtsData.nonce ) || '';
-			}
-
-			var statusTimer;
-			function setStatus( text, type ) {
-				if ( ! status ) { return; }
-				clearTimeout( statusTimer );
-				status.textContent = text || '';
-				status.style.color = 'success' === type ? '#15803d' : ( 'error' === type ? '#b91c1c' : '#646970' );
-				// Success notices fade away on their own; errors stay put.
-				if ( text && 'success' === type ) {
-					statusTimer = setTimeout( function () { setStatus( '' ); }, 4000 );
-				}
-			}
-
-			function applyState( payload ) {
-				if ( ! payload ) { return; }
-				if ( payload.url && display ) { display.textContent = payload.url; }
-				if ( payload.url && copyBtn ) { copyBtn.setAttribute( 'data-awts-copy-link', payload.url ); }
-				if ( daysInput && typeof payload.daysLeft !== 'undefined' ) {
-					daysInput.value = String( payload.daysLeft );
-				}
-			}
-
-			function post( url, body, onDone ) {
-				if ( ! url ) { return; }
-				fetch( url, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-WP-Nonce': restNonce()
-					},
-					credentials: 'same-origin',
-					body: JSON.stringify( body || {} )
-				} ).then( function ( res ) {
-					return res.json().then( function ( data ) {
-						return { ok: res.ok, data: data };
-					} );
-				} ).then( function ( result ) {
-					if ( result.ok ) {
-						applyState( result.data );
-						onDone( null, result.data );
-					} else {
-						var message = ( result.data && result.data.message ) || '<?php echo esc_js( __( 'Could not save. Please try again.', 'order-updates-for-woo' ) ); ?>';
-						onDone( message, null );
-					}
-				} ).catch( function () {
-					onDone( '<?php echo esc_js( __( 'Network error. Please try again.', 'order-updates-for-woo' ) ); ?>', null );
-				} );
-			}
-
-			if ( copyBtn ) {
-				var defaultLabel = copyBtn.textContent;
-				var copiedLabel  = copyBtn.getAttribute( 'data-copied-label' ) || 'Copied!';
-				copyBtn.addEventListener( 'click', function () {
-					var url = copyBtn.getAttribute( 'data-awts-copy-link' ) || '';
-					var done = function () {
-						copyBtn.textContent = copiedLabel;
-						setTimeout( function () { copyBtn.textContent = defaultLabel; }, 1500 );
-					};
-					if ( navigator.clipboard && navigator.clipboard.writeText ) {
-						navigator.clipboard.writeText( url ).then( done, function () {
-							window.prompt( '', url );
-						} );
-						return;
-					}
-					var ta = document.createElement( 'textarea' );
-					ta.value = url;
-					ta.setAttribute( 'readonly', '' );
-					ta.style.position = 'absolute';
-					ta.style.left = '-9999px';
-					document.body.appendChild( ta );
-					ta.select();
-					try { document.execCommand( 'copy' ); done(); } catch ( e ) {}
-					document.body.removeChild( ta );
-				} );
-			}
-
-			if ( daysInput ) {
-				var lastSent = parseInt( daysInput.value, 10 );
-				daysInput.addEventListener( 'change', function () {
-					var days = parseInt( daysInput.value, 10 );
-					if ( isNaN( days ) || days < 1 || days > 365 ) {
-						daysInput.value = String( lastSent || 30 );
-						return;
-					}
-					if ( days === lastSent ) { return; }
-					setStatus( '<?php echo esc_js( __( 'Saving…', 'order-updates-for-woo' ) ); ?>' );
-					post( expiryEndpoint, { days: days }, function ( err ) {
-						if ( err ) { setStatus( err, 'error' ); return; }
-						lastSent = days;
-						setStatus( '<?php echo esc_js( __( 'Saved.', 'order-updates-for-woo' ) ); ?>', 'success' );
-					} );
-				} );
-			}
-
-			var confirmBox = panel.querySelector( '[data-awts-link-confirm]' );
-			var notifyChk  = panel.querySelector( '[data-awts-link-notify]' );
-			var confirmGo  = panel.querySelector( '[data-awts-link-confirm-go]' );
-			var cancelBtn  = panel.querySelector( '[data-awts-link-confirm-cancel]' );
-
-			if ( regenBtn && confirmBox ) {
-				regenBtn.addEventListener( 'click', function () {
-					if ( notifyChk ) { notifyChk.checked = false; }
-					confirmBox.hidden = false;
-				} );
-			}
-
-			if ( cancelBtn && confirmBox ) {
-				cancelBtn.addEventListener( 'click', function () { confirmBox.hidden = true; } );
-			}
-
-			if ( confirmGo && confirmBox ) {
-				confirmGo.addEventListener( 'click', function () {
-					var days   = parseInt( ( daysInput && daysInput.value ) || '0', 10 );
-					var notify = !! ( notifyChk && notifyChk.checked );
-					confirmBox.hidden = true;
-					setStatus( '<?php echo esc_js( __( 'Regenerating…', 'order-updates-for-woo' ) ); ?>' );
-					post( regenEndpoint, { days: days, notify_customer: notify }, function ( err, data ) {
-						if ( err ) { setStatus( err, 'error' ); return; }
-						var msg = ( data && data.emailQueued )
-							? '<?php echo esc_js( __( 'New link generated and emailed to the customer.', 'order-updates-for-woo' ) ); ?>'
-							: '<?php echo esc_js( __( 'New link generated. The old one no longer works.', 'order-updates-for-woo' ) ); ?>';
-						setStatus( msg, 'success' );
-					} );
-				} );
-			}
-		} )();
-		</script>
 	<?php endif; ?>
 
 	<!-- Update cards -->
