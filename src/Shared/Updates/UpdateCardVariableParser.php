@@ -1,4 +1,9 @@
 <?php
+/**
+ * Builds the variable bag an update card template renders from.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -8,6 +13,10 @@ use OrderUpdatesForWoo\Helpers\ParticipantResolver;
 use OrderUpdatesForWoo\Helpers\StaffEmailPreference;
 use OrderUpdatesForWoo\Helpers\UpdatePresentationHelper;
 
+/**
+ * Gathers an update's formatted fields, rating, participants and mute state
+ * into the filterable array the card view consumes.
+ */
 final class UpdateCardVariableParser {
 	/**
 	 * Inject dependencies.
@@ -20,6 +29,11 @@ final class UpdateCardVariableParser {
 		private ?ParticipantResolver $participant_resolver = null
 	) {}
 
+	/**
+	 * Build the card variable bag for one update row.
+	 *
+	 * @param array $order_update Update row.
+	 */
 	public function parse( array $order_update ): array {
 		$formatted = UpdatePresentationHelper::get_card_details( $order_update );
 

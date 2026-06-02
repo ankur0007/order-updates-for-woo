@@ -1,4 +1,9 @@
 <?php
+/**
+ * Data access for the attachments table.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -10,6 +15,9 @@ use OrderUpdatesForWoo\Shared\Config\Variables;
 // Direct queries on our own tables. Table names are safe; user input always uses prepare().
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
+/**
+ * CRUD + cache for attachment rows, keyed by note / order / update.
+ */
 final class AttachmentsDb {
 	/**
 	 * Inject dependencies.
@@ -18,6 +26,11 @@ final class AttachmentsDb {
 	 */
 	public function __construct( private AttachmentsTable $table ) {}
 
+	/**
+	 * Insert an attachment row and bust its note cache.
+	 *
+	 * @param array $data Attachment fields (order_id, update_id, note_id, …).
+	 */
 	public function create( array $data ): int {
 		global $wpdb;
 
@@ -47,6 +60,11 @@ final class AttachmentsDb {
 		return $id;
 	}
 
+	/**
+	 * Fetch one attachment row by id (cached), or [] if missing.
+	 *
+	 * @param int $attachment_id Attachment id.
+	 */
 	public function get( int $attachment_id ): array {
 		global $wpdb;
 
@@ -78,6 +96,12 @@ final class AttachmentsDb {
 		return $record;
 	}
 
+	/**
+	 * Attachments on a note (cached), oldest first.
+	 *
+	 * @param int    $note_id   Note id.
+	 * @param string $note_type Note type (internal / customer).
+	 */
 	public function get_for_note( int $note_id, string $note_type ): array {
 		global $wpdb;
 
@@ -109,6 +133,11 @@ final class AttachmentsDb {
 		return $result;
 	}
 
+	/**
+	 * All attachments on an order.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public function get_for_order( int $order_id ): array {
 		global $wpdb;
 
@@ -127,6 +156,11 @@ final class AttachmentsDb {
 		return is_array( $rows ) ? $rows : array();
 	}
 
+	/**
+	 * Delete one attachment row and bust its caches.
+	 *
+	 * @param int $attachment_id Attachment id.
+	 */
 	public function delete( int $attachment_id ): bool {
 		global $wpdb;
 
@@ -156,6 +190,11 @@ final class AttachmentsDb {
 		return $result;
 	}
 
+	/**
+	 * Delete every attachment on an order; returns the row count removed.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public function delete_for_order( int $order_id ): int {
 		global $wpdb;
 
@@ -184,6 +223,11 @@ final class AttachmentsDb {
 		return $deleted;
 	}
 
+	/**
+	 * All attachments on an update.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function get_for_update( int $update_id ): array {
 		global $wpdb;
 
@@ -202,6 +246,11 @@ final class AttachmentsDb {
 		return is_array( $rows ) ? $rows : array();
 	}
 
+	/**
+	 * Delete every attachment on an update; returns the row count removed.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function delete_for_update( int $update_id ): int {
 		global $wpdb;
 
@@ -230,6 +279,12 @@ final class AttachmentsDb {
 		return $deleted;
 	}
 
+	/**
+	 * Bust the cached attachment list for a note.
+	 *
+	 * @param int    $note_id   Note id.
+	 * @param string $note_type Note type (internal / customer).
+	 */
 	private function invalidate_note_cache( int $note_id, string $note_type ): void {
 		if ( $note_id && '' !== $note_type ) {
 			wp_cache_delete( "attachments_note_{$note_id}_{$note_type}", Constants::CACHE_GROUP );
