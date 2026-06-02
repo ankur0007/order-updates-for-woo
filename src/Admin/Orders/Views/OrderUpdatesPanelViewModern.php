@@ -145,8 +145,16 @@ $settings = wp_parse_args(
 				return ( window.awtsData && window.awtsData.nonce ) || '';
 			}
 
-			function setStatus( text ) {
-				if ( status ) { status.textContent = text || ''; }
+			var statusTimer;
+			function setStatus( text, type ) {
+				if ( ! status ) { return; }
+				clearTimeout( statusTimer );
+				status.textContent = text || '';
+				status.style.color = 'success' === type ? '#15803d' : ( 'error' === type ? '#b91c1c' : '#646970' );
+				// Success notices fade away on their own; errors stay put.
+				if ( text && 'success' === type ) {
+					statusTimer = setTimeout( function () { setStatus( '' ); }, 4000 );
+				}
 			}
 
 			function applyState( payload ) {
@@ -223,10 +231,9 @@ $settings = wp_parse_args(
 					if ( days === lastSent ) { return; }
 					setStatus( '<?php echo esc_js( __( 'Saving…', 'order-updates-for-woo' ) ); ?>' );
 					post( expiryEndpoint, { days: days }, function ( err ) {
-						if ( err ) { setStatus( err ); return; }
+						if ( err ) { setStatus( err, 'error' ); return; }
 						lastSent = days;
-						setStatus( '<?php echo esc_js( __( 'Saved.', 'order-updates-for-woo' ) ); ?>' );
-						setTimeout( function () { setStatus( '' ); }, 2000 );
+						setStatus( '<?php echo esc_js( __( 'Saved.', 'order-updates-for-woo' ) ); ?>', 'success' );
 					} );
 				} );
 			}
@@ -254,11 +261,11 @@ $settings = wp_parse_args(
 					confirmBox.hidden = true;
 					setStatus( '<?php echo esc_js( __( 'Regenerating…', 'order-updates-for-woo' ) ); ?>' );
 					post( regenEndpoint, { days: days, notify_customer: notify }, function ( err, data ) {
-						if ( err ) { setStatus( err ); return; }
+						if ( err ) { setStatus( err, 'error' ); return; }
 						var msg = ( data && data.emailQueued )
 							? '<?php echo esc_js( __( 'New link generated and emailed to the customer.', 'order-updates-for-woo' ) ); ?>'
 							: '<?php echo esc_js( __( 'New link generated. The old one no longer works.', 'order-updates-for-woo' ) ); ?>';
-						setStatus( msg );
+						setStatus( msg, 'success' );
 					} );
 				} );
 			}
