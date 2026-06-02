@@ -9,8 +9,8 @@
 	--chip-bg: #faf9f6;
 	--row-hover: #faf8f3;
 
-	max-width: 920px;
-	margin: 16px auto 60px;
+	max-width: none;
+	margin: 16px 20px 60px 0;
 	font-variant-numeric: tabular-nums;
 }
 
@@ -21,13 +21,15 @@
 /* ---- At-a-glance stat cards ---- */
 .awts-asg__stats {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 12px;
 	margin-bottom: 16px;
 }
 
 .awts-asg__stat {
 	display: flex;
-	flex: 1;
+	/* Grow to fill the full width; wrap (4 → 2 → 1) as it narrows. */
+	flex: 1 1 180px;
 	min-width: 0;
 	flex-direction: column;
 	gap: 10px;
@@ -417,16 +419,33 @@
 	pointer-events: none;
 }
 
-@media screen and ( max-width: 782px ) {
-	.awts-asg__stats {
+/* Header wraps so the tabs drop below the title on narrow screens. */
+@media screen and ( max-width: 600px ) {
+	.awts-asg__head {
 		flex-wrap: wrap;
 	}
 
-	.awts-asg__stat {
-		flex: 1 1 45%;
+	.awts-asg__row {
+		flex-wrap: wrap;
+		padding: 16px;
 	}
 
+	/* Status / wait pill reflows under the body, aligned with the text
+	   (icon tile 40 + 16 gap), instead of being squeezed on the right. */
 	.awts-asg__right {
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 10px;
+		width: 100%;
+		margin: 8px 0 0 56px;
+	}
+
+	.awts-asg__arrow {
 		display: none;
+	}
+
+	.awts-asg__foot {
+		justify-content: center;
 	}
 }
