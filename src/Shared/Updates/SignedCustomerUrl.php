@@ -1,4 +1,9 @@
 <?php
+/**
+ * HMAC-signed, expiring token for customer-email links.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -19,6 +24,10 @@ final class SignedCustomerUrl {
 	public const QUERY_EXPIRES = 'awts_expires';
 
 	/**
+	 * Mint a signed, expiring token for an order's customer URL.
+	 *
+	 * @param int      $order_id    Order the token is for.
+	 * @param int|null $expiry_days Days until expiry; defaults to the configured value.
 	 * @return array{token:string, expires:int}
 	 */
 	public static function sign( int $order_id, ?int $expiry_days = null ): array {
@@ -44,6 +53,10 @@ final class SignedCustomerUrl {
 	/**
 	 * True for a structurally valid, non-expired token. Use is_expired()
 	 * to tell "expired" from "tampered" for the user message.
+	 *
+	 * @param int    $order_id Order the token should be bound to.
+	 * @param int    $expires  Expiry timestamp from the URL.
+	 * @param string $token    Token from the URL.
 	 */
 	public static function verify( int $order_id, int $expires, string $token ): bool {
 		if ( ! $order_id || ! $expires || '' === $token ) {
@@ -57,7 +70,13 @@ final class SignedCustomerUrl {
 		return hash_equals( self::make_token( $order_id, $expires ), $token );
 	}
 
-	/** True if the signature is valid but the window has passed. */
+	/**
+	 * True if the signature is valid but the window has passed.
+	 *
+	 * @param int    $order_id Order the token should be bound to.
+	 * @param int    $expires  Expiry timestamp from the URL.
+	 * @param string $token    Token from the URL.
+	 */
 	public static function is_expired( int $order_id, int $expires, string $token ): bool {
 		if ( ! $order_id || ! $expires || '' === $token ) {
 			return false;
@@ -70,6 +89,12 @@ final class SignedCustomerUrl {
 		return $expires < time();
 	}
 
+	/**
+	 * HMAC of the order id + expiry, salted with the WP auth salt.
+	 *
+	 * @param int $order_id Order id.
+	 * @param int $expires  Expiry timestamp.
+	 */
 	private static function make_token( int $order_id, int $expires ): string {
 		return hash_hmac( 'sha256', $order_id . '|' . $expires, wp_salt( 'auth' ) );
 	}

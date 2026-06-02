@@ -1,8 +1,17 @@
 <?php
+/**
+ * Tunable, option-backed plugin variables.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
 namespace OrderUpdatesForWoo\Shared\Config;
+
+// Intentional camelCase accessor names, called throughout the codebase; renaming
+// to snake_case would be a wide, risky churn for no functional gain.
+// phpcs:disable WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 
 /**
  * Tunable plugin variables. Each getter reads the option so values can be
