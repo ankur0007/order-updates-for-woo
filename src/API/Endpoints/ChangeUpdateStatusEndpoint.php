@@ -91,6 +91,15 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 			);
 		}
 
+		// A resolved update is locked — re-open it before changing the status.
+		if ( ! empty( $update['is_resolved'] ) ) {
+			return new WP_Error(
+				'order_updates_for_woo_update_resolved',
+				__( 'This update is resolved. Re-open it before changing its status.', 'order-updates-for-woo' ),
+				array( 'status' => 409 )
+			);
+		}
+
 		$user            = wp_get_current_user();
 		$changed_by_name = $user instanceof \WP_User ? (string) $user->display_name : '';
 		$message         = sprintf(

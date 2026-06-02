@@ -94,6 +94,16 @@ final class SaveUpdateEndpoint implements Registrable {
 			if ( empty( $existing['id'] ) || absint( $existing['order_id'] ) !== $validated['order_id'] ) {
 				return $this->update_not_found_error();
 			}
+
+			// A resolved update is locked — re-open it before editing its
+			// title, status or assignee.
+			if ( ! empty( $existing['is_resolved'] ) ) {
+				return new WP_Error(
+					'order_updates_for_woo_update_resolved',
+					__( 'This update is resolved. Re-open it before making changes.', 'order-updates-for-woo' ),
+					array( 'status' => 409 )
+				);
+			}
 		}
 
 		$user_id = get_current_user_id();
