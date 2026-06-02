@@ -371,6 +371,12 @@ final class OrderUpdatesDb {
 	 * Append a customer_notes row tagged 'title_change' so the tracking log
 	 * captures who renamed the update and when. Customer-facing queries skip
 	 * this kind — title is purely admin-internal metadata.
+	 *
+	 * @param int    $update_id  Update id.
+	 * @param string $old_title  Previous title.
+	 * @param string $new_title  New title.
+	 * @param int    $actor_id   User who made the change.
+	 * @param string $changed_at Change time (GMT mysql).
 	 */
 	private function log_title_change_event( int $update_id, string $old_title, string $new_title, int $actor_id, string $changed_at ): void {
 		global $wpdb;
@@ -405,6 +411,12 @@ final class OrderUpdatesDb {
 	 * captures the full lifecycle, not just the most recent state. Both
 	 * kinds are filtered out of customer-facing thread queries elsewhere —
 	 * these are admin-tracking rows, not chat messages.
+	 *
+	 * @param int    $update_id Update id.
+	 * @param string $kind      Event kind (e.g. 'reopen', 'rating').
+	 * @param string $message   Row text shown in the tracking log.
+	 * @param int    $actor_id  User who triggered the event.
+	 * @param string $when      Event time (GMT mysql).
 	 */
 	public function log_lifecycle_event( int $update_id, string $kind, string $message, int $actor_id, string $when ): void {
 		global $wpdb;
@@ -440,6 +452,14 @@ final class OrderUpdatesDb {
 	 * as a "status changed" marker instead of a regular bubble. Returns
 	 * the inserted note id on success, 0 when the color didn't change or
 	 * when the write failed.
+	 *
+	 * @param int    $update_id       Update id.
+	 * @param string $new_status_key  New status key.
+	 * @param string $new_color       Colour for the new status.
+	 * @param int    $changed_by      User making the change.
+	 * @param string $changed_by_name Their display name.
+	 * @param string $changed_at      Change time (GMT mysql).
+	 * @param string $message         Optional thread message; a default is used when empty.
 	 */
 	public function change_update_status( int $update_id, string $new_status_key, string $new_color, int $changed_by, string $changed_by_name, string $changed_at, string $message = '' ): int {
 		global $wpdb;
