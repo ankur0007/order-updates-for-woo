@@ -1,10 +1,10 @@
 <?php
 /**
- * Assignments page view.
+ * Assignments page view (per the design handoff).
  *
- * Rendered by AssigneePageController::render(). A dumb template — all values
- * arrive in $view_data and are escaped at output here. Reuses the .awts-inbox
- * styles from the Notifications page.
+ * Rendered by AssigneePageController::render(). A dumb template — every value
+ * arrives in $view_data and is escaped at output here. Data + view are kept
+ * separate so a future front-end assignee page can reuse this template.
  *
  * @var array $view_data
  */
@@ -15,185 +15,210 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$rows   = isset( $view_data['rows'] ) && is_array( $view_data['rows'] ) ? $view_data['rows'] : array();
-$status = (string) ( $view_data['status'] ?? '' );
-$slug   = (string) ( $view_data['slug'] ?? '' );
+$rows    = isset( $view_data['rows'] ) && is_array( $view_data['rows'] ) ? $view_data['rows'] : array();
+$summary = isset( $view_data['summary'] ) && is_array( $view_data['summary'] ) ? $view_data['summary'] : array();
+$status  = (string) ( $view_data['status'] ?? '' );
+$total   = (int) ( $view_data['total'] ?? 0 );
 
-// Status tab links, built from the current URL minus status/paged.
-$base = remove_query_arg( array( 'status', 'paged' ) );
-$tab  = static function ( string $key, string $label ) use ( $status, $base ): string {
-	$url   = '' === $key ? $base : add_query_arg( 'status', $key, $base );
-	$class = 'awts-inbox__tab' . ( $key === $status ? ' is-active' : '' );
+// Tab links, built from the current URL minus status/paged.
+$tab_base = remove_query_arg( array( 'status', 'paged' ) );
+$tab      = static function ( string $key, string $label ) use ( $status, $tab_base ): string {
+	$url   = '' === $key ? $tab_base : add_query_arg( 'status', $key, $tab_base );
+	$class = 'awts-asg__tab' . ( $key === $status ? ' is-active' : '' );
 
 	return '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a>';
 };
+
+$longest = (string) ( $summary['longest_label'] ?? '' );
 ?>
-<div class="wrap awts-inbox awts-assignments">
-	<h1 class="awts-inbox__title"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
+<div class="wrap awts-asg">
 
-	<?php
-	$glance = isset( $view_data['glance'] ) && is_array( $view_data['glance'] ) ? $view_data['glance'] : array();
-	if ( (int) ( $glance['total'] ?? 0 ) > 0 ) :
-		?>
-		<div class="awts-glance">
-			<span class="awts-glance__total">
-				<?php
-				printf(
-					/* translators: %s: number of updates waiting on a reply */
-					esc_html( _n( '%s update waiting on a reply', '%s updates waiting on a reply', (int) $glance['total'], 'order-updates-for-woo' ) ),
-					esc_html( number_format_i18n( (int) $glance['total'] ) )
-				);
-				?>
-			</span>
-			<?php if ( (int) $glance['urgent'] > 0 ) : ?>
-				<?php /* translators: %s: count of urgent (4h+ wait) updates */ ?>
-				<span class="awts-glance__chip is-red"><?php printf( esc_html__( '%s urgent', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $glance['urgent'] ) ) ); ?></span>
-			<?php endif; ?>
-			<?php if ( (int) $glance['medium'] > 0 ) : ?>
-				<?php /* translators: %s: count of medium (2-4h wait) updates */ ?>
-				<span class="awts-glance__chip is-amber"><?php printf( esc_html__( '%s medium', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $glance['medium'] ) ) ); ?></span>
-			<?php endif; ?>
-			<?php if ( (int) $glance['low'] > 0 ) : ?>
-				<?php /* translators: %s: count of low (under 2h wait) updates */ ?>
-				<span class="awts-glance__chip is-blue"><?php printf( esc_html__( '%s low', 'order-updates-for-woo' ), esc_html( number_format_i18n( (int) $glance['low'] ) ) ); ?></span>
-			<?php endif; ?>
+	<div class="awts-asg__stats">
+		<div class="awts-asg__stat">
+			<div class="awts-asg__stat-top">
+				<span class="awts-asg__stat-label"><?php esc_html_e( 'Total updates', 'order-updates-for-woo' ); ?></span>
+				<span class="awts-asg__stat-icon is-total"><span class="dashicons dashicons-archive"></span></span>
+			</div>
+			<div class="awts-asg__stat-value">
+				<b><?php echo esc_html( number_format_i18n( (int) ( $summary['total'] ?? 0 ) ) ); ?></b>
+				<span class="awts-asg__stat-sub"><?php echo ! empty( $view_data['sees_all'] ) ? esc_html__( 'store-wide', 'order-updates-for-woo' ) : esc_html__( 'assigned to you', 'order-updates-for-woo' ); ?></span>
+			</div>
 		</div>
-	<?php endif; ?>
 
-	<div class="awts-inbox__card">
-		<div class="awts-inbox__head">
-			<nav class="awts-inbox__tabs">
+		<div class="awts-asg__stat">
+			<div class="awts-asg__stat-top">
+				<span class="awts-asg__stat-label"><?php esc_html_e( 'Waiting', 'order-updates-for-woo' ); ?></span>
+				<span class="awts-asg__stat-icon is-waiting"><span class="dashicons dashicons-clock"></span></span>
+			</div>
+			<div class="awts-asg__stat-value">
+				<b><?php echo esc_html( number_format_i18n( (int) ( $summary['waiting'] ?? 0 ) ) ); ?></b>
+				<span class="awts-asg__stat-sub"><?php esc_html_e( 'needs action', 'order-updates-for-woo' ); ?></span>
+			</div>
+		</div>
+
+		<div class="awts-asg__stat">
+			<div class="awts-asg__stat-top">
+				<span class="awts-asg__stat-label"><?php esc_html_e( 'Resolved', 'order-updates-for-woo' ); ?></span>
+				<span class="awts-asg__stat-icon is-resolved"><span class="dashicons dashicons-yes-alt"></span></span>
+			</div>
+			<div class="awts-asg__stat-value">
+				<b><?php echo esc_html( number_format_i18n( (int) ( $summary['resolved'] ?? 0 ) ) ); ?></b>
+			</div>
+		</div>
+
+		<div class="awts-asg__stat">
+			<div class="awts-asg__stat-top">
+				<span class="awts-asg__stat-label"><?php esc_html_e( 'Longest wait', 'order-updates-for-woo' ); ?></span>
+				<span class="awts-asg__stat-icon is-longest"><span class="dashicons dashicons-warning"></span></span>
+			</div>
+			<div class="awts-asg__stat-value">
+				<b><?php echo '' !== $longest ? esc_html( $longest ) : '—'; ?></b>
+				<span class="awts-asg__stat-sub"><?php echo '' !== $longest ? esc_html__( 'oldest open', 'order-updates-for-woo' ) : esc_html__( 'none open', 'order-updates-for-woo' ); ?></span>
+			</div>
+		</div>
+	</div>
+
+	<div class="awts-asg__card">
+		<div class="awts-asg__head">
+			<div class="awts-asg__heading">
+				<h1 class="awts-asg__title"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
+				<span class="awts-asg__count">
+					<?php
+					/* translators: %s: number of updates */
+					printf( esc_html( _n( '%s update', '%s updates', $total, 'order-updates-for-woo' ) ), esc_html( number_format_i18n( $total ) ) );
+					?>
+				</span>
+			</div>
+			<nav class="awts-asg__tabs">
 				<?php
-				// Links are assembled with esc_attr/esc_url/esc_html above.
+				// Links are assembled with esc_* in the $tab closure above.
 				echo $tab( '', __( 'All', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $tab( 'open', __( 'Open', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $tab( 'solved', __( 'Solved', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $tab( 'open', __( 'Waiting', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $tab( 'solved', __( 'Resolved', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				?>
 			</nav>
-
-			<form class="awts-inbox__search" method="get">
-				<input type="hidden" name="page" value="<?php echo esc_attr( $slug ); ?>" />
-				<?php if ( '' !== $status ) : ?>
-					<input type="hidden" name="status" value="<?php echo esc_attr( $status ); ?>" />
-				<?php endif; ?>
-				<?php if ( ! empty( $view_data['sees_all'] ) && (int) $view_data['assignee'] > 0 ) : ?>
-					<input type="hidden" name="assignee" value="<?php echo esc_attr( (string) (int) $view_data['assignee'] ); ?>" />
-				<?php endif; ?>
-				<span class="dashicons dashicons-search" aria-hidden="true"></span>
-				<input type="search" name="s" value="<?php echo esc_attr( (string) $view_data['search'] ); ?>" placeholder="<?php esc_attr_e( 'Search updates', 'order-updates-for-woo' ); ?>" />
-			</form>
 		</div>
 
-		<?php if ( ! empty( $view_data['sees_all'] ) && ! empty( $view_data['team'] ) ) : ?>
-			<form class="awts-inbox__bulkbar awts-assignee-filter" method="get">
-				<input type="hidden" name="page" value="<?php echo esc_attr( $slug ); ?>" />
-				<?php if ( '' !== $status ) : ?>
-					<input type="hidden" name="status" value="<?php echo esc_attr( $status ); ?>" />
-				<?php endif; ?>
-				<label for="awts-assignee-select"><?php esc_html_e( 'Assignee', 'order-updates-for-woo' ); ?></label>
-				<select id="awts-assignee-select" name="assignee">
-					<option value="0"><?php esc_html_e( 'Everyone', 'order-updates-for-woo' ); ?></option>
-					<?php foreach ( (array) $view_data['team'] as $member ) : ?>
-						<option value="<?php echo esc_attr( (string) (int) $member['id'] ); ?>" <?php selected( (int) $view_data['assignee'], (int) $member['id'] ); ?>>
-							<?php echo esc_html( (string) $member['name'] ); ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
-				<?php submit_button( __( 'Filter', 'order-updates-for-woo' ), '', 'filter_action', false ); ?>
-			</form>
-		<?php endif; ?>
-
 		<?php if ( empty( $rows ) ) : ?>
-			<p class="awts-inbox__empty">
+			<p class="awts-asg__empty">
 				<?php
 				echo ! empty( $view_data['has_filters'] )
-					? esc_html__( 'No updates match the current filter.', 'order-updates-for-woo' )
+					? esc_html__( 'No updates match this filter.', 'order-updates-for-woo' )
 					: esc_html__( 'No assigned updates.', 'order-updates-for-woo' );
 				?>
 			</p>
 		<?php else : ?>
-			<ul class="awts-inbox__list">
-				<?php
-				foreach ( $rows as $row ) :
-					$assignee_name = '' !== (string) $row['assignee'] ? (string) $row['assignee'] : __( 'Unassigned', 'order-updates-for-woo' );
-					$open          = '' !== (string) $row['edit_url'];
-					?>
-					<li class="awts-inbox__row<?php echo empty( $row['resolved'] ) ? ' is-unread' : ' is-read'; ?>">
-						<span class="awts-inbox__icon">
-							<span class="dashicons <?php echo empty( $row['resolved'] ) ? 'dashicons-clock' : 'dashicons-yes-alt'; ?>"></span>
+			<?php
+			foreach ( $rows as $row ) :
+				$waiting  = ! empty( $row['waiting'] );
+				$resolved = ! empty( $row['resolved'] );
+				$open     = '' !== (string) $row['edit_url'];
+				$tag      = $open ? 'a' : 'div';
+				$href     = $open ? ' href="' . esc_url( (string) $row['edit_url'] ) . '"' : '';
+				$accent   = $waiting ? '#f59e0b' : (string) $row['status_color'];
+				$created  = isset( $row['created_avatar'] ) ? $row['created_avatar'] : array( 'initials' => '', 'color' => '' );
+				$assignee_av = isset( $row['assignee_avatar'] ) ? $row['assignee_avatar'] : array( 'initials' => '', 'color' => '' );
+				?>
+				<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?> class="awts-asg__row"<?php echo $href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_url'd above. ?>>
+					<span class="awts-asg__accent" style="background: <?php echo esc_attr( $accent ); ?>"></span>
+
+					<span class="awts-asg__icon <?php echo $resolved ? 'is-done' : 'is-waiting'; ?>">
+						<span class="dashicons <?php echo $resolved ? 'dashicons-yes-alt' : 'dashicons-clock'; ?>"></span>
+					</span>
+
+					<span class="awts-asg__main">
+						<span class="awts-asg__chips">
+							<?php /* translators: %s: order number */ ?>
+							<span class="awts-asg__chip"><?php printf( esc_html__( 'Order #%s', 'order-updates-for-woo' ), esc_html( (string) $row['order_no'] ) ); ?></span>
+							<?php /* translators: %d: update id */ ?>
+							<span class="awts-asg__chip"><?php printf( esc_html__( 'Update #%d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
+							<span class="awts-asg__divider"></span>
+							<span class="awts-asg__status" style="color: <?php echo esc_attr( (string) $row['status_color'] ); ?>">
+								<span class="awts-asg__status-dot" style="background: <?php echo esc_attr( (string) $row['status_color'] ); ?>"></span>
+								<?php echo esc_html( (string) $row['status'] ); ?>
+							</span>
 						</span>
 
-						<?php if ( $open ) : ?>
-							<a class="awts-inbox__body" href="<?php echo esc_url( (string) $row['edit_url'] ); ?>">
-						<?php else : ?>
-							<span class="awts-inbox__body">
-						<?php endif; ?>
-							<span class="awts-inbox__tags">
-								<?php /* translators: %s: order number */ ?>
-								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Order #%s', 'order-updates-for-woo' ), esc_html( (string) $row['order_no'] ) ); ?></span>
-								<?php /* translators: %d: update id */ ?>
-								<span class="awts-inbox__idtag"><?php printf( esc_html__( 'Update #%d', 'order-updates-for-woo' ), (int) $row['update_id'] ); ?></span>
-								<span class="awts-inbox__status" style="color: <?php echo esc_attr( (string) $row['status_color'] ); ?>"><?php echo esc_html( (string) $row['status'] ); ?></span>
+						<span class="awts-asg__row-title"><?php echo esc_html( '' !== (string) $row['title'] ? (string) $row['title'] : __( '(untitled update)', 'order-updates-for-woo' ) ); ?></span>
+
+						<span class="awts-asg__meta">
+							<span class="awts-asg__person">
+								<span class="awts-asg__avatar" style="background: <?php echo esc_attr( (string) $created['color'] ); ?>"><?php echo esc_html( (string) $created['initials'] ); ?></span>
+								<span><span class="awts-asg__muted"><?php esc_html_e( 'by', 'order-updates-for-woo' ); ?></span> <span class="awts-asg__name"><?php echo esc_html( (string) $row['created_by'] ); ?></span></span>
 							</span>
-
-							<span class="awts-inbox__text"><?php echo esc_html( '' !== (string) $row['title'] ? (string) $row['title'] : __( '(untitled update)', 'order-updates-for-woo' ) ); ?></span>
-
-							<span class="awts-inbox__meta">
-								<?php if ( '' !== (string) $row['created_by'] ) : ?>
-									<?php
-									/* translators: 1: creator name, 2: created date */
-									printf( esc_html__( 'Created by: %1$s, %2$s', 'order-updates-for-woo' ), esc_html( (string) $row['created_by'] ), esc_html( (string) $row['created_date'] ) );
-									?>
-									&nbsp;·&nbsp;
+							<?php if ( '' !== (string) $row['created_date'] ) : ?>
+								<span class="awts-asg__date"><?php echo esc_html( (string) $row['created_date'] ); ?></span>
+							<?php endif; ?>
+							<span class="awts-asg__person">
+								<span class="awts-asg__muted"><?php esc_html_e( 'assigned to', 'order-updates-for-woo' ); ?></span>
+								<?php if ( '' !== (string) $row['assignee'] ) : ?>
+									<span class="awts-asg__avatar" style="background: <?php echo esc_attr( (string) $assignee_av['color'] ); ?>"><?php echo esc_html( (string) $assignee_av['initials'] ); ?></span>
+									<span class="awts-asg__name"><?php echo esc_html( (string) $row['assignee'] ); ?></span>
+								<?php else : ?>
+									<span class="awts-asg__name"><?php esc_html_e( 'Unassigned', 'order-updates-for-woo' ); ?></span>
 								<?php endif; ?>
-								<?php /* translators: %s: assignee display name */ ?>
-								<?php printf( esc_html__( 'Assigned to: %s', 'order-updates-for-woo' ), esc_html( $assignee_name ) ); ?>
-								&nbsp;·&nbsp;
-								<?php /* translators: %s: status label */ ?>
-								<?php printf( esc_html__( 'Status: %s', 'order-updates-for-woo' ), esc_html( (string) $row['status'] ) ); ?>
 							</span>
-						<?php echo $open ? '</a>' : '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static closing tag. ?>
+						</span>
+					</span>
 
-						<?php if ( '' !== (string) $row['sla_label'] ) : ?>
-							<span class="awts-inbox__sla-cell">
-								<span class="awts-inbox__sla <?php echo esc_attr( (string) $row['sla_class'] ); ?>"><?php echo esc_html( (string) $row['sla_label'] ); ?></span>
+					<span class="awts-asg__right">
+						<?php if ( $resolved ) : ?>
+							<span class="awts-asg__pill is-done"><?php esc_html_e( 'Resolved', 'order-updates-for-woo' ); ?></span>
+						<?php elseif ( $waiting ) : ?>
+							<span class="awts-asg__pill is-waiting">
+								<span class="dashicons dashicons-clock"></span>
+								<?php /* translators: %s: wait time, e.g. "16h" */ ?>
+								<?php printf( esc_html__( 'Waiting %s', 'order-updates-for-woo' ), esc_html( (string) $row['waiting_label'] ) ); ?>
 							</span>
 						<?php endif; ?>
-					</li>
-				<?php endforeach; ?>
-			</ul>
+						<span class="awts-asg__arrow" aria-hidden="true">&rarr;</span>
+					</span>
+				</<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?>>
+			<?php endforeach; ?>
 		<?php endif; ?>
 
-		<div class="awts-inbox__foot">
-			<span class="awts-inbox__range">
+		<div class="awts-asg__foot">
+			<span class="awts-asg__range">
 				<?php
 				printf(
-					/* translators: %s: number of updates */
-					esc_html( _n( '%s update', '%s updates', (int) $view_data['total'], 'order-updates-for-woo' ) ),
-					esc_html( number_format_i18n( (int) $view_data['total'] ) )
+					/* translators: 1: first row, 2: last row, 3: total */
+					esc_html__( 'Showing %1$s of %2$s', 'order-updates-for-woo' ),
+					'<b>' . esc_html( number_format_i18n( (int) ( $view_data['range_from'] ?? 0 ) ) ) . '&ndash;' . esc_html( number_format_i18n( (int) ( $view_data['range_to'] ?? 0 ) ) ) . '</b>',
+					'<b>' . esc_html( number_format_i18n( $total ) ) . '</b>'
 				);
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers escaped above; only <b> wrappers are literal.
 				?>
 			</span>
 
-			<?php if ( (int) $view_data['total_pages'] > 1 ) : ?>
-				<span class="awts-inbox__pager">
-					<?php if ( '' !== (string) $view_data['prev_url'] ) : ?>
-						<a class="awts-inbox__page-link" href="<?php echo esc_url( (string) $view_data['prev_url'] ); ?>"><?php esc_html_e( '‹ Prev', 'order-updates-for-woo' ); ?></a>
+			<?php
+			$pages       = (int) ( $view_data['total_pages'] ?? 1 );
+			$current     = (int) ( $view_data['page'] ?? 1 );
+			$page_url    = (string) ( $view_data['page_url'] ?? '' );
+			$prev_url    = (string) ( $view_data['prev_url'] ?? '' );
+			$next_url    = (string) ( $view_data['next_url'] ?? '' );
+			if ( $pages > 1 ) :
+				?>
+				<div class="awts-asg__pager">
+					<?php if ( '' !== $prev_url ) : ?>
+						<a class="awts-asg__page" href="<?php echo esc_url( $prev_url ); ?>" aria-label="<?php esc_attr_e( 'Previous page', 'order-updates-for-woo' ); ?>">&lsaquo;</a>
+					<?php else : ?>
+						<span class="awts-asg__page is-disabled" aria-hidden="true">&lsaquo;</span>
 					<?php endif; ?>
-					<span class="awts-inbox__page-of">
-						<?php
-						printf(
-							/* translators: 1: current page, 2: total pages */
-							esc_html__( 'Page %1$s of %2$s', 'order-updates-for-woo' ),
-							esc_html( number_format_i18n( (int) $view_data['page'] ) ),
-							esc_html( number_format_i18n( (int) $view_data['total_pages'] ) )
-						);
-						?>
-					</span>
-					<?php if ( '' !== (string) $view_data['next_url'] ) : ?>
-						<a class="awts-inbox__page-link" href="<?php echo esc_url( (string) $view_data['next_url'] ); ?>"><?php esc_html_e( 'Next ›', 'order-updates-for-woo' ); ?></a>
+
+					<?php for ( $n = 1; $n <= $pages; $n++ ) : ?>
+						<?php if ( $n === $current ) : ?>
+							<span class="awts-asg__page is-active"><?php echo esc_html( number_format_i18n( $n ) ); ?></span>
+						<?php else : ?>
+							<a class="awts-asg__page" href="<?php echo esc_url( add_query_arg( 'paged', $n, $page_url ) ); ?>"><?php echo esc_html( number_format_i18n( $n ) ); ?></a>
+						<?php endif; ?>
+					<?php endfor; ?>
+
+					<?php if ( '' !== $next_url ) : ?>
+						<a class="awts-asg__page" href="<?php echo esc_url( $next_url ); ?>" aria-label="<?php esc_attr_e( 'Next page', 'order-updates-for-woo' ); ?>">&rsaquo;</a>
+					<?php else : ?>
+						<span class="awts-asg__page is-disabled" aria-hidden="true">&rsaquo;</span>
 					<?php endif; ?>
-				</span>
+				</div>
 			<?php endif; ?>
 		</div>
 	</div>

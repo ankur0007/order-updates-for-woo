@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Helpers\AssetHelper;
-use OrderUpdatesForWoo\Helpers\DateHelper;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
@@ -31,11 +30,9 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 final class AssigneePageController {
 
 	public const SLUG      = 'order-updates-for-woo-assignments';
-	private const PER_PAGE = 20;
+	private const PER_PAGE = 10;
 
-	// SLA "waiting on a reply" colour bands, in seconds: green ≤ 30 min,
-	// blue ≤ 2 h, amber ≤ 4 h, red beyond.
-	private const SLA_GREEN_MAX = 1800;
+	// Wait-time tiers (seconds) for the summary: low < 2 h, medium 2–4 h, urgent > 4 h.
 	private const SLA_BLUE_MAX  = 7200;
 	private const SLA_AMBER_MAX = 14400;
 
@@ -75,57 +72,53 @@ final class AssigneePageController {
 	 * Empty string when nothing is waiting.
 	 */
 	private function badge_html(): string {
-		$badge = $this->sla_badge( $this->sees_all() ? 0 : get_current_user_id() );
-		if ( $badge['total'] < 1 ) {
+		$summary = $this->summary( $this->sees_all() ? 0 : get_current_user_id() );
+		if ( $summary['waiting'] < 1 ) {
 			return '';
 		}
 
 		$tooltip = sprintf(
 			/* translators: 1: urgent count (4h+ wait), 2: medium count (2-4h), 3: low count (under 2h) */
 			__( '%1$d urgent (4h+), %2$d medium (2-4h), %3$d low (under 2h)', 'order-updates-for-woo' ),
-			$badge['urgent'],
-			$badge['medium'],
-			$badge['low']
+			$summary['urgent'],
+			$summary['medium'],
+			$summary['low']
 		);
 
 		return ' <span class="awaiting-mod" title="' . esc_attr( $tooltip ) . '"><span class="pending-count">'
-			. esc_html( number_format_i18n( $badge['total'] ) )
+			. esc_html( number_format_i18n( $summary['waiting'] ) )
 			. '</span></span>';
 	}
 
 	/**
-	 * Open updates that are waiting on a staff reply (the customer spoke last),
-	 * tallied by wait band. Scoped to the viewer (own / all) and cached briefly
-	 * since it runs on every admin page via the menu.
+	 * Scope-level stats for the summary cards + menu badge: total / resolved
+	 * counts, the waiting-on-staff tally (with urgency tiers) and the longest
+	 * current wait. Cached briefly since the menu badge runs on every page.
 	 *
-	 * @return array{total:int, urgent:int, medium:int, low:int}
+	 * @return array{total:int, resolved:int, waiting:int, urgent:int, medium:int, low:int, longest_label:string}
 	 */
-	private function sla_badge( int $scope ): array {
-		$cache_key = 'awts_assignee_sla_' . ( 0 === $scope ? 'all' : $scope );
+	private function summary( int $scope ): array {
+		$cache_key = 'awts_assignee_summary_' . ( 0 === $scope ? 'all' : $scope );
 		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
 		if ( is_array( $cached ) ) {
 			return $cached;
 		}
 
-		$ids    = $this->order_updates_db->get_open_update_ids_for_assignee( $scope );
-		$latest = $this->order_updates_db->get_latest_customer_messages( $ids );
+		$counts  = $this->order_updates_db->get_assignee_counts( $scope );
+		$ids     = $this->order_updates_db->get_open_update_ids_for_assignee( $scope );
+		$latest  = $this->order_updates_db->get_latest_customer_messages( $ids );
 
-		$urgent = 0;
-		$medium = 0;
-		$low    = 0;
+		$urgent  = 0;
+		$medium  = 0;
+		$low     = 0;
+		$longest = 0;
 
 		foreach ( $ids as $id ) {
-			$msg = $latest[ $id ] ?? null;
-			if ( null === $msg || TeamRosterService::user_is_team_member( (int) $msg['created_by'] ) ) {
-				continue; // No customer message, or staff replied last — nothing owed.
-			}
-
-			$timestamp = '' !== $msg['created_at'] ? (int) strtotime( $msg['created_at'] . ' UTC' ) : 0;
-			if ( $timestamp <= 0 ) {
+			$waited = $this->waiting_seconds( false, $latest[ $id ] ?? null );
+			if ( $waited <= 0 ) {
 				continue;
 			}
-
-			$waited = time() - $timestamp;
+			$longest = max( $longest, $waited );
 			if ( $waited > self::SLA_AMBER_MAX ) {
 				$urgent++;
 			} elseif ( $waited > self::SLA_BLUE_MAX ) {
@@ -136,10 +129,13 @@ final class AssigneePageController {
 		}
 
 		$result = array(
-			'total'  => $urgent + $medium + $low,
-			'urgent' => $urgent,
-			'medium' => $medium,
-			'low'    => $low,
+			'total'         => (int) $counts['total'],
+			'resolved'      => (int) $counts['resolved'],
+			'waiting'       => $urgent + $medium + $low,
+			'urgent'        => $urgent,
+			'medium'        => $medium,
+			'low'           => $low,
+			'longest_label' => $longest > 0 ? $this->compact_duration( $longest ) : '',
 		);
 
 		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, 60 );
@@ -154,10 +150,10 @@ final class AssigneePageController {
 
 		wp_enqueue_style( 'dashicons' );
 		wp_enqueue_style(
-			'order-updates-for-woo-notifications',
-			AssetHelper::url( 'assets/Admin/css/notifications.css' ),
+			'order-updates-for-woo-assignments',
+			AssetHelper::url( 'assets/Admin/css/assignments.css' ),
 			array(),
-			AssetHelper::version( 'assets/Admin/css/notifications.css' )
+			AssetHelper::version( 'assets/Admin/css/assignments.css' )
 		);
 
 		$sees_all = $this->sees_all();
@@ -191,9 +187,10 @@ final class AssigneePageController {
 		$total       = (int) $data['total'];
 		$total_pages = max( 1, (int) ceil( $total / self::PER_PAGE ) );
 		$paged       = min( $paged, $total_pages );
+		$offset      = ( $paged - 1 ) * self::PER_PAGE;
 
-		// One batched lookup of who spoke last per visible update — feeds the
-		// SLA "waiting" badge without a query per row.
+		// One batched lookup of who spoke last per visible update — feeds each
+		// row's SLA state without a query per row.
 		$update_ids = array_map( static fn( array $r ): int => (int) ( $r['id'] ?? 0 ), $data['rows'] );
 		$latest     = $this->order_updates_db->get_latest_customer_messages( $update_ids );
 
@@ -201,7 +198,7 @@ final class AssigneePageController {
 			'src/Admin/Assignments/Views/AssigneePageView',
 			array(
 				'rows'        => array_map( fn( array $row ): array => $this->to_view_row( $row, $latest ), $data['rows'] ),
-				'glance'      => $this->sla_badge( $assignee_id ),
+				'summary'     => $this->summary( $assignee_id ),
 				'sees_all'    => $sees_all,
 				'status'      => $status,
 				'search'      => $search,
@@ -212,8 +209,11 @@ final class AssigneePageController {
 				'total'       => $total,
 				'page'        => $paged,
 				'total_pages' => $total_pages,
+				'range_from'  => $total > 0 ? $offset + 1 : 0,
+				'range_to'    => $offset + count( $data['rows'] ),
 				'prev_url'    => $paged > 1 ? esc_url_raw( add_query_arg( 'paged', $paged - 1 ) ) : '',
 				'next_url'    => $paged < $total_pages ? esc_url_raw( add_query_arg( 'paged', $paged + 1 ) ) : '',
+				'page_url'    => esc_url_raw( remove_query_arg( 'paged' ) ),
 			)
 		);
 	}
@@ -231,7 +231,7 @@ final class AssigneePageController {
 	/**
 	 * Flatten one DB row into the shape the view renders (escaped at output
 	 * there). $latest maps update_id → the last customer-thread message, used
-	 * for the SLA badge.
+	 * to decide the SLA "waiting" state.
 	 *
 	 * @param array<int, array{created_at:string, created_by:int}> $latest
 	 */
@@ -240,29 +240,32 @@ final class AssigneePageController {
 		$order_id  = (int) ( $row['order_id'] ?? 0 );
 		$order     = $order_id && function_exists( 'wc_get_order' ) ? wc_get_order( $order_id ) : null;
 		$resolved  = ! empty( $row['is_resolved'] );
-		$sla       = $this->sla_for( $resolved, $latest[ $update_id ] ?? null );
+		$waited    = $this->waiting_seconds( $resolved, $latest[ $update_id ] ?? null );
 
 		$status = trim( (string) ( $row['status'] ?? '' ) );
 		if ( '' === $status ) {
-			$status = $resolved ? __( 'Solved', 'order-updates-for-woo' ) : __( 'Open', 'order-updates-for-woo' );
+			$status = $resolved ? __( 'Resolved', 'order-updates-for-woo' ) : __( 'Open', 'order-updates-for-woo' );
 		}
 
+		$created_by = (string) ( $row['created_by_name'] ?? '' );
+		$assignee   = (string) ( $row['assignee_name'] ?? '' );
+
 		return array(
-			'update_id'    => $update_id,
-			'order_id'     => $order_id,
-			'order_no'     => $order ? (string) $order->get_order_number() : (string) $order_id,
-			'customer'     => $order ? trim( (string) $order->get_formatted_billing_full_name() ) : '',
-			'title'        => (string) ( $row['title'] ?? '' ),
-			'resolved'     => $resolved,
-			'status'       => $status,
-			'status_color' => $this->safe_color( (string) ( $row['color'] ?? '' ) ),
-			'created_by'   => (string) ( $row['created_by_name'] ?? '' ),
-			'created_date' => '' !== (string) ( $row['created_at'] ?? '' ) ? DateHelper::format_date( (string) $row['created_at'] ) : '',
-			'assignee'     => (string) ( $row['assignee_name'] ?? '' ),
-			'edit_url'     => $order ? strtok( (string) $order->get_edit_order_url(), '#' ) . '#awts-update-' . $update_id : '',
-			'time'         => $this->time_ago( (string) ( $row['last_updated_at'] ?? '' ) ),
-			'sla_label'    => $sla['label'],
-			'sla_class'    => $sla['class'],
+			'update_id'       => $update_id,
+			'order_no'        => $order ? (string) $order->get_order_number() : (string) $order_id,
+			'title'           => (string) ( $row['title'] ?? '' ),
+			'edit_url'        => $order ? strtok( (string) $order->get_edit_order_url(), '#' ) . '#awts-update-' . $update_id : '',
+			'state'           => $resolved ? 'resolved' : ( $waited > 0 ? 'waiting' : 'open' ),
+			'resolved'        => $resolved,
+			'status'          => $status,
+			'status_color'    => $this->safe_color( (string) ( $row['color'] ?? '' ) ),
+			'created_by'      => $created_by,
+			'created_avatar'  => $this->avatar( $created_by ),
+			'created_date'    => $this->datetime_label( (string) ( $row['created_at'] ?? '' ) ),
+			'assignee'        => $assignee,
+			'assignee_avatar' => '' !== $assignee ? $this->avatar( $assignee ) : array( 'initials' => '', 'color' => '' ),
+			'waiting'         => $waited > 0,
+			'waiting_label'   => $waited > 0 ? $this->compact_duration( $waited ) : '',
 		);
 	}
 
@@ -272,54 +275,70 @@ final class AssigneePageController {
 	}
 
 	/**
-	 * SLA badge for an update: only shown when it's open AND the customer
-	 * spoke last (so staff owes a reply). Colour bands by how long they've
-	 * waited. Returns empty label/class when no reply is owed.
+	 * Seconds an open update has waited on a staff reply (customer spoke last).
+	 * 0 when resolved, when staff replied last, or when there's no message.
 	 *
 	 * @param array{created_at:string, created_by:int}|null $last_message
-	 * @return array{label:string, class:string}
 	 */
-	private function sla_for( bool $resolved, ?array $last_message ): array {
-		$none = array( 'label' => '', 'class' => '' );
-
+	private function waiting_seconds( bool $resolved, ?array $last_message ): int {
 		if ( $resolved || null === $last_message ) {
-			return $none;
+			return 0;
 		}
 
-		// Staff (a team member) spoke last → nothing owed. A guest (id 0) or a
-		// non-team user is the customer → the clock is on staff.
+		// A team member spoke last → nothing owed. A guest (id 0) or non-team
+		// user is the customer → the clock is on staff.
 		if ( TeamRosterService::user_is_team_member( (int) $last_message['created_by'] ) ) {
-			return $none;
+			return 0;
 		}
 
 		$timestamp = '' !== $last_message['created_at'] ? (int) strtotime( $last_message['created_at'] . ' UTC' ) : 0;
-		if ( $timestamp <= 0 ) {
-			return $none;
+
+		return $timestamp > 0 ? max( 0, time() - $timestamp ) : 0;
+	}
+
+	/** Compact wait label — "16h" or "45m". */
+	private function compact_duration( int $seconds ): string {
+		$hours = (int) floor( $seconds / HOUR_IN_SECONDS );
+		if ( $hours >= 1 ) {
+			return number_format_i18n( $hours ) . 'h';
 		}
 
-		$waited = max( 0, time() - $timestamp );
-		if ( $waited <= self::SLA_GREEN_MAX ) {
-			$class = 'is-green';
-		} elseif ( $waited <= self::SLA_BLUE_MAX ) {
-			$class = 'is-blue';
-		} elseif ( $waited <= self::SLA_AMBER_MAX ) {
-			$class = 'is-amber';
+		return number_format_i18n( max( 1, (int) floor( $seconds / MINUTE_IN_SECONDS ) ) ) . 'm';
+	}
+
+	/**
+	 * Initials + a stable oklch colour for a name avatar (no external request).
+	 * Initials: first+last for multi-word names, first two chars otherwise.
+	 */
+	private function avatar( string $name ): array {
+		$name  = trim( $name );
+		$parts = '' !== $name ? preg_split( '/\s+/', $name ) : array();
+
+		if ( count( $parts ) >= 2 ) {
+			$initials = mb_substr( $parts[0], 0, 1 ) . mb_substr( $parts[ count( $parts ) - 1 ], 0, 1 );
+		} elseif ( 1 === count( $parts ) ) {
+			$initials = mb_substr( $parts[0], 0, 2 );
 		} else {
-			$class = 'is-red';
+			$initials = '?';
+		}
+
+		// Deterministic hue per name so the same person always gets one colour.
+		$hue    = 0;
+		$length = strlen( $name );
+		for ( $i = 0; $i < $length; $i++ ) {
+			$hue = ( $hue * 31 + ord( $name[ $i ] ) ) % 360;
 		}
 
 		return array(
-			/* translators: %s: human-readable time difference, e.g. "2 hours" */
-			'label' => sprintf( __( 'Waiting %s', 'order-updates-for-woo' ), human_time_diff( $timestamp, time() ) ),
-			'class' => $class,
+			'initials' => mb_strtoupper( $initials ),
+			'color'    => sprintf( 'oklch(62%% 0.12 %d)', $hue ),
 		);
 	}
 
-	/** "2 hours ago" from a UTC datetime, or '' when missing. */
-	private function time_ago( string $mysql_utc ): string {
+	/** "May 25, 2:06 PM" in the site timezone, or '' when missing. */
+	private function datetime_label( string $mysql_utc ): string {
 		$timestamp = '' !== $mysql_utc ? (int) strtotime( $mysql_utc . ' UTC' ) : 0;
 
-		/* translators: %s: human-readable time difference, e.g. "2 hours" */
-		return $timestamp > 0 ? sprintf( __( '%s ago', 'order-updates-for-woo' ), human_time_diff( $timestamp, time() ) ) : '';
+		return $timestamp > 0 ? wp_date( 'M j, g:i A', $timestamp ) : '';
 	}
 }

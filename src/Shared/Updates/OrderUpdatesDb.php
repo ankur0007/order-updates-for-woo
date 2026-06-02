@@ -1197,6 +1197,45 @@ final class OrderUpdatesDb {
 	}
 
 	/**
+	 * Total and resolved update counts for the assignee summary cards.
+	 * assignee_id = 0 counts every update (manager scope). One query.
+	 *
+	 * @return array{total:int, resolved:int}
+	 */
+	public function get_assignee_counts( int $assignee_id ): array {
+		global $wpdb;
+
+		$updates   = $this->updates_table->updates;
+		$assignees = $this->updates_table->assignees;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names from UpdatesTable; id bound via placeholder.
+		if ( $assignee_id > 0 ) {
+			$row = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT COUNT( DISTINCT updates.id ) AS total,
+						COUNT( DISTINCT CASE WHEN updates.is_resolved = 1 THEN updates.id END ) AS resolved
+					FROM {$updates} AS updates
+					LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
+					WHERE a.assignee_user_id = %d",
+					$assignee_id
+				),
+				ARRAY_A
+			);
+		} else {
+			$row = $wpdb->get_row(
+				"SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM {$updates}",
+				ARRAY_A
+			);
+		}
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		return array(
+			'total'    => (int) ( $row['total'] ?? 0 ),
+			'resolved' => (int) ( $row['resolved'] ?? 0 ),
+		);
+	}
+
+	/**
 	 * Recent internal notes that mention the user, joined with their parent update.
 	 *
 	 * @return array<int, array{note_id:int, update_id:int, order_id:int, title:string, snippet:string, created_at:string, created_by_name:string}>
