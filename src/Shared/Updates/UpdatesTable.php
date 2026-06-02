@@ -1,4 +1,9 @@
 <?php
+/**
+ * Owns the plugin's custom table names and schema creation/migration.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -11,6 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Direct queries on our own tables. Table names are safe; user input always uses prepare().
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
+/**
+ * Holds the fully-qualified names of the plugin's tables and creates or
+ * upgrades their schema via dbDelta on init.
+ */
 final class UpdatesTable {
 	private const VERSION     = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_table_version';
@@ -22,6 +31,7 @@ final class UpdatesTable {
 	public string $customer_note_history;
 	public string $ratings;
 
+	/** Resolve each table name from the WordPress table prefix. */
 	public function __construct() {
 		global $wpdb;
 		$p = $wpdb->prefix . 'order_updates_for_woo';
@@ -34,10 +44,12 @@ final class UpdatesTable {
 		$this->ratings               = $p . '_ratings';
 	}
 
+	/** Hook schema creation/upgrade to WordPress init. */
 	public function init(): void {
 		add_action( 'init', array( $this, 'maybe_create_tables' ) );
 	}
 
+	/** Create or upgrade the plugin tables when the version or schema is stale. */
 	public function maybe_create_tables(): void {
 		global $wpdb;
 
@@ -248,6 +260,12 @@ final class UpdatesTable {
 		}
 	}
 
+	/**
+	 * Whether a column exists on one of our own (allowlisted) tables.
+	 *
+	 * @param string $table  Table name (must be one of this plugin's tables).
+	 * @param string $column Column to look for.
+	 */
 	private function column_exists( string $table, string $column ): bool {
 		global $wpdb;
 
@@ -279,6 +297,11 @@ final class UpdatesTable {
 		return null !== $found && '' !== (string) $found;
 	}
 
+	/**
+	 * Whether a table exists.
+	 *
+	 * @param string $table Table name.
+	 */
 	private function table_exists( string $table ): bool {
 		global $wpdb;
 
