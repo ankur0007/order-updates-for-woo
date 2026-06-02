@@ -7,8 +7,11 @@ namespace OrderUpdatesForWoo\Shared\Updates;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 
-// Direct queries on our own tables. Table names are safe; user input always uses prepare().
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// Data-access layer. Every interpolated value is a trusted table identifier from
+// UpdatesTable; all user input is bound via $wpdb->prepare() %d/%s placeholders.
+// SqlPreparationTest independently enforces prepare()-or-safe-literal on every
+// $wpdb call here, so the sniffs below only silence the table-name-interpolation noise.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
 final class OrderUpdatesDb {
 	public function __construct( private UpdatesTable $updates_table ) {}
@@ -1100,7 +1103,6 @@ final class OrderUpdatesDb {
 			ORDER BY {$order_sql}
 			LIMIT %d OFFSET %d";
 		$rows     = $wpdb->get_results( $wpdb->prepare( $list_sql, array_merge( $params, array( $per_page, $offset ) ) ), ARRAY_A );
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$result = array(
 			'rows'  => is_array( $rows ) ? $rows : array(),
@@ -1151,7 +1153,6 @@ final class OrderUpdatesDb {
 				GROUP BY update_id
 			) AS latest ON latest.max_id = cn.id";
 		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $update_ids ), ARRAY_A );
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$out = array();
 		foreach ( (array) $rows as $row ) {
@@ -1205,7 +1206,6 @@ final class OrderUpdatesDb {
 				)
 			);
 		}
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return array_map( 'intval', (array) $ids );
 	}
@@ -1236,9 +1236,9 @@ final class OrderUpdatesDb {
 				ARRAY_A
 			);
 		} else {
-			$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM {$updates}", ARRAY_A );
+			// No user input — a fixed COUNT over our own table (name interpolated).
+			$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM {$updates}", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		}
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return array(
 			'total'    => (int) ( $row['total'] ?? 0 ),

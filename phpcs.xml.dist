@@ -10,4 +10,22 @@
 	<rule ref="WordPressVIPMinimum"/>
 	<rule ref="WordPress-Extra"/>
 	<rule ref="WordPress-Docs"/>
+
+	<!-- PSR-4 plugin: classes autoload from ClassName.php, so WordPress core's
+	     hyphenated `class-foo.php` file-naming convention does not apply. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+
+	<!-- WooCommerce capabilities the sniff doesn't ship in its core list. -->
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="manage_woocommerce"/>
+				<element value="edit_shop_orders"/>
+				<element value="edit_shop_order"/>
+			</property>
+		</properties>
+	</rule>
 </ruleset>
