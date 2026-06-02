@@ -236,15 +236,8 @@ html {
 	transform: rotate( 45deg );
 }
 
-/* Per-row checkbox stays hidden until the row is hovered or already selected. */
 .awts-inbox__check {
-	opacity: 0;
 	margin-top: 2px;
-}
-
-.awts-inbox__row:hover .awts-inbox__check,
-.awts-inbox__check:checked {
-	opacity: 1;
 }
 
 /* ---- Info note (quiet inline, replaces the old yellow banner) ---- */
@@ -474,16 +467,6 @@ a.awts-inbox__msg:hover .awts-inbox__msg-text {
 	display: flex;
 	flex: 0 0 auto;
 	gap: 2px;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity .12s ease;
-}
-
-.awts-inbox__row:hover .awts-inbox__actions,
-.awts-inbox__row.is-selected .awts-inbox__actions,
-.awts-inbox__row:has( .awts-inbox__check:checked ) .awts-inbox__actions {
-	opacity: 1;
-	pointer-events: auto;
 }
 
 .awts-inbox__action {
@@ -679,15 +662,6 @@ a.awts-inbox__msg:hover .awts-inbox__msg-text {
 	.awts-inbox__time {
 		min-width: 0;
 		text-align: left;
-	}
-
-	.awts-inbox__actions {
-		opacity: 1;
-		pointer-events: auto;
-	}
-
-	.awts-inbox__check {
-		opacity: 1;
 	}
 
 	.awts-inbox__foot {
