@@ -48,6 +48,14 @@ final class CustomerSharedLinkEmail extends OrderUpdateEmailBase {
 		}
 
 		$this->order         = $order;
+
+		// Order-level trigger skips load_context (no update row), so set the
+		// subject placeholders here or {order_number} stays literal in the subject.
+		$this->placeholders = array(
+			'{site_title}'   => $this->get_blogname(),
+			'{order_number}' => (string) $order->get_order_number(),
+		);
+
 		$this->recipient     = sanitize_email( $billing_email );
 		$this->greeting_name = (string) $order->get_billing_first_name();
 		$this->intro_text    = sprintf(
