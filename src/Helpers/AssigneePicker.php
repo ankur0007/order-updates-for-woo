@@ -60,7 +60,7 @@ final class AssigneePicker {
 	 * Pull the active user ids out of either the new keyed `[id => bool]`
 	 * shape or the legacy flat `[id, id]` shape. Order preserved.
 	 *
-	 * @param array<int|string, mixed> $list
+	 * @param array<int|string, mixed> $list Saved priority list, keyed or flat.
 	 * @return int[]
 	 */
 	private static function extract_active_ids( array $list ): array {

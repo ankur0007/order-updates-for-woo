@@ -23,6 +23,8 @@ final class AsyncJob {
 	public const MODE_OPTION     = 'order_updates_for_woo_email_delivery_mode';
 
 	/**
+	 * Wire the optional async-health checker.
+	 *
 	 * @param AsyncHealth|null $health Used in "auto" mode to check async is alive.
 	 */
 	public function __construct( private ?AsyncHealth $health = null ) {}
