@@ -34,6 +34,14 @@ final class SubmitRatingEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/rating';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db Update + rating storage.
+	 * @param CustomerOrderUpdatesService $viewer_service   Customer-auth checks.
+	 * @param OrderUpdatesSettingsService $settings_service Feature toggles.
+	 * @param AsyncJob                    $async_job        Queues notification emails.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private CustomerOrderUpdatesService $viewer_service,
