@@ -195,6 +195,13 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		return rest_ensure_response( apply_filters( 'order_updates_for_woo_update_customer_note_response', $response, $request ) );
 	}
 
+	/**
+	 * Shape the edited note for the JS response.
+	 *
+	 * @param array       $note_row     Stored note row.
+	 * @param string      $current_text The note text after the edit.
+	 * @param string|null $edited_at    Edit timestamp, or null if unchanged.
+	 */
 	private function presentation( array $note_row, string $current_text, ?string $edited_at ): array {
 		$created_by = (int) ( $note_row['created_by'] ?? 0 );
 
@@ -225,6 +232,8 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 	 * customers carry no identity, so fall back to the original author's name
 	 * — that way the history row reads "edited by {name}" instead of
 	 * mysteriously empty.
+	 *
+	 * @param array $note_row Stored note row.
 	 */
 	private function get_note_editor_identity( array $note_row ): array {
 		$user_id = get_current_user_id();
@@ -249,6 +258,12 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Whether a staff member may edit this customer note.
+	 *
+	 * @param array $note           Stored note row.
+	 * @param int   $latest_note_id Highest customer-note id in the thread.
+	 */
 	private function can_manage_customer_note_as_member( array $note, int $latest_note_id ): bool {
 		$update   = $this->order_updates_db->get_update( absint( $note['update_id'] ?? 0 ) );
 		$order_id = absint( $update['order_id'] ?? 0 );
@@ -260,6 +275,13 @@ final class UpdateCustomerNoteEndpoint implements Registrable {
 		return $this->note_action_policy->can_edit_member_customer_note( $note, $latest_note_id );
 	}
 
+	/**
+	 * Whether the customer (logged-in or guest via order_key) may edit this note.
+	 *
+	 * @param array           $note           Stored note row.
+	 * @param WP_REST_Request $request        Incoming request.
+	 * @param int             $latest_note_id Highest customer-note id in the thread.
+	 */
 	private function can_manage_customer_note_as_customer( array $note, WP_REST_Request $request, int $latest_note_id ): bool {
 		$update    = $this->order_updates_db->get_update( absint( $note['update_id'] ?? 0 ) );
 		$order_id  = absint( $update['order_id'] ?? 0 );

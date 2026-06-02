@@ -188,6 +188,11 @@ final class PollCustomerThreadEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Sanitised order_key from the request (for guest auth), or null.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	private function order_key( WP_REST_Request $request ): ?string {
 		$key = (string) $request->get_param( 'order_key' );
 

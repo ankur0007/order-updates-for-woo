@@ -93,8 +93,9 @@ final class GetUpdateNotesEndpoint implements Registrable {
 		// Default to the latest CUSTOMER_NOTES_PAGE_SIZE entries (single
 		// constant for both threads). "Load previous" calls the same
 		// endpoint with `before_id` set to the oldest visible note id.
-		$limit     = max( 1, min( 50, absint( $request->get_param( 'limit' ) ?: Constants::CUSTOMER_NOTES_PAGE_SIZE ) ) );
-		$around_id = absint( $request->get_param( 'around_id' ) );
+		$requested_limit = absint( $request->get_param( 'limit' ) );
+		$limit           = max( 1, min( 50, $requested_limit > 0 ? $requested_limit : Constants::CUSTOMER_NOTES_PAGE_SIZE ) );
+		$around_id       = absint( $request->get_param( 'around_id' ) );
 
 		// `around_id` is the deep-link jump: a window centred on the target
 		// note (older + note + newer) in one query, instead of paging back.
@@ -146,7 +147,7 @@ final class GetUpdateNotesEndpoint implements Registrable {
 	 * unknown user IDs fall back to "#{id}" so the UI still shows
 	 * something rather than silently dropping the chip.
 	 *
-	 * @param int[] $user_ids
+	 * @param int[] $user_ids Mentioned user ids.
 	 * @return array<int, array{id:int,name:string}>
 	 */
 	private function lookup_mention_display_names( array $user_ids ): array {

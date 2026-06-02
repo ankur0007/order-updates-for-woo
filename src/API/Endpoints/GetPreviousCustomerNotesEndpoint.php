@@ -96,9 +96,10 @@ final class GetPreviousCustomerNotesEndpoint implements Registrable {
 	 * @param WP_REST_Request $request Incoming request.
 	 */
 	public function handle( WP_REST_Request $request ): WP_REST_Response|WP_Error {
-		$update_id = absint( $request->get_param( 'update_id' ) );
-		$before_id = absint( $request->get_param( 'before_note_id' ) );
-		$limit     = min( absint( $request->get_param( 'limit' ) ?: Constants::CUSTOMER_NOTES_PAGE_SIZE ), 50 );
+		$update_id       = absint( $request->get_param( 'update_id' ) );
+		$before_id       = absint( $request->get_param( 'before_note_id' ) );
+		$requested_limit = absint( $request->get_param( 'limit' ) );
+		$limit           = min( $requested_limit > 0 ? $requested_limit : Constants::CUSTOMER_NOTES_PAGE_SIZE, 50 );
 
 		$update = $this->order_updates_db->get_update( $update_id );
 

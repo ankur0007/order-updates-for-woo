@@ -128,6 +128,11 @@ final class DeleteUpdateEndpoint implements Registrable {
 		return rest_ensure_response( apply_filters( 'order_updates_for_woo_delete_update_response', $response, $request ) );
 	}
 
+	/**
+	 * Email the customer that their update was removed.
+	 *
+	 * @param array $update Update row being deleted.
+	 */
 	private function send_deletion_email_to_customer( array $update ): void {
 		$order = $this->resolve_order( absint( $update['order_id'] ?? 0 ) );
 
@@ -148,6 +153,8 @@ final class DeleteUpdateEndpoint implements Registrable {
 	 * Tell the creator their update was deleted — only when someone other
 	 * than the creator performed the delete. Same "creator never gets
 	 * emailed about their own action" rule that applies everywhere else.
+	 *
+	 * @param array $update Update row being deleted.
 	 */
 	private function maybe_notify_creator_of_deletion( array $update ): void {
 		$creator_id = absint( $update['created_by'] ?? 0 );
@@ -201,6 +208,8 @@ final class DeleteUpdateEndpoint implements Registrable {
 	 * actor / same as creator / is the order customer" rules as the creator
 	 * path. Reuses CreatorUpdateDeletedEmail with a role param so we don't
 	 * fragment the email into a second WC class with the same body.
+	 *
+	 * @param array $update Update row being deleted.
 	 */
 	private function maybe_notify_assignee_of_deletion( array $update ): void {
 		$assignee_id = absint( $update['assignee_user_id'] ?? 0 );
@@ -254,6 +263,9 @@ final class DeleteUpdateEndpoint implements Registrable {
 	 * audit log (rendered by DeletedUpdatesMetaBox on the order edit page).
 	 * We own this storage end-to-end, so there's no in-UI delete surface
 	 * to fight — the audit is preserved by design.
+	 *
+	 * @param array $update    Update row being deleted.
+	 * @param int   $update_id Update id.
 	 */
 	private function record_audit_note( array $update, int $update_id ): void {
 		$order = $this->resolve_order( absint( $update['order_id'] ?? 0 ) );

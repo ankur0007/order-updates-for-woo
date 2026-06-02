@@ -115,10 +115,20 @@ final class AssigneeSearchEndpoint implements Registrable {
 		return rest_ensure_response( apply_filters( 'order_updates_for_woo_assignee_search_response', $result, $query, $request ) );
 	}
 
+	/**
+	 * REST arg validator — the search term must be at least 3 characters.
+	 *
+	 * @param mixed $value Submitted query string.
+	 */
 	public function validate_query( $value ): bool {
 		return strlen( trim( (string) $value ) ) >= 3;
 	}
 
+	/**
+	 * Shape one matched user for the picker results.
+	 *
+	 * @param object $user User row from the search query.
+	 */
 	private function format_user( object $user ): array {
 		return array(
 			'id'     => absint( $user->ID ),

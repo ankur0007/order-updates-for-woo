@@ -90,8 +90,9 @@ final class GetCustomerNotesEndpoint implements Registrable {
 		// Default to the latest CUSTOMER_NOTES_PAGE_SIZE entries; "Load
 		// previous" calls the same endpoint with `before_id` set to the
 		// oldest visible note to step back another page.
-		$limit     = max( 1, min( 50, absint( $request->get_param( 'limit' ) ?: Constants::CUSTOMER_NOTES_PAGE_SIZE ) ) );
-		$around_id = absint( $request->get_param( 'around_id' ) );
+		$requested_limit = absint( $request->get_param( 'limit' ) );
+		$limit           = max( 1, min( 50, $requested_limit > 0 ? $requested_limit : Constants::CUSTOMER_NOTES_PAGE_SIZE ) );
+		$around_id       = absint( $request->get_param( 'around_id' ) );
 
 		// `around_id` is the deep-link jump: a window centred on the target
 		// note (older + note + newer) in one query, instead of paging back.

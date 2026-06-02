@@ -294,7 +294,8 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		}
 
 		if ( ! $is_reply && $assignee_id ) {
-			$this->order_updates_db->sync_assignee( $update_id, $assignee_id, $note_author['id'] ?: $assignee_id, $now );
+			$performed_by = $note_author['id'] ? $note_author['id'] : $assignee_id;
+				$this->order_updates_db->sync_assignee( $update_id, $assignee_id, $performed_by, $now );
 		}
 
 		$uploaded_attachments = array();
@@ -518,6 +519,7 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 	 * Build a list of PHP-style $_FILES entries from the request's `files[]`
 	 * multipart payload, dropping empties so callers don't re-check them.
 	 *
+	 * @param WP_REST_Request $request Incoming request.
 	 * @return array<int,array{name:string,tmp_name:string,type:string,size:int,error:int}>
 	 */
 	private function collect_upload_files( WP_REST_Request $request ): array {

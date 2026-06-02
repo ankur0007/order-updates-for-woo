@@ -128,6 +128,8 @@ final class MarkSolvedEndpoint implements Registrable {
 	 * Queue the "your update was resolved" email to the customer. Mirrors
 	 * the gate ChangeUpdateStatusEndpoint uses: customer must be able to
 	 * see the update + must not have muted the order's email thread.
+	 *
+	 * @param array $update Update row.
 	 */
 	private function maybe_queue_customer_email( array $update ): void {
 		if ( empty( $update['customer_visible'] ) ) {
@@ -167,6 +169,9 @@ final class MarkSolvedEndpoint implements Registrable {
 	 * Notify the assignee that the update they own has been resolved —
 	 * unless they're the one who marked it solved or they've muted this
 	 * update's email thread.
+	 *
+	 * @param int   $update_id Update id.
+	 * @param array $update    Update row.
 	 */
 	private function maybe_queue_assignee_email( int $update_id, array $update ): void {
 		$assignee_id = absint( $update['assignee_user_id'] ?? 0 );
@@ -175,7 +180,7 @@ final class MarkSolvedEndpoint implements Registrable {
 			return;
 		}
 
-		if ( $assignee_id === get_current_user_id() ) {
+		if ( get_current_user_id() === $assignee_id ) {
 			return;
 		}
 

@@ -234,6 +234,7 @@ final class SaveUpdateEndpoint implements Registrable {
 	 * sends a valid one in normal use, but a stale form or addon-driven save
 	 * shouldn't break with a blank color.
 	 *
+	 * @param string $key Submitted status key.
 	 * @return array{key:string, color:string}
 	 */
 	private function resolve_status_color( string $key ): array {
