@@ -20,10 +20,16 @@ use OrderUpdatesForWoo\API\Contracts\Registrable;
  * boots the REST API.
  */
 final class RestApiRegistrar {
-	/** @var Registrable[] */
+	/**
+	 * Endpoint objects to register.
+	 *
+	 * @var Registrable[]
+	 */
 	private array $endpoints;
 
 	/**
+	 * Collect the endpoints to register.
+	 *
 	 * @param Registrable ...$endpoints Endpoint objects to register.
 	 */
 	public function __construct( Registrable ...$endpoints ) {
