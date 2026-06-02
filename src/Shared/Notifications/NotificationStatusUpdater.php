@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Stamps "sent" timestamps on updates/notes once their emails go out.
+ */
 final class NotificationStatusUpdater {
 	/**
 	 * Inject dependencies.

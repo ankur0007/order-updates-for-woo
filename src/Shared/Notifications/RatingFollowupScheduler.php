@@ -1,4 +1,9 @@
 <?php
+/**
+ * Queues the follow-up email after a customer rates an update.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

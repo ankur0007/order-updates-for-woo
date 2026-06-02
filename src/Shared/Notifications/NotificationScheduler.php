@@ -1,4 +1,9 @@
 <?php
+/**
+ * Queues staff emails and admin-bar rows when an update is saved.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -14,6 +19,9 @@ use OrderUpdatesForWoo\Helpers\StaffEmailPreference;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use WP_REST_Request;
 
+/**
+ * Fans out admin / creator / assignee notifications on the update-save hook.
+ */
 final class NotificationScheduler {
 	/**
 	 * Inject dependencies.

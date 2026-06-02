@@ -1,4 +1,9 @@
 <?php
+/**
+ * Queues the rating-request email when an update is solved.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
