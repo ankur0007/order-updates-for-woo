@@ -31,9 +31,37 @@ require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 
 // Strip `final` from production classes so Mockery can mock them. The VIP rule
 // keeps `final` in the source for inheritance hygiene; this only affects the
-// test runtime, never shipped code. Called immediately after autoload so the
-// stream filter intercepts every subsequent class include.
+// test runtime, never shipped code.
+//
+// Find every `final` class under src/ FIRST, reading the real source — once the
+// BypassFinals wrapper is active, reads come back already stripped of `final`,
+// so detection has to happen before enable(). PSR-4 maps OrderUpdatesForWoo\ to
+// src/, so the path gives us the class name.
+$src_dir       = dirname( __DIR__ ) . '/src';
+$final_classes = array();
+$src_iterator  = new RecursiveIteratorIterator(
+	new RecursiveDirectoryIterator( $src_dir, FilesystemIterator::SKIP_DOTS )
+);
+foreach ( $src_iterator as $src_file ) {
+	if ( 'php' !== $src_file->getExtension() ) {
+		continue;
+	}
+	if ( ! preg_match( '/\bfinal\s+(?:readonly\s+)?class\b/', (string) file_get_contents( $src_file->getPathname() ) ) ) {
+		continue;
+	}
+	$relative_path   = substr( $src_file->getPathname(), strlen( $src_dir ) + 1, -4 );
+	$final_classes[] = 'OrderUpdatesForWoo\\' . str_replace( '/', '\\', $relative_path );
+}
+
+$bypass_cache = sys_get_temp_dir() . '/oufw-bypass-finals';
+if ( ! is_dir( $bypass_cache ) ) {
+	mkdir( $bypass_cache, 0777, true );
+}
+\DG\BypassFinals::setCacheDirectory( $bypass_cache );
 \DG\BypassFinals::enable();
+
+// (The collected $final_classes are preloaded at the end of this file, once the
+// WP/WC stub classes they extend are defined.)
 
 if ( ! class_exists( 'WP_Error' ) ) {
 	class WP_Error {
@@ -152,5 +180,18 @@ if ( ! class_exists( 'WC_Email' ) ) {
 		public function get_recipient(): string { return ''; }
 		public function send( string $to = '', string $subject = '', string $message = '', string $headers = '', array $attachments = array() ): bool { return true; }
 		public function format_string( string $string ): string { return $string; }
+	}
+}
+
+// With the WP/WC stubs now defined, eagerly load every `final` class found
+// during the scan above, so the BypassFinals-stripped (non-final) version is
+// pinned in memory before any test mocks it. Classes whose parents aren't
+// stubbed in this unit bootstrap (e.g. WP_List_Table subclasses) can't load
+// here — skip them; they aren't part of the mocked unit surface.
+foreach ( $final_classes as $final_class ) {
+	try {
+		class_exists( $final_class );
+	} catch ( \Throwable $unused ) {
+		unset( $unused );
 	}
 }

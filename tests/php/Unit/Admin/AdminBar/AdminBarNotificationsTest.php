@@ -44,6 +44,11 @@ final class AdminBarNotificationsTest extends TestCase {
 		// the thing under test.
 		$this->db->shouldReceive( 'get_staff_participant_user_ids' )->andReturn( array() )->byDefault();
 
+		// Customer-reply / staff-reply rows embed the note's text. Default to an
+		// empty note so the title falls back to the update title; tests that
+		// care about the message body set their own expectation.
+		$this->db->shouldReceive( 'get_customer_note_by_id' )->andReturn( array() )->byDefault();
+
 		$this->controller = new AdminBarNotifications( $this->db );
 
 		Functions\when( 'get_user_meta' )->alias( fn( $uid, $key ) => $this->user_meta[ $uid ][ $key ] ?? '' );
@@ -57,6 +62,16 @@ final class AdminBarNotificationsTest extends TestCase {
 		// StaffEmailPreference::is_muted (called by prune_admin_bar_recipients)
 		// reads get_option for the cache TTL.
 		Functions\when( 'get_option' )->justReturn( '' );
+
+		// on_assigned / on_mention stamp the actor's display name onto the row.
+		Functions\when( 'wp_get_current_user' )->justReturn(
+			new class() {
+				public string $display_name = 'Tester';
+				public function exists(): bool {
+					return true;
+				}
+			}
+		);
 	}
 
 	protected function tearDown(): void {

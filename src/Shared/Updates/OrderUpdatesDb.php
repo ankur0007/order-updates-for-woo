@@ -1078,9 +1078,7 @@ final class OrderUpdatesDb {
 			FROM {$updates} AS updates
 			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
 			WHERE {$where_sql}";
-		$total = (int) ( $params
-			? $wpdb->get_var( $wpdb->prepare( $count_sql, $params ) )
-			: $wpdb->get_var( $count_sql ) );
+		$total = (int) $wpdb->get_var( $params ? $wpdb->prepare( $count_sql, $params ) : $count_sql );
 
 		$list_sql = "SELECT updates.id, updates.order_id, updates.title, updates.is_resolved,
 				updates.status, updates.color, updates.created_by, updates.created_at, updates.last_updated_at,
@@ -1230,10 +1228,7 @@ final class OrderUpdatesDb {
 				ARRAY_A
 			);
 		} else {
-			$row = $wpdb->get_row(
-				"SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM {$updates}",
-				ARRAY_A
-			);
+			$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM {$updates}", ARRAY_A );
 		}
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
