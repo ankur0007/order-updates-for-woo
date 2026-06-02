@@ -37,6 +37,9 @@ $has_assignee = ! empty( $flags['has_assignee'] );
 $can_edit     = ! empty( $flags['can_edit'] );
 $is_resolved  = ! empty( $flags['is_resolved'] );
 
+// A resolved update is locked: no assignee / status editing until re-opened.
+$can_edit_meta = $can_edit && ! $is_resolved;
+
 $statuses          = isset( $view_data['statuses'] ) && is_array( $view_data['statuses'] ) ? $view_data['statuses'] : array();
 $current_status_key = (string) ( $raw['status'] ?? '' );
 $current_color     = strtolower( (string) ( $raw['color'] ?? '' ) );
@@ -67,7 +70,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 		</span>
 	<?php endif; ?>
 
-	<?php if ( ! empty( $settings['enable_assignee'] ) && ( $has_assignee || $can_edit ) ) : ?>
+	<?php if ( ! empty( $settings['enable_assignee'] ) && ( $has_assignee || $can_edit_meta ) ) : ?>
 		<span class="awts_footer_item awts_assignee_item" data-awts-assignee-id="<?php echo esc_attr( (string) ( $raw['assignee_user_id'] ?? '' ) ); ?>">
 			<?php if ( $has_assignee ) : ?>
 				<span class="awts_footer_label awts_footer_label--muted">
@@ -75,7 +78,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 				</span>
 			<?php endif; ?>
 
-			<?php if ( $can_edit ) : ?>
+			<?php if ( $can_edit_meta ) : ?>
 				<button type="button" class="awts_inline_edit_btn awts_edit_assignee">
 					<?php if ( $has_assignee ) : ?>
 						<span class="awts_assignee_avatar"><?php echo get_avatar( $raw['assignee_user_id'] ?? '' ); ?></span>
@@ -119,7 +122,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 				<?php esc_html_e( 'Status', 'order-updates-for-woo' ); ?>
 			</span>
 
-			<?php if ( $can_edit ) : ?>
+			<?php if ( $can_edit_meta ) : ?>
 				<button type="button" class="awts_inline_edit_btn awts_edit_status" title="<?php echo esc_attr__( 'Change status', 'order-updates-for-woo' ); ?>">
 					<span class="awts_status_pill" style="background:<?php echo esc_attr( $current_color ); ?>1a; color:<?php echo esc_attr( $current_color ); ?>;">
 						<span class="awts_status_pill_dot" style="background:<?php echo esc_attr( $current_color ); ?>;"></span>
@@ -134,7 +137,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 				</span>
 			<?php endif; ?>
 
-			<?php if ( $can_edit ) : ?>
+			<?php if ( $can_edit_meta ) : ?>
 				<div class="awts_inline_status_wrap" hidden>
 					<select class="awts_status_picker" data-awts-status-picker aria-label="<?php echo esc_attr__( 'Pick a new status', 'order-updates-for-woo' ); ?>">
 						<?php foreach ( $statuses as $status ) :
