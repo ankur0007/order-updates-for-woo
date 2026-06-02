@@ -527,6 +527,14 @@ final class OrderUpdatesDb {
 		return $note_id;
 	}
 
+	/**
+	 * Insert an active assignee row for an update.
+	 *
+	 * @param int    $update_id        Update id.
+	 * @param int    $assignee_user_id User being assigned.
+	 * @param int    $assigned_by      User making the assignment.
+	 * @param string $assigned_at      Assignment time (GMT mysql).
+	 */
 	public function create_assignee( int $update_id, int $assignee_user_id, int $assigned_by, string $assigned_at ): bool {
 		global $wpdb;
 
@@ -552,6 +560,16 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Reassign an update to a new assignee (or clear it), recording the change
+	 * in the thread and firing the assigned/changed events. No-op when the
+	 * assignee is unchanged.
+	 *
+	 * @param int    $update_id        Update id.
+	 * @param int    $assignee_user_id New assignee, or 0 to unassign.
+	 * @param int    $assigned_by      User making the change.
+	 * @param string $assigned_at      Change time (GMT mysql).
+	 */
 	public function sync_assignee( int $update_id, int $assignee_user_id, int $assigned_by, string $assigned_at ): bool {
 		global $wpdb;
 
@@ -631,6 +649,12 @@ final class OrderUpdatesDb {
 	 * know who's currently looking after their thread. The acting staff
 	 * member's name lands in created_by_name so the entry reads
 	 * "Reassigned to Bob — by Alice".
+	 *
+	 * @param int    $update_id  Update id.
+	 * @param string $old_name   Previous assignee name (may be empty).
+	 * @param string $new_name   New assignee name; empty means unassigned.
+	 * @param int    $actor_id   User making the change.
+	 * @param string $changed_at Change time (GMT mysql).
 	 */
 	private function log_assignee_change_in_thread( int $update_id, string $old_name, string $new_name, int $actor_id, string $changed_at ): void {
 		global $wpdb;
