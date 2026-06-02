@@ -156,8 +156,8 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 				$tag      = $open ? 'a' : 'div';
 				$href     = $open ? ' href="' . esc_url( (string) $row['edit_url'] ) . '"' : '';
 				$accent   = $waiting ? '#f59e0b' : (string) $row['status_color'];
-				$created  = isset( $row['created_avatar'] ) ? $row['created_avatar'] : array( 'initials' => '', 'color' => '' );
-				$assignee_av = isset( $row['assignee_avatar'] ) ? $row['assignee_avatar'] : array( 'initials' => '', 'color' => '' );
+				$created     = (string) ( $row['created_avatar'] ?? '' );
+				$assignee_av = (string) ( $row['assignee_avatar'] ?? '' );
 				?>
 				<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?> class="awts-asg__row"<?php echo $href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_url'd above. ?>>
 					<span class="awts-asg__accent" style="background: <?php echo esc_attr( $accent ); ?>"></span>
@@ -183,7 +183,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 
 						<span class="awts-asg__meta">
 							<span class="awts-asg__person">
-								<span class="awts-asg__avatar" style="background: <?php echo esc_attr( (string) $created['color'] ); ?>"><?php echo esc_html( (string) $created['initials'] ); ?></span>
+								<?php echo $created; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
 								<span><span class="awts-asg__muted"><?php esc_html_e( 'by', 'order-updates-for-woo' ); ?></span> <span class="awts-asg__name"><?php echo esc_html( (string) $row['created_by'] ); ?></span></span>
 							</span>
 							<?php if ( '' !== (string) $row['created_date'] ) : ?>
@@ -192,7 +192,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 							<span class="awts-asg__person">
 								<span class="awts-asg__muted"><?php esc_html_e( 'assigned to', 'order-updates-for-woo' ); ?></span>
 								<?php if ( '' !== (string) $row['assignee'] ) : ?>
-									<span class="awts-asg__avatar" style="background: <?php echo esc_attr( (string) $assignee_av['color'] ); ?>"><?php echo esc_html( (string) $assignee_av['initials'] ); ?></span>
+									<?php echo $assignee_av; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
 									<span class="awts-asg__name"><?php echo esc_html( (string) $row['assignee'] ); ?></span>
 								<?php else : ?>
 									<span class="awts-asg__name"><?php esc_html_e( 'Unassigned', 'order-updates-for-woo' ); ?></span>

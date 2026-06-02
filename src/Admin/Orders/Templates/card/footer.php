@@ -14,6 +14,7 @@
 
 declare(strict_types=1);
 
+use OrderUpdatesForWoo\Helpers\Avatar;
 use OrderUpdatesForWoo\Helpers\Icons;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -61,7 +62,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 
 	<?php if ( '' !== $created_by_name || '' !== $created_date ) : ?>
 		<span class="awts_footer_item">
-			<span class="awts_assignee_avatar"><?php echo get_avatar( $raw['created_by_user_id'] ?? '' ); ?></span>
+			<?php echo Avatar::html( (int) ( $raw['created_by_user_id'] ?? 0 ), $created_by_name, 'awts_assignee_avatar', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
 			<strong><?php echo esc_html( $created_by_name ); ?></strong>
 			<?php if ( '' !== $created_date ) : ?>
 				<span class="awts_footer_sep">·</span>
@@ -81,7 +82,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 			<?php if ( $can_edit_meta ) : ?>
 				<button type="button" class="awts_inline_edit_btn awts_edit_assignee">
 					<?php if ( $has_assignee ) : ?>
-						<span class="awts_assignee_avatar"><?php echo get_avatar( $raw['assignee_user_id'] ?? '' ); ?></span>
+						<?php echo Avatar::html( (int) ( $raw['assignee_user_id'] ?? 0 ), $assigned_to, 'awts_assignee_avatar', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
 						<strong class="awts_assignee_name"><?php echo esc_html( $assigned_to ); ?></strong>
 					<?php else : ?>
 						<span class="awts_footer_label awts_footer_label--muted">

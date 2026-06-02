@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Helpers\AssetHelper;
+use OrderUpdatesForWoo\Helpers\Avatar;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
@@ -277,10 +278,10 @@ final class AssigneePageController {
 			'status'          => $status,
 			'status_color'    => $this->safe_color( (string) ( $row['color'] ?? '' ) ),
 			'created_by'      => $created_by,
-			'created_avatar'  => $this->avatar( $created_by ),
+			'created_avatar'  => Avatar::html( (int) ( $row['created_by'] ?? 0 ), $created_by, 'awts-asg__avatar', 20 ),
 			'created_date'    => $this->datetime_label( (string) ( $row['created_at'] ?? '' ) ),
 			'assignee'        => $assignee,
-			'assignee_avatar' => '' !== $assignee ? $this->avatar( $assignee ) : array( 'initials' => '', 'color' => '' ),
+			'assignee_avatar' => '' !== $assignee ? Avatar::html( (int) ( $row['assignee_user_id'] ?? 0 ), $assignee, 'awts-asg__avatar', 20 ) : '',
 			'waiting'         => $waited > 0,
 			'waiting_label'   => $waited > 0 ? $this->compact_duration( $waited ) : '',
 		);
@@ -321,35 +322,6 @@ final class AssigneePageController {
 		}
 
 		return number_format_i18n( max( 1, (int) floor( $seconds / MINUTE_IN_SECONDS ) ) ) . 'm';
-	}
-
-	/**
-	 * Initials + a stable oklch colour for a name avatar (no external request).
-	 * Initials: first+last for multi-word names, first two chars otherwise.
-	 */
-	private function avatar( string $name ): array {
-		$name  = trim( $name );
-		$parts = '' !== $name ? preg_split( '/\s+/', $name ) : array();
-
-		if ( count( $parts ) >= 2 ) {
-			$initials = mb_substr( $parts[0], 0, 1 ) . mb_substr( $parts[ count( $parts ) - 1 ], 0, 1 );
-		} elseif ( 1 === count( $parts ) ) {
-			$initials = mb_substr( $parts[0], 0, 2 );
-		} else {
-			$initials = '?';
-		}
-
-		// Deterministic hue per name so the same person always gets one colour.
-		$hue    = 0;
-		$length = strlen( $name );
-		for ( $i = 0; $i < $length; $i++ ) {
-			$hue = ( $hue * 31 + ord( $name[ $i ] ) ) % 360;
-		}
-
-		return array(
-			'initials' => mb_strtoupper( $initials ),
-			'color'    => sprintf( 'oklch(62%% 0.12 %d)', $hue ),
-		);
 	}
 
 	/** "May 25, 2:06 PM" in the site timezone, or '' when missing. */

@@ -1368,10 +1368,37 @@ button.awts_onboarding_dismiss {
 	line-height: 1.5;
 }
 
-.awts_assignee_avatar img{
-	width: 30px;
-    height: 30px;
-    border-radius: 20px;
+/* Shared avatar: coloured initials disc with a Gravatar layered on top
+   (transparent when the person has no photo). Size comes inline from
+   Avatar::html so the same markup works on every screen. */
+.awts-avatar {
+	position: relative;
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	overflow: hidden;
+	color: #fff;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.awts-avatar__initials {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.awts-avatar__img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 999px;
+	object-fit: cover;
 }
 .awts_notes_input:focus {
 	outline: none;
