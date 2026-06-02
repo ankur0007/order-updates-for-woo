@@ -1,4 +1,9 @@
 <?php
+/**
+ * Display text for an update's customer-visibility state.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -6,7 +11,17 @@ namespace OrderUpdatesForWoo\Helpers;
 
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Builds the "visible / hidden" labels shown to staff for an update.
+ */
 final class CustomerHelper {
+
+	/**
+	 * "Visible" or "Hidden", depending on whether the customer can see the update.
+	 *
+	 * @param array|object|int    $update           Update row, object, or id.
+	 * @param OrderUpdatesDb|null $order_updates_db Loads the update when an id is passed.
+	 */
 	public static function get_formatted_is_customer_visible( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
 		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 
@@ -17,6 +32,12 @@ final class CustomerHelper {
 		return __( 'Visible', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * The "Customer - visible/hidden, notified at …" line, filterable for addons.
+	 *
+	 * @param array|object|int    $update           Update row, object, or id.
+	 * @param OrderUpdatesDb|null $order_updates_db Loads the update when an id is passed.
+	 */
 	public static function get_formatted_customer_update_label( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
 		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 
