@@ -137,7 +137,13 @@ $settings = wp_parse_args(
 
 			var expiryEndpoint = panel.getAttribute( 'data-awts-link-expiry-endpoint' ) || '';
 			var regenEndpoint  = panel.getAttribute( 'data-awts-link-regenerate-endpoint' ) || '';
-			var nonce          = ( window.awtsData && window.awtsData.nonce ) || '';
+
+			// awtsData is localised on the footer script, so it isn't defined yet
+			// when this inline block first runs. Read the nonce fresh on each
+			// request instead of capturing an empty value at parse time.
+			function restNonce() {
+				return ( window.awtsData && window.awtsData.nonce ) || '';
+			}
 
 			function setStatus( text ) {
 				if ( status ) { status.textContent = text || ''; }
@@ -158,7 +164,7 @@ $settings = wp_parse_args(
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
-						'X-WP-Nonce': nonce
+						'X-WP-Nonce': restNonce()
 					},
 					credentials: 'same-origin',
 					body: JSON.stringify( body || {} )
