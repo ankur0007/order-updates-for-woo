@@ -33,7 +33,7 @@ final class NotificationsPageController {
 	private const BULK_NONCE = 'awts_notifications_bulk_action';
 	private const AJAX_ACTION = 'awts_notif_row_action';
 	private const AJAX_NONCE  = 'awts_notif_ajax';
-	private const PER_PAGE   = 20;
+	private const PER_PAGE   = 10;
 
 	private const ALLOWED_ACTIONS = array( 'mark_read', 'mark_unread', 'favorite', 'unfavorite', 'archive', 'unarchive', 'delete' );
 
@@ -327,7 +327,7 @@ final class NotificationsPageController {
 				'auto_archive_days' => (int) get_option( self::OPT_ARCHIVE_AFTER_DAYS, 30 ),
 				'auto_delete_days'  => (int) get_option( self::OPT_AUTODELETE_DAYS, 30 ),
 				'per_page'         => $per_page,
-				'per_page_options' => array( 20, 50, 100 ),
+				'per_page_options' => array( 10, 20, 50, 100 ),
 				'pagination'       => $this->build_pagination( $paged, $total_pages, $total, $offset, $per_page ),
 			)
 		);
@@ -335,7 +335,7 @@ final class NotificationsPageController {
 
 	/** Per-page choice from the dropdown, clamped to the allowed set. */
 	private function resolve_per_page(): int {
-		$options = array( 20, 50, 100 );
+		$options = array( 10, 20, 50, 100 );
 		$value   = isset( $_GET['per_page'] ) ? absint( wp_unslash( (string) $_GET['per_page'] ) ) : self::PER_PAGE;
 
 		return in_array( $value, $options, true ) ? $value : self::PER_PAGE;
