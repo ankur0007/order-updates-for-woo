@@ -759,6 +759,9 @@ getFieldValue( $field ) {
 				}
 			} catch ( e ) {}
 
+			// A deep link focuses one update — collapse the rest so the linked
+			// card stands alone instead of landing in a wall of open cards.
+			this.$panel.find( '.awts_card[data-awts-update-id]' ).not( $card ).addClass( 'awts_card--collapsed' );
 			$card.removeClass( 'awts_card--collapsed' );
 
 			// Switch to the right note tab if the hash carried one. selectTab
