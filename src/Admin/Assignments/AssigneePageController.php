@@ -174,7 +174,7 @@ final class AssigneePageController {
 		$paged    = isset( $_GET['paged'] ) ? max( 1, absint( wp_unslash( (string) $_GET['paged'] ) ) ) : 1;
 		$req_assignee = isset( $_GET['assignee'] ) ? absint( wp_unslash( (string) $_GET['assignee'] ) ) : 0;
 
-		// Security: only a store manager may filter by (or see) other people's
+		// Security: only an administrator may filter by (or see) other people's
 		// assignments. Everyone else is pinned to their own id server-side, so
 		// a hand-edited ?assignee= can't surface another user's updates.
 		$assignee_id = $sees_all ? $req_assignee : $user_id;
@@ -234,9 +234,15 @@ final class AssigneePageController {
 		return current_user_can( 'manage_woocommerce' ) || TeamRosterService::user_is_team_member();
 	}
 
-	/** Store managers see every assignee; plain team members see only their own. */
+	/**
+	 * Administrators see every assignee's queue; everyone else — including shop
+	 * managers and editors who are also assignees — sees only their own. A
+	 * shop manager has `manage_woocommerce`, so gating on that would have let
+	 * any assignee read a colleague's updates; `manage_options` keeps the
+	 * "see all" view to true admins.
+	 */
 	private function sees_all(): bool {
-		return current_user_can( 'manage_woocommerce' );
+		return current_user_can( 'manage_options' );
 	}
 
 	/**
