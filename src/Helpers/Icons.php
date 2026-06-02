@@ -17,10 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Single source of truth for Dashicon markup.
+ */
 final class Icons {
 
 	/**
 	 * Render a WordPress Dashicon span.
+	 *
+	 * Use it like:
 	 *
 	 *   echo Icons::dashicon( 'edit' );
 	 *   echo Icons::dashicon( 'warning', __( 'Warning', 'order-updates-for-woo' ) );
