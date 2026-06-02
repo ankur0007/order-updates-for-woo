@@ -21,6 +21,13 @@ final class OrderUpdatesListEndpoint implements Registrable {
 
 	private const ROUTE = '/order-updates';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db            Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service            Injected dependency.
+	 * @param UpdateCardVariableParser    $update_card_variable_parser Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private OrderUpdatesSettingsService $settings_service,

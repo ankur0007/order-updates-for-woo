@@ -20,6 +20,12 @@ final class DeleteUpdateEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb    $order_updates_db   Injected dependency.
+	 * @param AttachmentService $attachment_service Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private AttachmentService $attachment_service

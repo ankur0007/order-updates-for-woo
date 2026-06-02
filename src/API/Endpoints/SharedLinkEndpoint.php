@@ -23,6 +23,11 @@ final class SharedLinkEndpoint implements Registrable {
 
 	private const ROUTE_BASE = '/orders/(?P<order_id>\d+)/shared-link';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AsyncJob $async_job Injected dependency.
+	 */
 	public function __construct( private AsyncJob $async_job ) {}
 
 	/** Register the REST route. */

@@ -18,6 +18,11 @@ final class SingleOrderUpdateEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
 	/** Register the REST route. */

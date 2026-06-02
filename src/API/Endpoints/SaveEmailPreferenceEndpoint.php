@@ -19,6 +19,11 @@ final class SaveEmailPreferenceEndpoint implements Registrable {
 
 	private const ROUTE = '/customer-email-preference';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param CustomerOrderUpdatesService $customer_service Injected dependency.
+	 */
 	public function __construct(
 		private CustomerOrderUpdatesService $customer_service
 	) {}

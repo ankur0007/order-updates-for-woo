@@ -17,6 +17,11 @@ final class GetAnalyticsAssigneesEndpoint implements Registrable {
 
 	private const ROUTE = '/analytics/assignees';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AnalyticsLookupDb $analytics_lookup_db Injected dependency.
+	 */
 	public function __construct( private AnalyticsLookupDb $analytics_lookup_db ) {}
 
 	/** Register the REST route. */

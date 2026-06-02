@@ -30,6 +30,12 @@ final class PollCustomerThreadEndpoint implements Registrable {
 
 	private const ROUTE = '/customer-thread/poll';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db Injected dependency.
+	 * @param CustomerOrderUpdatesService $customer_service Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private CustomerOrderUpdatesService $customer_service

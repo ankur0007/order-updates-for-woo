@@ -18,6 +18,12 @@ final class DeleteAttachmentEndpoint implements Registrable {
 
 	private const ROUTE = '/attachments/(?P<attachment_id>\d+)';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AttachmentService $attachment_service Injected dependency.
+	 * @param AttachmentsDb     $attachments_db     Injected dependency.
+	 */
 	public function __construct(
 		private AttachmentService $attachment_service,
 		private AttachmentsDb $attachments_db

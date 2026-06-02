@@ -18,6 +18,11 @@ final class SaveStaffEmailPreferenceEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/staff-email-preference';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db
 	) {}

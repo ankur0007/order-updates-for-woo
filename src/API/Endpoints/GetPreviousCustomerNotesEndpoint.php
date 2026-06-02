@@ -20,6 +20,12 @@ final class GetPreviousCustomerNotesEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/customer-notes/previous';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db Injected dependency.
+	 * @param CustomerOrderUpdatesService $customer_service Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private CustomerOrderUpdatesService $customer_service

@@ -20,6 +20,12 @@ final class ServeAttachmentEndpoint implements Registrable {
 
 	private const ROUTE = '/attachments/(?P<attachment_id>\d+)/download';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AttachmentService $attachment_service Injected dependency.
+	 * @param AttachmentsDb     $attachments_db     Injected dependency.
+	 */
 	public function __construct(
 		private AttachmentService $attachment_service,
 		private AttachmentsDb $attachments_db

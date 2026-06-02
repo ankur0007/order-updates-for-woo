@@ -21,6 +21,12 @@ final class NotifyCustomerEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/customer-notes/(?P<note_id>\d+)/notify';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AsyncJob       $async_job        Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private AsyncJob $async_job

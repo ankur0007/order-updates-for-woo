@@ -25,6 +25,14 @@ final class MarkSolvedEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/solve';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db            Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service            Injected dependency.
+	 * @param UpdateCardVariableParser    $update_card_variable_parser Injected dependency.
+	 * @param AsyncJob                    $async_job                   Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private OrderUpdatesSettingsService $settings_service,

@@ -19,6 +19,11 @@ final class AssigneeSearchEndpoint implements Registrable {
 
 	private const ROUTE = '/assignee-search';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param TeamRosterService $team_roster Injected dependency.
+	 */
 	public function __construct( private ?TeamRosterService $team_roster = null ) {}
 
 	/** Register the REST route. */

@@ -17,6 +17,11 @@ final class GetAnalyticsSummaryEndpoint implements Registrable {
 
 	private const ROUTE = '/analytics/summary';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AnalyticsLookupDb $analytics_lookup_db Injected dependency.
+	 */
 	public function __construct( private AnalyticsLookupDb $analytics_lookup_db ) {}
 
 	/** Register the REST route. */

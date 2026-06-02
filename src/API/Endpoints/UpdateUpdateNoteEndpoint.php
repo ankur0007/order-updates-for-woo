@@ -22,6 +22,14 @@ final class UpdateUpdateNoteEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/notes/(?P<note_id>\d+)';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db   Injected dependency.
+	 * @param NoteActionPolicy            $note_action_policy Injected dependency.
+	 * @param Validator                   $validator          Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service   Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private NoteActionPolicy $note_action_policy,

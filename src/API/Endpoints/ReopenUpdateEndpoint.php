@@ -23,6 +23,14 @@ final class ReopenUpdateEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/reopen';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db            Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service            Injected dependency.
+	 * @param UpdateCardVariableParser    $update_card_variable_parser Injected dependency.
+	 * @param CustomerOrderUpdatesService $viewer_service              Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private OrderUpdatesSettingsService $settings_service,

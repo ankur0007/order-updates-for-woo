@@ -24,6 +24,15 @@ final class SaveUpdateEndpoint implements Registrable {
 
 	private const ROUTE = '/updates';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db            Injected dependency.
+	 * @param Validator                   $validator                   Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service            Injected dependency.
+	 * @param UpdateCardVariableParser    $update_card_variable_parser Injected dependency.
+	 * @param UpdateNoteService           $update_note_service         Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private Validator $validator,

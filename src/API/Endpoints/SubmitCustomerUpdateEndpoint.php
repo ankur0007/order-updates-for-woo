@@ -39,6 +39,17 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 	private const ROUTE         = '/customer-updates';
 	private const DEFAULT_COLOR = '#2563eb';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db    Injected dependency.
+	 * @param UpdateNoteService           $update_note_service Injected dependency.
+	 * @param CustomerOrderUpdatesService $viewer_service      Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service    Injected dependency.
+	 * @param AttachmentService           $attachment_service  Injected dependency.
+	 * @param AsyncJob                    $async_job           Injected dependency.
+	 * @param Validator                   $validator           Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private UpdateNoteService $update_note_service,

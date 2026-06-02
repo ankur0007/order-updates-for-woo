@@ -22,6 +22,13 @@ final class GetCustomerNotesEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/customer-notes';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb   $order_updates_db   Injected dependency.
+	 * @param AttachmentsDb    $attachments_db     Injected dependency.
+	 * @param NoteActionPolicy $note_action_policy Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private AttachmentsDb $attachments_db,

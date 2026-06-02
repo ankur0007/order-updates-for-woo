@@ -20,6 +20,13 @@ final class UploadAttachmentEndpoint implements Registrable {
 
 	private const ROUTE = '/attachments';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AttachmentService $attachment_service Injected dependency.
+	 * @param OrderUpdatesDb    $order_updates_db   Injected dependency.
+	 * @param Validator         $validator          Injected dependency.
+	 */
 	public function __construct(
 		private AttachmentService $attachment_service,
 		private OrderUpdatesDb $order_updates_db,

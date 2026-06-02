@@ -25,6 +25,12 @@ final class GetCustomerNoteHistoryEndpoint implements Registrable {
 
 	private const ROUTE = '/updates/(?P<update_id>\d+)/customer-notes/(?P<note_id>\d+)/history';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db Injected dependency.
+	 * @param CustomerOrderUpdatesService $viewer_service   Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private CustomerOrderUpdatesService $viewer_service
