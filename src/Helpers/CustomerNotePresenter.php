@@ -1,4 +1,9 @@
 <?php
+/**
+ * Shapes a customer-thread note row for the admin JS.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -16,11 +21,16 @@ use OrderUpdatesForWoo\Shared\Updates\NoteActionPolicy;
  */
 final class CustomerNotePresenter {
 	/**
-	 * $latest_note_id is the highest customer-note id in this thread; pass it
-	 * so the policy's latest-only rule can fire here. Callers that loop over
-	 * notes should resolve it once per update and pass the same value for
-	 * every iteration. Defaults to 0 (skip the latest check) for any caller
-	 * we haven't migrated yet.
+	 * Shape one customer-note row into what the admin JS expects.
+	 *
+	 * Pass $latest_note_id (the highest customer-note id in the thread) so the
+	 * policy's latest-only edit rule can fire here. Callers looping over notes
+	 * should resolve it once and pass the same value each time; 0 skips the check.
+	 *
+	 * @param array            $note           Raw customer-note row.
+	 * @param NoteActionPolicy $policy         Decides whether the note is still editable.
+	 * @param AttachmentsDb    $attachments_db Loads the note's attachments.
+	 * @param int              $latest_note_id Highest customer-note id in the thread, or 0.
 	 */
 	public static function format_for_admin(
 		array $note,

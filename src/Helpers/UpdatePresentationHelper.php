@@ -1,10 +1,25 @@
 <?php
+/**
+ * Builds the small display bits for an update card (colour dot, detail rows).
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
 namespace OrderUpdatesForWoo\Helpers;
 
+/**
+ * Gathers an update's display pieces — colour swatch and the card detail lines.
+ */
 final class UpdatePresentationHelper {
+
+	/**
+	 * Inline `background:` style for the status colour dot, or '' if no colour.
+	 *
+	 * @param array|object|int                                       $update           Update row, object, or id.
+	 * @param \OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb|null $order_updates_db Loads the update when an id is passed.
+	 */
 	public static function get_color_icon( array|object|int $update, ?\OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb $order_updates_db = null ): string {
 		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 
@@ -17,6 +32,11 @@ final class UpdatePresentationHelper {
 		return (string) apply_filters( 'order_updates_for_woo_color_icon', $color_icon, $resolved_update );
 	}
 
+	/**
+	 * All the display lines an update card shows (author, dates, assignee, etc.).
+	 *
+	 * @param array $update Normalised update row.
+	 */
 	public static function get_card_details( array $update ): array {
 		return array(
 			'is_customer_visible' => ! empty( $update['customer_visible'] ),

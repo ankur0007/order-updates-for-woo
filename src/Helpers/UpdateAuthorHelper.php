@@ -1,4 +1,9 @@
 <?php
+/**
+ * Works out who created an update and the "created by …" line.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -7,7 +12,17 @@ namespace OrderUpdatesForWoo\Helpers;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WC_Order;
 
+/**
+ * Names the update's author, showing "Customer" for customer-opened updates.
+ */
 final class UpdateAuthorHelper {
+
+	/**
+	 * Display name of the update's author, or "Customer" / "Unknown user".
+	 *
+	 * @param array|object|int    $update           Update row, object, or id.
+	 * @param OrderUpdatesDb|null $order_updates_db Loads the update when an id is passed.
+	 */
 	public static function get_created_by_name( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
 		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 
@@ -34,6 +49,8 @@ final class UpdateAuthorHelper {
 	 * Customer") and for permission decisions — customer-initiated updates
 	 * have no staff "owner", so any staff member with the right cap can
 	 * edit or reassign them.
+	 *
+	 * @param array $update Normalised update row.
 	 */
 	public static function is_customer_initiated_update( array $update ): bool {
 		$created_by = (int) ( $update['created_by'] ?? 0 );
@@ -56,6 +73,12 @@ final class UpdateAuthorHelper {
 		return (int) $order->get_customer_id() === $created_by;
 	}
 
+	/**
+	 * The "Created by {name} at {date}" line, filterable for addons.
+	 *
+	 * @param array|object|int    $update           Update row, object, or id.
+	 * @param OrderUpdatesDb|null $order_updates_db Loads the update when an id is passed.
+	 */
 	public static function get_formatted_created_by( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
 		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 		$created_line    = sprintf(
