@@ -30,10 +30,19 @@ final class RatingFollowupScheduler {
 		private AsyncJob $async_job
 	) {}
 
+	/** Hook the follow-up scheduling to the customer-rating event. */
 	public function init(): void {
 		add_action( 'order_updates_for_woo_after_customer_rating', array( $this, 'maybe_schedule' ), 20, 4 );
 	}
 
+	/**
+	 * Queue the rating follow-up email when the rating qualifies.
+	 *
+	 * @param int   $update_id Rated update.
+	 * @param int   $order_id  Its order id.
+	 * @param array $rating    The saved rating row.
+	 * @param mixed $request   The REST request (unused; kept for the hook signature).
+	 */
 	public function maybe_schedule( int $update_id, int $order_id, array $rating, $request ): void {
 		if ( ! $update_id || empty( $rating['stars'] ) ) {
 			return;

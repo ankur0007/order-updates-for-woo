@@ -37,10 +37,17 @@ final class RatingRequestScheduler {
 		private AsyncJob $async_job
 	) {}
 
+	/** Hook the rating-request scheduling to the mark-solved event. */
 	public function init(): void {
 		add_action( 'order_updates_for_woo_after_mark_solved', array( $this, 'maybe_schedule' ), 20, 2 );
 	}
 
+	/**
+	 * Queue the rating-request email when a solved update qualifies.
+	 *
+	 * @param int   $update_id Update that was solved.
+	 * @param array $update    The solved update row.
+	 */
 	public function maybe_schedule( int $update_id, array $update ): void {
 		if ( ! $update_id || ! UpdateState::is_customer_visible( $update ) ) {
 			return;

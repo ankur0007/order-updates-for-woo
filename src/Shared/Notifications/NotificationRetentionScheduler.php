@@ -1,4 +1,9 @@
 <?php
+/**
+ * Daily, chunked retention for admin-bar notifications.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -23,6 +28,7 @@ final class NotificationRetentionScheduler {
 	private const USERS_PER_BATCH = 20;
 	private const GROUP           = 'order-updates-for-woo';
 
+	/** Hook the daily scheduler and the run/batch handlers. */
 	public function init(): void {
 		add_action( 'admin_init', array( $this, 'maybe_schedule' ) );
 		add_action( Constants::NOTIFICATIONS_CLEANUP_HOOK, array( $this, 'start_run' ) );
@@ -47,7 +53,11 @@ final class NotificationRetentionScheduler {
 		}
 	}
 
-	/** Process one chunk of users, then queue the next while users remain. */
+	/**
+	 * Process one chunk of users, then queue the next while users remain.
+	 *
+	 * @param int $offset Index into the user list to start this chunk from.
+	 */
 	public function run_batch( int $offset = 0 ): void {
 		if ( ! $this->is_enabled() ) {
 			return;
@@ -72,7 +82,11 @@ final class NotificationRetentionScheduler {
 		}
 	}
 
-	/** Queue the next chunk asynchronously; fall back to inline if AS is absent. */
+	/**
+	 * Queue the next chunk asynchronously; fall back to inline if AS is absent.
+	 *
+	 * @param int $offset Index into the user list for the next chunk.
+	 */
 	private function queue_batch( int $offset ): void {
 		if ( function_exists( 'as_enqueue_async_action' ) ) {
 			as_enqueue_async_action( Constants::NOTIFICATIONS_CLEANUP_BATCH_HOOK, array( $offset ), self::GROUP );
@@ -82,14 +96,17 @@ final class NotificationRetentionScheduler {
 		$this->run_batch( $offset );
 	}
 
+	/** True when either retention stage (archive or delete) is switched on. */
 	private function is_enabled(): bool {
 		return $this->archive_days() > 0 || $this->delete_days() > 0;
 	}
 
+	/** Days before an active notification is archived (0 = never). */
 	private function archive_days(): int {
 		return max( 0, (int) get_option( NotificationsPageController::OPT_ARCHIVE_AFTER_DAYS, 30 ) );
 	}
 
+	/** Days before an archived notification is deleted (0 = never). */
 	private function delete_days(): int {
 		return max( 0, (int) get_option( NotificationsPageController::OPT_AUTODELETE_DAYS, 30 ) );
 	}

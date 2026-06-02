@@ -22,10 +22,20 @@ final class NotificationScheduler {
 	 */
 	public function __construct( private AsyncJob $async_job ) {}
 
+	/** Hook notification scheduling to the after-update-save event. */
 	public function init(): void {
 		add_action( 'order_updates_for_woo_after_update_save', array( $this, 'schedule_notifications' ), 10, 5 );
 	}
 
+	/**
+	 * Queue admin / creator / assignee emails (and admin-bar rows) for a saved update.
+	 *
+	 * @param int             $update_id         The saved update id.
+	 * @param array           $validated_payload Validated request payload.
+	 * @param array           $update_data       The data written to the update row.
+	 * @param WP_REST_Request $request           The REST request.
+	 * @param array           $existing_update   Prior row on edit; empty on create.
+	 */
 	public function schedule_notifications( int $update_id, array $validated_payload, array $update_data, WP_REST_Request $request, array $existing_update = array() ): void {
 		$is_edit          = ! empty( $existing_update );
 		$new_assignee_id  = absint( $validated_payload['assignee_id'] ?? 0 );
