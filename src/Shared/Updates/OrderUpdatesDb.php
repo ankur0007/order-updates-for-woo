@@ -705,6 +705,11 @@ final class OrderUpdatesDb {
 		$this->increment_customer_notes_cache_version( $update_id );
 	}
 
+	/**
+	 * Highest customer-note id on an update (0 when it has none).
+	 *
+	 * @param int $update_id Update id.
+	 */
 	private function get_latest_customer_note_id_for_update( int $update_id ): int {
 		global $wpdb;
 
@@ -720,6 +725,13 @@ final class OrderUpdatesDb {
 		);
 	}
 
+	/**
+	 * Mark an update resolved.
+	 *
+	 * @param int    $update_id Update id.
+	 * @param int    $solved_by User resolving it.
+	 * @param string $solved_at Resolve time (GMT mysql).
+	 */
 	public function mark_as_solved( int $update_id, int $solved_by, string $solved_at ): bool {
 		global $wpdb;
 
@@ -759,6 +771,12 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Re-open a resolved update.
+	 *
+	 * @param int $update_id   Update id.
+	 * @param int $reopened_by User re-opening it (0 if unknown).
+	 */
 	public function mark_as_unsolved( int $update_id, int $reopened_by = 0 ): bool {
 		global $wpdb;
 
@@ -804,6 +822,7 @@ final class OrderUpdatesDb {
 	 * Returns the list of update ids that were removed so callers can clean up
 	 * related resources such as attachment files on disk.
 	 *
+	 * @param int $order_id Order id.
 	 * @return int[]
 	 */
 	public function delete_all_for_order( int $order_id ): array {
@@ -876,6 +895,11 @@ final class OrderUpdatesDb {
 		return $update_ids;
 	}
 
+	/**
+	 * Delete a single update and its related rows; fires the deleted event.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function delete_order_update( int $update_id ): bool {
 		global $wpdb;
 
