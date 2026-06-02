@@ -24,11 +24,46 @@ final class UpdatesTable {
 	private const VERSION     = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_table_version';
 
+	/**
+	 * Updates table name.
+	 *
+	 * @var string
+	 */
 	public string $updates;
+
+	/**
+	 * Assignees table name.
+	 *
+	 * @var string
+	 */
 	public string $assignees;
+
+	/**
+	 * Internal-notes table name.
+	 *
+	 * @var string
+	 */
 	public string $notes;
+
+	/**
+	 * Customer-notes table name.
+	 *
+	 * @var string
+	 */
 	public string $customer_notes;
+
+	/**
+	 * Customer-note edit-history table name.
+	 *
+	 * @var string
+	 */
 	public string $customer_note_history;
+
+	/**
+	 * Ratings table name.
+	 *
+	 * @var string
+	 */
 	public string $ratings;
 
 	/** Resolve each table name from the WordPress table prefix. */
