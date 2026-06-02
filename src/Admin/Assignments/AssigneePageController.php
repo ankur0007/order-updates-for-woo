@@ -12,6 +12,7 @@ use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Helpers\AssetHelper;
 use OrderUpdatesForWoo\Helpers\DateHelper;
 use OrderUpdatesForWoo\Helpers\View;
+use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
@@ -53,16 +54,98 @@ final class AssigneePageController {
 			return;
 		}
 
+		$title      = __( 'Assignments', 'order-updates-for-woo' );
+		$menu_title = $title . $this->badge_html();
+
 		// 'read' so team members without manage_woocommerce still reach it;
 		// render() re-checks access.
 		add_submenu_page(
 			AdminMenuController::PARENT_SLUG,
-			__( 'Assignments', 'order-updates-for-woo' ),
-			__( 'Assignments', 'order-updates-for-woo' ),
+			$title,
+			$menu_title,
 			'read',
 			self::SLUG,
 			array( $this, 'render' )
 		);
+	}
+
+	/**
+	 * Count bubble for the menu — open updates waiting on a staff reply, with a
+	 * hover tooltip breaking them into urgent / medium / low by wait time.
+	 * Empty string when nothing is waiting.
+	 */
+	private function badge_html(): string {
+		$badge = $this->sla_badge();
+		if ( $badge['total'] < 1 ) {
+			return '';
+		}
+
+		$tooltip = sprintf(
+			/* translators: 1: urgent count (4h+ wait), 2: medium count (2-4h), 3: low count (under 2h) */
+			__( '%1$d urgent (4h+), %2$d medium (2-4h), %3$d low (under 2h)', 'order-updates-for-woo' ),
+			$badge['urgent'],
+			$badge['medium'],
+			$badge['low']
+		);
+
+		return ' <span class="awaiting-mod" title="' . esc_attr( $tooltip ) . '"><span class="pending-count">'
+			. esc_html( number_format_i18n( $badge['total'] ) )
+			. '</span></span>';
+	}
+
+	/**
+	 * Open updates that are waiting on a staff reply (the customer spoke last),
+	 * tallied by wait band. Scoped to the viewer (own / all) and cached briefly
+	 * since it runs on every admin page via the menu.
+	 *
+	 * @return array{total:int, urgent:int, medium:int, low:int}
+	 */
+	private function sla_badge(): array {
+		$scope     = $this->sees_all() ? 0 : get_current_user_id();
+		$cache_key = 'awts_assignee_sla_' . ( 0 === $scope ? 'all' : $scope );
+		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+
+		$ids    = $this->order_updates_db->get_open_update_ids_for_assignee( $scope );
+		$latest = $this->order_updates_db->get_latest_customer_messages( $ids );
+
+		$urgent = 0;
+		$medium = 0;
+		$low    = 0;
+
+		foreach ( $ids as $id ) {
+			$msg = $latest[ $id ] ?? null;
+			if ( null === $msg || TeamRosterService::user_is_team_member( (int) $msg['created_by'] ) ) {
+				continue; // No customer message, or staff replied last — nothing owed.
+			}
+
+			$timestamp = '' !== $msg['created_at'] ? (int) strtotime( $msg['created_at'] . ' UTC' ) : 0;
+			if ( $timestamp <= 0 ) {
+				continue;
+			}
+
+			$waited = time() - $timestamp;
+			if ( $waited > self::SLA_AMBER_MAX ) {
+				$urgent++;
+			} elseif ( $waited > self::SLA_BLUE_MAX ) {
+				$medium++;
+			} else {
+				$low++;
+			}
+		}
+
+		$result = array(
+			'total'  => $urgent + $medium + $low,
+			'urgent' => $urgent,
+			'medium' => $medium,
+			'low'    => $low,
+		);
+
+		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, 60 );
+
+		return $result;
 	}
 
 	public function render(): void {

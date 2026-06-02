@@ -1153,6 +1153,50 @@ final class OrderUpdatesDb {
 	}
 
 	/**
+	 * Open (unresolved) update ids for the assignee menu badge. assignee_id = 0
+	 * returns every open update (manager scope). Capped so the badge stays a
+	 * lightweight count even on busy stores.
+	 *
+	 * @return int[]
+	 */
+	public function get_open_update_ids_for_assignee( int $assignee_id, int $limit = 300 ): array {
+		global $wpdb;
+
+		$updates   = $this->updates_table->updates;
+		$assignees = $this->updates_table->assignees;
+		$limit     = max( 1, $limit );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names from UpdatesTable; values bound via placeholders.
+		if ( $assignee_id > 0 ) {
+			$ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT DISTINCT updates.id
+					FROM {$updates} AS updates
+					LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
+					WHERE updates.is_resolved = 0 AND a.assignee_user_id = %d
+					ORDER BY updates.id DESC
+					LIMIT %d",
+					$assignee_id,
+					$limit
+				)
+			);
+		} else {
+			$ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT updates.id FROM {$updates} AS updates
+					WHERE updates.is_resolved = 0
+					ORDER BY updates.id DESC
+					LIMIT %d",
+					$limit
+				)
+			);
+		}
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		return array_map( 'intval', (array) $ids );
+	}
+
+	/**
 	 * Recent internal notes that mention the user, joined with their parent update.
 	 *
 	 * @return array<int, array{note_id:int, update_id:int, order_id:int, title:string, snippet:string, created_at:string, created_by_name:string}>
