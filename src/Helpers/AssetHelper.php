@@ -16,15 +16,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Resolves plugin asset URLs and cache-busting versions, preferring the
+ * minified build unless SCRIPT_DEBUG is on.
+ */
 final class AssetHelper {
 
 	/**
 	 * Return a URL pointing at either the .min or the unminified asset.
 	 *
-	 * Pass a path relative to the plugin root, e.g. `assets/Frontend/js/customer-order-updates.js`.
-	 * Returns the full URL with the right `.min.js` / `.min.css` suffix applied.
+	 * Returns the full URL with the right `.min.js` / `.min.css` suffix applied,
+	 * falling back to the original path if the .min variant isn't on disk.
 	 *
-	 * Falls back to the original path if the .min variant doesn't exist on disk.
+	 * @param string $relative_path Path from the plugin root, e.g. `assets/Frontend/js/app.js`.
 	 */
 	public static function url( string $relative_path ): string {
 		$min_path = self::min_path_for( $relative_path );
@@ -41,6 +45,8 @@ final class AssetHelper {
 	/**
 	 * Cache-busting version string — uses the served file's mtime so a deploy
 	 * that updates only the source/min still bumps the version.
+	 *
+	 * @param string $relative_path Path from the plugin root.
 	 */
 	public static function version( string $relative_path ): string {
 		$min_path = self::min_path_for( $relative_path );
@@ -53,6 +59,11 @@ final class AssetHelper {
 		return file_exists( $served ) ? (string) filemtime( $served ) : '1.0.0';
 	}
 
+	/**
+	 * Map a source asset path to its minified sibling.
+	 *
+	 * @param string $relative_path Path from the plugin root.
+	 */
 	private static function min_path_for( string $relative_path ): string {
 		// `.js` → `.min.js`, `.css` → `.min.css`; leave already-minified paths alone.
 		if ( str_ends_with( $relative_path, '.min.js' ) || str_ends_with( $relative_path, '.min.css' ) ) {

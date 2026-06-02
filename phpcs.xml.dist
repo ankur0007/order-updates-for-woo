@@ -28,4 +28,13 @@
 			</property>
 		</properties>
 	</rule>
+
+	<!-- `if ( $error = $this->verify_nonce( $request ) )` is an intentional,
+	     readable guard pattern used across every endpoint (VerifiesAccess). -->
+	<rule ref="Generic.CodeAnalysis.AssignmentInCondition">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure">
+		<severity>0</severity>
+	</rule>
 </ruleset>
