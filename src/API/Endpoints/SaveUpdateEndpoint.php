@@ -219,8 +219,8 @@ final class SaveUpdateEndpoint implements Registrable {
 			'updateId'                   => $update_id,
 			'isEdit'                     => $is_edit,
 			'cardHtml'                   => $this->render_card_html( $updated_record ),
-			'noteId'                     => $created_note_id ?: null,
-			'customerNoteId'             => $customer_note_id ?: null,
+			'noteId'                     => $created_note_id ? $created_note_id : null,
+			'customerNoteId'             => $customer_note_id ? $customer_note_id : null,
 			'customerNotificationQueued' => $notification_queued,
 		);
 

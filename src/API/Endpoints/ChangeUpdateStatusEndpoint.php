@@ -168,6 +168,8 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 	 * usual personal-mute preference + "don't email the person who just made
 	 * the change" rule — when the admin who flipped the status is also the
 	 * assignee, no email goes out (they performed it; they know).
+	 *
+	 * @param int $update_id Update id.
 	 */
 	private function maybe_queue_assignee_email( int $update_id ): void {
 		$update      = $this->order_updates_db->get_update( $update_id );
@@ -221,6 +223,9 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 	 * The HOOK_CUSTOMER_NOTIFICATION dispatch path is shared with the manual
 	 * "Notify customer" button, so the customer's existing inbox preferences,
 	 * de-dup logic, and email template all apply automatically.
+	 *
+	 * @param int $update_id Update id.
+	 * @param int $note_id   Customer note id to email.
 	 */
 	private function maybe_queue_customer_email( int $update_id, int $note_id ): void {
 		$update = $this->order_updates_db->get_update( $update_id );
@@ -265,6 +270,7 @@ final class ChangeUpdateStatusEndpoint implements Registrable {
 	 * only authority means an addon that filters the status list passes
 	 * through naturally — no extra hook plumbing required.
 	 *
+	 * @param string $key Submitted status key.
 	 * @return array{key:string, label:string, color:string}|null
 	 */
 	private function resolve_status( string $key ): ?array {

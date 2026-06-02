@@ -79,6 +79,11 @@ final class SharedLinkEndpoint implements Registrable {
 		);
 	}
 
+	/**
+	 * Set how many days the chat link stays valid.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle_set_expiry( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$order = $this->resolve_order( $request );
 		if ( $order instanceof WP_Error ) {
@@ -99,6 +104,11 @@ final class SharedLinkEndpoint implements Registrable {
 		return rest_ensure_response( $this->shape_response( $state, (int) $order->get_id() ) );
 	}
 
+	/**
+	 * Regenerate the chat link (old one stops working), optionally emailing it.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	public function handle_regenerate( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$order = $this->resolve_order( $request );
 		if ( $order instanceof WP_Error ) {
@@ -125,6 +135,11 @@ final class SharedLinkEndpoint implements Registrable {
 		return rest_ensure_response( $response );
 	}
 
+	/**
+	 * Load the request's order, or a 404 error.
+	 *
+	 * @param WP_REST_Request $request Incoming request.
+	 */
 	private function resolve_order( WP_REST_Request $request ): WC_Order|WP_Error {
 		$order_id = absint( $request->get_param( 'order_id' ) );
 		$order    = $order_id ? wc_get_order( $order_id ) : null;
@@ -141,7 +156,10 @@ final class SharedLinkEndpoint implements Registrable {
 	}
 
 	/**
-	 * @param array{hash:string,expires_at:int,days_left:int} $state
+	 * Build the JSON response shape for the link state.
+	 *
+	 * @param array{hash:string,expires_at:int,days_left:int} $state    Link state.
+	 * @param int                                             $order_id Order id.
 	 * @return array<string, mixed>
 	 */
 	private function shape_response( array $state, int $order_id ): array {
