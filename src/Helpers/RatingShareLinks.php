@@ -1,4 +1,9 @@
 <?php
+/**
+ * Builds social share links for the rating follow-up email.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -17,6 +22,10 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
  */
 final class RatingShareLinks {
 	/**
+	 * Build the list of share links, filterable so addons can add platforms.
+	 *
+	 * @param string $site_name Store name to put in the share text.
+	 * @param string $site_url  URL to share; falls back to the home URL.
 	 * @return array<int, array{platform:string, label:string, url:string}>
 	 */
 	public static function build( string $site_name, string $site_url ): array {

@@ -19,10 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Renders a person avatar — their Gravatar if they have one, coloured initials if not.
+ */
 final class Avatar {
 
 	/**
 	 * Render an avatar.
+	 *
+	 * Use it like:
 	 *
 	 *   echo Avatar::html( $user_id, $display_name );
 	 *   echo Avatar::html( 0, 'Guest', 'awts_assignee_avatar', 30 );
@@ -65,6 +70,7 @@ final class Avatar {
 	 * The colour hue is derived from the name so one person always gets one
 	 * colour, run after run.
 	 *
+	 * @param string $name Display name to derive initials and colour from.
 	 * @return array{0:string, 1:string} Initials, then an oklch() colour string.
 	 */
 	private static function initials_and_color( string $name ): array {

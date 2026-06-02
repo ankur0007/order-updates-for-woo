@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Renders plugin view files, with WooCommerce-style theme overrides.
+ */
 final class View {
 
 	/**
@@ -35,6 +38,9 @@ final class View {
 	 *
 	 * Pass the variables your template needs in `$context`. Inside the
 	 * template they are available as `$view_data`.
+	 *
+	 * @param string $view    View path from the plugin root, without `.php`.
+	 * @param array  $context Variables exposed to the template as $view_data.
 	 */
 	public static function render( string $view = '', array $context = array() ): void {
 		// Plugin root. Fallback covers PHPUnit, where the constant isn't defined.
@@ -75,6 +81,8 @@ final class View {
 	 *
 	 * Overridable paths contain a `Templates/` segment. Anything else (e.g.
 	 * a private internal view) falls through to plugin-only resolution.
+	 *
+	 * @param string $view View path passed to render().
 	 */
 	private static function resolve_theme_override( string $view ): string {
 		// Match `{anything}/Templates/{slug}` once, capturing both halves.

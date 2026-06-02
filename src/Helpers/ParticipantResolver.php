@@ -26,17 +26,26 @@ namespace OrderUpdatesForWoo\Helpers;
 
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Works out who is "on" an update's thread and should get notifications.
+ */
 final class ParticipantResolver {
 	public const ROLE_CREATOR  = 'creator';
 	public const ROLE_ASSIGNEE = 'assignee';
 	public const ROLE_TAGGED   = 'tagged';
 	public const ROLE_JOINED   = 'joined';
 
+	/**
+	 * Store the DB gateway used to read the update and its notes.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Loads the update row and its notes.
+	 */
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
 	/**
 	 * Flat list of participant user IDs for notification fan-out.
 	 *
+	 * @param int $update_id Update id.
 	 * @return int[]
 	 */
 	public function ids_for( int $update_id ): array {
@@ -50,6 +59,7 @@ final class ParticipantResolver {
 	 * Returns rows sorted by role priority (creator → assignee → tagged →
 	 * joined), then alphabetically by display name within each role.
 	 *
+	 * @param int $update_id Update id.
 	 * @return array<int, array{user_id:int, name:string, email:string, avatar_url:string, role:string, role_label:string}>
 	 */
 	public function rows_for( int $update_id ): array {
@@ -115,7 +125,7 @@ final class ParticipantResolver {
 	}
 
 	/**
-	 * user_id => primary role (highest-priority role that user holds).
+	 * Map of user_id => primary role (highest-priority role that user holds).
 	 *
 	 * Customers (the order's `customer_user` on logged-in orders) are excluded
 	 * even when they're the update's creator. Otherwise an admin reply on an
@@ -123,6 +133,7 @@ final class ParticipantResolver {
 	 * this guard exists to prevent. Guest customers store `created_by = 0`
 	 * and are already filtered by the `> 0` checks below.
 	 *
+	 * @param int $update_id Update id.
 	 * @return array<int, string>
 	 */
 	private function primary_role_map( int $update_id ): array {
@@ -173,6 +184,8 @@ final class ParticipantResolver {
 	 * orders (and missing orders). Used to filter customer-as-creator out of
 	 * staff participant lists — the customer is not a follower, they're the
 	 * subject of the thread.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	private function resolve_order_customer_id( int $order_id ): int {
 		if ( $order_id <= 0 || ! function_exists( 'wc_get_order' ) ) {
@@ -189,6 +202,9 @@ final class ParticipantResolver {
 	}
 
 	/**
+	 * User ids @mentioned across the update's internal notes.
+	 *
+	 * @param int $update_id Update id.
 	 * @return int[]
 	 */
 	private function collect_mentioned_ids( int $update_id ): array {
@@ -206,6 +222,11 @@ final class ParticipantResolver {
 		return array_keys( $ids );
 	}
 
+	/**
+	 * Human label for a participant role.
+	 *
+	 * @param string $role One of the ROLE_* constants.
+	 */
 	private static function role_label( string $role ): string {
 		return match ( $role ) {
 			self::ROLE_CREATOR  => __( 'Creator', 'order-updates-for-woo' ),
