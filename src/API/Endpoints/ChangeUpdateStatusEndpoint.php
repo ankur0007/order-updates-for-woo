@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — change update status.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

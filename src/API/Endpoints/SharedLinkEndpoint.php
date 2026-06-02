@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — shared link.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

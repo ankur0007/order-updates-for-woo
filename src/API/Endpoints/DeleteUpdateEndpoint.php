@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — delete update.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -15,6 +20,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "delete update" REST request.
+ */
 final class DeleteUpdateEndpoint implements Registrable {
 	use VerifiesAccess;
 

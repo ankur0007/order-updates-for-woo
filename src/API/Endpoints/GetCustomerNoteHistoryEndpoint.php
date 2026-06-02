@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — get customer note history.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

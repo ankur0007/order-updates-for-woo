@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — single order update.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -13,6 +18,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "single order update" REST request.
+ */
 final class SingleOrderUpdateEndpoint implements Registrable {
 	use VerifiesAccess;
 

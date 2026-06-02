@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — update customer note.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -18,6 +23,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "update customer note" REST request.
+ */
 final class UpdateCustomerNoteEndpoint implements Registrable {
 	use VerifiesAccess;
 

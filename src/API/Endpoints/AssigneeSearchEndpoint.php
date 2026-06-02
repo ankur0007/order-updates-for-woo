@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — assignee search.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -14,6 +19,9 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_User_Query;
 
+/**
+ * Handles the "assignee search" REST request.
+ */
 final class AssigneeSearchEndpoint implements Registrable {
 	use VerifiesAccess;
 

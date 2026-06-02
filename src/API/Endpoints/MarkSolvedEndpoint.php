@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — mark solved.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -19,6 +24,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "mark solved" REST request.
+ */
 final class MarkSolvedEndpoint implements Registrable {
 	use VerifiesAccess;
 	use RendersCardHtml;

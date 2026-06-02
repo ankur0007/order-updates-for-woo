@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — serve attachment.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -15,6 +20,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "serve attachment" REST request.
+ */
 final class ServeAttachmentEndpoint implements Registrable {
 	use VerifiesAccess;
 

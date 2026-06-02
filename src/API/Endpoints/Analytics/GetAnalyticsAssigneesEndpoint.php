@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — get analytics assignees.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -12,6 +17,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "get analytics assignees" REST request.
+ */
 final class GetAnalyticsAssigneesEndpoint implements Registrable {
 	use ValidatesAnalyticsRequest;
 

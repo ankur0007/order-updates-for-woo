@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — get update notes.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -17,6 +22,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "get update notes" REST request.
+ */
 final class GetUpdateNotesEndpoint implements Registrable {
 	use VerifiesAccess;
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — delete update note.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -15,6 +20,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "delete update note" REST request.
+ */
 final class DeleteUpdateNoteEndpoint implements Registrable {
 	use VerifiesAccess;
 

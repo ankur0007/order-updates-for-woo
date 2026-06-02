@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — poll customer thread.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

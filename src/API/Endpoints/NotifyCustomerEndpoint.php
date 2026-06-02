@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — notify customer.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -16,6 +21,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "notify customer" REST request.
+ */
 final class NotifyCustomerEndpoint implements Registrable {
 	use VerifiesAccess;
 

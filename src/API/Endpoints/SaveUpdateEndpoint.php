@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — save update.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -18,6 +23,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "save update" REST request.
+ */
 final class SaveUpdateEndpoint implements Registrable {
 	use VerifiesAccess;
 	use RendersCardHtml;

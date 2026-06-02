@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST endpoint — get analytics by date.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -12,6 +17,9 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 
+/**
+ * Handles the "get analytics by date" REST request.
+ */
 final class GetAnalyticsByDateEndpoint implements Registrable {
 	use ValidatesAnalyticsRequest;
 
