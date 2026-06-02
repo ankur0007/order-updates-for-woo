@@ -18,6 +18,17 @@
 	box-sizing: border-box;
 }
 
+/* No focus box anywhere on this page — the default ring/box looks heavy here. */
+.awts-asg a:focus,
+.awts-asg button:focus,
+.awts-asg input:focus,
+.awts-asg select:focus,
+.awts-asg a:focus-visible,
+.awts-asg button:focus-visible {
+	outline: none;
+	box-shadow: none;
+}
+
 /* ---- Breadcrumb ---- */
 .awts-asg__breadcrumb {
 	margin-bottom: 14px;

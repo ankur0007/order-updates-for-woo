@@ -19,19 +19,15 @@ html {
 	overflow: hidden;
 }
 
-/* No focus box on click; keep an outline for keyboard users only. */
+/* No focus box anywhere on this page — the default ring/box looks heavy here. */
 .awts-inbox a:focus,
 .awts-inbox button:focus,
 .awts-inbox input:focus,
-.awts-inbox select:focus {
-	outline: none;
-	box-shadow: none;
-}
-
+.awts-inbox select:focus,
 .awts-inbox a:focus-visible,
 .awts-inbox button:focus-visible {
-	outline: 2px solid #2271b1;
-	outline-offset: 1px;
+	outline: none;
+	box-shadow: none;
 }
 
 /* Header: tabs + search */
