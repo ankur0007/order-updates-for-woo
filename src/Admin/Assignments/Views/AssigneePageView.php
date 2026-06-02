@@ -37,6 +37,14 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 	<h1 class="screen-reader-text"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></h1>
 	<hr class="wp-header-end" />
 
+	<nav class="awts-asg__breadcrumb" aria-label="<?php esc_attr_e( 'Breadcrumb', 'order-updates-for-woo' ); ?>">
+		<span><?php esc_html_e( 'WooCommerce', 'order-updates-for-woo' ); ?></span>
+		<span class="awts-asg__crumb-sep" aria-hidden="true">&rsaquo;</span>
+		<span class="awts-asg__crumb-strong"><?php esc_html_e( 'Order Updates', 'order-updates-for-woo' ); ?></span>
+		<span class="awts-asg__crumb-sep" aria-hidden="true">&rsaquo;</span>
+		<span class="awts-asg__crumb-strong" aria-current="page"><?php esc_html_e( 'Assignments', 'order-updates-for-woo' ); ?></span>
+	</nav>
+
 	<div class="awts-asg__stats">
 		<div class="awts-asg__stat">
 			<div class="awts-asg__stat-top">

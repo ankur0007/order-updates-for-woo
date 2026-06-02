@@ -18,6 +18,23 @@
 	box-sizing: border-box;
 }
 
+/* ---- Breadcrumb ---- */
+.awts-asg__breadcrumb {
+	margin-bottom: 14px;
+	color: var(--ink-3);
+	font-size: 13px;
+}
+
+.awts-asg__crumb-sep {
+	margin: 0 6px;
+	color: var(--ink-3);
+}
+
+.awts-asg__crumb-strong {
+	color: var(--ink-2);
+	font-weight: 600;
+}
+
 /* ---- At-a-glance stat cards ---- */
 .awts-asg__stats {
 	display: flex;
