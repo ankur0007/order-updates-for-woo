@@ -1029,13 +1029,21 @@ final class OrderUpdatesDb {
 		$assignee_id = max( 0, (int) ( $args['assignee_id'] ?? 0 ) );
 		$status      = (string) ( $args['status'] ?? '' );
 		$search      = trim( (string) ( $args['search'] ?? '' ) );
+		$orderby     = (string) ( $args['orderby'] ?? 'newest' );
 		$per_page    = max( 1, (int) ( $args['per_page'] ?? 20 ) );
 		$paged       = max( 1, (int) ( $args['paged'] ?? 1 ) );
 		$offset      = ( $paged - 1 ) * $per_page;
 
+		// Whitelisted ORDER BY — fixed clauses only, never raw input.
+		$order_sql = match ( $orderby ) {
+			'oldest'   => 'updates.last_updated_at ASC, updates.id ASC',
+			'assignee' => 'assignee.display_name ASC, updates.last_updated_at DESC',
+			default    => 'updates.last_updated_at DESC, updates.id DESC',
+		};
+
 		// Short cache — the listing is read on demand and changes as updates
 		// flow, so a brief TTL trims repeat queries without lingering stale.
-		$cache_key = 'assignee_page_' . md5( $assignee_id . '|' . $status . '|' . $search . '|' . $per_page . '|' . $paged );
+		$cache_key = 'assignee_page_' . md5( $assignee_id . '|' . $status . '|' . $search . '|' . $orderby . '|' . $per_page . '|' . $paged );
 		$cached    = $this->cache_get( $cache_key );
 		if ( false !== $cached ) {
 			return $cached;
@@ -1083,7 +1091,7 @@ final class OrderUpdatesDb {
 			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
 			LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
 			WHERE {$where_sql}
-			ORDER BY updates.last_updated_at DESC, updates.id DESC
+			ORDER BY {$order_sql}
 			LIMIT %d OFFSET %d";
 		$rows = $wpdb->get_results( $wpdb->prepare( $list_sql, array_merge( $params, array( $per_page, $offset ) ) ), ARRAY_A );
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared

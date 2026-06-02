@@ -175,6 +175,68 @@
 	color: var(--paper);
 }
 
+/* ---- Filters row (search · sort · assignee) ---- */
+.awts-asg__filters {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding: 14px 24px;
+	border-bottom: 1px solid var(--border);
+}
+
+.awts-asg__search {
+	position: relative;
+	flex: 1 1 240px;
+	min-width: 180px;
+}
+
+.awts-asg__search .dashicons {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+	color: var(--ink-3);
+	transform: translateY( -50% );
+}
+
+.awts-asg__search input[type="search"] {
+	width: 100%;
+	padding: 8px 12px 8px 34px;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background: var(--chip-bg);
+	font-size: 13.5px;
+}
+
+.awts-asg__select {
+	max-width: 220px;
+	padding: 7px 10px;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background: var(--paper);
+	color: var(--ink-2);
+	font-size: 13.5px;
+}
+
+.awts-asg__filter-go {
+	padding: 8px 16px;
+	border: 1px solid var(--ink);
+	border-radius: 9px;
+	background: var(--ink);
+	color: var(--paper);
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: opacity 120ms ease;
+}
+
+.awts-asg__filter-go:hover {
+	opacity: .9;
+}
+
 /* ---- Rows ---- */
 .awts-asg__row {
 	position: relative;

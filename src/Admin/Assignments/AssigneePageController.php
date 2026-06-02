@@ -162,6 +162,8 @@ final class AssigneePageController {
 		$status   = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( (string) $_GET['status'] ) ) : '';
 		$status   = in_array( $status, array( 'open', 'solved' ), true ) ? $status : '';
 		$search   = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['s'] ) ) : '';
+		$orderby  = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( (string) $_GET['orderby'] ) ) : 'newest';
+		$orderby  = in_array( $orderby, array( 'newest', 'oldest', 'assignee' ), true ) ? $orderby : 'newest';
 		$paged    = isset( $_GET['paged'] ) ? max( 1, absint( wp_unslash( (string) $_GET['paged'] ) ) ) : 1;
 		$req_assignee = isset( $_GET['assignee'] ) ? absint( wp_unslash( (string) $_GET['assignee'] ) ) : 0;
 
@@ -176,6 +178,7 @@ final class AssigneePageController {
 				'assignee_id' => $assignee_id,
 				'status'      => $status,
 				'search'      => $search,
+				'orderby'     => $orderby,
 				'per_page'    => self::PER_PAGE,
 				'paged'       => $paged,
 			),
@@ -202,6 +205,7 @@ final class AssigneePageController {
 				'sees_all'    => $sees_all,
 				'status'      => $status,
 				'search'      => $search,
+				'orderby'     => $orderby,
 				'assignee'    => $assignee_id,
 				'team'        => $sees_all ? $this->team_roster->get_team_members() : array(),
 				'slug'        => self::SLUG,

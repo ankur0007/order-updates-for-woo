@@ -111,6 +111,34 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 			</nav>
 		</div>
 
+		<form class="awts-asg__filters" method="get">
+			<input type="hidden" name="page" value="<?php echo esc_attr( (string) $view_data['slug'] ); ?>" />
+			<?php if ( '' !== $status ) : ?>
+				<input type="hidden" name="status" value="<?php echo esc_attr( $status ); ?>" />
+			<?php endif; ?>
+			<div class="awts-asg__search">
+				<span class="dashicons dashicons-search" aria-hidden="true"></span>
+				<input type="search" name="s" value="<?php echo esc_attr( (string) $view_data['search'] ); ?>" placeholder="<?php esc_attr_e( 'Search updates', 'order-updates-for-woo' ); ?>" />
+			</div>
+			<?php $orderby = (string) ( $view_data['orderby'] ?? 'newest' ); ?>
+			<select class="awts-asg__select" name="orderby" aria-label="<?php esc_attr_e( 'Sort by', 'order-updates-for-woo' ); ?>">
+				<option value="newest" <?php selected( $orderby, 'newest' ); ?>><?php esc_html_e( 'Newest first', 'order-updates-for-woo' ); ?></option>
+				<option value="oldest" <?php selected( $orderby, 'oldest' ); ?>><?php esc_html_e( 'Oldest first', 'order-updates-for-woo' ); ?></option>
+				<option value="assignee" <?php selected( $orderby, 'assignee' ); ?>><?php esc_html_e( 'By assignee', 'order-updates-for-woo' ); ?></option>
+			</select>
+			<?php if ( ! empty( $view_data['sees_all'] ) && ! empty( $view_data['team'] ) ) : ?>
+				<select class="awts-asg__select" name="assignee" aria-label="<?php esc_attr_e( 'Filter by assignee', 'order-updates-for-woo' ); ?>">
+					<option value="0"><?php esc_html_e( 'All assignees', 'order-updates-for-woo' ); ?></option>
+					<?php foreach ( (array) $view_data['team'] as $member ) : ?>
+						<option value="<?php echo esc_attr( (string) (int) $member['id'] ); ?>" <?php selected( (int) $view_data['assignee'], (int) $member['id'] ); ?>>
+							<?php echo esc_html( (string) $member['name'] ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+			<?php endif; ?>
+			<button type="submit" class="awts-asg__filter-go"><?php esc_html_e( 'Filter', 'order-updates-for-woo' ); ?></button>
+		</form>
+
 		<?php if ( empty( $rows ) ) : ?>
 			<p class="awts-asg__empty">
 				<?php
