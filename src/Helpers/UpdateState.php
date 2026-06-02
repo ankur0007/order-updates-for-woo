@@ -1,4 +1,9 @@
 <?php
+/**
+ * Plain yes/no checks against a single update row.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -11,22 +16,39 @@ namespace OrderUpdatesForWoo\Helpers;
  * in one place. Used by views, endpoints, and addons.
  */
 final class UpdateState {
-	/** True when the update has been marked solved. */
+
+	/**
+	 * True when the update has been marked solved.
+	 *
+	 * @param array $update Update row.
+	 */
 	public static function is_resolved( array $update ): bool {
 		return ! empty( $update['is_resolved'] );
 	}
 
-	/** True when the update is visible on the customer-facing page. */
+	/**
+	 * True when the update is visible on the customer-facing page.
+	 *
+	 * @param array $update Update row.
+	 */
 	public static function is_customer_visible( array $update ): bool {
 		return ! empty( $update['customer_visible'] );
 	}
 
-	/** True when the update is currently assigned to a staff member. */
+	/**
+	 * True when the update is currently assigned to a staff member.
+	 *
+	 * @param array $update Update row.
+	 */
 	public static function has_assignee( array $update ): bool {
 		return ! empty( $update['assignee_user_id'] );
 	}
 
-	/** True when the customer has been emailed about this update. */
+	/**
+	 * True when the customer has been emailed about this update.
+	 *
+	 * @param array $update Update row.
+	 */
 	public static function is_customer_notified( array $update ): bool {
 		return ! empty( $update['notified_customer_at'] );
 	}
@@ -39,6 +61,9 @@ final class UpdateState {
 	 * admin order panel only renders for users with the order cap, so
 	 * the precondition holds there). Do NOT use this method to gate a
 	 * write endpoint.
+	 *
+	 * @param array    $update  Update row.
+	 * @param int|null $user_id Viewer id; defaults to the current user.
 	 */
 	public static function should_render_edit_ui( array $update, ?int $user_id = null ): bool {
 		$viewer_id = $user_id ?? get_current_user_id();
