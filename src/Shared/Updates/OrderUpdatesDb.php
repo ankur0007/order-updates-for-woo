@@ -1884,6 +1884,16 @@ final class OrderUpdatesDb {
 		return $events;
 	}
 
+	/**
+	 * Insert an internal note (converting text emoticons); returns its id.
+	 *
+	 * @param int    $update_id          Update id.
+	 * @param string $note               Note text.
+	 * @param int    $created_by         Author user id.
+	 * @param string $created_by_name    Author display name.
+	 * @param string $created_at         Created time (GMT mysql).
+	 * @param int[]  $mentioned_user_ids Users @mentioned in the note.
+	 */
 	public function create_update_note( int $update_id, string $note, int $created_by, string $created_by_name, string $created_at, array $mentioned_user_ids = array() ): int {
 		global $wpdb;
 
@@ -1918,6 +1928,11 @@ final class OrderUpdatesDb {
 		return $note_id;
 	}
 
+	/**
+	 * All internal notes on an update, oldest first, with decoded mentions. Cached.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function get_update_notes( int $update_id ): array {
 		global $wpdb;
 
@@ -1964,6 +1979,7 @@ final class OrderUpdatesDb {
 	 * Customer-authored rows store created_by = 0, so they're filtered out
 	 * naturally by the > 0 guard.
 	 *
+	 * @param int $update_id Update id.
 	 * @return int[]
 	 */
 	public function get_staff_participant_user_ids( int $update_id ): array {
