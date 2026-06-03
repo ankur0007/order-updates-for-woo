@@ -1,22 +1,22 @@
-# Copyright (C) 2026 the ank
+# Copyright (C) 2026 Ankur Vishwakarma
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Order Updates for WooCommerce — Customer Support 1.0.0\n"
+"Project-Id-Version: Order Updates for Woo 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/order-updates-for-woo\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-25T11:12:24+00:00\n"
+"POT-Creation-Date: 2026-06-03T11:14:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: order-updates-for-woo\n"
 
 #. Plugin Name of the plugin
 #: order-updates-for-woo.php
-msgid "Order Updates for WooCommerce — Customer Support"
+msgid "Order Updates for Woo"
 msgstr ""
 
 #. Description of the plugin
@@ -26,411 +26,650 @@ msgstr ""
 
 #. Author of the plugin
 #: order-updates-for-woo.php
-msgid "the ank"
+msgid "Ankur Vishwakarma"
 msgstr ""
 
-#: order-updates-for-woo.php:94
+#: order-updates-for-woo.php:176
 msgid "Order Updates for WooCommerce requires WooCommerce to be installed and active."
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:202
-#: src/Admin/Orders/OrderUpdatesPanelController.php:47
-#: src/Welcome/Controllers/WelcomeController.php:27
-#: src/Welcome/Controllers/WelcomeController.php:28
+#: src/Admin/AdminBar/AdminBarNotifications.php:283
+#: src/Admin/AdminMenuController.php:43
+#: src/Admin/AdminMenuController.php:44
+#: src/Admin/Assignments/Views/AssigneePageView.php:49
+#: src/Admin/Orders/OrderUpdatesPanelController.php:72
+#: src/Welcome/Controllers/WelcomeController.php:43
 msgid "Order Updates"
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:238
-#: src/Admin/AdminBar/AdminBarNotifications.php:581
+#: src/Admin/AdminBar/AdminBarNotifications.php:319
+#: src/Admin/AdminBar/AdminBarNotifications.php:731
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:298
+#: src/Admin/Notifications/NotificationsPageController.php:625
 msgid "Assigned to you"
 msgstr ""
 
 #. translators: %s: staff member display name
-#: src/Admin/AdminBar/AdminBarNotifications.php:258
-#: src/Admin/AdminBar/AdminBarNotifications.php:326
+#: src/Admin/AdminBar/AdminBarNotifications.php:339
+#: src/Admin/AdminBar/AdminBarNotifications.php:407
 msgid "(no title)"
 msgstr ""
 
 #. translators: %s: order number
-#: src/Admin/AdminBar/AdminBarNotifications.php:259
-#: src/Admin/AdminBar/AdminBarNotifications.php:295
-#: src/Admin/AdminBar/AdminBarNotifications.php:335
-#: src/Admin/AdminBar/AdminBarNotifications.php:374
-#: src/Admin/AdminBar/AdminBarNotifications.php:417
-#: src/Admin/AdminBar/AdminBarNotifications.php:547
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:34
-#, php-format
+#: src/Admin/AdminBar/AdminBarNotifications.php:340
+#: src/Admin/AdminBar/AdminBarNotifications.php:376
+#: src/Admin/AdminBar/AdminBarNotifications.php:416
+#: src/Admin/AdminBar/AdminBarNotifications.php:455
+#: src/Admin/AdminBar/AdminBarNotifications.php:498
+#: src/Admin/AdminBar/AdminBarNotifications.php:695
+#: src/Admin/Assignments/Views/AssigneePageView.php:178
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:37
 msgid "Order #%s"
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:274
-#: src/Admin/AdminBar/AdminBarNotifications.php:588
+#: src/Admin/AdminBar/AdminBarNotifications.php:355
+#: src/Admin/AdminBar/AdminBarNotifications.php:741
 msgid "You were tagged"
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:310
-#: src/Admin/AdminBar/AdminBarNotifications.php:595
+#: src/Admin/AdminBar/AdminBarNotifications.php:391
+#: src/Admin/AdminBar/AdminBarNotifications.php:751
 msgid "Replies"
 msgstr ""
 
 #. translators: %s: staff member display name
-#: src/Admin/AdminBar/AdminBarNotifications.php:325
-#: src/Admin/AdminBar/AdminBarNotifications.php:556
-#, php-format
+#: src/Admin/AdminBar/AdminBarNotifications.php:406
+#: src/Admin/AdminBar/AdminBarNotifications.php:704
 msgid "%s replied"
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:350
-#: src/Admin/AdminBar/AdminBarNotifications.php:602
+#: src/Admin/AdminBar/AdminBarNotifications.php:431
+#: src/Admin/AdminBar/AdminBarNotifications.php:761
 msgid "Updates you created — deleted"
 msgstr ""
 
 #. translators: %s: deleted update title.
-#: src/Admin/AdminBar/AdminBarNotifications.php:364
-#: src/Admin/AdminBar/AdminBarNotifications.php:561
-#, php-format
+#: src/Admin/AdminBar/AdminBarNotifications.php:445
+#: src/Admin/AdminBar/AdminBarNotifications.php:709
 msgid "\"%s\" was deleted"
 msgstr ""
 
 #. translators: %s: deleted update title.
-#: src/Admin/AdminBar/AdminBarNotifications.php:365
-#: src/Admin/AdminBar/AdminBarNotifications.php:562
+#: src/Admin/AdminBar/AdminBarNotifications.php:446
+#: src/Admin/AdminBar/AdminBarNotifications.php:710
 msgid "An update you created was deleted"
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:392
-#: src/Admin/AdminBar/AdminBarNotifications.php:609
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:174
+#: src/Admin/AdminBar/AdminBarNotifications.php:473
+#: src/Admin/AdminBar/AdminBarNotifications.php:771
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:194
+#: src/Admin/Notifications/NotificationsPageController.php:627
 msgid "Assignee changed"
 msgstr ""
 
 #. translators: %s: update title
 #. translators: %s: update title.
-#: src/Admin/AdminBar/AdminBarNotifications.php:407
-#: src/Admin/AdminBar/AdminBarNotifications.php:570
-#, php-format
+#: src/Admin/AdminBar/AdminBarNotifications.php:488
+#: src/Admin/AdminBar/AdminBarNotifications.php:718
 msgid "You were unassigned from \"%s\""
 msgstr ""
 
 #. translators: %s: update title
-#: src/Admin/AdminBar/AdminBarNotifications.php:407
-#: src/Admin/AdminBar/AdminBarNotifications.php:408
-#: src/Admin/AdminBar/AdminBarNotifications.php:568
+#: src/Admin/AdminBar/AdminBarNotifications.php:488
+#: src/Admin/AdminBar/AdminBarNotifications.php:489
+#: src/Admin/AdminBar/AdminBarNotifications.php:716
 msgid "(untitled)"
 msgstr ""
 
 #. translators: %s: update title
 #. translators: %s: update title.
-#: src/Admin/AdminBar/AdminBarNotifications.php:408
-#: src/Admin/AdminBar/AdminBarNotifications.php:571
-#, php-format
+#: src/Admin/AdminBar/AdminBarNotifications.php:489
+#: src/Admin/AdminBar/AdminBarNotifications.php:719
 msgid "Assignee changed on \"%s\""
 msgstr ""
 
-#: src/Admin/AdminBar/AdminBarNotifications.php:449
+#: src/Admin/AdminBar/AdminBarNotifications.php:516
+#: src/Admin/AdminBar/AdminBarNotifications.php:559
+msgid "Clear"
+msgstr ""
+
+#: src/Admin/AdminBar/AdminBarNotifications.php:528
+#: src/Admin/AdminBar/AdminBarNotifications.php:558
+msgid "Show all"
+msgstr ""
+
+#: src/Admin/AdminBar/AdminBarNotifications.php:557
 msgid "View all order updates →"
 msgstr ""
 
 #. translators: %s: human-readable time difference
-#: src/Admin/AdminBar/AdminBarNotifications.php:700
-#, php-format
+#. translators: %s: human-readable time difference, e.g. "2 hours"
+#: src/Admin/AdminBar/AdminBarNotifications.php:889
+#: src/Admin/Notifications/NotificationsPageController.php:504
 msgid "%s ago"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:29
-#: src/Admin/Analytics/Views/AnalyticsView.php:16
+#: src/Admin/AdminMenuController.php:61
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:112
+msgid "Order Updates Settings"
+msgstr ""
+
+#: src/Admin/AdminMenuController.php:62
+msgid "Settings"
+msgstr ""
+
+#: src/Admin/Analytics/AnalyticsController.php:47
+#: src/Admin/Analytics/Views/AnalyticsView.php:18
 msgid "Order Update Analytics"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:30
-msgid "Update Analytics"
+#: src/Admin/Analytics/AnalyticsController.php:48
+msgid "Analytics"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:79
-#: src/Admin/Analytics/Views/AnalyticsView.php:97
-#: src/Admin/Analytics/Views/AnalyticsView.php:114
-#: src/Shared/Language/Labels/strings.php:80
+#: src/Admin/Analytics/AnalyticsController.php:101
+#: src/Admin/Analytics/Views/AnalyticsView.php:99
+#: src/Admin/Analytics/Views/AnalyticsView.php:116
+#: src/Shared/Language/Labels/strings.php:90
 msgid "Loading…"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:80
+#: src/Admin/Analytics/AnalyticsController.php:102
 msgid "No data for this period."
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:81
-#: src/Admin/Analytics/Views/AnalyticsView.php:62
-#: src/Admin/Analytics/Views/AnalyticsView.php:90
-#: src/Admin/Analytics/Views/AnalyticsView.php:108
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:95
+#: src/Admin/Analytics/AnalyticsController.php:103
+#: src/Admin/Analytics/Views/AnalyticsView.php:64
+#: src/Admin/Analytics/Views/AnalyticsView.php:92
+#: src/Admin/Analytics/Views/AnalyticsView.php:110
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:98
 msgid "Total"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:82
-#: src/Admin/Analytics/AnalyticsController.php:88
-#: src/Admin/Analytics/Views/AnalyticsView.php:66
-#: src/Admin/Analytics/Views/AnalyticsView.php:91
-#: src/Admin/Analytics/Views/AnalyticsView.php:109
-#: src/Admin/Orders/Templates/card/footer.php:167
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:111
+#: src/Admin/Analytics/AnalyticsController.php:104
+#: src/Admin/Analytics/AnalyticsController.php:110
+#: src/Admin/Analytics/Views/AnalyticsView.php:68
+#: src/Admin/Analytics/Views/AnalyticsView.php:93
+#: src/Admin/Analytics/Views/AnalyticsView.php:111
+#: src/Admin/Orders/Templates/card/footer.php:182
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:127
 msgid "Solved"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:83
-#: src/Admin/Analytics/Views/AnalyticsView.php:70
-#: src/Admin/Analytics/Views/AnalyticsView.php:92
-#: src/Admin/Analytics/Views/AnalyticsView.php:110
-#: src/Helpers/UpdateStatusHelper.php:39
+#: src/Admin/Analytics/AnalyticsController.php:105
+#: src/Admin/Analytics/Views/AnalyticsView.php:72
+#: src/Admin/Analytics/Views/AnalyticsView.php:94
+#: src/Admin/Analytics/Views/AnalyticsView.php:112
+#: src/Helpers/UpdateStatusHelper.php:55
 msgid "Pending"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:84
-#: src/Admin/Analytics/Views/AnalyticsView.php:74
-#: src/Admin/Analytics/Views/AnalyticsView.php:93
+#: src/Admin/Analytics/AnalyticsController.php:106
+#: src/Admin/Analytics/Views/AnalyticsView.php:76
+#: src/Admin/Analytics/Views/AnalyticsView.php:95
 msgid "Avg Rating"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:85
-#: src/Admin/Analytics/Views/AnalyticsView.php:89
+#: src/Admin/Analytics/AnalyticsController.php:107
+#: src/Admin/Analytics/Views/AnalyticsView.php:91
 msgid "Agent"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:86
-#: src/Admin/Analytics/Views/AnalyticsView.php:107
+#: src/Admin/Analytics/AnalyticsController.php:108
+#: src/Admin/Analytics/Views/AnalyticsView.php:109
 msgid "Product"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:87
+#: src/Admin/Analytics/AnalyticsController.php:109
 msgid "Tickets"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:89
+#: src/Admin/Analytics/AnalyticsController.php:111
 msgid "N/A"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:90
-#: src/Admin/Analytics/Views/AnalyticsView.php:24
+#: src/Admin/Analytics/AnalyticsController.php:112
+#: src/Admin/Analytics/Views/AnalyticsView.php:26
 msgid "This month"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:91
-#: src/Admin/Analytics/Views/AnalyticsView.php:27
+#: src/Admin/Analytics/AnalyticsController.php:113
+#: src/Admin/Analytics/Views/AnalyticsView.php:29
 msgid "Last month"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:92
-#: src/Admin/Analytics/Views/AnalyticsView.php:30
+#: src/Admin/Analytics/AnalyticsController.php:114
+#: src/Admin/Analytics/Views/AnalyticsView.php:32
 msgid "Last 3 months"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:93
-#: src/Admin/Analytics/Views/AnalyticsView.php:33
+#: src/Admin/Analytics/AnalyticsController.php:115
+#: src/Admin/Analytics/Views/AnalyticsView.php:35
 msgid "Last 6 months"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:94
-#: src/Admin/Analytics/Views/AnalyticsView.php:36
+#: src/Admin/Analytics/AnalyticsController.php:116
+#: src/Admin/Analytics/Views/AnalyticsView.php:38
 msgid "Last year"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:95
-#: src/Admin/Analytics/Views/AnalyticsView.php:39
+#: src/Admin/Analytics/AnalyticsController.php:117
+#: src/Admin/Analytics/Views/AnalyticsView.php:41
 msgid "All time"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:96
-#: src/Admin/Analytics/Views/AnalyticsView.php:42
+#: src/Admin/Analytics/AnalyticsController.php:118
+#: src/Admin/Analytics/Views/AnalyticsView.php:44
 msgid "Custom"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:97
-#: src/Admin/Analytics/Views/AnalyticsView.php:53
+#: src/Admin/Analytics/AnalyticsController.php:119
+#: src/Admin/Analytics/Views/AnalyticsView.php:55
 msgid "Apply"
 msgstr ""
 
-#: src/Admin/Analytics/AnalyticsController.php:98
+#: src/Admin/Analytics/AnalyticsController.php:120
 msgid "Failed to load analytics. Please try again."
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:18
+#: src/Admin/Analytics/Views/AnalyticsView.php:20
 msgid "Date range"
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:21
+#: src/Admin/Analytics/Views/AnalyticsView.php:23
 msgid "Today"
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:47
+#: src/Admin/Analytics/Views/AnalyticsView.php:49
 msgid "From"
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:50
+#: src/Admin/Analytics/Views/AnalyticsView.php:52
 msgid "To"
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:80
+#: src/Admin/Analytics/Views/AnalyticsView.php:82
 msgid "Tickets over time"
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:85
+#: src/Admin/Analytics/Views/AnalyticsView.php:87
 msgid "By Agent"
 msgstr ""
 
-#: src/Admin/Analytics/Views/AnalyticsView.php:103
+#: src/Admin/Analytics/Views/AnalyticsView.php:105
 msgid "By Product"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:23
+#: src/Admin/Assignments/AssigneePageController.php:70
+#: src/Admin/Assignments/Views/AssigneePageView.php:43
+#: src/Admin/Assignments/Views/AssigneePageView.php:51
+#: src/Admin/Assignments/Views/AssigneePageView.php:102
+msgid "Assignments"
+msgstr ""
+
+#. translators: 1: urgent count (4h+ wait), 2: medium count (2-4h), 3: low count (under 2h)
+#: src/Admin/Assignments/AssigneePageController.php:98
+msgid "%1$d urgent (4h+), %2$d medium (2-4h), %3$d low (under 2h)"
+msgstr ""
+
+#: src/Admin/Assignments/AssigneePageController.php:168
+msgid "You are not allowed to view assignments."
+msgstr ""
+
+#: src/Admin/Assignments/AssigneePageController.php:285
+#: src/Admin/Assignments/Views/AssigneePageView.php:79
+#: src/Admin/Assignments/Views/AssigneePageView.php:115
+#: src/Admin/Assignments/Views/AssigneePageView.php:212
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:53
+msgid "Resolved"
+msgstr ""
+
+#: src/Admin/Assignments/AssigneePageController.php:285
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:52
+msgid "Open"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:46
+msgid "Breadcrumb"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:47
+msgid "WooCommerce"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:57
+msgid "Total updates"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:62
+msgid "store-wide"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:62
+msgid "assigned to you"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:68
+#: src/Admin/Assignments/Views/AssigneePageView.php:114
+msgid "Waiting"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:73
+msgid "needs action"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:89
+msgid "Longest wait"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:94
+msgid "oldest open"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:94
+msgid "none open"
+msgstr ""
+
+#. translators: %s: number of updates
+#: src/Admin/Assignments/Views/AssigneePageView.php:106
+msgid "%s update"
+msgid_plural "%s updates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:113
+#: src/Admin/Notifications/NotificationsPageController.php:534
+msgid "All"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:127
+msgid "Search updates"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:130
+msgid "Sort by"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:131
+msgid "Newest first"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:132
+msgid "Oldest first"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:133
+msgid "By assignee"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:136
+msgid "Filter by assignee"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:137
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:296
+msgid "All assignees"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:145
+msgid "Filter"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:152
+msgid "No updates match this filter."
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:153
+msgid "No assigned updates."
+msgstr ""
+
+#. translators: %d: update id
+#: src/Admin/Assignments/Views/AssigneePageView.php:180
+msgid "Update #%d"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:188
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:103
+msgid "(untitled update)"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:193
+msgid "by"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:199
+msgid "assigned to"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:204
+#: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:278
+#: src/Admin/Notifications/NotificationsPageController.php:626
+#: src/Helpers/AssigneeHelper.php:43
+msgid "Unassigned"
+msgstr ""
+
+#. translators: %s: wait time, e.g. "16h"
+#: src/Admin/Assignments/Views/AssigneePageView.php:217
+msgid "Waiting %s"
+msgstr ""
+
+#. translators: 1: first row, 2: last row, 3: total
+#: src/Admin/Assignments/Views/AssigneePageView.php:231
+msgid "Showing %1$s of %2$s"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:249
+#: src/Admin/Notifications/Views/NotificationsView.php:237
+msgid "Previous page"
+msgstr ""
+
+#: src/Admin/Assignments/Views/AssigneePageView.php:263
+#: src/Admin/Notifications/Views/NotificationsView.php:268
+msgid "Next page"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:104
+msgid "Enjoying Order Updates for WooCommerce?"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:105
+msgid "Tell other store owners. Your rating shows up on WordPress.org and on the plugin's own site, so people can see real feedback from real users."
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:109
+msgid "Rate Order Updates for WooCommerce"
+msgstr ""
+
+#. translators: %d is a number of stars
+#: src/Admin/Notices/ReviewRequestNotice.php:114
+msgid "%d star"
+msgid_plural "%d stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:131
+msgid "Drop a public link (LinkedIn, store URL, etc.) so visitors on the site can verify the review is real. Optional but it's the only way the quote shows up publicly."
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:136
+msgid "A line or two about what worked for you (optional, but useful)"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:140
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:64
+#: src/Shared/Language/Labels/strings.php:142
+msgid "Submit rating"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:144
+msgid "Also post on WordPress.org"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:153
+msgid "I already did"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:157
+msgid "Maybe later"
+msgstr ""
+
+#: src/Admin/Notices/ReviewRequestNotice.php:161
+msgid "Don't ask again"
+msgstr ""
+
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:32
 msgid "Order update notification for admin"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:24
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:33
 msgid "Send an email to the store admin when a new order update is created."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:65
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:77
 msgid "[{site_title}] Low rating on order #{order_number}"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:78
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:90
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:122
-#: src/Admin/Orders/Templates/card/footer.php:185
+#: src/Admin/Orders/Templates/card/footer.php:200
 msgid "Customer rating"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:82
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:94
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:126
 msgid "Customer comment"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:87
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:99
 msgid "[{site_title}] New customer message for #{order_number}"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:88
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:111
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:119
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:100
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:123
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:131
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:153
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:170
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:196
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:229
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:237
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:77
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:63
-#: src/API/Endpoints/AddCustomerNoteEndpoint.php:77
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:115
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:93
-#: src/Shared/Language/Labels/strings.php:12
-#: src/Shared/Validation/validationRules.php:35
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:88
+#: src/Admin/Notifications/NotificationsPageController.php:646
+#: src/Admin/Notifications/NotificationsPageController.php:649
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:70
+#: src/API/Endpoints/AddCustomerNoteEndpoint.php:105
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:143
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:109
+#: src/Shared/Language/Labels/strings.php:20
+#: src/Shared/Validation/validationRules.php:38
 msgid "Customer note"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:115
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:127
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:158
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:166
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:233
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:57
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:83
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:56
-#: src/API/Endpoints/AddUpdateNoteEndpoint.php:75
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:103
-#: src/Shared/Language/Labels/strings.php:11
-#: src/Shared/Validation/validationRules.php:30
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:79
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:94
+#: src/Admin/Notifications/NotificationsPageController.php:650
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:63
+#: src/API/Endpoints/AddUpdateNoteEndpoint.php:107
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:134
+#: src/Shared/Language/Labels/strings.php:19
+#: src/Shared/Validation/validationRules.php:33
 msgid "Internal note"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:131
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:143
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:252
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:93
-#: src/Admin/Orders/Templates/card/footer.php:71
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:104
+#: src/Admin/Orders/Templates/card/footer.php:84
 msgid "Assigned to"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:135
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:147
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:258
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:65
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:97
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:115
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:87
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:108
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:131
 msgid "Created by"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:144
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:156
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:274
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:76
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:108
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:130
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:98
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:119
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:145
 msgid "View and reply"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:155
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:170
 msgid "[{site_title}] New update for #{order_number}"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:159
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:148
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:177
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:169
 msgid "Order update"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:170
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:190
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:285
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:110
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:121
 msgid "New customer message"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:172
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:192
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:281
+#: src/Admin/Notifications/NotificationsPageController.php:629
 msgid "Customer replied"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:176
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:196
 msgid "Update edited"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:178
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:198
 msgid "Low rating"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:180
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:200
 msgid "New update"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:186
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:211
 msgid "A customer left a low rating on a resolved update. The score and their comment are shown below — review and follow up if needed."
 msgstr ""
 
 #. translators: %s: assignee name.
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:196
-#, php-format
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:221
 msgid "The assignee has been changed to %s. Please find update details below."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:200
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:225
 msgid "An order update has been modified. Please find update details below."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:204
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:229
 msgid "A customer has submitted a new note from their order page. Please find details below."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:208
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:233
 msgid "The customer has replied with a new message on this update. Their message is shown below."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:214
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:239
 msgid "assignee"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:218
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:243
 msgid "customer"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:222
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:247
 msgid "The new update has been created. Please find update details below."
 msgstr ""
 
 #. translators: %s: list of notified parties (e.g. "assignee and customer").
-#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:226
-#, php-format
+#: src/Admin/Notifications/Emails/AdminOrderUpdateEmail.php:251
 msgid "The new update has been created and notified to %s. Please find update details below."
 msgstr ""
 
@@ -443,57 +682,49 @@ msgid "Send an email to the assigned user when a new order update is created."
 msgstr ""
 
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:82
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:67
-#: src/API/Endpoints/DeleteUpdateEndpoint.php:159
-#: src/API/Endpoints/DeleteUpdateEndpoint.php:211
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:78
+#: src/API/Endpoints/DeleteUpdateEndpoint.php:187
+#: src/API/Endpoints/DeleteUpdateEndpoint.php:242
 msgid "A team member"
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:87
-#, php-format
 msgid "[{site_title}] You have been unassigned from order update #%s"
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:89
-#, php-format
 msgid "%1$s unassigned you from an update for order #%2$s. No further action is needed."
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:93
-#, php-format
 msgid "[{site_title}] Customer rated your update on order #%s"
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:95
-#, php-format
 msgid "The customer rated an update you are assigned to on order #%s. Details below."
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:98
-#, php-format
 msgid "[{site_title}] Your assigned update on order #%s was marked solved"
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:100
-#, php-format
 msgid "%1$s marked an update you are assigned to as solved on order #%2$s."
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:103
-#, php-format
 msgid "[{site_title}] Status changed on your assigned update for #%s"
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:105
-#, php-format
 msgid "%1$s changed the status of an update you are assigned to on order #%2$s. Details below."
 msgstr ""
 
@@ -503,13 +734,11 @@ msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:144
-#, php-format
 msgid "[{site_title}] New note on your assigned update for #%s"
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:146
-#, php-format
 msgid "A new note was added to an update you are assigned to for order #%s."
 msgstr ""
 
@@ -518,51 +747,40 @@ msgid "Note"
 msgstr ""
 
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:182
-#: src/Helpers/UpdateAuthorHelper.php:19
-#: src/Shared/Updates/OrderUpdatesDb.php:1308
+#: src/Helpers/UpdateAuthorHelper.php:34
+#: src/Shared/Updates/OrderUpdatesDb.php:1775
 msgid "Customer"
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:186
-#, php-format
 msgid "[{site_title}] New customer update on order #%s"
 msgstr ""
 
 #. translators: 1: customer name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:188
-#, php-format
 msgid "%1$s opened a new update on order #%2$s and it was assigned to you. Their message is shown below."
 msgstr ""
 
 #. translators: %s: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:191
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:74
-#, php-format
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:85
 msgid "[{site_title}] New customer message for #%s"
 msgstr ""
 
 #. translators: 1: customer name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:193
-#, php-format
 msgid "%1$s has sent a new message on order #%2$s. Their message is shown below."
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:215
-#, php-format
 msgid "%1$s reassigned an update to you for order #%2$s. Details below."
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:217
-#, php-format
 msgid "%1$s assigned you to an update for order #%2$s. Details below."
-msgstr ""
-
-#: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:278
-#: src/Helpers/AssigneeHelper.php:28
-msgid "Unassigned"
 msgstr ""
 
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:283
@@ -570,7 +788,7 @@ msgid "New customer update"
 msgstr ""
 
 #: src/Admin/Notifications/Emails/AssigneeOrderUpdateEmail.php:289
-#: src/Admin/Orders/Templates/card/footer.php:188
+#: src/Admin/Orders/Templates/card/footer.php:203
 msgid "Customer rated"
 msgstr ""
 
@@ -594,3109 +812,3425 @@ msgstr ""
 msgid "Order update assigned"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:21
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:29
 msgid "Creator notice — update deleted by another staff member"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:22
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:30
 msgid "Notify the creator of an update when a different staff member deletes it."
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:62
-#, php-format
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:76
 msgid "%1$s deleted an update that was assigned to you on order #%2$s."
 msgstr ""
 
 #. translators: 1: actor name, 2: order number.
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:68
-#, php-format
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:82
 msgid "%1$s deleted an update you created on order #%2$s."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:72
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:86
 msgid "Deleted update"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:76
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:90
 msgid "Deleted by"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:80
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:94
+#: src/Admin/Notifications/NotificationsPageController.php:628
 msgid "Update deleted"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:82
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:65
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:96
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:76
 msgid "View order"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:94
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:111
 msgid "[{site_title}] Your update on order #{order_number} was deleted"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:98
+#: src/Admin/Notifications/Emails/CreatorUpdateDeletedEmail.php:118
 msgid "Your update was deleted"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:16
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:30
 msgid "Order updates: Internal mention"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:17
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:31
 msgid "Sent to a team member when they are tagged in an internal note on an order update."
 msgstr ""
 
 #. translators: 1: author name, 2: order number.
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:53
-#, php-format
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:75
 msgid "%1$s tagged you in an internal note on order #%2$s."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:77
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:99
+#: src/Admin/Notifications/NotificationsPageController.php:632
 msgid "You were mentioned"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:99
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:130
 msgid "[{site_title}] You were tagged on order #{order_number}"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/InternalMentionEmail.php:103
+#: src/Admin/Notifications/Emails/InternalMentionEmail.php:137
 msgid "You were tagged on an order update"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:26
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:35
 msgid "Order updates: Participant activity"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:27
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:36
 msgid "Sent to followers of an order update when a new note is added by someone else."
 msgstr ""
 
 #. translators: 1: author name, 2: order number.
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:76
-#, php-format
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:87
 msgid "%1$s sent a new message on order #%2$s."
 msgstr ""
 
 #. translators: %s: order number.
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:80
-#, php-format
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:91
 msgid "[{site_title}] New internal note on order #%s"
 msgstr ""
 
 #. translators: 1: author name, 2: order number.
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:82
-#, php-format
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:93
 msgid "%1$s added an internal note on order #%2$s."
 msgstr ""
 
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:111
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:122
 msgid "New internal note"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:123
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:137
 msgid "[{site_title}] New activity on order #{order_number}"
 msgstr ""
 
-#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:127
+#: src/Admin/Notifications/Emails/ParticipantUpdateEmail.php:144
 msgid "New activity on an order update"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:78
+msgid "Not allowed."
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:85
+msgid "Bad request."
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:164
+#: src/Admin/Notifications/Views/NotificationsView.php:29
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:31
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:42
+msgid "Notifications"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:279
+msgid "You are not allowed to view notifications."
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:323
+#: src/Admin/Notifications/Views/NotificationsView.php:66
+#: src/Admin/Notifications/Views/NotificationsView.php:118
+#: src/Shared/Language/Labels/strings.php:67
+msgid "Mark as read"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:324
+#: src/Admin/Notifications/Views/NotificationsView.php:118
+msgid "Mark as unread"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:325
+#: src/Admin/Notifications/NotificationsPageController.php:536
+#: src/Admin/Notifications/Views/NotificationsView.php:120
+msgid "Favorite"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:326
+#: src/Admin/Notifications/Views/NotificationsView.php:120
+msgid "Remove favorite"
+msgstr ""
+
+#. translators: %d: number of selected notifications
+#: src/Admin/Notifications/NotificationsPageController.php:329
+msgid "%d selected"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:535
+msgid "Unread"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:537
+msgid "Archived"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:630
+msgid "Staff replied"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:631
+msgid "New reply"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:633
+msgid "Notification"
+msgstr ""
+
+#: src/Admin/Notifications/NotificationsPageController.php:647
+msgid "Internal note · tagged you"
 msgstr ""
 
 #. translators: 1: recipient first name, 2: intro text.
 #. translators: 1: customer first name, 2: intro text.
-#: src/Admin/Notifications/Templates/order-update-notification.php:34
-#: src/Frontend/Notifications/Templates/order-update-notification.php:31
-#: src/Frontend/Notifications/Templates/rating-followup.php:34
-#, php-format
+#: src/Admin/Notifications/Templates/order-update-notification.php:45
+#: src/Frontend/Notifications/Templates/order-update-notification.php:39
+#: src/Frontend/Notifications/Templates/rating-followup.php:37
 msgid "Hi %1$s — %2$s"
 msgstr ""
 
-#: src/Admin/Notifications/Templates/order-update-notification.php:50
+#: src/Admin/Notifications/Templates/order-update-notification.php:61
 msgid "Note title"
 msgstr ""
 
-#: src/Admin/Notifications/Templates/order-update-notification.php:150
+#: src/Admin/Notifications/Templates/order-update-notification.php:162
 msgid "Visibility"
 msgstr ""
 
-#: src/Admin/Notifications/Templates/order-update-notification.php:154
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:240
+#: src/Admin/Notifications/Templates/order-update-notification.php:166
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:253
 msgid "Customer visible"
 msgstr ""
 
-#: src/Admin/Notifications/Templates/order-update-notification.php:183
-#: src/Frontend/Notifications/Templates/order-update-notification.php:144
+#: src/Admin/Notifications/Templates/order-update-notification.php:199
+#: src/Frontend/Notifications/Templates/order-update-notification.php:165
 msgid "Order details are included below."
 msgstr ""
 
 #. translators: 1: plugin name link, 2: review link.
-#: src/Admin/Notifications/Templates/order-update-notification.php:198
-#, php-format
-msgid "Powered by <a href=\"%1$s\" style=\"color:#9ca3af;\">Order Updates for WooCommerce</a> &middot; <a href=\"%2$s\" style=\"color:#9ca3af;\">Rate the plugin</a>"
+#: src/Admin/Notifications/Templates/order-update-notification.php:218
+msgid "Powered by <a href=\"%1$s\" style=\"color:#9ca3af;\">Order Updates for Woo</a> &middot; <a href=\"%2$s\" style=\"color:#9ca3af;\">Rate the plugin</a>"
 msgstr ""
 
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:40
+#: src/Admin/Notifications/Views/NotificationsView.php:52
+msgid "Search notifications…"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:63
+msgid "Select all"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:67
+#: src/Admin/Notifications/Views/NotificationsView.php:122
+msgid "Archive"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:68
+#: src/Admin/Notifications/Views/NotificationsView.php:201
+#: src/Shared/Language/Labels/strings.php:58
+#: src/Shared/Language/Labels/strings.php:93
+msgid "Delete"
+msgstr ""
+
+#. translators: %s: number of days
+#: src/Admin/Notifications/Views/NotificationsView.php:77
+msgid "Archived notifications are removed after %s day."
+msgid_plural "Archived notifications are removed after %s days."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of days
+#: src/Admin/Notifications/Views/NotificationsView.php:88
+msgid "Notifications are moved to Archived after %s day."
+msgid_plural "Notifications are moved to Archived after %s days."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:99
+msgid "No notifications match the current filter."
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:100
+msgid "You have no notifications yet."
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:122
+msgid "Unarchive"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:132
+msgid "Select notification"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:141
+msgid "Deleted"
+msgstr ""
+
+#. translators: %d: order id
+#: src/Admin/Notifications/Views/NotificationsView.php:147
+msgid "Order %d"
+msgstr ""
+
+#. translators: %d: update id
+#: src/Admin/Notifications/Views/NotificationsView.php:150
+msgid "Update %d"
+msgstr ""
+
+#. translators: %d: note id
+#: src/Admin/Notifications/Views/NotificationsView.php:153
+msgid "Note %d"
+msgstr ""
+
+#. translators: %s: sender display name
+#: src/Admin/Notifications/Views/NotificationsView.php:174
+msgid "by %s"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:188
+msgid "Reply (opens in a new tab)"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:213
+msgid "Rows per page"
+msgstr ""
+
+#. translators: %s: number of rows
+#: src/Admin/Notifications/Views/NotificationsView.php:218
+msgid "%s per page"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:232
+msgid "First page"
+msgstr ""
+
+#: src/Admin/Notifications/Views/NotificationsView.php:273
+msgid "Last page"
+msgstr ""
+
+#. translators: 1: first row, 2: last row, 3: total
+#: src/Admin/Notifications/Views/NotificationsView.php:294
+msgid "Showing %1$s to %2$s of %3$s"
+msgstr ""
+
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:44
 msgid "Deleted update history"
 msgstr ""
 
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:54
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:61
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:63
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:70
 msgid "No deleted updates yet."
 msgstr ""
 
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:82
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:123
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:124
-#: src/API/Endpoints/DeleteUpdateEndpoint.php:251
-#: src/Helpers/UpdateAuthorHelper.php:28
-#: src/Helpers/UpdateStatusHelper.php:63
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:96
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:143
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:144
+#: src/API/Endpoints/DeleteUpdateEndpoint.php:286
+#: src/Helpers/UpdateAuthorHelper.php:43
+#: src/Helpers/UpdateStatusHelper.php:91
 msgid "Unknown user"
 msgstr ""
 
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:89
-msgid "(untitled update)"
-msgstr ""
-
 #. translators: 1: actor display name, 2: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:93
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:107
 msgid "Deleted by %1$s · %2$s"
 msgstr ""
 
 #. translators: %d: deleted update id.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:111
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:126
 msgid "Update ID #%d"
 msgstr ""
 
 #. translators: 1: actor, 2: timestamp.
 #. translators: 1: user name, 2: date
 #. translators: 1: user display name, 2: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:128
-#: src/Helpers/UpdateAuthorHelper.php:63
-#: src/Shared/Language/Labels/strings.php:27
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:148
+#: src/Helpers/UpdateAuthorHelper.php:86
+#: src/Shared/Language/Labels/strings.php:35
 msgid "Created by %1$s at %2$s"
 msgstr ""
 
 #. translators: 1: assignee, 2: actor, 3: timestamp.
 #. translators: 1: assignee name, 2: assigner name, 3: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:130
-#: src/Shared/Language/Labels/strings.php:29
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:150
+#: src/Shared/Language/Labels/strings.php:37
 msgid "Assigned to %1$s by %2$s at %3$s"
 msgstr ""
 
 #. translators: 1: assignee, 2: actor, 3: timestamp.
 #. translators: 1: prior assignee name, 2: actor name, 3: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:132
-#: src/Shared/Language/Labels/strings.php:31
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:152
+#: src/Shared/Language/Labels/strings.php:39
 msgid "Unassigned from %1$s by %2$s at %3$s"
 msgstr ""
 
 #. translators: 1: assignee, 2: timestamp.
 #. translators: 1: assignee name, 2: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:134
-#: src/Shared/Language/Labels/strings.php:33
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:154
+#: src/Shared/Language/Labels/strings.php:41
 msgid "Notified assignee (%1$s) at %2$s"
 msgstr ""
 
 #. translators: 1: actor, 2: timestamp.
 #. translators: 1: solver name, 2: date
 #. translators: 1: solver name, 2: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:136
-#: src/Helpers/UpdateStatusHelper.php:67
-#: src/Shared/Language/Labels/strings.php:35
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:156
+#: src/Helpers/UpdateStatusHelper.php:95
+#: src/Shared/Language/Labels/strings.php:43
 msgid "Marked solved by %1$s at %2$s"
 msgstr ""
 
 #. translators: 1: actor, 2: timestamp.
 #. translators: 1: reopener name, 2: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:138
-#: src/Shared/Language/Labels/strings.php:37
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:158
+#: src/Shared/Language/Labels/strings.php:45
 msgid "Reopened by %1$s at %2$s"
 msgstr ""
 
 #. translators: %s: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:140
-#: src/Shared/Language/Labels/strings.php:39
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:160
+#: src/Shared/Language/Labels/strings.php:47
 msgid "Notified customer at %s"
 msgstr ""
 
 #. translators: 1: change message, 2: actor, 3: timestamp.
 #. translators: 1: status-change message, 2: actor display name, 3: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:144
-#: src/Shared/Language/Labels/strings.php:41
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:164
+#: src/Shared/Language/Labels/strings.php:49
 msgid "%1$s by %2$s at %3$s"
 msgstr ""
 
 #. translators: 1: rating message, 2: timestamp.
 #. translators: 1: rating message ("Customer rated 4/5 …"), 2: timestamp.
-#: src/Admin/Orders/DeletedUpdatesMetaBox.php:151
-#: src/Shared/Language/Labels/strings.php:43
-#, php-format
+#: src/Admin/Orders/DeletedUpdatesMetaBox.php:171
+#: src/Shared/Language/Labels/strings.php:51
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:148
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:280
+#. translators: %s is the team member's display name.
+#: src/Admin/Orders/OrderLockBanner.php:252
+msgid "%s is currently editing this order."
+msgstr ""
+
+#: src/Admin/Orders/OrderLockBanner.php:267
+msgid "You can still post notes below."
+msgstr ""
+
+#: src/Admin/Orders/OrderLockBanner.php:270
+msgid "Order Updates replaced WooCommerce's blocking modal with this banner so chat stays uninterrupted. Order fields stay locked until you take over."
+msgstr ""
+
+#: src/Admin/Orders/OrderLockBanner.php:275
+msgid "Take over"
+msgstr ""
+
+#: src/Admin/Orders/OrderLockBanner.php:276
+msgid "Go back"
+msgstr ""
+
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:161
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:511
 msgid "Updates"
 msgstr ""
 
 #. translators: %d: number of updates
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:211
-#, php-format
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:224
 msgid "%d update"
 msgid_plural "%d updates"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of unsolved updates
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:230
-#, php-format
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:243
 msgid "%d unsolved"
 msgid_plural "%d unsolved"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:283
-msgid "All assignees"
-msgstr ""
-
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:298
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:311
 msgid "All updates"
 msgstr ""
 
-#: src/Admin/Orders/OrderTableUpdateFiltersController.php:302
+#: src/Admin/Orders/OrderTableUpdateFiltersController.php:315
 msgid "Has unsolved updates"
 msgstr ""
 
-#: src/Admin/Orders/Services/OrderEditorPanelService.php:139
-#: src/API/Endpoints/SaveUpdateEndpoint.php:170
+#: src/Admin/Orders/Services/OrderEditorPanelService.php:133
+#: src/API/Endpoints/SaveUpdateEndpoint.php:215
 msgid "Update saved successfully."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:31
+#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:36
 msgid "Hidden from customer:"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:32
+#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:37
 msgid "this update is not yet visible to the customer. Write a customer note below to make it visible and notify them."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:39
+#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:44
 msgid "Guest customer:"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:40
+#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:45
 msgid "no My Account access — every note here is auto-emailed to the billing address."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:46
+#: src/Admin/Orders/Templates/card/customer-visibility-notice.php:51
 msgid "Visible to the customer on their My Account page."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/footer.php:82
+#: src/Admin/Orders/Templates/card/footer.php:95
 msgid "Assign"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/footer.php:85
+#: src/Admin/Orders/Templates/card/footer.php:98
 msgid "Edit assignee"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/footer.php:95
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:51
+#: src/Admin/Orders/Templates/card/footer.php:108
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:58
 msgid "Searches admins, shop managers and editors."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/footer.php:116
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:74
-#: src/Admin/Settings/Views/emails/manage-link.php:36
+#: src/Admin/Orders/Templates/card/footer.php:130
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:81
+#: src/Admin/Settings/Views/emails/manage-link.php:41
 msgid "Status"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/footer.php:120
-#: src/Admin/Orders/Templates/card/footer.php:125
+#: src/Admin/Orders/Templates/card/footer.php:134
+#: src/Admin/Orders/Templates/card/footer.php:139
 msgid "Change status"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/footer.php:136
+#: src/Admin/Orders/Templates/card/footer.php:150
 msgid "Pick a new status"
 msgstr ""
 
 #. translators: %s: solved date.
-#: src/Admin/Orders/Templates/card/footer.php:162
-#, php-format
+#: src/Admin/Orders/Templates/card/footer.php:177
 msgid "Solved · %s"
 msgstr ""
 
 #. translators: %s: rating value out of 5.
-#: src/Admin/Orders/Templates/card/footer.php:192
-#, php-format
+#: src/Admin/Orders/Templates/card/footer.php:208
 msgid "%s out of 5 stars"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:39
-#: src/Admin/Orders/Templates/card/header.php:40
-#: src/Admin/Settings/Views/emails/manage-link.php:64
-#: src/Shared/Language/Labels/strings.php:75
+#: src/Admin/Orders/Templates/card/header.php:43
+msgid "Update ID — matches the notification reference"
+msgstr ""
+
+#: src/Admin/Orders/Templates/card/header.php:47
+#: src/Admin/Orders/Templates/card/header.php:48
+#: src/Admin/Settings/Views/emails/manage-link.php:69
+#: src/Shared/Language/Labels/strings.php:85
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:49
+#: src/Admin/Orders/Templates/card/header.php:57
 msgid "Mark as solved"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:53
+#: src/Admin/Orders/Templates/card/header.php:61
 msgid "Re-open"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:66
+#: src/Admin/Orders/Templates/card/header.php:74
 msgid "Delete Update"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:70
+#: src/Admin/Orders/Templates/card/header.php:78
 msgid "When on, you receive admin-bar and email notifications for activity on this update. Switch off to mute just this thread."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:82
+#: src/Admin/Orders/Templates/card/header.php:90
 msgid "Get notifications"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:86
+#: src/Admin/Orders/Templates/card/header.php:94
 msgid "Collapse / expand"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:86
+#: src/Admin/Orders/Templates/card/header.php:94
 msgid "Collapse or expand this update"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/header.php:87
+#: src/Admin/Orders/Templates/card/header.php:95
 msgid "Collapse or expand"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:38
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:203
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:229
+#: src/Admin/Orders/Templates/card/note-thread.php:48
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:224
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:257
 msgid "Add Note"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:47
+#: src/Admin/Orders/Templates/card/note-thread.php:57
 msgid "Loading customer notes..."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:48
+#: src/Admin/Orders/Templates/card/note-thread.php:58
 msgid "Loading notes..."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:79
+#: src/Admin/Orders/Templates/card/note-thread.php:90
+msgid "This update is resolved and rated by the customer. Start a new update to continue the conversation."
+msgstr ""
+
+#: src/Admin/Orders/Templates/card/note-thread.php:92
 msgid "This update is resolved. Re-open it to add notes."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:83
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:228
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:26
+#: src/Admin/Orders/Templates/card/note-thread.php:97
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:224
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:34
 msgid "Drop files to attach"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:95
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:241
+#: src/Admin/Orders/Templates/card/note-thread.php:109
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:237
 msgid "Add emoji"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:99
-#: src/Admin/Orders/Templates/card/note-thread.php:100
+#: src/Admin/Orders/Templates/card/note-thread.php:113
+#: src/Admin/Orders/Templates/card/note-thread.php:114
 msgid "Attach file"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:112
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:244
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:48
+#: src/Admin/Orders/Templates/card/note-thread.php:126
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:240
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:56
 msgid "Drag and drop files supported"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:115
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:245
+#: src/Admin/Orders/Templates/card/note-thread.php:129
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:241
 msgid "Press Enter to send. Use Shift+Enter for a new line."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/note-thread.php:117
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:247
+#: src/Admin/Orders/Templates/card/note-thread.php:131
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:243
 msgid "Enter = Send"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/participants.php:37
+#: src/Admin/Orders/Templates/card/participants.php:42
 msgid "No participants yet. Anyone tagged, assigned, or replying on this update will appear here automatically."
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/tabs.php:34
+#: src/Admin/Orders/Templates/card/tabs.php:39
 msgid "Update tabs"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/tabs.php:46
+#: src/Admin/Orders/Templates/card/tabs.php:51
 msgid "Internal Notes"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/tabs.php:61
+#: src/Admin/Orders/Templates/card/tabs.php:66
 msgid "Customer Notes"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/tabs.php:76
+#: src/Admin/Orders/Templates/card/tabs.php:81
 msgid "Participants"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/tabs.php:89
+#: src/Admin/Orders/Templates/card/tabs.php:94
 msgid "Tracking Log"
 msgstr ""
 
-#: src/Admin/Orders/Templates/card/tags.php:38
+#: src/Admin/Orders/Templates/card/tags.php:43
 msgid "Customer notified"
 msgstr ""
 
 #. translators: %s: rating value out of 5.
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:73
-#, php-format
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:76
 msgid "Customer rated %s/5"
 msgstr ""
 
 #. translators: %s: customer rating comment.
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:81
-#, php-format
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:84
 msgid "Comment: %s"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:87
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:90
 msgid "Rating email sent · awaiting customer"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:90
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:93
 msgid "Rating email queued · awaiting customer"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:202
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:223
 msgid "Write a note..."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:228
+#: src/Admin/Orders/Views/OrderUpdateCardViewModern.php:256
 msgid "Write a note for the customer..."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:31
-#: src/Shared/Language/Labels/strings.php:19
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:38
+#: src/Shared/Language/Labels/strings.php:27
 msgid "Add New Update"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:32
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:39
 msgid "Edit updates here. Internal notes and customer notes can be managed from the card panels."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:38
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:49
-#: src/Frontend/Notifications/Templates/order-update-notification.php:47
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:45
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:62
+#: src/Frontend/Notifications/Templates/order-update-notification.php:66
 msgid "Update"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:46
-#: src/Helpers/ParticipantResolver.php:212
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:53
+#: src/Helpers/ParticipantResolver.php:233
 msgid "Assignee"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:57
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:64
 msgid "Plain text only. Add internal context for your team. Maximum 500 characters."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:58
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:68
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:65
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:75
 msgid "0/500"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:64
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:71
 msgid "Plain text only. Add the message customers should see. Maximum 500 characters."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:66
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:73
 msgid "Writing a message here makes this update visible to the customer. They will be emailed a link to view and reply — guest customers receive the same email with a guest chat link."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:92
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:100
 msgid "Created:"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:93
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:101
 msgid "Notified at:"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:99
-#: src/Shared/Language/Labels/strings.php:21
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:107
+#: src/Shared/Language/Labels/strings.php:29
 msgid "Publish Update"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdateFormView.php:100
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:56
-#: src/Shared/Language/Labels/strings.php:48
-#: src/Shared/Language/Labels/strings.php:91
+#: src/Admin/Orders/Views/OrderUpdateFormView.php:108
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:122
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:64
+#: src/Shared/Language/Labels/strings.php:56
+#: src/Shared/Language/Labels/strings.php:101
 msgid "Cancel"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:69
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:76
+msgid "Customers no-login chat link:"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:82
+msgid "Copy link"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:85
+msgid "Expires in"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:95
+msgid "days"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:102
+msgid "Regenerate"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:116
+msgid "Regenerate the link? The current one will stop working immediately."
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:119
+msgid "Email the new link to the customer"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:121
+msgid "Regenerate now"
+msgstr ""
+
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:145
 msgid "No updates have been saved for this order yet."
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:81
-#: src/Shared/Language/Labels/strings.php:10
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:157
+#: src/Shared/Language/Labels/strings.php:18
 msgid "Load more"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:88
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:164
 msgid "Add new update"
 msgstr ""
 
-#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:90
-#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:91
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:166
+#: src/Admin/Orders/Views/OrderUpdatesPanelViewModern.php:167
 msgid "Refresh updates"
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:99
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:111
 msgid "List or create order updates. GET filters by order_id; POST creates a new update for an order."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:101
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:116
 msgid "WooCommerce order ID the update belongs to."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:102
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:121
 msgid "Update title."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:103
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:126
 msgid "Internal staff note saved with the update."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:104
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:131
 msgid "Customer-visible note (also creates a customer-thread entry)."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:105
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:136
 msgid "Hex highlight color for the card."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:106
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:141
 msgid "Staff user ID to assign. Pass 0 to leave unassigned."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:110
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:146
 msgid "Edit or delete a single update. PUT/POST updates fields; DELETE removes the update and its notes."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:114
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:150
 msgid "List the customer-thread notes on an update, or post a new customer-visible note as staff."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:116
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:155
 msgid "Note body. Max 500 chars."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:120
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:160
 msgid "Edit a previously posted customer note. The original is archived to the edit-history table."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:122
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:139
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:165
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:194
 msgid "Replacement note body."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:126
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:170
 msgid "Manually email a customer-visible note to the customer. Use when the auto-notify path was skipped."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:130
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:174
 msgid "List internal staff notes on an update, or post a new internal note (with optional @mentions)."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:132
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:179
 msgid "Internal note body. Max 500 chars."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:133
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:184
 msgid "Array of staff user IDs to @mention."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:137
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:189
 msgid "Edit or delete a single internal note. Edit window is enforced by the configured limit."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:140
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:199
 msgid "Updated array of @mention user IDs."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:144
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:204
 msgid "Mark an update as solved. Triggers the rating-request email if the customer has rating enabled."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:148
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:208
 msgid "Re-open a previously solved update so customers and staff can resume the thread."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:152
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:212
 msgid "Customer-side write endpoint — creates a new update or replies to an existing one. Accepts logged-in customers and guests (via order_key)."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:154
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:217
 msgid "Order ID the customer is writing about."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:155
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:222
 msgid "Customer message body."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:156
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:227
 msgid "Subject line — required for new (non-reply) submissions."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:157
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:232
 msgid "Existing update ID to reply to. Omit for a brand-new submission."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:158
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:237
 msgid "Guest auth: the order_key from the customer notification email link."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:162
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:242
 msgid "Submit a customer rating (1–5 stars) on a resolved update. Triggers the follow-up email."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:164
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:247
 msgid "Rating 1–5."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:165
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:252
 msgid "Optional rating comment."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:169
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:257
 msgid "Upload an attachment for a note. Multipart upload — file under \"file\", context fields (order_id, update_id, note_id, note_type) alongside."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:173
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:261
 msgid "Stream a stored attachment back to the requester. Cap-checked; customer-side requests need a signed token."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:177
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:265
 msgid "Delete a stored attachment. Removes both the DB row and the file on disk."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:181
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:269
 msgid "List every update (with notes + assignee + counts) for an order — used by the admin meta box and the customer portal."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:183
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:274
 msgid "Order to list updates for."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:184
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:279
 msgid "Max updates to return. Defaults to the configured page size."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:185
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:284
 msgid "Pagination offset for \"Load more\" calls."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:189
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:289
 msgid "Fetch the next older page of customer-thread notes — backs the \"Load previous\" button on long threads."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:191
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:294
 msgid "Return notes older than this id."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:192
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:299
 msgid "Page size. Defaults to the configured customer-notes page size."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:193
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:304
 msgid "Guest auth — same order_key as on /customer-updates."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:197
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:309
 msgid "Return the edit history of a customer note (every prior body + who edited + when). Drives the \"(edited) View history\" panel."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:201
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:313
 msgid "Action timeline for an update — every status change, assignee change, customer/staff event. Used by the Tracking Log tab."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:205
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:317
 msgid "Toggle the current staff member's personal \"email me about this update\" preference. Per-user, per-update."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:207
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:322
 msgid "Whether the current user wants emails for this update."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:211
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:327
 msgid "Customer-side opt-out toggle. Saves on user_meta for logged-in customers, post_meta for guests."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:213
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:332
 msgid "Order the preference applies to."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:214
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:337
 msgid "true → customer wants email notifications; false → opt out."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:215
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:342
 msgid "Required for guests — the order_key from the email link."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:219
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:347
 msgid "Customer-side polling endpoint. Returns notes added since since_note_id so the customer page picks up staff replies in near-realtime."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:221
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:352
 msgid "Order whose threads the customer is viewing."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:222
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:357
 msgid "Map of update_id → highest note_id the client has seen."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:223
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:362
 msgid "Guest auth."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:227
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:367
 msgid "Type-ahead search across the configured Internal Team roles. Backs the inline assignee picker on update cards."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:229
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:372
 msgid "Search term — matches against display name and email."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:233
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:377
 msgid "Top-line analytics for the dashboard widget — open / solved / pending counts and SLA stats over the date window."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:235
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:382
 msgid "Start date (YYYY-MM-DD). Defaults to 30 days ago."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:236
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:387
 msgid "End date (YYYY-MM-DD). Defaults to today."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:240
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:392
 msgid "Time-series analytics — daily open/solved counts inside the date window, ready for a line chart."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:242
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:397
 msgid "Start date (YYYY-MM-DD)."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:243
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:402
 msgid "End date (YYYY-MM-DD)."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:247
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:407
 msgid "Top products by update volume — shows which SKUs are generating the most customer questions."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:249
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:257
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:412
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:432
 msgid "Start date."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:250
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:258
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:417
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:437
 msgid "End date."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:251
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:422
 msgid "How many top products to return. Defaults to 10."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:255
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:427
 msgid "Per-assignee breakdown — number of updates handled, average time-to-solve, ratings received."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:274
-#: src/Admin/Settings/Services/ApiSettingsService.php:244
-#: src/Admin/Settings/Services/ApiSettingsService.php:271
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:454
+#: src/Admin/Settings/Services/ApiSettingsService.php:263
+#: src/Admin/Settings/Services/ApiSettingsService.php:294
 msgid "Query"
 msgstr ""
 
-#: src/Admin/Settings/Controllers/ApiSettingsController.php:275
-#: src/Admin/Settings/Services/ApiSettingsService.php:245
-#: src/Admin/Settings/Services/ApiSettingsService.php:270
+#: src/Admin/Settings/Controllers/ApiSettingsController.php:455
+#: src/Admin/Settings/Services/ApiSettingsService.php:264
+#: src/Admin/Settings/Services/ApiSettingsService.php:293
 msgid "Body"
 msgstr ""
 
-#: src/Admin/Settings/Controllers/AttachmentsSettingsController.php:63
+#: src/Admin/Settings/Controllers/AttachmentsSettingsController.php:88
 msgid "Order Updates — Nginx detected:"
 msgstr ""
 
-#: src/Admin/Settings/Controllers/AttachmentsSettingsController.php:64
+#: src/Admin/Settings/Controllers/AttachmentsSettingsController.php:89
 msgid "Your attachment upload directory may be publicly accessible. Apache .htaccess rules are ignored on Nginx. Add a server block to deny direct access to the uploads/order-updates-for-woo/ directory."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/CacheSettingsController.php:118
+#: src/Admin/Settings/Controllers/CacheSettingsController.php:151
 msgid "Cache cleared."
 msgstr ""
 
-#: src/Admin/Settings/Controllers/EmailsSettingsController.php:118
+#: src/Admin/Settings/Controllers/EmailsSettingsController.php:151
 msgid "Email setting updated."
 msgstr ""
 
-#: src/Admin/Settings/Fields/AssigneeRotationField.php:67
+#: src/Admin/Settings/Fields/AssigneeRotationField.php:82
 msgid "No team members found for the selected internal-team roles. Add staff to those roles, then refresh the team roster from this page."
 msgstr ""
 
-#: src/Admin/Settings/Fields/AssigneeRotationField.php:71
+#: src/Admin/Settings/Fields/AssigneeRotationField.php:86
 msgid "Customer-submitted updates rotate through the checked members in this order. Drag to reorder. Uncheck to skip a member without removing them."
 msgstr ""
 
-#: src/Admin/Settings/Fields/StatusListField.php:65
+#: src/Admin/Settings/Fields/StatusListField.php:74
 msgid "Add status"
 msgstr ""
 
-#: src/Admin/Settings/Fields/StatusListField.php:190
+#: src/Admin/Settings/Fields/StatusListField.php:216
 msgid "Label, e.g. In progress"
 msgstr ""
 
-#: src/Admin/Settings/Fields/StatusListField.php:198
+#: src/Admin/Settings/Fields/StatusListField.php:224
 msgid "Status color"
 msgstr ""
 
-#: src/Admin/Settings/Fields/StatusListField.php:205
+#: src/Admin/Settings/Fields/StatusListField.php:231
 msgid "Remove status"
 msgstr ""
 
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:58
-msgid "Order Updates Settings"
-msgstr ""
-
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:65
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:118
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:143
-#: src/API/Endpoints/AssigneeSearchEndpoint.php:55
-#: src/API/Endpoints/OrderUpdatesListEndpoint.php:64
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:120
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:175
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:200
+#: src/API/Endpoints/AssigneeSearchEndpoint.php:74
+#: src/API/Endpoints/OrderUpdatesListEndpoint.php:85
 msgid "You are not allowed to view order updates."
 msgstr ""
 
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:261
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:325
 msgid "Reset all settings in this tab to their defaults? This cannot be undone."
 msgstr ""
 
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:267
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:331
 msgid "Reset to default"
 msgstr ""
 
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:302
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:367
 msgid "Settings reset to defaults."
 msgstr ""
 
-#: src/Admin/Settings/OrderUpdatesSettingsController.php:314
+#: src/Admin/Settings/OrderUpdatesSettingsController.php:380
 msgid "Team list refreshed."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:27
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:33
 msgid "Admin Only"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:38
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:46
 msgid "Admin notifications"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:40
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:48
 msgid "Control which events copy the site admin (the user whose email is set at Settings → General → Administration Email Address). These toggles only affect the admin's own inbox."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:44
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:52
 msgid "Email site admin when a customer opens a new update"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:45
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:53
 msgid "When off, only the assigned staff member is notified."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:51
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:59
 msgid "Email site admin on low ratings (1-3 stars)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:52
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:60
 msgid "When on, the admin gets a heads-up email whenever a customer leaves a 1, 2 or 3 star rating. Useful for spotting detractors early."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:67
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:75
 msgid "Restricted features"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:69
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:77
 msgid "Allowing edits and deletes can weaken the audit trail of customer conversations. As a guardrail, only the most recent message in each thread can be changed — the moment a new message is posted, all previous notes lock permanently."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:73
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:81
 msgid "Allow editing notes"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:74
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:82
 msgid "Let authors edit their own latest note (within the edit window). Older notes stay locked."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:80
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:88
 msgid "Allow deleting notes"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:81
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:89
 msgid "Let authors delete their own latest note (within the edit window). Older notes stay locked."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:87
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:95
 msgid "Allow deleting updates"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:88
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:96
 msgid "Allow update records to be deleted instead of kept as history. Deleting an update removes the whole thread permanently."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:94
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:102
 msgid "Allow members to delete own internal notes"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:95
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:103
 msgid "Sub-toggle for \"Allow deleting notes\" — when off, only customer-side delete applies. Customer-facing notes are never deletable; they keep an edit history instead."
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:101
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:109
 msgid "Note edit window (minutes)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AdminOnlySettingsService.php:102
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:110
 msgid "How long after posting an author can still edit or delete their latest note. Default 1 minute — a typo escape hatch, not a rewrite window."
 msgstr ""
 
-#: src/Admin/Settings/Services/ApiSettingsService.php:33
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:127
+msgid "Order edit lock"
+msgstr ""
+
+#: src/Admin/Settings/Services/AdminOnlySettingsService.php:129
+msgid "Order Updates replaces WooCommerce&rsquo;s blocking &ldquo;X is currently editing this order&rdquo; modal with a non-blocking warning banner. Team members can keep posting notes while another member holds the edit lock. Order fields (status, billing, items, etc.) stay locked until someone clicks &ldquo;Take over&rdquo; &mdash; same data safety as WooCommerce&rsquo;s default, just without the screen-wide interruption."
+msgstr ""
+
+#: src/Admin/Settings/Services/ApiSettingsService.php:39
 msgid "API Endpoints"
 msgstr ""
 
-#: src/Admin/Settings/Services/ApiSettingsService.php:230
+#: src/Admin/Settings/Services/ApiSettingsService.php:244
 msgid "URL"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:23
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:32
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:206
-#: src/Welcome/Views/WelcomePageView.php:83
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:29
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:40
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:332
+#: src/Welcome/Views/WelcomePageView.php:93
 msgid "Attachments"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:34
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:42
 msgid "Attachments uploaded here are stored privately and accessible only to authorized users. They do not appear in your Media Library and are not picked up by media-offload plugins. Cloud storage support is planned via a future addon."
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:38
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:46
 msgid "Max files per note"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:39
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:47
 msgid "How many files can be attached to a single note."
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:47
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:59
 msgid "Max file size (MB)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:56
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:72
 msgid "Allowed file types"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:57
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:73
 msgid "File types accepted when staff or customers upload attachments. Disabling a type only blocks new uploads — files already stored in that format remain readable."
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:78
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:96
 msgid "PDF (.pdf)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:79
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:97
 msgid "Word — legacy (.doc)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:80
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:98
 msgid "Word (.docx)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:81
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:99
 msgid "Excel — legacy (.xls)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:82
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:100
 msgid "Excel (.xlsx)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:83
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:101
 msgid "PowerPoint — legacy (.ppt)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:84
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:102
 msgid "PowerPoint (.pptx)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:85
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:103
 msgid "OpenDocument Text (.odt)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:86
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:104
 msgid "OpenDocument Spreadsheet (.ods)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:87
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:105
 msgid "OpenDocument Presentation (.odp)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:88
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:106
 msgid "RTF (.rtf)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:89
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:107
 msgid "Plain text (.txt)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:90
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:108
 msgid "CSV (.csv)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:91
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:109
 msgid "JPEG (.jpg, .jpeg)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:92
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:110
 msgid "PNG (.png)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:93
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:111
 msgid "GIF (.gif)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:94
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:112
 msgid "WebP (.webp)"
 msgstr ""
 
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:108
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:128
 msgid "Maximum size per uploaded file, in megabytes."
 msgstr ""
 
 #. translators: %s: server upload limit (e.g. "2 MB")
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:113
-#, php-format
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:133
 msgid "Your server's upload limit is %s — your current setting exceeds this and will be capped automatically. To allow larger files, increase <code>upload_max_filesize</code> in your server configuration first."
 msgstr ""
 
 #. translators: %s: server upload limit (e.g. "2 MB")
-#: src/Admin/Settings/Services/AttachmentsSettingsService.php:120
-#, php-format
+#: src/Admin/Settings/Services/AttachmentsSettingsService.php:140
 msgid "Your server allows up to %s per file."
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:37
+#: src/Admin/Settings/Services/CacheSettingsService.php:49
 msgid "Cache"
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:56
+#: src/Admin/Settings/Services/CacheSettingsService.php:70
 msgid "Clear team roster cache"
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:57
+#: src/Admin/Settings/Services/CacheSettingsService.php:71
 msgid "Force a fresh lookup of staff in the configured team roles. Use this if the team list looks stale."
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:61
+#: src/Admin/Settings/Services/CacheSettingsService.php:75
 msgid "Clear analytics cache"
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:62
+#: src/Admin/Settings/Services/CacheSettingsService.php:76
 msgid "Re-aggregate the analytics summary on next dashboard load. Useful after bulk-importing or deleting historical data."
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:66
+#: src/Admin/Settings/Services/CacheSettingsService.php:80
 msgid "Rebuild analytics lookup"
 msgstr ""
 
-#: src/Admin/Settings/Services/CacheSettingsService.php:67
+#: src/Admin/Settings/Services/CacheSettingsService.php:81
 msgid "Drop and re-populate the precomputed analytics table from current updates. Runs in the background via Action Scheduler; safe on large stores. Use this if the dashboard numbers look out of step with reality."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:27
+#: src/Admin/Settings/Services/CustomersSettingsService.php:33
 msgid "Customers"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:36
+#: src/Admin/Settings/Services/CustomersSettingsService.php:44
 msgid "Customer experience"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:38
+#: src/Admin/Settings/Services/CustomersSettingsService.php:46
 msgid "Control what customers see on their order page and how they interact with the team."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:42
+#: src/Admin/Settings/Services/CustomersSettingsService.php:50
 msgid "Show assignee to customers"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:43
+#: src/Admin/Settings/Services/CustomersSettingsService.php:51
 msgid "Display the assigned team member's name on the customer-facing update page."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:49
+#: src/Admin/Settings/Services/CustomersSettingsService.php:57
 msgid "Allow customers to create updates"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:50
+#: src/Admin/Settings/Services/CustomersSettingsService.php:58
 msgid "Let customers open new update threads from their order page. Replies to existing updates are always allowed."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:56
+#: src/Admin/Settings/Services/CustomersSettingsService.php:64
 msgid "Enable customer rating"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:57
+#: src/Admin/Settings/Services/CustomersSettingsService.php:65
 msgid "Show a 5-star rating form on resolved updates so customers can rate the experience."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:63
+#: src/Admin/Settings/Services/CustomersSettingsService.php:71
 msgid "Allow rating comment"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:64
+#: src/Admin/Settings/Services/CustomersSettingsService.php:72
 msgid "Show an optional comment box alongside the rating."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:70
+#: src/Admin/Settings/Services/CustomersSettingsService.php:78
 msgid "Email customer for rating"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:71
+#: src/Admin/Settings/Services/CustomersSettingsService.php:79
 msgid "When an update is marked solved, email the customer with a link to leave a rating."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:77
+#: src/Admin/Settings/Services/CustomersSettingsService.php:85
 msgid "Follow-up email after rating"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:78
+#: src/Admin/Settings/Services/CustomersSettingsService.php:86
 msgid "After a rating is submitted, send the customer a follow-up: a thank-you with share buttons for high ratings, or an \"we'll do better\" reply prompt for low ratings."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:84
+#: src/Admin/Settings/Services/CustomersSettingsService.php:92
 msgid "Share text for promoter emails"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:85
+#: src/Admin/Settings/Services/CustomersSettingsService.php:93
 msgid "The message pre-filled in social share links sent to happy customers. Available tokens: {site_name}, {site_url}."
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:92
+#: src/Admin/Settings/Services/CustomersSettingsService.php:100
 msgid "Follow-up message for low ratings (1-3 stars)"
 msgstr ""
 
-#: src/Admin/Settings/Services/CustomersSettingsService.php:93
+#: src/Admin/Settings/Services/CustomersSettingsService.php:101
 msgid "Shown to customers who leave a low rating, in the follow-up email. A button back to their update is rendered automatically below this text."
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:30
+#: src/Admin/Settings/Services/CustomersSettingsService.php:108
+msgid "Customer link expiry (days)"
+msgstr ""
+
+#: src/Admin/Settings/Services/CustomersSettingsService.php:109
+msgid "How long a link in a customer email stays valid. After this many days the link shows a \"log in or contact us\" page instead of the update."
+msgstr ""
+
+#: src/Admin/Settings/Services/CustomersSettingsService.php:121
+msgid "Support contact email"
+msgstr ""
+
+#: src/Admin/Settings/Services/CustomersSettingsService.php:122
+msgid "Shown to customers who click an expired link and are not logged in. Leave blank to use the site admin email."
+msgstr ""
+
+#: src/Admin/Settings/Services/EmailsSettingsService.php:36
 msgid "Emails"
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:39
+#: src/Admin/Settings/Services/EmailsSettingsService.php:47
 msgid "Email delivery"
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:44
+#: src/Admin/Settings/Services/EmailsSettingsService.php:52
 msgid "Delivery mode"
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:45
+#: src/Admin/Settings/Services/EmailsSettingsService.php:53
 msgid "How customer notification emails are sent. \"Automatic\" detects whether your host can deliver emails in the background and falls back to immediate sending if it cannot. Switch to \"Send immediately\" if customers report missing emails. Choose \"Send in background\" only if your host has reliable scheduled tasks and you want admin pages to load faster."
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:50
+#: src/Admin/Settings/Services/EmailsSettingsService.php:58
 msgid "Automatic (recommended)"
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:51
+#: src/Admin/Settings/Services/EmailsSettingsService.php:59
 msgid "Send immediately"
 msgstr ""
 
-#: src/Admin/Settings/Services/EmailsSettingsService.php:52
+#: src/Admin/Settings/Services/EmailsSettingsService.php:60
 msgid "Send in background"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:27
+#: src/Admin/Settings/Services/EmailsSettingsService.php:64
+msgid "Show \"Powered by\" credit in email footers"
+msgstr ""
+
+#: src/Admin/Settings/Services/EmailsSettingsService.php:65
+msgid "Off by default. Tick to add a small \"Powered by Order Updates for Woo · Rate the plugin\" line at the bottom of staff-facing notification emails. Customer-facing emails are unaffected."
+msgstr ""
+
+#: src/Admin/Settings/Services/GeneralSettingsService.php:38
 msgid "General"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:75
+#: src/Admin/Settings/Services/GeneralSettingsService.php:94
 msgid "Update form fields"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:77
+#: src/Admin/Settings/Services/GeneralSettingsService.php:96
 msgid "Control which fields appear when your team creates an update."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:81
+#: src/Admin/Settings/Services/GeneralSettingsService.php:100
 msgid "Enable assignee field"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:82
+#: src/Admin/Settings/Services/GeneralSettingsService.php:101
 msgid "Let admins assign updates to team members."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:88
+#: src/Admin/Settings/Services/GeneralSettingsService.php:107
 msgid "Enable color field"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:89
+#: src/Admin/Settings/Services/GeneralSettingsService.php:108
 msgid "Allow admins to assign a highlight color to each update."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:95
+#: src/Admin/Settings/Services/GeneralSettingsService.php:114
 msgid "Enable internal note field"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:96
+#: src/Admin/Settings/Services/GeneralSettingsService.php:115
 msgid "Allow a plain text internal note for team context."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:102
+#: src/Admin/Settings/Services/GeneralSettingsService.php:121
 msgid "Enable customer note field"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:103
+#: src/Admin/Settings/Services/GeneralSettingsService.php:122
 msgid "Allow a separate plain text customer-facing note."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:109
+#: src/Admin/Settings/Services/GeneralSettingsService.php:128
 msgid "Enable solved state"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:110
+#: src/Admin/Settings/Services/GeneralSettingsService.php:129
 msgid "Allow updates to be marked as solved."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:116
+#: src/Admin/Settings/Services/GeneralSettingsService.php:135
 msgid "Statuses"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:117
+#: src/Admin/Settings/Services/GeneralSettingsService.php:136
 msgid "These appear in the status dropdown when your team creates an update. Drag to reorder; the order here is the order shown in the form."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:123
+#: src/Admin/Settings/Services/GeneralSettingsService.php:142
 msgid "Default status for customer-initiated updates"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:124
+#: src/Admin/Settings/Services/GeneralSettingsService.php:143
 msgid "Customers don't see the status picker. New updates they open are stamped with this status automatically."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:141
+#: src/Admin/Settings/Services/GeneralSettingsService.php:160
 msgid "Note panel appearance"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:143
+#: src/Admin/Settings/Services/GeneralSettingsService.php:162
 msgid "Customize the background color and pattern image on the internal-notes and customer-notes panels on the order edit screen. Leave any field blank to use the default look."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:147
+#: src/Admin/Settings/Services/GeneralSettingsService.php:166
 msgid "Internal notes background color"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:148
+#: src/Admin/Settings/Services/GeneralSettingsService.php:167
 msgid "Solid background color behind the internal-notes thread."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:154
+#: src/Admin/Settings/Services/GeneralSettingsService.php:173
 msgid "Internal notes background image"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:155
+#: src/Admin/Settings/Services/GeneralSettingsService.php:174
 msgid "Optional. Image used as a repeating background pattern on the internal-notes panel. Click \"Choose image\" to pick from the Media Library, or leave blank for the default chat pattern."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:164
+#: src/Admin/Settings/Services/GeneralSettingsService.php:183
 msgid "Customer notes background color"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:165
+#: src/Admin/Settings/Services/GeneralSettingsService.php:184
 msgid "Solid background color behind the customer-notes thread."
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:171
+#: src/Admin/Settings/Services/GeneralSettingsService.php:190
 msgid "Customer notes background image"
 msgstr ""
 
-#: src/Admin/Settings/Services/GeneralSettingsService.php:172
+#: src/Admin/Settings/Services/GeneralSettingsService.php:191
 msgid "Optional. Image used as a repeating background pattern on the customer-notes panel. Click \"Choose image\" to pick from the Media Library, or leave blank for the default chat pattern."
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:24
+#: src/Admin/Settings/Services/MembersSettingsService.php:30
 msgid "Members"
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:33
+#: src/Admin/Settings/Services/MembersSettingsService.php:41
 msgid "Members & rotation"
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:35
+#: src/Admin/Settings/Services/MembersSettingsService.php:43
 msgid "Pick which roles count as your internal team and the order in which customer-submitted updates are assigned to them."
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:39
+#: src/Admin/Settings/Services/MembersSettingsService.php:47
 msgid "Internal team roles"
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:40
+#: src/Admin/Settings/Services/MembersSettingsService.php:48
 msgid "Choose which user roles count as your internal team. Members of these roles can be assigned to updates and tagged in internal notes."
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:50
+#: src/Admin/Settings/Services/MembersSettingsService.php:58
 msgid "Assignment rotation"
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:51
+#: src/Admin/Settings/Services/MembersSettingsService.php:59
 msgid "Customer-submitted updates rotate through the checked members in this order. Drag the handle to set priority. Members not yet in the rotation appear at the bottom — check to include them. If the rotation is empty, the first administrator receives every customer update."
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:83
+#: src/Admin/Settings/Services/MembersSettingsService.php:91
 msgid "Refresh team list"
 msgstr ""
 
-#: src/Admin/Settings/Services/MembersSettingsService.php:84
+#: src/Admin/Settings/Services/MembersSettingsService.php:92
 msgid "Team list refreshes automatically when staff is added, removed, or changes role. Use this if you ever see a stale list."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:20
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:44
+msgid "How long staff notifications are kept. They move to Archived on their own, then drop off after a further period. Favourited notifications are never auto-archived or deleted."
+msgstr ""
+
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:48
+msgid "Move to Archived after (days)"
+msgstr ""
+
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:49
+msgid "Days an active notification waits before it moves to the Archived tab. Set to 0 to never auto-archive."
+msgstr ""
+
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:61
+msgid "Delete from Archived after (days)"
+msgstr ""
+
+#: src/Admin/Settings/Services/NotificationsSettingsService.php:62
+msgid "Days an archived notification is kept before it is removed for good. Set to 0 to keep archived notifications indefinitely."
+msgstr ""
+
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:26
 msgid "Shortcodes"
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:43
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:53
 msgid "Renders the customer update portal on any page. Works inside Elementor, Divi, Gutenberg, or any builder that supports shortcodes. The order ID is detected from the URL automatically when the customer arrives via a notification email link."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:48
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:58
 msgid "Hard-code the order ID instead of relying on the URL. Useful when embedding on a page tied to a single order."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:53
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:63
 msgid "WC order key (e.g. wc_order_abc123). Only needed for guest-customer pages where the visitor isn't logged in."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:59
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:69
 msgid "Order ID. Standard form."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:64
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:74
 msgid "Same as order_id — supports the dashed alias used by some email-link generators."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:69
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:79
 msgid "WC order key for guest authentication. WC's own \"View order\" links use this."
 msgstr ""
 
-#: src/Admin/Settings/Services/ShortcodesSettingsService.php:74
+#: src/Admin/Settings/Services/ShortcodesSettingsService.php:84
 msgid "Same as key — alternative name supported for explicit clarity."
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:29
+#: src/Admin/Settings/Views/api/endpoints.php:34
 msgid "REST API endpoints"
 msgstr ""
 
 #. translators: 1: REST namespace, 2: base URL
-#: src/Admin/Settings/Views/api/endpoints.php:35
-#, php-format
+#: src/Admin/Settings/Views/api/endpoints.php:40
 msgid "All endpoints live under the namespace %1$s. Base URL: %2$s."
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:44
+#: src/Admin/Settings/Views/api/endpoints.php:49
 msgid "Authentication"
 msgstr ""
 
 #. translators: 1: app password URL, 2: docs URL
-#: src/Admin/Settings/Views/api/endpoints.php:51
-#, php-format
+#: src/Admin/Settings/Views/api/endpoints.php:56
 msgid "For Postman or any external tool, use an <a href=\"%1$s\">Application Password</a> (Basic Auth: <code>USERNAME:APP_PASSWORD</code>). Each curl below is pre-filled — replace <code>USERNAME</code> and <code>APP_PASSWORD</code> with real values and paste path placeholders like <code>&lt;UPDATE_ID&gt;</code>. <a href=\"%2$s\">More on the WP REST auth options</a>."
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:65
+#: src/Admin/Settings/Views/api/endpoints.php:70
 msgid "No endpoints have been registered yet — load the front end at least once after activation."
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:86
+#: src/Admin/Settings/Views/api/endpoints.php:91
 msgid "Parameters"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:91
-#: src/Admin/Settings/Views/shortcodes/usage.php:46
+#: src/Admin/Settings/Views/api/endpoints.php:96
+#: src/Admin/Settings/Views/shortcodes/usage.php:51
 msgid "Name"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:92
+#: src/Admin/Settings/Views/api/endpoints.php:97
 msgid "In"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:93
+#: src/Admin/Settings/Views/api/endpoints.php:98
 msgid "Type"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:94
-#: src/Admin/Settings/Views/shortcodes/usage.php:47
+#: src/Admin/Settings/Views/api/endpoints.php:99
+#: src/Admin/Settings/Views/shortcodes/usage.php:52
 msgid "Required"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:95
-#: src/Admin/Settings/Views/emails/manage-link.php:35
-#: src/Admin/Settings/Views/shortcodes/usage.php:48
-#: src/Admin/Settings/Views/shortcodes/usage.php:77
+#: src/Admin/Settings/Views/api/endpoints.php:100
+#: src/Admin/Settings/Views/emails/manage-link.php:40
+#: src/Admin/Settings/Views/shortcodes/usage.php:53
+#: src/Admin/Settings/Views/shortcodes/usage.php:82
 msgid "Description"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:104
-#: src/Admin/Settings/Views/shortcodes/usage.php:55
+#: src/Admin/Settings/Views/api/endpoints.php:109
+#: src/Admin/Settings/Views/shortcodes/usage.php:60
 msgid "yes"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:104
-#: src/Admin/Settings/Views/shortcodes/usage.php:55
+#: src/Admin/Settings/Views/api/endpoints.php:109
+#: src/Admin/Settings/Views/shortcodes/usage.php:60
 msgid "no"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:114
+#: src/Admin/Settings/Views/api/endpoints.php:119
 msgid "Copy and paste into Postman or your shell"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:120
+#: src/Admin/Settings/Views/api/endpoints.php:125
+#: src/Shared/Language/Labels/strings.php:159
 msgid "Copied!"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:122
+#: src/Admin/Settings/Views/api/endpoints.php:127
 msgid "Copy curl"
 msgstr ""
 
-#: src/Admin/Settings/Views/api/endpoints.php:130
+#: src/Admin/Settings/Views/api/endpoints.php:135
 msgid "Body parameters can be documented per endpoint via the order_updates_for_woo_api_endpoint_params filter, or by passing an \"args\" map to register_rest_route()."
 msgstr ""
 
-#: src/Admin/Settings/Views/cache/buttons.php:18
+#: src/Admin/Settings/Views/cache/buttons.php:23
 msgid "Cache controls"
 msgstr ""
 
-#: src/Admin/Settings/Views/cache/buttons.php:20
+#: src/Admin/Settings/Views/cache/buttons.php:25
 msgid "These actions are safe to run at any time. Caches rebuild automatically on the next request that needs them."
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:20
+#: src/Admin/Settings/Views/emails/manage-link.php:25
 msgid "Plugin emails"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:23
+#: src/Admin/Settings/Views/emails/manage-link.php:28
 msgid "Each email's subject, recipient, content, and template settings live on its own page under WooCommerce → Settings → Emails. Click \"Edit\" on any row below to jump straight to that email's page. Use the toggle to enable or disable an email without leaving this tab."
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:28
+#: src/Admin/Settings/Views/emails/manage-link.php:33
 msgid "Plugin emails are not registered yet — load any admin page once after activation, then return here."
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:34
+#: src/Admin/Settings/Views/emails/manage-link.php:39
 msgid "Email"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:37
+#: src/Admin/Settings/Views/emails/manage-link.php:42
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:54
+#: src/Admin/Settings/Views/emails/manage-link.php:59
 msgid "Enabled"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:58
+#: src/Admin/Settings/Views/emails/manage-link.php:63
 msgid "Disabled"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:67
+#: src/Admin/Settings/Views/emails/manage-link.php:72
 msgid "Disable"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:67
+#: src/Admin/Settings/Views/emails/manage-link.php:72
 msgid "Enable"
 msgstr ""
 
-#: src/Admin/Settings/Views/emails/manage-link.php:79
+#: src/Admin/Settings/Views/emails/manage-link.php:84
 msgid "Open all WooCommerce emails"
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:24
+#: src/Admin/Settings/Views/shortcodes/usage.php:29
 msgid "Available shortcodes"
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:41
+#: src/Admin/Settings/Views/shortcodes/usage.php:46
 msgid "Shortcode attributes"
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:67
+#: src/Admin/Settings/Views/shortcodes/usage.php:72
 msgid "URL auto-detection"
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:70
+#: src/Admin/Settings/Views/shortcodes/usage.php:75
 msgid "When the shortcode is rendered without explicit attributes, it reads the page URL's query string. Any of the parameter names below resolve to the same target — pick whichever your email-link generator already uses."
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:75
+#: src/Admin/Settings/Views/shortcodes/usage.php:80
 msgid "Query param"
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:76
+#: src/Admin/Settings/Views/shortcodes/usage.php:81
 msgid "Example"
 msgstr ""
 
-#: src/Admin/Settings/Views/shortcodes/usage.php:94
+#: src/Admin/Settings/Views/shortcodes/usage.php:99
 msgid "Examples"
 msgstr ""
 
-#: src/API/Concerns/ValidatesAnalyticsRequest.php:24
+#: src/API/Concerns/ValidatesAnalyticsRequest.php:34
 msgid "You are not allowed to view analytics."
 msgstr ""
 
-#: src/API/Concerns/ValidatesAnalyticsRequest.php:44
+#: src/API/Concerns/ValidatesAnalyticsRequest.php:57
 msgid "A valid date range is required (YYYY-MM-DD, from ≤ to)."
 msgstr ""
 
-#: src/API/Concerns/VerifiesAccess.php:15
-#: src/Shared/Language/Labels/strings.php:24
+#: src/API/Concerns/VerifiesAccess.php:31
+#: src/Shared/Language/Labels/strings.php:32
 msgid "Security check failed."
 msgstr ""
 
-#: src/API/Concerns/VerifiesAccess.php:43
-#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:89
-#: src/Shared/Validation/Validator.php:89
+#: src/API/Concerns/VerifiesAccess.php:70
+#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:113
+#: src/Shared/Validation/Validator.php:108
 msgid "The selected update could not be found."
 msgstr ""
 
-#: src/API/Concerns/VerifiesAccess.php:55
-#: src/Shared/Validation/Validator.php:189
+#: src/API/Concerns/VerifiesAccess.php:82
+#: src/Shared/Validation/Validator.php:225
 msgid "A valid order is required."
 msgstr ""
 
-#: src/API/Endpoints/AddCustomerNoteEndpoint.php:59
+#: src/API/Endpoints/AddCustomerNoteEndpoint.php:82
 msgid "You are not allowed to add customer notes to this update."
 msgstr ""
 
-#: src/API/Endpoints/AddCustomerNoteEndpoint.php:71
-#: src/API/Endpoints/AddUpdateNoteEndpoint.php:69
+#: src/API/Endpoints/AddCustomerNoteEndpoint.php:99
+#: src/API/Endpoints/AddUpdateNoteEndpoint.php:101
 msgid "This update is already resolved."
 msgstr ""
 
-#: src/API/Endpoints/AddCustomerNoteEndpoint.php:85
+#: src/API/Endpoints/AddCustomerNoteEndpoint.php:113
 msgid "Customer note is required when the update is visible to customer."
 msgstr ""
 
-#: src/API/Endpoints/AddCustomerNoteEndpoint.php:100
+#: src/API/Endpoints/AddCustomerNoteEndpoint.php:128
 msgid "Could not save the customer note."
 msgstr ""
 
-#: src/API/Endpoints/AddCustomerNoteEndpoint.php:131
+#: src/API/Endpoints/AddCustomerNoteEndpoint.php:162
 msgid "Customer note added."
 msgstr ""
 
-#: src/API/Endpoints/AddUpdateNoteEndpoint.php:57
+#: src/API/Endpoints/AddUpdateNoteEndpoint.php:84
 msgid "You are not allowed to add notes to this update."
 msgstr ""
 
-#: src/API/Endpoints/AddUpdateNoteEndpoint.php:83
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:111
+#: src/API/Endpoints/AddUpdateNoteEndpoint.php:115
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:142
 msgid "Note cannot be empty."
 msgstr ""
 
-#: src/API/Endpoints/AddUpdateNoteEndpoint.php:95
+#: src/API/Endpoints/AddUpdateNoteEndpoint.php:127
 msgid "Could not save the note."
 msgstr ""
 
-#: src/API/Endpoints/AddUpdateNoteEndpoint.php:107
+#: src/API/Endpoints/AddUpdateNoteEndpoint.php:139
 msgid "Note added."
 msgstr ""
 
-#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:66
+#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:85
 msgid "You are not allowed to change the status of this update."
 msgstr ""
 
-#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:79
+#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:103
 msgid "The selected status is not a valid choice."
 msgstr ""
 
+#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:122
+msgid "This update is resolved. Re-open it before changing its status."
+msgstr ""
+
 #. translators: %s: new status label, e.g. "Notice".
-#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:98
-#, php-format
+#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:131
 msgid "Status changed to %s"
 msgstr ""
 
-#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:122
+#: src/API/Endpoints/ChangeUpdateStatusEndpoint.php:155
 msgid "Status updated."
 msgstr ""
 
-#: src/API/Endpoints/DeleteAttachmentEndpoint.php:49
-#: src/API/Endpoints/SaveUpdateEndpoint.php:62
-#: src/API/Endpoints/SingleOrderUpdateEndpoint.php:59
-#: src/API/Endpoints/UploadAttachmentEndpoint.php:52
+#: src/API/Endpoints/DeleteAttachmentEndpoint.php:69
+#: src/API/Endpoints/SaveUpdateEndpoint.php:85
+#: src/API/Endpoints/SingleOrderUpdateEndpoint.php:78
+#: src/API/Endpoints/UploadAttachmentEndpoint.php:73
 msgid "You are not allowed to save order updates."
 msgstr ""
 
-#: src/API/Endpoints/DeleteAttachmentEndpoint.php:57
-#: src/API/Endpoints/ServeAttachmentEndpoint.php:44
-#: src/API/Endpoints/ServeAttachmentEndpoint.php:68
+#: src/API/Endpoints/DeleteAttachmentEndpoint.php:82
+#: src/API/Endpoints/ServeAttachmentEndpoint.php:65
+#: src/API/Endpoints/ServeAttachmentEndpoint.php:94
 msgid "Attachment not found."
 msgstr ""
 
-#: src/API/Endpoints/DeleteAttachmentEndpoint.php:65
+#: src/API/Endpoints/DeleteAttachmentEndpoint.php:90
 msgid "Could not delete attachment."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateEndpoint.php:57
+#: src/API/Endpoints/DeleteUpdateEndpoint.php:73
 msgid "You are not allowed to delete this update."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateEndpoint.php:85
-#: src/API/Endpoints/MarkSolvedEndpoint.php:78
-#: src/API/Endpoints/ReopenUpdateEndpoint.php:94
-#: src/API/Endpoints/SaveUpdateEndpoint.php:131
+#: src/API/Endpoints/DeleteUpdateEndpoint.php:106
+#: src/API/Endpoints/MarkSolvedEndpoint.php:105
+#: src/API/Endpoints/ReopenUpdateEndpoint.php:126
+#: src/API/Endpoints/SaveUpdateEndpoint.php:176
 msgid "Could not save the order update."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateEndpoint.php:103
+#: src/API/Endpoints/DeleteUpdateEndpoint.php:124
 msgid "Update deleted."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:45
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:67
 msgid "Deleting notes is disabled."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:57
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:61
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:94
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:60
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:64
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:97
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:79
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:83
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:124
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:83
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:87
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:128
 msgid "Note not found."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:67
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:92
 msgid "You are not allowed to delete this note."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:76
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:101
 msgid "This note can no longer be deleted — a newer note has been posted."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:82
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:107
 msgid "You can no longer delete this note."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:100
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:130
 msgid "Could not delete the note."
 msgstr ""
 
-#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:109
+#: src/API/Endpoints/DeleteUpdateNoteEndpoint.php:139
 msgid "Note deleted."
 msgstr ""
 
-#: src/API/Endpoints/GetCustomerNoteHistoryEndpoint.php:63
+#: src/API/Endpoints/GetCustomerNoteHistoryEndpoint.php:88
 msgid "You are not allowed to view this history."
 msgstr ""
 
-#: src/API/Endpoints/GetCustomerNoteHistoryEndpoint.php:72
-#: src/API/Endpoints/NotifyCustomerEndpoint.php:66
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:65
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:109
+#: src/API/Endpoints/GetCustomerNoteHistoryEndpoint.php:102
+#: src/API/Endpoints/NotifyCustomerEndpoint.php:91
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:88
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:137
 msgid "Customer note not found."
 msgstr ""
 
-#: src/API/Endpoints/GetCustomerNotesEndpoint.php:54
-#: src/API/Endpoints/GetPreviousCustomerNotesEndpoint.php:55
-#: src/API/Endpoints/GetUpdateNotesEndpoint.php:53
-#: src/API/Endpoints/ServeAttachmentEndpoint.php:61
-#: src/API/Endpoints/UpdateActionHistoryEndpoint.php:45
+#: src/API/Endpoints/GetCustomerNotesEndpoint.php:75
+#: src/API/Endpoints/GetPreviousCustomerNotesEndpoint.php:88
+#: src/API/Endpoints/GetUpdateNotesEndpoint.php:78
+#: src/API/Endpoints/ServeAttachmentEndpoint.php:82
+#: src/API/Endpoints/UpdateActionHistoryEndpoint.php:64
 msgid "You are not allowed to view this update."
 msgstr ""
 
-#: src/API/Endpoints/GetPreviousCustomerNotesEndpoint.php:70
+#: src/API/Endpoints/GetPreviousCustomerNotesEndpoint.php:109
 msgid "Update not found."
 msgstr ""
 
-#: src/API/Endpoints/MarkSolvedEndpoint.php:58
+#: src/API/Endpoints/MarkSolvedEndpoint.php:80
 msgid "You are not allowed to mark this update as solved."
 msgstr ""
 
-#: src/API/Endpoints/MarkSolvedEndpoint.php:70
-#: src/API/Endpoints/MarkSolvedEndpoint.php:92
+#: src/API/Endpoints/MarkSolvedEndpoint.php:97
+#: src/API/Endpoints/MarkSolvedEndpoint.php:119
 msgid "Update marked as solved."
 msgstr ""
 
-#: src/API/Endpoints/NotifyCustomerEndpoint.php:52
+#: src/API/Endpoints/NotifyCustomerEndpoint.php:72
 msgid "You are not allowed to send customer notifications."
 msgstr ""
 
-#: src/API/Endpoints/NotifyCustomerEndpoint.php:70
+#: src/API/Endpoints/NotifyCustomerEndpoint.php:95
 msgid "This customer note has already been queued or sent."
 msgstr ""
 
-#: src/API/Endpoints/NotifyCustomerEndpoint.php:81
+#: src/API/Endpoints/NotifyCustomerEndpoint.php:107
 msgid "This customer has opted out of email notifications."
 msgstr ""
 
-#: src/API/Endpoints/NotifyCustomerEndpoint.php:93
+#: src/API/Endpoints/NotifyCustomerEndpoint.php:123
 msgid "Could not queue the customer notification."
 msgstr ""
 
-#: src/API/Endpoints/NotifyCustomerEndpoint.php:102
+#: src/API/Endpoints/NotifyCustomerEndpoint.php:132
 msgid "Customer notification queued."
 msgstr ""
 
-#: src/API/Endpoints/PollCustomerThreadEndpoint.php:64
+#: src/API/Endpoints/PollCustomerThreadEndpoint.php:81
 msgid "You are not allowed to poll this order."
 msgstr ""
 
-#: src/API/Endpoints/PollCustomerThreadEndpoint.php:85
+#: src/API/Endpoints/PollCustomerThreadEndpoint.php:107
+#: src/API/Endpoints/SharedLinkEndpoint.php:153
 msgid "Order not found."
 msgstr ""
 
-#: src/API/Endpoints/ReopenUpdateEndpoint.php:68
+#: src/API/Endpoints/ReopenUpdateEndpoint.php:95
 msgid "You are not allowed to re-open this update."
 msgstr ""
 
-#: src/API/Endpoints/ReopenUpdateEndpoint.php:80
+#: src/API/Endpoints/ReopenUpdateEndpoint.php:112
 msgid "This update is not resolved."
 msgstr ""
 
-#: src/API/Endpoints/ReopenUpdateEndpoint.php:86
+#: src/API/Endpoints/ReopenUpdateEndpoint.php:118
 msgid "This update has been rated and cannot be re-opened."
 msgstr ""
 
-#: src/API/Endpoints/ReopenUpdateEndpoint.php:104
+#: src/API/Endpoints/ReopenUpdateEndpoint.php:136
 msgid "Re-opened"
 msgstr ""
 
-#: src/API/Endpoints/ReopenUpdateEndpoint.php:120
+#: src/API/Endpoints/ReopenUpdateEndpoint.php:152
 msgid "Update re-opened."
 msgstr ""
 
-#: src/API/Endpoints/SaveEmailPreferenceEndpoint.php:57
-#: src/API/Endpoints/SaveStaffEmailPreferenceEndpoint.php:50
+#: src/API/Endpoints/SaveEmailPreferenceEndpoint.php:76
+#: src/API/Endpoints/SaveStaffEmailPreferenceEndpoint.php:69
 msgid "You are not allowed to update this preference."
 msgstr ""
 
-#: src/API/Endpoints/SaveUpdateEndpoint.php:167
+#: src/API/Endpoints/SaveUpdateEndpoint.php:133
+msgid "This update is resolved. Re-open it before making changes."
+msgstr ""
+
+#: src/API/Endpoints/SaveUpdateEndpoint.php:212
 msgid "Update edited successfully."
 msgstr ""
 
-#: src/API/Endpoints/SaveUpdateEndpoint.php:169
+#: src/API/Endpoints/SaveUpdateEndpoint.php:214
 msgid "Update saved, but the customer notification could not be queued."
 msgstr ""
 
-#: src/API/Endpoints/ServeAttachmentEndpoint.php:74
+#: src/API/Endpoints/ServeAttachmentEndpoint.php:101
+#: src/API/Endpoints/ServeAttachmentEndpoint.php:105
 msgid "File is unavailable."
 msgstr ""
 
-#: src/API/Endpoints/ServeAttachmentEndpoint.php:83
+#: src/API/Endpoints/ServeAttachmentEndpoint.php:114
 msgid "File type not permitted."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:76
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:215
+#: src/API/Endpoints/SharedLinkEndpoint.php:77
+msgid "You are not allowed to manage this link."
+msgstr ""
+
+#: src/API/Endpoints/SharedLinkEndpoint.php:97
+msgid "Pick a number of days between 1 and 365."
+msgstr ""
+
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:98
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:242
 msgid "You are not allowed to submit a note for this order."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:90
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:112
 msgid "Creating new updates from the order page is disabled."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:103
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:125
 msgid "You have reached the maximum number of new updates allowed per hour. Please try again later."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:142
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:37
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:169
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:45
 msgid "Message"
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:143
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:30
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:68
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:170
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:38
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:187
 msgid "Subject"
 msgstr ""
 
 #. translators: %s: field name
 #. translators: %s: field label.
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:158
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:175
-#: src/Shared/Validation/Validator.php:203
-#: src/Shared/Validation/Validator.php:226
-#: src/Shared/Validation/Validator.php:253
-#, php-format
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:185
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:202
+#: src/Shared/Validation/Validator.php:239
+#: src/Shared/Validation/Validator.php:262
+#: src/Shared/Validation/Validator.php:289
 msgid "%s is required."
 msgstr ""
 
 #. translators: %d: max number of files
 #. translators: %d: maximum number of attachments allowed.
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:186
-#: src/Shared/Language/Labels/strings.php:74
-#: src/Shared/Language/Labels/strings.php:107
-#, php-format
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:213
+#: src/Shared/Language/Labels/strings.php:84
+#: src/Shared/Language/Labels/strings.php:117
 msgid "You can attach up to %d files."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:224
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:251
 msgid "This update has already been rated. Please open a new update if you need further help."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:251
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:264
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:280
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:293
 msgid "Could not save your note. Please try again."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:468
-#: src/Shared/Language/Labels/strings.php:111
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:501
+#: src/Shared/Language/Labels/strings.php:121
 msgid "Your reply has been sent."
 msgstr ""
 
-#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:469
-#: src/Shared/Language/Labels/strings.php:101
+#: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:502
+#: src/Shared/Language/Labels/strings.php:111
 msgid "Thanks! Your note has been sent to our team."
 msgstr ""
 
-#: src/API/Endpoints/SubmitRatingEndpoint.php:70
+#: src/API/Endpoints/SubmitRatingEndpoint.php:95
 msgid "You are not allowed to rate this update."
 msgstr ""
 
-#: src/API/Endpoints/SubmitRatingEndpoint.php:82
-#: src/API/Endpoints/SubmitRatingEndpoint.php:93
+#: src/API/Endpoints/SubmitRatingEndpoint.php:112
+#: src/API/Endpoints/SubmitRatingEndpoint.php:123
 msgid "Ratings can only be submitted on resolved updates."
 msgstr ""
 
-#: src/API/Endpoints/SubmitRatingEndpoint.php:99
+#: src/API/Endpoints/SubmitRatingEndpoint.php:129
 msgid "You've already rated this update."
 msgstr ""
 
-#: src/API/Endpoints/SubmitRatingEndpoint.php:105
+#: src/API/Endpoints/SubmitRatingEndpoint.php:135
 msgid "Star rating must be between 1 and 5."
 msgstr ""
 
-#: src/API/Endpoints/SubmitRatingEndpoint.php:145
-#: src/Shared/Language/Labels/strings.php:120
+#: src/API/Endpoints/SubmitRatingEndpoint.php:175
+#: src/Shared/Language/Labels/strings.php:130
 msgid "Could not save your rating. Please try again."
 msgstr ""
 
 #. translators: %d: star rating (1-5).
-#: src/API/Endpoints/SubmitRatingEndpoint.php:154
-#, php-format
+#: src/API/Endpoints/SubmitRatingEndpoint.php:184
 msgid "Customer rated %d/5"
 msgstr ""
 
-#: src/API/Endpoints/SubmitRatingEndpoint.php:217
-#: src/Shared/Language/Labels/strings.php:116
+#: src/API/Endpoints/SubmitRatingEndpoint.php:247
+#: src/Shared/Language/Labels/strings.php:126
 msgid "Thanks for your feedback!"
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:53
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:48
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:76
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:71
 msgid "Editing notes is disabled."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:77
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:100
 msgid "This message can no longer be edited — a newer reply has been posted."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:87
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:110
 msgid "You are no longer able to edit this message."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:100
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:123
 msgid "You are not allowed to edit this customer note."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:123
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:151
 msgid "Customer note is required."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:134
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:163
 msgid "No changes to save."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:151
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:181
 msgid "Could not save edit history. Please try again."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:155
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:185
 msgid "Could not update the customer note."
 msgstr ""
 
-#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:161
+#: src/API/Endpoints/UpdateCustomerNoteEndpoint.php:191
 msgid "Customer note updated."
 msgstr ""
 
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:70
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:96
 msgid "You are not allowed to edit this note."
 msgstr ""
 
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:79
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:105
 msgid "This note can no longer be edited — a newer note has been posted."
 msgstr ""
 
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:85
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:111
 msgid "You can no longer edit this note."
 msgstr ""
 
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:121
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:152
 msgid "Could not update the note."
 msgstr ""
 
-#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:129
+#: src/API/Endpoints/UpdateUpdateNoteEndpoint.php:160
 msgid "Note updated."
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:23
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:32
 msgid "Order update notification for customer"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:24
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:33
 msgid "Send an email to the customer when a visible order update is created."
 msgstr ""
 
 #. translators: %s: order number.
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:72
-#, php-format
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:88
 msgid "[{site_title}] We have received your update on order #%s"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:75
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:91
 msgid "Thanks for opening this update. A member of our team will respond shortly."
 msgstr ""
 
 #. translators: %s: order number.
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:79
-#, php-format
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:95
 msgid "We have a new update for this order #%s. Please find details below."
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:92
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:108
 msgid "Your message"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:105
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:121
 msgid "What changed"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:131
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:146
 msgid "Update on your order"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:144
+#: src/Frontend/Notifications/Emails/CustomerOrderUpdateEmail.php:162
 msgid "[{site_title}] New update for order #{order_number}"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:32
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:56
 msgid "Customer rating follow-up"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:33
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:57
 msgid "After a customer submits a rating, thank them and (depending on the rating) invite them to share or invite a reply."
 msgstr ""
 
 #. translators: %d: number of stars the customer gave.
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:84
-#, php-format
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:113
 msgid "Thanks for the %d-star rating — that really means a lot to our team."
 msgid_plural "Thanks for the %d-star rating — that really means a lot to our team."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:95
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:124
 msgid "Thanks for the rating"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:97
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:126
 msgid "Thanks for taking the time to rate your experience. We hear you, and we want to make this right."
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:103
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:131
 msgid "View this update"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:104
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:132
 msgid "Following up on your rating"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:144
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:176
 msgid "[{site_title}] Thanks for your feedback on order #{order_number}"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:148
+#: src/Frontend/Notifications/Emails/CustomerRatingFollowupEmail.php:183
 msgid "Thanks for your feedback"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:21
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:29
 msgid "Customer rating request"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:22
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:30
 msgid "Send an email to the customer asking them to rate a resolved update."
 msgstr ""
 
 #. translators: %s: order number.
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:46
-#, php-format
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:59
 msgid "We've resolved an update on your order #%s. Could you take a moment to rate your experience?"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:62
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:74
 msgid "Leave a rating"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:63
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:28
-#: src/Shared/Language/Labels/strings.php:128
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:75
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:60
+#: src/Shared/Language/Labels/strings.php:138
 msgid "How did we do?"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:75
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:90
 msgid "[{site_title}] How did we do on order #{order_number}?"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:79
+#: src/Frontend/Notifications/Emails/CustomerRatingRequestEmail.php:97
 msgid "Rate your experience"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:23
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:31
+msgid "Customer shared link refresh"
+msgstr ""
+
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:32
+msgid "Send the customer the fresh no-login chat link after staff regenerates it."
+msgstr ""
+
+#. translators: %s: order number
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:75
+msgid "We refreshed the chat link for your order #%s. Please use the new link below from now on — the previous one no longer works."
+msgstr ""
+
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:79
+msgid "Open chat"
+msgstr ""
+
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:80
+msgid "Chat link refreshed"
+msgstr ""
+
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:95
+msgid "[{site_title}] Fresh chat link for order #{order_number}"
+msgstr ""
+
+#: src/Frontend/Notifications/Emails/CustomerSharedLinkEmail.php:102
+msgid "Your chat link was refreshed"
+msgstr ""
+
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:31
 msgid "Customer notice — update removed"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:24
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:32
 msgid "Send a courtesy email to the customer when staff deletes an update they could previously see."
 msgstr ""
 
 #. translators: %s: order number.
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:57
-#, php-format
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:68
 msgid "An update on your order #%s has been removed by our team."
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:60
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:71
 msgid "Removed update"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:63
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:81
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:74
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:98
 msgid "Update removed"
 msgstr ""
 
-#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:77
+#: src/Frontend/Notifications/Emails/CustomerUpdateDeletedEmail.php:91
 msgid "[{site_title}] An update on order #{order_number} was removed"
 msgstr ""
 
-#: src/Frontend/Notifications/Templates/rating-followup.php:49
+#: src/Frontend/Notifications/Templates/rating-followup.php:52
 msgid "Your comment"
 msgstr ""
 
-#: src/Frontend/Notifications/Templates/rating-followup.php:60
+#: src/Frontend/Notifications/Templates/rating-followup.php:63
 msgid "If you have a moment, sharing your experience would help others find us:"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CheckoutEmailInjector.php:61
+#: src/Frontend/OrderUpdates/CheckoutEmailInjector.php:71
 msgid "Have a question about this order?"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CheckoutEmailInjector.php:62
+#: src/Frontend/OrderUpdates/CheckoutEmailInjector.php:72
 msgid "Our team is here to help. Send us a note with any question or request about your order."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CheckoutEmailInjector.php:84
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:18
+#: src/Frontend/OrderUpdates/CheckoutEmailInjector.php:94
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:26
 msgid "Write a note to our team"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:150
-#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:137
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:289
+#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:167
 msgid "Access restricted. You do not have permission to view this page."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:152
-#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:139
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:291
+#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:169
 msgid "This link has expired or the order is no longer available."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:155
-#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:142
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:294
+#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:172
 msgid "Invalid access link."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:160
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:209
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:237
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:39
-#: src/Welcome/Views/WelcomePageView.php:62
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:304
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:379
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:409
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:457
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:79
+#: src/Welcome/Views/WelcomePageView.php:72
 msgid "Order updates"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:251
-#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:155
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:410
+msgid "This link has expired."
+msgstr ""
+
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:415
+msgid "Open my account"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:419
+msgid "Log in to continue"
+msgstr ""
+
+#. translators: %s: support contact email address
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:425
+msgid "Or email us at %s and we will send you a fresh link."
+msgstr ""
+
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:476
+#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:190
 msgid "No updates available for this order yet."
 msgstr ""
 
 #. translators: 1: maximum number of files, 2: maximum file size.
-#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:465
-#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:295
-#, php-format
+#: src/Frontend/OrderUpdates/CustomerOrderUpdatesController.php:694
+#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:337
 msgid "Up to %1$d files, %2$s each. PDF, JPG, PNG, GIF or WEBP."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:64
+#: src/Frontend/OrderUpdates/OrderUpdatesShortcode.php:79
 msgid "No order found. Please open this page from your order confirmation link."
 msgstr ""
 
 #. translators: %s: site name
-#: src/Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:297
-#: src/Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:308
-#: src/Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:323
-#, php-format
+#: src/Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:335
+#: src/Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:346
+#: src/Frontend/OrderUpdates/Services/CustomerOrderUpdatesService.php:361
 msgid "By %s"
 msgstr ""
 
+#. translators: %s: assignee first name
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:117
+msgid "%s is assisting you with this order update."
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:132
+#: src/Shared/Language/Labels/strings.php:75
+msgid "Load previous"
+msgstr ""
+
+#. translators: %s: edit timestamp
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:176
+msgid "Edited %s · view history"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Templates/customer/item.php:185
+msgid "Edit note"
+msgstr ""
+
 #. translators: %s: human-readable date
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:48
-#, php-format
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:51
 msgid "Placed on %s"
 msgstr ""
 
 #. translators: %d: quantity
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:66
-#, php-format
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:69
 msgid "× %d"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:79
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:82
 msgid "Subtotal"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:84
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:87
 msgid "Shipping"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:90
+#: src/Frontend/OrderUpdates/Views/CustomerOrderSummaryView.php:93
 msgid "Tax"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:29
-#: src/Shared/Language/Labels/strings.php:129
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:51
+msgid "Opened"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:54
+#: src/Shared/Language/Labels/strings.php:107
+msgid "No messages yet."
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:55
+msgid "Write a reply"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:56
+msgid "Type your reply…"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:57
+msgid "Send reply"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:58
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:52
+msgid "Attach files (optional)"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:59
+#: src/Shared/Language/Labels/strings.php:133
+msgid "Still has issue?"
+msgstr ""
+
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:61
+#: src/Shared/Language/Labels/strings.php:139
 msgid "Your feedback helps us improve. Rate this update and leave a comment if you like."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:30
-#: src/Shared/Language/Labels/strings.php:130
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:62
+#: src/Shared/Language/Labels/strings.php:140
 msgid "Comment (optional)"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:31
-#: src/Shared/Language/Labels/strings.php:131
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:63
+#: src/Shared/Language/Labels/strings.php:141
 msgid "Tell us what worked or what could be better…"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:32
-#: src/Shared/Language/Labels/strings.php:132
-msgid "Submit rating"
 msgstr ""
 
 #. translators: %s: rating value out of 5.
 #. translators: %s: star rating (1-5).
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:34
-#: src/Shared/Language/Labels/strings.php:118
-#, php-format
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:66
+#: src/Shared/Language/Labels/strings.php:128
 msgid "You rated this %s/5. Thanks for your feedback!"
 msgstr ""
 
 #. translators: %d: number of stars.
 #. translators: %d: star count (2-5).
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:36
-#: src/Shared/Language/Labels/strings.php:135
-#, php-format
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:68
+#: src/Shared/Language/Labels/strings.php:145
 msgid "%d stars"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:37
-#: src/Shared/Language/Labels/strings.php:133
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:69
+#: src/Shared/Language/Labels/strings.php:143
 msgid "1 star"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:40
-msgid "Resolved"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:41
-msgid "Open"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:42
-msgid "Opened"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:43
-msgid "Resolved on"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:44
-#: src/Shared/Language/Labels/strings.php:97
-msgid "No messages yet."
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:45
-msgid "Write a reply"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:46
-msgid "Type your reply…"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:47
-msgid "Send reply"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:48
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:44
-msgid "Attach files (optional)"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:49
-#: src/Shared/Language/Labels/strings.php:123
-msgid "Still has issue?"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:55
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:85
 msgid "Notify me via email for new updates"
 msgstr ""
 
-#. translators: %s: assignee first name
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:115
-#, php-format
-msgid "%s is assisting you with this order update."
-msgstr ""
+#. translators: %d: number of active updates
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:96
+msgid "Active (%d)"
+msgid_plural "Active (%d)"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:138
-#: src/Shared/Language/Labels/strings.php:67
-msgid "Load previous"
-msgstr ""
+#. translators: %d: number of archived (resolved) updates
+#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:128
+msgid "Archived (%d)"
+msgid_plural "Archived (%d)"
+msgstr[0] ""
+msgstr[1] ""
 
-#. translators: %s: edit timestamp
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:181
-#, php-format
-msgid "Edited %s · view history"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:190
-msgid "Edit note"
-msgstr ""
-
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:20
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:28
 msgid "Close"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:27
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:35
 msgid "Have a question about this order? Send us a note and we'll get back to you."
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:32
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:40
 msgid "Brief summary of your question"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:39
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:47
 msgid "Describe your question or request…"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:59
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteModalView.php:67
 msgid "Send note"
 msgstr ""
 
 #. translators: %s: linked text "Write it here" that opens the write-note modal
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteTriggerView.php:14
-#, php-format
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteTriggerView.php:19
 msgid "Have a question, query or problem? %s"
 msgstr ""
 
-#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteTriggerView.php:15
+#: src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteTriggerView.php:20
 msgid "Write it here"
 msgstr ""
 
-#: src/Helpers/AssigneeHelper.php:37
+#: src/Helpers/AssigneeHelper.php:58
 msgid "Not assigned yet"
 msgstr ""
 
 #. translators: 1: assignee name, 2: date
-#: src/Helpers/AssigneeHelper.php:44
-#, php-format
+#: src/Helpers/AssigneeHelper.php:65
 msgid "Assigned to %1$s at %2$s"
 msgstr ""
 
-#: src/Helpers/CustomerHelper.php:14
+#: src/Helpers/CustomerHelper.php:29
 msgid "Hidden"
 msgstr ""
 
-#: src/Helpers/CustomerHelper.php:17
+#: src/Helpers/CustomerHelper.php:32
 msgid "Visible"
 msgstr ""
 
-#: src/Helpers/CustomerHelper.php:26
+#: src/Helpers/CustomerHelper.php:47
 msgid "Customer - hidden, notified at -"
 msgstr ""
 
 #. translators: %s: notification date
-#: src/Helpers/CustomerHelper.php:33
-#, php-format
+#: src/Helpers/CustomerHelper.php:54
 msgid "Customer - visible, notified at %s"
 msgstr ""
 
-#: src/Helpers/DateHelper.php:10
+#: src/Helpers/DateHelper.php:25
 msgid "Unknown date"
 msgstr ""
 
-#: src/Helpers/ParticipantResolver.php:211
+#: src/Helpers/ParticipantResolver.php:232
 msgid "Creator"
 msgstr ""
 
-#: src/Helpers/ParticipantResolver.php:213
+#: src/Helpers/ParticipantResolver.php:234
 msgid "Tagged"
 msgstr ""
 
-#: src/Helpers/ParticipantResolver.php:214
+#: src/Helpers/ParticipantResolver.php:235
 msgid "Joined"
 msgstr ""
 
-#: src/Helpers/RatingShareLinks.php:48
+#: src/Helpers/RatingShareLinks.php:57
 msgid "Share on Facebook"
 msgstr ""
 
-#: src/Helpers/RatingShareLinks.php:53
+#: src/Helpers/RatingShareLinks.php:64
 msgid "Share on X"
 msgstr ""
 
-#: src/Helpers/RatingShareLinks.php:58
+#: src/Helpers/RatingShareLinks.php:69
 msgid "Share on WhatsApp"
 msgstr ""
 
-#: src/Helpers/RatingShareLinks.php:63
+#: src/Helpers/RatingShareLinks.php:74
 msgid "Share on LinkedIn"
 msgstr ""
 
-#: src/Helpers/UpdateStatusHelper.php:38
+#: src/Helpers/UpdateStatusHelper.php:54
 msgid "Yes"
 msgstr ""
 
-#: src/Helpers/UpdateStatusHelper.php:51
+#: src/Helpers/UpdateStatusHelper.php:73
 msgid "Not solved yet"
 msgstr ""
 
 #. translators: %s: formatted file size
-#: src/Shared/Attachments/AttachmentService.php:166
-#, php-format
+#: src/Shared/Attachments/AttachmentService.php:216
 msgid "(server limit: %s)"
 msgstr ""
 
 #. translators: %s: formatted file size
-#: src/Shared/Attachments/AttachmentService.php:167
+#: src/Shared/Attachments/AttachmentService.php:217
 msgid "File exceeds the server upload limit."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:170
+#: src/Shared/Attachments/AttachmentService.php:220
 msgid "Upload failed."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:176
+#: src/Shared/Attachments/AttachmentService.php:226
 msgid "File is too large."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:182
+#: src/Shared/Attachments/AttachmentService.php:232
 msgid "Invalid upload."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:189
+#: src/Shared/Attachments/AttachmentService.php:239
 msgid "File name contains an extension that is not permitted."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:196
+#: src/Shared/Attachments/AttachmentService.php:246
 msgid "File content was rejected as potentially executable."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:204
+#: src/Shared/Attachments/AttachmentService.php:254
 msgid "Unsupported file type."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:213
-#: src/Shared/Validation/Validator.php:97
+#: src/Shared/Attachments/AttachmentService.php:263
+#: src/Shared/Validation/Validator.php:116
 msgid "Missing order/update/note reference."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:217
-#: src/Shared/Validation/Validator.php:105
+#: src/Shared/Attachments/AttachmentService.php:267
+#: src/Shared/Validation/Validator.php:124
 msgid "Invalid note type."
 msgstr ""
 
-#: src/Shared/Attachments/AttachmentService.php:249
+#: src/Shared/Attachments/AttachmentService.php:302
 msgid "Could not record the attachment."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:13
+#: src/Shared/Language/Labels/strings.php:21
 msgid "Could not save the update."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:14
+#: src/Shared/Language/Labels/strings.php:22
 msgid "Update title is required."
 msgstr ""
 
 #. translators: %s: field name (e.g. "Title", "Note").
-#: src/Shared/Language/Labels/strings.php:16
-#, php-format
+#: src/Shared/Language/Labels/strings.php:24
 msgid "%s must be plain text only."
 msgstr ""
 
 #. translators: 1: field name, 2: maximum character count.
 #. translators: 1: field label, 2: maximum character count.
-#: src/Shared/Language/Labels/strings.php:18
-#: src/Shared/Validation/Validator.php:140
-#: src/Shared/Validation/Validator.php:212
-#, php-format
+#: src/Shared/Language/Labels/strings.php:26
+#: src/Shared/Validation/Validator.php:167
+#: src/Shared/Validation/Validator.php:248
 msgid "%1$s must be %2$d characters or less."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:20
+#: src/Shared/Language/Labels/strings.php:28
 msgid "Edit Update"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:22
+#: src/Shared/Language/Labels/strings.php:30
 msgid "Save Changes"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:23
+#: src/Shared/Language/Labels/strings.php:31
 msgid "Loading more updates..."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:25
+#: src/Shared/Language/Labels/strings.php:33
 msgid "Your session expired. Please refresh the page and try again."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:44
+#: src/Shared/Language/Labels/strings.php:52
 msgid "Update Actions History"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:45
+#: src/Shared/Language/Labels/strings.php:53
 msgid "Loading history..."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:46
+#: src/Shared/Language/Labels/strings.php:54
 msgid "No actions recorded for this update."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:47
+#: src/Shared/Language/Labels/strings.php:55
 msgid "Delete this update?"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:49
+#: src/Shared/Language/Labels/strings.php:57
 msgid "Silently delete"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:50
-#: src/Shared/Language/Labels/strings.php:83
-msgid "Delete"
-msgstr ""
-
-#: src/Shared/Language/Labels/strings.php:51
+#: src/Shared/Language/Labels/strings.php:59
 msgid "Notify customer & delete"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:52
+#: src/Shared/Language/Labels/strings.php:60
 msgid "Re-open this update?"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:53
+#: src/Shared/Language/Labels/strings.php:61
 msgid "Mark this update as solved?"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:54
+#: src/Shared/Language/Labels/strings.php:62
 msgid "Silently mark solved"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:55
+#: src/Shared/Language/Labels/strings.php:63
 msgid "Mark solved"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:56
+#: src/Shared/Language/Labels/strings.php:64
 msgid "Notify customer & mark solved"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:57
+#: src/Shared/Language/Labels/strings.php:65
 msgid "No notes yet."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:58
-#: src/Shared/Language/Labels/strings.php:94
+#: src/Shared/Language/Labels/strings.php:66
+#: src/Shared/Language/Labels/strings.php:104
 msgid "New"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:59
-msgid "Mark as read"
-msgstr ""
-
-#: src/Shared/Language/Labels/strings.php:60
+#: src/Shared/Language/Labels/strings.php:68
 msgid "No customer notes yet."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:61
+#: src/Shared/Language/Labels/strings.php:69
 msgid "Notify customer via email"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:62
+#: src/Shared/Language/Labels/strings.php:70
 msgid "Sent"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:63
+#: src/Shared/Language/Labels/strings.php:71
 msgid "Queued"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:64
+#: src/Shared/Language/Labels/strings.php:72
 msgid "From customer"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:65
+#: src/Shared/Language/Labels/strings.php:73
 msgid "Show more"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:66
+#: src/Shared/Language/Labels/strings.php:74
 msgid "Show less"
 msgstr ""
 
-#. translators: %s: maximum file size, e.g. "10 MB".
-#: src/Shared/Language/Labels/strings.php:69
-#, php-format
-msgid "File is too large. Maximum size is %s."
-msgstr ""
-
-#: src/Shared/Language/Labels/strings.php:70
-msgid "File type is not supported. Allowed: PDF, JPG, PNG, GIF, WEBP."
-msgstr ""
-
-#: src/Shared/Language/Labels/strings.php:71
-msgid "Remove this attachment?"
-msgstr ""
-
-#: src/Shared/Language/Labels/strings.php:72
-msgid "Remove attachment"
-msgstr ""
-
 #: src/Shared/Language/Labels/strings.php:76
-msgid "Edit your note:"
+msgid "Jump to latest"
 msgstr ""
 
 #: src/Shared/Language/Labels/strings.php:77
-msgid "Edited"
+msgid "That update or note no longer exists."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:78
-msgid "Edit history"
-msgstr ""
-
+#. translators: %s: maximum file size, e.g. "10 MB".
 #: src/Shared/Language/Labels/strings.php:79
-msgid "No prior versions available."
+msgid "File is too large. Maximum size is %s."
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:80
+msgid "File type is not supported. Allowed: PDF, JPG, PNG, GIF, WEBP."
 msgstr ""
 
 #: src/Shared/Language/Labels/strings.php:81
-msgid "Unknown"
+msgid "Remove this attachment?"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:84
-msgid "This customer has opted out of email notifications. Send anyway?"
-msgstr ""
-
-#: src/Shared/Language/Labels/strings.php:85
-msgid "Customer email receiving preference"
+#: src/Shared/Language/Labels/strings.php:82
+msgid "Remove attachment"
 msgstr ""
 
 #: src/Shared/Language/Labels/strings.php:86
-msgid "On"
+msgid "Edit your note:"
 msgstr ""
 
 #: src/Shared/Language/Labels/strings.php:87
-msgid "Off"
+msgid "Edited"
 msgstr ""
 
 #: src/Shared/Language/Labels/strings.php:88
-msgid "Customer has opted out of emails. Override and turn back on?"
+msgid "Edit history"
 msgstr ""
 
 #: src/Shared/Language/Labels/strings.php:89
+msgid "No prior versions available."
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:91
+msgid "Unknown"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:94
+msgid "This customer has opted out of email notifications. Send anyway?"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:95
+msgid "Customer email receiving preference"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:96
+msgid "On"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:97
+msgid "Off"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:98
+msgid "Customer has opted out of emails. Override and turn back on?"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:99
 msgid "Are you sure you want to delete this note?"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:90
+#: src/Shared/Language/Labels/strings.php:100
 msgid "Save"
 msgstr ""
 
 #. translators: %d: count of new (unread) updates.
-#: src/Shared/Language/Labels/strings.php:96
-#, php-format
+#: src/Shared/Language/Labels/strings.php:106
 msgid "%d new"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:100
-#: src/Shared/Language/Labels/strings.php:115
+#: src/Shared/Language/Labels/strings.php:110
+#: src/Shared/Language/Labels/strings.php:125
 msgid "Sending…"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:102
+#: src/Shared/Language/Labels/strings.php:112
 msgid "Could not send your note. Please try again."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:103
+#: src/Shared/Language/Labels/strings.php:113
 msgid "Please add a subject."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:104
+#: src/Shared/Language/Labels/strings.php:114
 msgid "Please write a message."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:105
+#: src/Shared/Language/Labels/strings.php:115
 msgid "Please write a note."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:108
+#: src/Shared/Language/Labels/strings.php:118
 msgid "Remove"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:112
+#: src/Shared/Language/Labels/strings.php:122
 msgid "Your note has been updated."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:119
+#: src/Shared/Language/Labels/strings.php:129
 msgid "Please pick a star rating."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:124
+#: src/Shared/Language/Labels/strings.php:134
 msgid "Re-opening…"
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:125
+#: src/Shared/Language/Labels/strings.php:135
 msgid "Could not re-open. Please try again."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:138
+#: src/Shared/Language/Labels/strings.php:148
 msgid "This update has already been resolved."
 msgstr ""
 
-#: src/Shared/Language/Labels/strings.php:139
+#: src/Shared/Language/Labels/strings.php:149
 msgid "This update is already open."
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:62
+#: src/Shared/Language/Labels/strings.php:152
+msgid "Saving…"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:153
+msgid "Saved."
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:154
+msgid "Regenerating…"
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:155
+msgid "New link generated. The old one no longer works."
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:156
+msgid "New link generated and emailed to the customer."
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:157
+msgid "Could not save. Please try again."
+msgstr ""
+
+#: src/Shared/Language/Labels/strings.php:158
+msgid "Network error. Please try again."
+msgstr ""
+
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:181
 msgid "Enable/Disable"
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:64
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:183
 msgid "Enable this email notification"
 msgstr ""
 
 #. translators: %s: default subject.
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:72
-#, php-format
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:191
 msgid "Leave blank to use the default subject: %s"
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:77
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:196
 msgid "Email heading"
 msgstr ""
 
 #. translators: %s: default heading.
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:81
-#, php-format
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:200
 msgid "Leave blank to use the default heading: %s"
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:86
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:205
 msgid "Additional content"
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:88
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:207
 msgid "Text to appear below the main email content."
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:92
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:211
 msgid "Email type"
 msgstr ""
 
-#: src/Shared/Notifications/OrderUpdateEmailBase.php:94
+#: src/Shared/Notifications/OrderUpdateEmailBase.php:213
 msgid "Choose which format of email to send."
 msgstr ""
 
 #. translators: 1: previous title, 2: new title.
-#: src/Shared/Updates/OrderUpdatesDb.php:281
-#, php-format
+#: src/Shared/Updates/OrderUpdatesDb.php:386
 msgid "Title changed from \"%1$s\" to \"%2$s\""
 msgstr ""
 
 #. translators: 1: previous assignee name, 2: new assignee name.
-#: src/Shared/Updates/OrderUpdatesDb.php:527
-#, php-format
+#: src/Shared/Updates/OrderUpdatesDb.php:670
 msgid "Reassigned from %1$s to %2$s"
 msgstr ""
 
 #. translators: %s: new assignee name.
-#: src/Shared/Updates/OrderUpdatesDb.php:533
-#, php-format
+#: src/Shared/Updates/OrderUpdatesDb.php:676
 msgid "Assigned to %s"
 msgstr ""
 
 #. translators: %s: previous assignee name.
-#: src/Shared/Updates/OrderUpdatesDb.php:539
-#, php-format
+#: src/Shared/Updates/OrderUpdatesDb.php:682
 msgid "Unassigned %s"
 msgstr ""
 
-#: src/Shared/Updates/UpdateNoteService.php:339
+#: src/Shared/Updates/UpdateNoteService.php:366
 msgid "You"
 msgstr ""
 
-#: src/Shared/Validation/validationRules.php:26
+#: src/Shared/Validation/validationRules.php:29
 msgid "Update title"
 msgstr ""
 
-#: src/Shared/Validation/validationRules.php:41
+#: src/Shared/Validation/validationRules.php:44
 msgid "Color"
 msgstr ""
 
-#: src/Shared/Validation/Validator.php:113
+#: src/Shared/Validation/Validator.php:132
 msgid "No file uploaded."
 msgstr ""
 
 #. translators: %s: field label.
-#: src/Shared/Validation/Validator.php:239
-#, php-format
+#: src/Shared/Validation/Validator.php:275
 msgid "%s must be a valid email address."
 msgstr ""
 
 #. translators: %s: field label.
-#: src/Shared/Validation/Validator.php:266
-#, php-format
+#: src/Shared/Validation/Validator.php:302
 msgid "%s must be a valid number."
 msgstr ""
 
 #. translators: %s: field label.
-#: src/Shared/Validation/Validator.php:290
-#, php-format
+#: src/Shared/Validation/Validator.php:326
 msgid "%s must be a valid hex value."
 msgstr ""
 
-#: src/Shared/Validation/Validator.php:313
+#: src/Shared/Validation/Validator.php:349
 msgid "Selected assignee is invalid."
 msgstr ""
 
-#: src/Shared/Validation/Validator.php:323
+#: src/Shared/Validation/Validator.php:359
 msgid "Invalid field validation rule."
 msgstr ""
 
-#: src/Welcome/Controllers/NewsletterController.php:46
-#: src/Welcome/Views/WelcomePageView.php:156
+#: src/Welcome/Controllers/NewsletterController.php:63
+#: src/Welcome/Views/WelcomePageView.php:169
 msgid "Subscribe"
 msgstr ""
 
-#: src/Welcome/Controllers/NewsletterController.php:47
+#: src/Welcome/Controllers/NewsletterController.php:64
 msgid "Subscribing..."
 msgstr ""
 
-#: src/Welcome/Controllers/NewsletterController.php:48
-#: src/Welcome/Controllers/NewsletterController.php:63
+#: src/Welcome/Controllers/NewsletterController.php:65
+#: src/Welcome/Controllers/NewsletterController.php:82
+#: src/Welcome/Controllers/NewsletterController.php:155
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: src/Welcome/Controllers/NewsletterController.php:49
-#: src/Welcome/Controllers/NewsletterController.php:69
+#: src/Welcome/Controllers/NewsletterController.php:66
+#: src/Welcome/Controllers/NewsletterController.php:159
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: src/Welcome/Controllers/NewsletterController.php:57
+#: src/Welcome/Controllers/NewsletterController.php:76
+#: src/Welcome/Controllers/NewsletterController.php:104
 msgid "Unauthorized."
 msgstr ""
 
-#: src/Welcome/Controllers/NewsletterController.php:74
+#: src/Welcome/Controllers/NewsletterController.php:93
 msgid "Thanks for subscribing!"
 msgstr ""
 
-#: src/Welcome/Views/OnboardingBannerView.php:13
-msgid "Welcome to Order Updates"
+#: src/Welcome/Controllers/NewsletterController.php:135
+msgid "Network error — please try again in a minute."
 msgstr ""
 
-#: src/Welcome/Views/OnboardingBannerView.php:14
-#: src/Welcome/Views/OnboardingBannerView.php:47
-msgid "Got it, let's go!"
-msgstr ""
-
-#: src/Welcome/Views/OnboardingBannerView.php:16
-#: src/Welcome/Views/WelcomePageView.php:25
-msgid "Track order progress, collaborate with your team, and keep customers informed — all from the order screen."
+#: src/Welcome/Controllers/WelcomeController.php:44
+msgid "Welcome"
 msgstr ""
 
 #: src/Welcome/Views/OnboardingBannerView.php:21
-#: src/Welcome/Views/WelcomePageView.php:34
-msgid "Create an update"
+msgid "Welcome to Order Updates"
 msgstr ""
 
 #: src/Welcome/Views/OnboardingBannerView.php:22
-msgid "Click \"Add new update\" below to log progress, issues, or notes for any order."
+#: src/Welcome/Views/OnboardingBannerView.php:55
+msgid "Got it, let's go!"
 msgstr ""
 
-#: src/Welcome/Views/OnboardingBannerView.php:28
-msgid "Assign to team members"
+#: src/Welcome/Views/OnboardingBannerView.php:24
+#: src/Welcome/Views/WelcomePageView.php:35
+msgid "Track order progress, collaborate with your team, and keep customers informed — all from the order screen."
 msgstr ""
 
 #: src/Welcome/Views/OnboardingBannerView.php:29
-msgid "Assign updates to team members so everyone knows who is responsible."
+#: src/Welcome/Views/WelcomePageView.php:44
+msgid "Create an update"
 msgstr ""
 
-#: src/Welcome/Views/OnboardingBannerView.php:35
-msgid "Communicate internally"
+#: src/Welcome/Views/OnboardingBannerView.php:30
+msgid "Click \"Add new update\" below to log progress, issues, or notes for any order."
 msgstr ""
 
 #: src/Welcome/Views/OnboardingBannerView.php:36
-msgid "Use internal notes for team discussion. Use customer notes to share updates with buyers."
+msgid "Assign to team members"
 msgstr ""
 
-#: src/Welcome/Views/OnboardingBannerView.php:42
-msgid "Notify customers"
+#: src/Welcome/Views/OnboardingBannerView.php:37
+msgid "Assign updates to team members so everyone knows who is responsible."
 msgstr ""
 
 #: src/Welcome/Views/OnboardingBannerView.php:43
+msgid "Communicate internally"
+msgstr ""
+
+#: src/Welcome/Views/OnboardingBannerView.php:44
+msgid "Use internal notes for team discussion. Use customer notes to share updates with buyers."
+msgstr ""
+
+#: src/Welcome/Views/OnboardingBannerView.php:50
+msgid "Notify customers"
+msgstr ""
+
+#: src/Welcome/Views/OnboardingBannerView.php:51
 msgid "Write a customer note and click \"Notify customer via email\" to send them an update."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:17
-#: src/Welcome/Views/WelcomePageView.php:24
+#: src/Welcome/Views/WelcomePageView.php:27
+#: src/Welcome/Views/WelcomePageView.php:34
 msgid "Welcome to Order Updates for WooCommerce"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:30
+#: src/Welcome/Views/WelcomePageView.php:40
 msgid "How it works"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:35
+#: src/Welcome/Views/WelcomePageView.php:45
 msgid "Open any order and click \"Add new update\" to log progress, issues, or notes. Assign it to a team member right away."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:39
+#: src/Welcome/Views/WelcomePageView.php:49
 msgid "Collaborate internally"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:40
+#: src/Welcome/Views/WelcomePageView.php:50
 msgid "Use internal notes for team discussion. @mention teammates to loop them in — they'll get a highlighted notification."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:44
+#: src/Welcome/Views/WelcomePageView.php:54
 msgid "Keep customers informed"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:45
+#: src/Welcome/Views/WelcomePageView.php:55
 msgid "Write a customer note and notify them via email. Customers can reply, attach files, and view the full thread — even as guests."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:49
+#: src/Welcome/Views/WelcomePageView.php:59
 msgid "Resolve and collect feedback"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:50
+#: src/Welcome/Views/WelcomePageView.php:60
 msgid "Mark the update as resolved. The customer rates their experience and happy customers get a gentle nudge to share their review."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:57
+#: src/Welcome/Views/WelcomePageView.php:67
 msgid "Everything you need"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:63
+#: src/Welcome/Views/WelcomePageView.php:73
 msgid "Create, edit, and track updates for every order with color-coded cards and a full audit trail."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:69
+#: src/Welcome/Views/WelcomePageView.php:79
 msgid "Team assignments &amp; @mentions"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:70
+#: src/Welcome/Views/WelcomePageView.php:80
 msgid "Assign updates to team members and @mention colleagues in internal notes. Mentions are highlighted inline so nothing gets missed."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:76
+#: src/Welcome/Views/WelcomePageView.php:86
 msgid "Customer portal"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:77
+#: src/Welcome/Views/WelcomePageView.php:87
 msgid "Customers get a secure, shareable link to view and reply to their update thread — no account required for guests."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:84
+#: src/Welcome/Views/WelcomePageView.php:94
 msgid "Staff and customers can attach files to notes. Attachments are stored securely and removed when the update is deleted."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:90
+#: src/Welcome/Views/WelcomePageView.php:100
 msgid "Customer ratings"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:91
+#: src/Welcome/Views/WelcomePageView.php:101
 msgid "Customers rate resolved updates. Promoters get a prompt to share their review; detractors get an empathy follow-up."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:97
+#: src/Welcome/Views/WelcomePageView.php:107
 msgid "Email notifications"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:98
+#: src/Welcome/Views/WelcomePageView.php:108
 msgid "Notify customers, assignees, and admins at every step — new update, customer reply, resolution, and rating follow-up."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:106
+#: src/Welcome/Views/WelcomePageView.php:116
 msgid "More features"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:108
+#: src/Welcome/Views/WelcomePageView.php:118
 msgid "Realtime updates"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:108
+#: src/Welcome/Views/WelcomePageView.php:118
 msgid "new messages appear without refreshing (30-second poll)."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:109
+#: src/Welcome/Views/WelcomePageView.php:119
 msgid "Edit with history"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:109
+#: src/Welcome/Views/WelcomePageView.php:119
 msgid "staff and customers can edit notes; every revision is preserved."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:110
+#: src/Welcome/Views/WelcomePageView.php:120
 msgid "Tracking log"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:110
+#: src/Welcome/Views/WelcomePageView.php:120
 msgid "full per-update lifecycle: status changes, reassignments, ratings, reopens."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:111
+#: src/Welcome/Views/WelcomePageView.php:121
 msgid "Status workflow"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:111
+#: src/Welcome/Views/WelcomePageView.php:121
 msgid "customizable status options with color-coded pills."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:112
+#: src/Welcome/Views/WelcomePageView.php:122
 msgid "Customer-initiated updates"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:112
+#: src/Welcome/Views/WelcomePageView.php:122
 msgid "customers can open a new request from their portal."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:113
+#: src/Welcome/Views/WelcomePageView.php:123
 msgid "Per-update email mute"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:113
+#: src/Welcome/Views/WelcomePageView.php:123
 msgid "staff can silence notifications for one update without affecting others."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:114
+#: src/Welcome/Views/WelcomePageView.php:124
 msgid "Admin bar badge"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:114
+#: src/Welcome/Views/WelcomePageView.php:124
 msgid "unread mentions and assignments visible from any admin screen."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:115
+#: src/Welcome/Views/WelcomePageView.php:125
 msgid "Analytics dashboard"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:115
+#: src/Welcome/Views/WelcomePageView.php:125
 msgid "counts, average ratings, date filters."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:116
+#: src/Welcome/Views/WelcomePageView.php:126
 msgid "Round-robin assignment"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:116
+#: src/Welcome/Views/WelcomePageView.php:126
 msgid "auto-distribute new updates across a team pool."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:117
+#: src/Welcome/Views/WelcomePageView.php:127
 msgid "Deleted-update audit"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:117
+#: src/Welcome/Views/WelcomePageView.php:127
 msgid "deleted updates stay on the order audit trail."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:118
+#: src/Welcome/Views/WelcomePageView.php:128
 msgid "HPOS-ready"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:118
+#: src/Welcome/Views/WelcomePageView.php:128
 msgid "works with WooCommerce High-Performance Order Storage."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:119
+#: src/Welcome/Views/WelcomePageView.php:129
 msgid "Translation-ready"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:119
+#: src/Welcome/Views/WelcomePageView.php:129
 msgid "full .pot file; community translations land via translate.wordpress.org."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:125
+#: src/Welcome/Views/WelcomePageView.php:135
 msgid "Embed the customer portal anywhere"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:127
+#: src/Welcome/Views/WelcomePageView.php:137
 msgid "Add the customer portal to any page — including pages built with Elementor, Divi, or Gutenberg — using this shortcode:"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:129
+#: src/Welcome/Views/WelcomePageView.php:139
 msgid "The order ID is detected automatically from the URL. You can also pass it directly:"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:138
+#: src/Welcome/Views/WelcomePageView.php:148
 msgid "Stay in the loop"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:139
+#: src/Welcome/Views/WelcomePageView.php:149
 msgid "Subscribe to get feature updates, tips, and early access to new releases. No spam, unsubscribe anytime."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:142
+#: src/Welcome/Views/WelcomePageView.php:152
 msgid "You are already subscribed."
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:150
+#: src/Welcome/Views/WelcomePageView.php:155
+msgid "Change email"
+msgstr ""
+
+#: src/Welcome/Views/WelcomePageView.php:163
 msgid "Your email address"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:164
+#: src/Welcome/Views/WelcomePageView.php:177
 msgid "Configure settings"
 msgstr ""
 
-#: src/Welcome/Views/WelcomePageView.php:165
+#: src/Welcome/Views/WelcomePageView.php:178
 msgid "Go to orders"
 msgstr ""
