@@ -2022,6 +2022,9 @@ final class OrderUpdatesDb {
 	 * subsequent calls pass the oldest visible note id so the next page
 	 * starts strictly older than that.
 	 *
+	 * @param int $update_id Update id.
+	 * @param int $limit     Page size.
+	 * @param int $before_id Oldest visible note id; 0 for the first page.
 	 * @return array{notes:array<int, array<string, mixed>>, has_more:bool}
 	 */
 	public function get_update_notes_paged( int $update_id, int $limit, int $before_id = 0 ): array {
@@ -2103,6 +2106,9 @@ final class OrderUpdatesDb {
 	 * UI can offer "jump to latest"). Empty when the note is missing or not on
 	 * this update.
 	 *
+	 * @param int $update_id Update id.
+	 * @param int $note_id   Note to centre the window on.
+	 * @param int $span      Notes to include on each side.
 	 * @return array{notes:array<int, array<string, mixed>>, has_more:bool, has_newer:bool}
 	 */
 	public function get_update_notes_around( int $update_id, int $note_id, int $span = 8 ): array {
@@ -2199,6 +2205,11 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * One internal note row by id (no caching), or [] if missing.
+	 *
+	 * @param int $note_id Internal note id.
+	 */
 	public function get_update_note_by_id( int $note_id ): array {
 		global $wpdb;
 
