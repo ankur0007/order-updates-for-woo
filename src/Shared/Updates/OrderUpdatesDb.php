@@ -951,6 +951,13 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Stamp when the active assignee was emailed about an update.
+	 *
+	 * @param int    $update_id        Update id.
+	 * @param int    $assignee_user_id Assignee that was notified.
+	 * @param string $notified_at      Notify time (GMT mysql).
+	 */
 	public function mark_assignee_notified( int $update_id, int $assignee_user_id, string $notified_at ): bool {
 		global $wpdb;
 
@@ -980,6 +987,12 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Order ids where the user is the active assignee or creator of an
+	 * unresolved update (drives the admin-bar counter). Cached.
+	 *
+	 * @param int $user_id Staff user id.
+	 */
 	public function get_assigned_order_ids_for_user( int $user_id ): array {
 		global $wpdb;
 
@@ -1022,6 +1035,11 @@ final class OrderUpdatesDb {
 		return $order_ids;
 	}
 
+	/**
+	 * Summary counts for one order (update/unsolved counts, visibility, assignee). Cached.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public function get_order_update_summary( int $order_id ): array {
 		$empty = array(
 			'update_count'         => 0,
@@ -1048,6 +1066,11 @@ final class OrderUpdatesDb {
 		return $summary;
 	}
 
+	/**
+	 * Summary counts for many orders in one query (per-order cached).
+	 *
+	 * @param array $order_ids Order ids.
+	 */
 	public function get_order_update_summaries( array $order_ids ): array {
 		global $wpdb;
 
