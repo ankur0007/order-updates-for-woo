@@ -25,7 +25,19 @@ use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\SharedLink;
 use OrderUpdatesForWoo\Shared\Updates\UpdateCardVariableParser;
 
+/**
+ * Order Updates Panel controller.
+ */
 final class OrderUpdatesPanelController {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderEditorPanelService     $panel_service Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 * @param UpdateCardVariableParser    $update_card_variable_parser Injected dependency.
+	 * @param OrderUpdatesDb              $order_updates_db Injected dependency.
+	 * @param OnboardingController        $onboarding Injected dependency.
+	 */
 	public function __construct(
 		private OrderEditorPanelService $panel_service,
 		private OrderUpdatesSettingsService $settings_service,
@@ -34,11 +46,15 @@ final class OrderUpdatesPanelController {
 		private OnboardingController $onboarding
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'add_meta_boxes', array( $this, 'register_meta_box' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
+	/** Register the Order Updates meta box for team members on the order screen. */
 	public function register_meta_box(): void {
 		if ( wp_doing_ajax() ) {
 			return;
@@ -61,6 +77,7 @@ final class OrderUpdatesPanelController {
 		);
 	}
 
+	/** Enqueue the meta-box CSS/JS on the order edit screen for team members. */
 	public function enqueue_assets(): void {
 		if ( ! $this->panel_service->should_enqueue_assets() ) {
 			return;
@@ -73,6 +90,11 @@ final class OrderUpdatesPanelController {
 		$this->panel_service->enqueue_assets();
 	}
 
+	/**
+	 * Render the meta box body — the order's update cards.
+	 *
+	 * @param WC_Order|\WP_Post|null $order Order/post from the meta-box callback.
+	 */
 	public function render( $order = null ): void {
 		$order_id            = $this->get_order_id( $order );
 		$order_updates_array = $this->order_updates_db->get_order_updates( $order_id, Variables::getUpdatesPageSize(), 0 );
@@ -117,6 +139,11 @@ final class OrderUpdatesPanelController {
 		);
 	}
 
+	/**
+	 * Resolve an order id from a WC_Order, WP_Post, or raw id.
+	 *
+	 * @param WC_Order|\WP_Post|int|mixed $order Order/post/id from the callback.
+	 */
 	private function get_order_id( $order ): int {
 		if ( is_object( $order ) && method_exists( $order, 'get_id' ) ) {
 			return absint( $order->get_id() );

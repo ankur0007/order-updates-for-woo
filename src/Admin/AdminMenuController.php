@@ -1,4 +1,9 @@
 <?php
+/**
+ * Registers the top-level Order Updates admin menu.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -20,6 +25,9 @@ final class AdminMenuController {
 
 	public const PARENT_SLUG = 'order-updates-for-woo';
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		// Priority 9 so the top-level slot exists before sub-pages register at 10.
 		add_action( 'admin_menu', array( $this, 'register_top_level' ), 9 );
@@ -29,6 +37,7 @@ final class AdminMenuController {
 		add_action( 'admin_menu', array( $this, 'remove_auto_duplicate' ), 11 );
 	}
 
+	/** Register the top-level Order Updates menu and its landing page. */
 	public function register_top_level(): void {
 		add_menu_page(
 			__( 'Order Updates', 'order-updates-for-woo' ),

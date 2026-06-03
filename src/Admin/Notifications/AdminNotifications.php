@@ -22,16 +22,33 @@ use OrderUpdatesForWoo\Shared\Attachments\AttachmentsDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Admin Notifications.
+ */
 final class AdminNotifications {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AttachmentsDb  $attachments_db Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private AttachmentsDb $attachments_db
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_filter( 'woocommerce_email_classes', array( $this, 'register_email_classes' ) );
 	}
 
+	/**
+	 * Register the plugin's WooCommerce email classes.
+	 *
+	 * @param array $emails Existing WC email classes.
+	 */
 	public function register_email_classes( array $emails ): array {
 		$emails[ Constants::EMAIL_ID_ADMIN_UPDATE ]           = new AdminOrderUpdateEmail( $this->order_updates_db, $this->attachments_db );
 		$emails[ Constants::EMAIL_ID_ASSIGNEE_UPDATE ]        = new AssigneeOrderUpdateEmail( $this->order_updates_db, $this->attachments_db );

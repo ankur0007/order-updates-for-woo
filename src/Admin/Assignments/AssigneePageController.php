@@ -1,4 +1,9 @@
 <?php
+/**
+ * Assignments admin page — paginated list of updates by assignee.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -37,15 +42,25 @@ final class AssigneePageController {
 	private const SLA_BLUE_MAX  = 7200;
 	private const SLA_AMBER_MAX = 14400;
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb    $order_updates_db Injected dependency.
+	 * @param TeamRosterService $team_roster Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private TeamRosterService $team_roster
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
 	}
 
+	/** Register the Assignments submenu page (hidden when the user can't view it). */
 	public function register_page(): void {
 		// Hide the menu item from anyone who can't see any assignments.
 		if ( ! $this->can_view() ) {
@@ -96,6 +111,7 @@ final class AssigneePageController {
 	 * counts, the waiting-on-staff tally (with urgency tiers) and the longest
 	 * current wait. Cached briefly since the menu badge runs on every page.
 	 *
+	 * @param int $scope Assignee user id, or 0 for the store-wide view.
 	 * @return array{total:int, resolved:int, waiting:int, urgent:int, medium:int, low:int, longest_label:string}
 	 */
 	private function summary( int $scope ): array {
@@ -144,6 +160,9 @@ final class AssigneePageController {
 		return $result;
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		if ( ! $this->can_view() ) {
 			wp_die( esc_html__( 'You are not allowed to view assignments.', 'order-updates-for-woo' ), 403 );
@@ -251,7 +270,8 @@ final class AssigneePageController {
 	 * there). $latest maps update_id → the last customer-thread message, used
 	 * to decide the SLA "waiting" state.
 	 *
-	 * @param array<int, array{created_at:string, created_by:int}> $latest
+	 * @param array                                                $row    Raw DB row.
+	 * @param array<int, array{created_at:string, created_by:int}> $latest Latest message per update id.
 	 */
 	private function to_view_row( array $row, array $latest = array() ): array {
 		$update_id = (int) ( $row['id'] ?? 0 );
@@ -287,7 +307,11 @@ final class AssigneePageController {
 		);
 	}
 
-	/** Only allow a hex colour through to an inline style; fall back to a neutral grey. */
+	/**
+	 * Only allow a hex colour through to an inline style; fall back to a neutral grey.
+	 *
+	 * @param string $color Raw color value.
+	 */
 	private function safe_color( string $color ): string {
 		return preg_match( '/^#[0-9a-fA-F]{3,8}$/', $color ) ? $color : '#646970';
 	}
@@ -296,7 +320,8 @@ final class AssigneePageController {
 	 * Seconds an open update has waited on a staff reply (customer spoke last).
 	 * 0 when resolved, when staff replied last, or when there's no message.
 	 *
-	 * @param array{created_at:string, created_by:int}|null $last_message
+	 * @param bool                                          $resolved     Whether the update is resolved.
+	 * @param array{created_at:string, created_by:int}|null $last_message Latest customer-thread message.
 	 */
 	private function waiting_seconds( bool $resolved, ?array $last_message ): int {
 		if ( $resolved || null === $last_message ) {
@@ -314,7 +339,11 @@ final class AssigneePageController {
 		return $timestamp > 0 ? max( 0, time() - $timestamp ) : 0;
 	}
 
-	/** Compact wait label — "16h" or "45m". */
+	/**
+	 * Compact wait label — "16h" or "45m".
+	 *
+	 * @param int $seconds Elapsed seconds.
+	 */
 	private function compact_duration( int $seconds ): string {
 		$hours = (int) floor( $seconds / HOUR_IN_SECONDS );
 		if ( $hours >= 1 ) {
@@ -324,7 +353,11 @@ final class AssigneePageController {
 		return number_format_i18n( max( 1, (int) floor( $seconds / MINUTE_IN_SECONDS ) ) ) . 'm';
 	}
 
-	/** "May 25, 2:06 PM" in the site timezone, or '' when missing. */
+	/**
+	 * "May 25, 2:06 PM" in the site timezone, or '' when missing.
+	 *
+	 * @param string $mysql_utc GMT mysql datetime.
+	 */
 	private function datetime_label( string $mysql_utc ): string {
 		$timestamp = '' !== $mysql_utc ? (int) strtotime( $mysql_utc . ' UTC' ) : 0;
 

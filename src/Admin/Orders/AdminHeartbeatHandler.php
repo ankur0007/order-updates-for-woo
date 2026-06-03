@@ -1,4 +1,9 @@
 <?php
+/**
+ * Heartbeat handler that feeds live order-update changes to the editor panel.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -25,19 +30,31 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  * (since_internal_map) in the same request.
  */
 final class AdminHeartbeatHandler {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb   $order_updates_db Injected dependency.
+	 * @param NoteActionPolicy $note_action_policy Injected dependency.
+	 * @param AttachmentsDb    $attachments_db Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private NoteActionPolicy $note_action_policy,
 		private AttachmentsDb $attachments_db
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_filter( 'heartbeat_received', array( $this, 'handle' ), 10, 2 );
 	}
 
 	/**
-	 * @param array $response  Heartbeat response being built.
-	 * @param array $data      Data sent by the JS heartbeat-send event.
+	 * Attach changed update cards to the heartbeat response for the open order.
+	 *
+	 * @param array $response Heartbeat response being built.
+	 * @param array $data     Data sent by the JS heartbeat-send event.
 	 */
 	public function handle( array $response, array $data ): array {
 		if ( empty( $data[ Constants::HEARTBEAT_KEY ] ) || ! is_array( $data[ Constants::HEARTBEAT_KEY ] ) ) {
@@ -148,6 +165,12 @@ final class AdminHeartbeatHandler {
 		return $response;
 	}
 
+	/**
+	 * Shape one internal note row for the heartbeat payload.
+	 *
+	 * @param array $note           Internal note row.
+	 * @param int   $latest_note_id Highest note id in the thread (for edit/delete gates).
+	 */
 	private function format_internal_note( array $note, int $latest_note_id = 0 ): array {
 		$mention_ids = array_map( 'absint', (array) ( $note['mentioned_user_ids'] ?? array() ) );
 		$created_by  = (int) ( $note['created_by'] ?? 0 );
@@ -176,7 +199,7 @@ final class AdminHeartbeatHandler {
 	 * longer match a real user (e.g. a member was deleted after being
 	 * tagged).
 	 *
-	 * @param int[] $user_ids
+	 * @param int[] $user_ids Tagged user ids.
 	 * @return array<int, array{id:int,name:string}>
 	 */
 	private function lookup_mention_display_names( array $user_ids ): array {

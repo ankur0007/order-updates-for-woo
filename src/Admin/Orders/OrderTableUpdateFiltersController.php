@@ -30,11 +30,20 @@ final class OrderTableUpdateFiltersController {
 	 */
 	private ?array $prefetched_summaries = null;
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb           $order_updates_db Injected dependency.
+	 * @param OrderTableFiltersService $filters_service Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private OrderTableFiltersService $filters_service
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 
@@ -49,6 +58,7 @@ final class OrderTableUpdateFiltersController {
 	// Asset
 	// -------------------------------------------------------------------------
 
+	/** Enqueue the orders-table filter CSS on the orders list screen. */
 	public function enqueue_styles(): void {
 		if ( ! $this->filters_service->is_orders_list_screen() ) {
 			return;
@@ -66,6 +76,7 @@ final class OrderTableUpdateFiltersController {
 	// HPOS hooks
 	// -------------------------------------------------------------------------
 
+	/** Wire the orders-table column + filter hooks for HPOS storage. */
 	private function register_hpos_hooks(): void {
 		add_filter( 'woocommerce_shop_order_list_table_columns', array( $this, 'add_column' ) );
 		add_action( 'woocommerce_shop_order_list_table_custom_column', array( $this, 'render_hpos_column' ), 10, 2 );
@@ -79,6 +90,7 @@ final class OrderTableUpdateFiltersController {
 	// Classic hooks
 	// -------------------------------------------------------------------------
 
+	/** Wire the orders-table column + filter hooks for classic (post) storage. */
 	private function register_classic_hooks(): void {
 		add_filter( 'manage_shop_order_posts_columns', array( $this, 'add_column' ) );
 		add_action( 'manage_shop_order_posts_custom_column', array( $this, 'render_classic_column' ), 10, 2 );

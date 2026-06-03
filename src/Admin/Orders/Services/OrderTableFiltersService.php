@@ -29,7 +29,7 @@ final class OrderTableFiltersService {
 	public function is_orders_list_screen(): bool {
 		$screen = get_current_screen();
 
-		return $screen && $screen->id === HposHelper::orders_list_screen_id();
+		return $screen && HposHelper::orders_list_screen_id() === $screen->id;
 	}
 
 	/**
@@ -62,6 +62,12 @@ final class OrderTableFiltersService {
 		return ! empty( $_GET[ $this->unsolved_param() ] );
 	}
 
+	/**
+	 * Restrict a classic orders query to the given order ids.
+	 *
+	 * @param \WP_Query $query     The orders list query.
+	 * @param int[]     $order_ids Order ids to limit to (empty forces no results).
+	 */
 	public function modify_query( \WP_Query $query, array $order_ids ): void {
 		if ( $this->is_hpos_enabled() ) {
 			// HPOS list table uses a different query structure, so delegate to a separate method.
@@ -79,6 +85,12 @@ final class OrderTableFiltersService {
 		$query->set( 'post__in', $ids );
 	}
 
+	/**
+	 * Restrict an HPOS orders query's SQL clauses to the given order ids.
+	 *
+	 * @param array &$clauses   Query clauses, modified in place.
+	 * @param int[] $order_ids Order ids to limit to (empty forces no results).
+	 */
 	public function modify_clauses( array &$clauses, array $order_ids ): array {
 		if ( ! $this->is_hpos_enabled() ) {
 			// Classic orders table uses different table aliases, so we can't reuse the same clause modifications.

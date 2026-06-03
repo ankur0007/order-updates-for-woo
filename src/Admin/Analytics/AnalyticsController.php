@@ -1,4 +1,9 @@
 <?php
+/**
+ * Analytics admin page + cache warmup scheduling.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -13,17 +18,29 @@ use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Analytics\AnalyticsLookupDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 
+/**
+ * Analytics controller.
+ */
 final class AnalyticsController {
 	private const SLUG = 'order-updates-for-woo-analytics';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param AnalyticsLookupDb $analytics_lookup_db Injected dependency.
+	 */
 	public function __construct( private AnalyticsLookupDb $analytics_lookup_db ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
 		add_action( 'admin_init', array( $this, 'schedule_warmup' ) );
 		add_action( Constants::ANALYTICS_CRON_HOOK, array( $this, 'warmup_cache' ) );
 	}
 
+	/** Register the Analytics submenu page. */
 	public function register_page(): void {
 		add_submenu_page(
 			\OrderUpdatesForWoo\Admin\AdminMenuController::PARENT_SLUG,
@@ -35,12 +52,16 @@ final class AnalyticsController {
 		);
 	}
 
+	/** Schedule the daily analytics cache warmup cron if not already set. */
 	public function schedule_warmup(): void {
 		if ( ! wp_next_scheduled( Constants::ANALYTICS_CRON_HOOK ) ) {
 			wp_schedule_event( time(), 'daily', Constants::ANALYTICS_CRON_HOOK );
 		}
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		$css_path   = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/css/analytics.css';
 		$js_path    = ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/js/analytics.js';
@@ -104,6 +125,7 @@ final class AnalyticsController {
 		View::render( 'src/Admin/Analytics/Views/AnalyticsView' );
 	}
 
+	/** Cron callback: pre-warm the analytics caches for common date ranges. */
 	public function warmup_cache(): void {
 		$now   = new \DateTimeImmutable( 'now', new \DateTimeZone( 'UTC' ) );
 		$today = $now->format( 'Y-m-d' );

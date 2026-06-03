@@ -25,6 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Review Request Notice.
+ */
 final class ReviewRequestNotice {
 
 	/** Hard floor on install age before we even consider asking. */
@@ -52,8 +55,16 @@ final class ReviewRequestNotice {
 
 	private const NONCE_ACTION = 'order_updates_for_woo_review_notice';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		// Stamp the install time exactly once so MIN_DAYS_INSTALLED can be
 		// measured relative to a stable baseline.
@@ -76,6 +87,7 @@ final class ReviewRequestNotice {
 		update_option( self::FIRST_SEEN_OPTION, time(), false );
 	}
 
+	/** Render the review-request admin notice when conditions are met. */
 	public function maybe_render(): void {
 		if ( ! $this->should_render() ) {
 			return;
@@ -266,6 +278,7 @@ final class ReviewRequestNotice {
 		return true;
 	}
 
+	/** Handle a dismiss / remind-later / left-review click (nonce-checked). */
 	public function handle_action(): void {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- nonce check below.
 		$action = isset( $_GET['awts_review_notice'] ) ? sanitize_key( wp_unslash( (string) $_GET['awts_review_notice'] ) ) : '';
@@ -309,7 +322,11 @@ final class ReviewRequestNotice {
 		exit;
 	}
 
-	/** Build a same-page action URL with nonce + the requested action verb. */
+	/**
+	 * Build a same-page action URL with nonce + the requested action verb.
+	 *
+	 * @param string $action Action verb.
+	 */
 	private function action_url( string $action ): string {
 		return wp_nonce_url(
 			add_query_arg( 'awts_review_notice', $action ),
@@ -318,6 +335,9 @@ final class ReviewRequestNotice {
 	}
 
 	/**
+	 * The current user's notice state (dismissed / remind-later).
+	 *
+	 * @param int $user_id User id.
 	 * @return array{status?: string, until?: int}
 	 */
 	private function get_user_state( int $user_id ): array {
@@ -325,6 +345,12 @@ final class ReviewRequestNotice {
 		return is_array( $state ) ? $state : array();
 	}
 
+	/**
+	 * Persist the current user's notice state.
+	 *
+	 * @param int   $user_id User id.
+	 * @param array $state   State to store.
+	 */
 	private function set_user_state( int $user_id, array $state ): void {
 		update_user_meta( $user_id, self::STATE_USER_META, $state );
 	}

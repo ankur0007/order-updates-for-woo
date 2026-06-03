@@ -33,6 +33,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Order Lock Banner.
+ */
 final class OrderLockBanner {
 
 	private const EDIT_LOCK_CLASS = '\\Automattic\\WooCommerce\\Internal\\Admin\\Orders\\EditLock';
@@ -55,6 +58,9 @@ final class OrderLockBanner {
 	 */
 	private $lock_holder_cache = null;
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_assets' ) );
 		add_filter( 'admin_body_class', array( $this, 'maybe_add_body_class' ) );
@@ -72,7 +78,7 @@ final class OrderLockBanner {
 	 */
 	private function get_current_order(): ?\WC_Order {
 		if ( null !== $this->order_cache ) {
-			return $this->order_cache ?: null;
+			return $this->order_cache ? $this->order_cache : null;
 		}
 
 		$this->order_cache = false;
@@ -82,7 +88,7 @@ final class OrderLockBanner {
 		}
 
 		$screen = get_current_screen();
-		if ( ! $screen || $screen->id !== HposHelper::order_edit_screen_id() ) {
+		if ( ! $screen || HposHelper::order_edit_screen_id() !== $screen->id ) {
 			return null;
 		}
 
@@ -118,7 +124,7 @@ final class OrderLockBanner {
 	 */
 	private function get_lock_holder(): ?\WP_User {
 		if ( null !== $this->lock_holder_cache ) {
-			return $this->lock_holder_cache ?: null;
+			return $this->lock_holder_cache ? $this->lock_holder_cache : null;
 		}
 
 		$this->lock_holder_cache = false;
@@ -155,6 +161,8 @@ final class OrderLockBanner {
 	 * Add body classes so the CSS knows when to suppress WC's modal
 	 * (always on order edit screens) and when to show the banner
 	 * scaffolding (only when another user holds the lock).
+	 *
+	 * @param string $classes Space-separated admin body classes.
 	 */
 	public function maybe_add_body_class( string $classes ): string {
 		if ( ! $this->get_current_order() ) {
@@ -274,6 +282,8 @@ final class OrderLockBanner {
 	/**
 	 * The canonical edit URL for the order. HPOS routes through the
 	 * `wc-orders` admin page; classic uses `post.php`.
+	 *
+	 * @param \WC_Order $order The order.
 	 */
 	private function build_edit_url( \WC_Order $order ): string {
 		if ( HposHelper::is_enabled() ) {

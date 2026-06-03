@@ -6,10 +6,16 @@
  * arrives in $view_data and is escaped at output here. Data + view are kept
  * separate so a future front-end assignee page can reuse this template.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data
  */
 
 declare(strict_types=1);
+
+// Local template vars only — this file is required inside View::render()'s
+// method scope, so these never touch real WordPress globals.
+// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

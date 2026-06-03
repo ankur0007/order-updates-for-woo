@@ -26,10 +26,14 @@ use WC_Order;
 final class DeletedUpdatesMetaBox {
 	private const META_BOX_ID = 'awts-deleted-updates-log';
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'add_meta_boxes', array( $this, 'register' ) );
 	}
 
+	/** Register the "Deleted update history" meta box on the order edit screen. */
 	public function register(): void {
 		if ( wp_doing_ajax() ) {
 			return;
@@ -45,6 +49,11 @@ final class DeletedUpdatesMetaBox {
 		);
 	}
 
+	/**
+	 * Render the meta box body — the order's deleted-update log.
+	 *
+	 * @param WC_Order|int|mixed $post_or_order Order object or id from the meta-box callback.
+	 */
 	public function render( $post_or_order ): void {
 		$order = $post_or_order instanceof WC_Order
 			? $post_or_order
@@ -74,6 +83,11 @@ final class DeletedUpdatesMetaBox {
 		echo '</ul>';
 	}
 
+	/**
+	 * Render one deletion record block.
+	 *
+	 * @param array $record One deletion log entry.
+	 */
 	private function render_record( array $record ): void {
 		$title           = (string) ( $record['title'] ?? '' );
 		$update_id       = absint( $record['update_id'] ?? 0 );
@@ -118,6 +132,11 @@ final class DeletedUpdatesMetaBox {
 		<?php
 	}
 
+	/**
+	 * Format one timeline event line for a deletion record.
+	 *
+	 * @param array $event One event entry.
+	 */
 	private function format_event( array $event ): string {
 		$type      = (string) ( $event['type'] ?? '' );
 		$timestamp = DateHelper::format_date( (string) ( $event['timestamp'] ?? '' ) );

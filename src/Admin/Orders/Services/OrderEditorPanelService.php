@@ -16,12 +16,24 @@ use OrderUpdatesForWoo\Shared\Language\Labels;
 use OrderUpdatesForWoo\Helpers\HposHelper;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 
+/**
+ * Order Editor Panel service.
+ */
 final class OrderEditorPanelService {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param ?TeamRosterService           $team_roster Injected dependency.
+	 * @param ?OrderUpdatesSettingsService $settings_service Injected dependency.
+	 */
 	public function __construct(
 		private ?TeamRosterService $team_roster = null,
 		private ?OrderUpdatesSettingsService $settings_service = null
 	) {}
 
+	/**
+	 * Lazily resolve the shared settings service.
+	 */
 	private function settings_service(): OrderUpdatesSettingsService {
 		if ( ! $this->settings_service instanceof OrderUpdatesSettingsService ) {
 			$this->settings_service = new OrderUpdatesSettingsService();
@@ -30,6 +42,7 @@ final class OrderEditorPanelService {
 		return $this->settings_service;
 	}
 
+	/** Lazily resolve the team roster service. */
 	private function team_roster(): TeamRosterService {
 		if ( ! $this->team_roster instanceof TeamRosterService ) {
 			$this->team_roster = new TeamRosterService();
@@ -37,6 +50,8 @@ final class OrderEditorPanelService {
 
 		return $this->team_roster;
 	}
+
+	/** JS-bound UI strings for the order-edit panel. */
 	public function get_labels(): array {
 		return Labels::all();
 	}
