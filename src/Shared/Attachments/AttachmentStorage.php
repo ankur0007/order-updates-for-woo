@@ -1,4 +1,9 @@
 <?php
+/**
+ * Filesystem layout + safe file/dir operations for note attachments.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -6,25 +11,49 @@ namespace OrderUpdatesForWoo\Shared\Attachments;
 
 use OrderUpdatesForWoo\Shared\Config\Constants;
 
+/**
+ * Resolves attachment directory paths and handles protected create/delete of
+ * the per-order / per-update / per-note folder tree under wp-uploads.
+ */
 final class AttachmentStorage {
+	/** Absolute path to the attachments root directory. */
 	public static function attachments_dir(): string {
 		$uploads = wp_upload_dir( null, false );
 		return trailingslashit( (string) ( $uploads['basedir'] ?? '' ) ) . Constants::ATTACHMENTS_ROOT_DIR;
 	}
 
+	/** Public URL of the attachments root directory. */
 	public static function root_url(): string {
 		$uploads = wp_upload_dir( null, false );
 		return trailingslashit( (string) ( $uploads['baseurl'] ?? '' ) ) . Constants::ATTACHMENTS_ROOT_DIR;
 	}
 
+	/**
+	 * Absolute path to an order's attachment directory.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public static function order_dir( int $order_id ): string {
 		return self::attachments_dir() . '/orders/' . $order_id;
 	}
 
+	/**
+	 * Absolute path to an update's attachment directory.
+	 *
+	 * @param int $order_id  Order id.
+	 * @param int $update_id Update id.
+	 */
 	public static function update_dir( int $order_id, int $update_id ): string {
 		return self::order_dir( $order_id ) . '/' . $update_id;
 	}
 
+	/**
+	 * Absolute path to a note's attachment directory.
+	 *
+	 * @param int $order_id  Order id.
+	 * @param int $update_id Update id.
+	 * @param int $note_id   Note id.
+	 */
 	public static function note_dir( int $order_id, int $update_id, int $note_id ): string {
 		return self::update_dir( $order_id, $update_id ) . '/' . $note_id;
 	}
@@ -55,6 +84,10 @@ final class AttachmentStorage {
 	 *
 	 * Intermediate directories (orders/, orders/{id}/, orders/{id}/{update_id}/)
 	 * each get an index.html so directory browsing is blocked at every level.
+	 *
+	 * @param int $order_id  Order id.
+	 * @param int $update_id Update id.
+	 * @param int $note_id   Note id.
 	 */
 	public static function ensure_note_dir( int $order_id, int $update_id, int $note_id ): string {
 		self::ensure_root_protected();
@@ -77,6 +110,11 @@ final class AttachmentStorage {
 		return end( $dirs );
 	}
 
+	/**
+	 * Delete one file, but only if it sits inside the attachments root.
+	 *
+	 * @param string $absolute_path Absolute file path.
+	 */
 	public static function delete_file( string $absolute_path ): bool {
 		if ( ! self::is_inside_attachments_dir( $absolute_path ) ) {
 			return false;
@@ -96,6 +134,11 @@ final class AttachmentStorage {
 		return ! file_exists( $absolute_path );
 	}
 
+	/**
+	 * Delete an order's whole attachment directory.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public static function delete_order_dir( int $order_id ): bool {
 		if ( ! $order_id ) {
 			return false;
@@ -104,6 +147,12 @@ final class AttachmentStorage {
 		return self::delete_dir( self::order_dir( $order_id ) );
 	}
 
+	/**
+	 * Delete an update's whole attachment directory.
+	 *
+	 * @param int $order_id  Order id.
+	 * @param int $update_id Update id.
+	 */
 	public static function delete_update_dir( int $order_id, int $update_id ): bool {
 		if ( ! $order_id || ! $update_id ) {
 			return false;
@@ -120,6 +169,8 @@ final class AttachmentStorage {
 	 * Called after a file/dir delete so we don't leave hollow per-order or
 	 * per-update folders cluttering the uploads directory once their
 	 * attachments are gone.
+	 *
+	 * @param string $start_dir Directory to start walking up from.
 	 */
 	public static function prune_empty_ancestor_dirs( string $start_dir ): void {
 		$orders_root_real = realpath( self::attachments_dir() . '/orders' );
@@ -141,7 +192,7 @@ final class AttachmentStorage {
 				return;
 			}
 
-			$entries = @scandir( $current_real );
+			$entries = @scandir( $current_real ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Forbidden -- guarded by the false check below.
 
 			if ( false === $entries ) {
 				return;
@@ -168,6 +219,8 @@ final class AttachmentStorage {
 	 * True when $path is inside the attachments folder. Sanity check
 	 * before file ops; not a substitute for input validation at the
 	 * boundary (callers must already control the path).
+	 *
+	 * @param string $path Absolute path to check.
 	 */
 	public static function is_inside_attachments_dir( string $path ): bool {
 		$root_dir = realpath( self::attachments_dir() );
@@ -215,6 +268,8 @@ final class AttachmentStorage {
 	 * Write an empty index.html into $dir if it does not already exist.
 	 * Mirrors WooCommerce's approach: an empty HTML file blocks directory
 	 * listing on servers where .htaccess is not honoured (e.g. Nginx).
+	 *
+	 * @param string $dir Directory to write into.
 	 */
 	private static function write_index_html( string $dir ): void {
 		$path = trailingslashit( $dir ) . 'index.html';
@@ -228,6 +283,8 @@ final class AttachmentStorage {
 	/**
 	 * Delete a directory and all its contents, with root-boundary safety check.
 	 * Uses WP_Filesystem::delete() which handles recursion natively.
+	 *
+	 * @param string $dir Directory to delete.
 	 */
 	private static function delete_dir( string $dir ): bool {
 		if ( ! is_dir( $dir ) || ! self::is_inside_attachments_dir( $dir ) ) {
@@ -245,9 +302,11 @@ final class AttachmentStorage {
 
 	/**
 	 * Pure-PHP recursive delete, used only when WP_Filesystem is unavailable.
+	 *
+	 * @param string $dir Directory to delete.
 	 */
 	private static function delete_dir_fallback( string $dir ): bool {
-		$entries = @scandir( $dir );
+		$entries = @scandir( $dir ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Forbidden -- guarded by the false check below.
 
 		if ( false === $entries ) {
 			return false;
@@ -266,7 +325,7 @@ final class AttachmentStorage {
 			}
 		}
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- WP_Filesystem unavailable; this is the documented fallback path.
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir, Generic.PHP.NoSilencedErrors.Forbidden -- WP_Filesystem unavailable; documented fallback path.
 		return @rmdir( $dir );
 	}
 }
