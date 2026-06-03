@@ -94,21 +94,30 @@ function order_updates_for_woo_install_on_new_subsite( $new_site ): void {
 	// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.switch_to_blog_switch_to_blog -- we only need the new subsite's DB context to create its tables; plugin loading is irrelevant here.
 	switch_to_blog( $site_id );
 	try {
-		// Tables auto-create on next `init` tick, but force a fast path here
-		// so the new subsite is fully provisioned without waiting for a request.
-		( new \OrderUpdatesForWoo\Shared\Updates\UpdatesTable() )->maybe_create_tables();
-		( new \OrderUpdatesForWoo\Shared\Attachments\AttachmentsTable() )->maybe_create_tables();
-		( new \OrderUpdatesForWoo\Shared\Analytics\AnalyticsLookupTable() )->maybe_create_table();
-		\OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController::on_activation();
+		order_updates_for_woo_install();
 	} finally {
 		restore_current_blog();
 	}
 }
 
-/** Activation hook — set the welcome redirect and register rewrites. */
-function order_updates_for_woo_activate(): void {
-	\OrderUpdatesForWoo\Welcome\Controllers\WelcomeController::set_redirect_flag();
+/**
+ * Create the plugin's tables and register its rewrite rules.
+ *
+ * Shared by single-site activation and new-subsite provisioning so both paths
+ * leave the site fully set up immediately, instead of waiting for the lazy
+ * `init`-time table creation on the first request.
+ */
+function order_updates_for_woo_install(): void {
+	( new \OrderUpdatesForWoo\Shared\Updates\UpdatesTable() )->maybe_create_tables();
+	( new \OrderUpdatesForWoo\Shared\Attachments\AttachmentsTable() )->maybe_create_tables();
+	( new \OrderUpdatesForWoo\Shared\Analytics\AnalyticsLookupTable() )->maybe_create_table();
 	\OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController::on_activation();
+}
+
+/** Activation hook — install tables/rewrites and queue the welcome redirect. */
+function order_updates_for_woo_activate(): void {
+	order_updates_for_woo_install();
+	\OrderUpdatesForWoo\Welcome\Controllers\WelcomeController::set_redirect_flag();
 }
 
 register_deactivation_hook( __FILE__, 'order_updates_for_woo_deactivate' );
