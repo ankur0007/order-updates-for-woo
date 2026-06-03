@@ -17,11 +17,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Controller for the api settings section.
+ */
 final class ApiSettingsController implements SettingsSectionController {
 	private const ASSET_HANDLE = 'order-updates-for-woo-api-tab';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param ApiSettingsService $service Injected dependency.
+	 */
 	public function __construct( private ApiSettingsService $service ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_filter( 'order_updates_for_woo_api_endpoint_params', array( $this, 'document_core_endpoints' ), 10, 3 );
@@ -32,9 +43,9 @@ final class ApiSettingsController implements SettingsSectionController {
 	 * Provide summary text for the core endpoints. Addons can hook the
 	 * same filter at a higher priority to override.
 	 *
-	 * @param string   $summary
-	 * @param string   $path
-	 * @param string[] $methods
+	 * @param string   $summary Summary set by an earlier filter, if any.
+	 * @param string   $path    Route path.
+	 * @param string[] $methods HTTP methods the route accepts.
 	 */
 	public function document_core_endpoint_summary( string $summary, string $path, array $methods ): string {
 		if ( '' !== $summary ) {
@@ -57,9 +68,9 @@ final class ApiSettingsController implements SettingsSectionController {
 	 * endpoint, add it to `core_endpoint_documentation()` below or hook
 	 * the same filter from your addon.
 	 *
-	 * @param array<int, array<string,mixed>> $params
-	 * @param string                          $path
-	 * @param string[]                        $methods
+	 * @param array<int, array<string,mixed>> $params  Param list so far.
+	 * @param string                          $path    Route path.
+	 * @param string[]                        $methods HTTP methods the route accepts.
 	 * @return array<int, array<string,mixed>>
 	 */
 	public function document_core_endpoints( array $params, string $path, array $methods ): array {
@@ -434,7 +445,7 @@ final class ApiSettingsController implements SettingsSectionController {
 	 * Mirror of ApiSettingsService::source_label_for() — duplicated here so
 	 * the controller doesn't have to expose the service's private helper.
 	 *
-	 * @param string[] $methods
+	 * @param string[] $methods HTTP methods the route accepts.
 	 */
 	private function source_label_for( array $methods ): string {
 		$query_only = array_diff( $methods, array( 'GET', 'DELETE' ) ) === array();
@@ -444,6 +455,11 @@ final class ApiSettingsController implements SettingsSectionController {
 			: __( 'Body', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Enqueue this section's CSS/JS on the WC settings screen.
+	 *
+	 * @param string $hook Current admin page hook.
+	 */
 	public function enqueue_assets( string $hook ): void {
 		if ( 'woocommerce_page_wc-settings' !== $hook ) {
 			return;
@@ -469,18 +485,32 @@ final class ApiSettingsController implements SettingsSectionController {
 		);
 	}
 
+	/**
+	 * URL-safe section id (empty string for the default section).
+	 */
 	public function id(): string {
 		return ApiSettingsService::SECTION_ID;
 	}
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return $this->service->label();
 	}
 
+	/**
+	 * WooCommerce settings fields for this section.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
 	public function get_settings(): array {
 		return $this->service->get_settings();
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		View::render(
 			'src/Admin/Settings/Views/api/endpoints',

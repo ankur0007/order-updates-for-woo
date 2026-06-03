@@ -20,14 +20,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the customers section.
+ */
 final class CustomersSettingsService {
 	public const SECTION_ID = 'customers';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Customers', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {

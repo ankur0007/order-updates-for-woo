@@ -16,14 +16,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the attachments section.
+ */
 final class AttachmentsSettingsService {
 	public const SECTION_ID = 'attachments';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Attachments', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {
@@ -79,6 +87,8 @@ final class AttachmentsSettingsService {
 	}
 
 	/**
+	 * Allowed mime types as value => label.
+	 *
 	 * @return array<string,string>
 	 */
 	private function mime_options(): array {
@@ -103,10 +113,12 @@ final class AttachmentsSettingsService {
 		);
 	}
 
+	/** The server's upload limit in whole megabytes. */
 	private function server_max_upload_mb(): int {
 		return max( 1, (int) floor( wp_max_upload_size() / 1024 / 1024 ) );
 	}
 
+	/** Help text for the max-file-size field, noting the server cap. */
 	private function size_field_description(): string {
 		$php_max_bytes    = (int) wp_max_upload_size();
 		$php_max_label    = size_format( $php_max_bytes );

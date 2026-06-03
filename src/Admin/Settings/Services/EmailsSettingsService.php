@@ -23,14 +23,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the emails section.
+ */
 final class EmailsSettingsService {
 	public const SECTION_ID = 'emails';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Emails', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {
@@ -97,7 +105,7 @@ final class EmailsSettingsService {
 			$rows[] = array(
 				'id'          => $email_id,
 				'title'       => (string) $email->get_title(),
-				'description' => (string) ( $email->get_description() ?: $email->description ),
+				'description' => (string) ( $email->get_description() ? $email->get_description() : $email->description ),
 				'enabled'     => (bool) $email->is_enabled(),
 				'edit_url'    => $this->edit_url_for( $email ),
 			);
@@ -110,6 +118,8 @@ final class EmailsSettingsService {
 	 * Toggle the persisted `enabled` flag on a single email's settings
 	 * option. Reads the existing array so per-email subject/recipient
 	 * customisations survive the toggle.
+	 *
+	 * @param string $email_id Email identifier.
 	 */
 	public function toggle_email_enabled( string $email_id ): bool {
 		if ( ! in_array( $email_id, $this->plugin_email_ids(), true ) ) {
@@ -129,6 +139,8 @@ final class EmailsSettingsService {
 	}
 
 	/**
+	 * IDs of the plugin's WooCommerce emails.
+	 *
 	 * @return string[]
 	 */
 	private function plugin_email_ids(): array {
@@ -151,6 +163,8 @@ final class EmailsSettingsService {
 	 * property. We use the id because namespaced classes don't survive
 	 * WC's `sanitize_title` round-trip on the URL param — the backslashes
 	 * get stripped and the comparison fails.
+	 *
+	 * @param WC_Email $email Email object.
 	 */
 	private function edit_url_for( WC_Email $email ): string {
 		return add_query_arg(

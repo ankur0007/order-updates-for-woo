@@ -18,14 +18,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the notifications section.
+ */
 final class NotificationsSettingsService {
 	public const SECTION_ID = 'notifications';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Notifications', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {

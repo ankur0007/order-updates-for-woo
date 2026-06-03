@@ -26,24 +26,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the api section.
+ */
 final class ApiSettingsService {
 	public const SECTION_ID = 'api';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'API Endpoints', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * No persisted fields — this section is a read-only API directory.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {
 		return array();
 	}
 
+	/** The plugin's REST namespace. */
 	public function namespace(): string {
 		return Constants::REST_NAMESPACE;
 	}
 
+	/** Base URL for the plugin's REST namespace. */
 	public function base_url(): string {
 		return rest_url( Constants::REST_NAMESPACE );
 	}
@@ -125,8 +135,9 @@ final class ApiSettingsService {
 	 * defaults derived from their declared type so the JSON is parseable
 	 * as-is.
 	 *
-	 * @param string[]                                                                                      $methods
-	 * @param array<int, array{name:string, source:string, type:string, required:bool, description:string}> $params
+	 * @param string                                                                                        $url     Endpoint URL.
+	 * @param string[]                                                                                      $methods HTTP methods the route accepts.
+	 * @param array<int, array{name:string, source:string, type:string, required:bool, description:string}> $params  Param definitions.
 	 */
 	public function curl_template_for( string $url, array $methods, array $params ): string {
 		$method   = $this->primary_method( $methods );
@@ -161,8 +172,9 @@ final class ApiSettingsService {
 	 * Build the parameter list for a route. Auto-extracts path parameters
 	 * from the regex; merges in any documented body / query parameters.
 	 *
-	 * @param string[]                                                                $methods
-	 * @param array<string, array{type?:string, required?:bool, description?:string}> $body_args
+	 * @param string                                                                  $path      Route path.
+	 * @param string[]                                                                $methods   HTTP methods the route accepts.
+	 * @param array<string, array{type?:string, required?:bool, description?:string}> $body_args Declared body/query args.
 	 * @return array<int, array{name:string, source:string, type:string, required:bool, description:string}>
 	 */
 	private function params_for( string $path, array $methods, array $body_args ): array {
@@ -197,7 +209,8 @@ final class ApiSettingsService {
 	 * `order_updates_for_woo_api_endpoint_summary`, addons can hook the
 	 * same filter for their own routes.
 	 *
-	 * @param string[] $methods
+	 * @param string   $path    Route path.
+	 * @param string[] $methods HTTP methods the route accepts.
 	 */
 	private function summary_for( string $path, array $methods ): string {
 		/**
@@ -215,6 +228,7 @@ final class ApiSettingsService {
 	/**
 	 * Pull `(?P<name>regex)` named groups out of the route path.
 	 *
+	 * @param string $path Route path.
 	 * @return array<int, array{name:string, source:string, type:string, required:bool, description:string}>
 	 */
 	private function path_params( string $path ): array {
@@ -237,6 +251,11 @@ final class ApiSettingsService {
 		return $params;
 	}
 
+	/**
+	 * "Query" for read-only routes, "Body" otherwise.
+	 *
+	 * @param string[] $methods HTTP methods the route accepts.
+	 */
 	private function source_label_for( array $methods ): string {
 		$query_only = array_diff( $methods, array( 'GET', 'DELETE' ) ) === array();
 
@@ -251,6 +270,8 @@ final class ApiSettingsService {
 	 * displayed path and the URL inside the curl template — Postman
 	 * recognises `{var}` as a path variable, so the same string powers
 	 * both the human label and a paste-ready URL.
+	 *
+	 * @param string $url Raw route path or URL.
 	 */
 	private function display_path( string $url ): string {
 		$decoded = urldecode( $url );
@@ -263,7 +284,9 @@ final class ApiSettingsService {
 	}
 
 	/**
-	 * @param array<int, array{name:string, source:string, type:string, required:bool, description:string}> $params
+	 * Build a sample JSON body from a route's body/query params.
+	 *
+	 * @param array<int, array{name:string, source:string, type:string, required:bool, description:string}> $params Param definitions.
 	 */
 	private function body_template( array $params ): string {
 		$body        = array();
@@ -287,6 +310,12 @@ final class ApiSettingsService {
 		return wp_json_encode( $body, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 	}
 
+	/**
+	 * A placeholder default value for a declared param type.
+	 *
+	 * @param string $type Declared param type.
+	 * @return mixed
+	 */
 	private function default_for_type( string $type ) {
 		return match ( strtolower( $type ) ) {
 			'integer', 'int', 'number' => 0,
@@ -301,7 +330,7 @@ final class ApiSettingsService {
 	 * For a route that supports multiple methods, pick the one that's
 	 * most informative for a curl example. POST > PUT > PATCH > DELETE > GET.
 	 *
-	 * @param string[] $methods
+	 * @param string[] $methods HTTP methods the route accepts.
 	 */
 	private function primary_method( array $methods ): string {
 		foreach ( array( 'POST', 'PUT', 'PATCH', 'DELETE', 'GET' ) as $candidate ) {

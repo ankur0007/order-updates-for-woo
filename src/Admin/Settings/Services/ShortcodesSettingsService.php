@@ -13,14 +13,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the shortcodes section.
+ */
 final class ShortcodesSettingsService {
 	public const SECTION_ID = 'shortcodes';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Shortcodes', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {
@@ -28,6 +36,8 @@ final class ShortcodesSettingsService {
 	}
 
 	/**
+	 * The shortcodes this plugin registers.
+	 *
 	 * @return array<int, array{
 	 *     tag:string,
 	 *     summary:string,

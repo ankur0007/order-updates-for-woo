@@ -17,14 +17,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the members section.
+ */
 final class MembersSettingsService {
 	public const SECTION_ID = 'members';
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Members', 'order-updates-for-woo' );
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {
@@ -86,6 +94,8 @@ final class MembersSettingsService {
 	}
 
 	/**
+	 * Assignable roles as slug => label.
+	 *
 	 * @return array<string,string>
 	 */
 	private function role_options(): array {

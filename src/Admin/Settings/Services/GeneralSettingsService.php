@@ -16,17 +16,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the general section.
+ */
 final class GeneralSettingsService {
 	public const SECTION_ID = '';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param ?OrderUpdatesSettingsService $settings_service Injected dependency.
+	 */
 	public function __construct(
 		private ?OrderUpdatesSettingsService $settings_service = null
 	) {}
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'General', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Lazily resolve the shared settings service.
+	 */
 	private function settings_service(): OrderUpdatesSettingsService {
 		if ( ! $this->settings_service instanceof OrderUpdatesSettingsService ) {
 			$this->settings_service = new OrderUpdatesSettingsService();
@@ -36,6 +50,8 @@ final class GeneralSettingsService {
 	}
 
 	/**
+	 * Status key => label map for the select field.
+	 *
 	 * @return array<string, string> key => label, in admin-configured order.
 	 */
 	private function status_options_for_select(): array {
@@ -48,6 +64,7 @@ final class GeneralSettingsService {
 		return $options;
 	}
 
+	/** The status key pre-selected for customer-initiated updates. */
 	private function first_status_key(): string {
 		// "Notice" is the seeded default for customer-initiated updates —
 		// see Constants::DEFAULT_CUSTOMER_STATUS_SEED_KEY. We pre-select it
@@ -64,6 +81,8 @@ final class GeneralSettingsService {
 	}
 
 	/**
+	 * Settings fields for this section.
+	 *
 	 * @return array<int, array<string, mixed>>
 	 */
 	public function get_settings(): array {

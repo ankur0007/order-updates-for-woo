@@ -21,6 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the cache section.
+ */
 final class CacheSettingsService {
 	public const SECTION_ID = 'cache';
 
@@ -28,11 +31,20 @@ final class CacheSettingsService {
 	public const ACTION_ANALYTICS         = 'clear_analytics_cache';
 	public const ACTION_REBUILD_ANALYTICS = 'rebuild_analytics_lookup';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param TeamRosterService $team_roster Injected dependency.
+	 * @param AnalyticsLookupDb $analytics_lookup_db Injected dependency.
+	 */
 	public function __construct(
 		private TeamRosterService $team_roster,
 		private AnalyticsLookupDb $analytics_lookup_db
 	) {}
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return __( 'Cache', 'order-updates-for-woo' );
 	}
@@ -47,6 +59,8 @@ final class CacheSettingsService {
 	}
 
 	/**
+	 * The cache action buttons shown in this section.
+	 *
 	 * @return array<int, array{id:string, label:string, description:string}>
 	 */
 	public function action_buttons(): array {
@@ -69,14 +83,17 @@ final class CacheSettingsService {
 		);
 	}
 
+	/** Flush the cached team roster. */
 	public function clear_team_cache(): void {
 		$this->team_roster->flush_cache();
 	}
 
+	/** Invalidate every cached analytics response. */
 	public function clear_analytics_cache(): void {
 		$this->analytics_lookup_db->bust_cache();
 	}
 
+	/** Truncate and rebuild the analytics lookup table from scratch. */
 	public function rebuild_analytics_lookup(): void {
 		$this->analytics_lookup_db->rebuild_from_scratch();
 	}

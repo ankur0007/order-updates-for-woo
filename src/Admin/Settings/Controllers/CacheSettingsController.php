@@ -19,28 +19,53 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Controller for the cache settings section.
+ */
 final class CacheSettingsController implements SettingsSectionController {
 	private const NONCE_ACTION = 'order_updates_for_woo_cache_action';
 	private const QUERY_PARAM  = 'order_updates_for_woo_cache';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param CacheSettingsService $service Injected dependency.
+	 */
 	public function __construct( private CacheSettingsService $service ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_init', array( $this, 'maybe_handle_action' ) );
 	}
 
+	/**
+	 * URL-safe section id (empty string for the default section).
+	 */
 	public function id(): string {
 		return CacheSettingsService::SECTION_ID;
 	}
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return $this->service->label();
 	}
 
+	/**
+	 * WooCommerce settings fields for this section.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
 	public function get_settings(): array {
 		return $this->service->get_settings();
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		$this->maybe_show_done_notice();
 
@@ -55,6 +80,7 @@ final class CacheSettingsController implements SettingsSectionController {
 		);
 	}
 
+	/** Handle a cache action button click (nonce-checked), then redirect. */
 	public function maybe_handle_action(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified below
 		if ( ! isset( $_GET[ self::QUERY_PARAM ] ) ) {
@@ -86,6 +112,11 @@ final class CacheSettingsController implements SettingsSectionController {
 		exit;
 	}
 
+	/**
+	 * Build a nonce-protected URL for one cache action.
+	 *
+	 * @param string $action Action key.
+	 */
 	private function build_action_url( string $action ): string {
 		return wp_nonce_url(
 			add_query_arg(
@@ -101,10 +132,12 @@ final class CacheSettingsController implements SettingsSectionController {
 		);
 	}
 
+	/** This section's id (static so URL builders can use it). */
 	private static function id_static(): string {
 		return CacheSettingsService::SECTION_ID;
 	}
 
+	/** Show the success notice after a cache action redirect. */
 	private function maybe_show_done_notice(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only flash
 		$done = isset( $_GET['order_updates_for_woo_cache_done'] ) ? sanitize_key( wp_unslash( (string) $_GET['order_updates_for_woo_cache_done'] ) ) : '';

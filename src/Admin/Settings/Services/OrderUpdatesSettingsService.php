@@ -20,9 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings fields and values for the order updates section.
+ */
 final class OrderUpdatesSettingsService {
 
 	/**
+	 * Resolve all feature toggles into a typed array.
+	 *
 	 * @return array{
 	 *     enable_assignee:bool,
 	 *     enable_color:bool,
@@ -100,6 +105,7 @@ final class OrderUpdatesSettingsService {
 		);
 	}
 
+	/** Whether team members may delete their own notes. Default off. */
 	public function allow_member_note_delete(): bool {
 		return $this->bool_option( 'order_updates_for_woo_allow_member_note_delete', 'no' );
 	}
@@ -201,6 +207,7 @@ final class OrderUpdatesSettingsService {
 	 * null when no status matches (admin removed the status after updates
 	 * were already created with that color).
 	 *
+	 * @param string $color Hex color to match.
 	 * @return array{key:string, label:string, color:string}|null
 	 */
 	public function find_status_by_color( string $color ): ?array {
@@ -219,6 +226,11 @@ final class OrderUpdatesSettingsService {
 		return null;
 	}
 
+	/**
+	 * Normalise a hex color to lowercase `#rrggbb`, or '' if invalid.
+	 *
+	 * @param string $value Raw color value.
+	 */
 	private function sanitize_hex( string $value ): string {
 		$value = trim( $value );
 		if ( '' === $value ) {
@@ -232,6 +244,7 @@ final class OrderUpdatesSettingsService {
 		return preg_match( '/^#[0-9a-fA-F]{6}$/', $value ) ? strtolower( $value ) : '';
 	}
 
+	/** Note edit window in minutes, clamped to 1–1440. */
 	public function get_note_edit_window_minutes(): int {
 		$minutes = absint( get_option( 'order_updates_for_woo_note_edit_window_minutes', 1 ) );
 
@@ -246,6 +259,10 @@ final class OrderUpdatesSettingsService {
 	 * Read a 'yes'/'no' option as a bool, with optional fallback to a
 	 * legacy option name (used when an option was renamed and we still
 	 * want to honour the previously-saved value during transition).
+	 *
+	 * @param string      $name        Option name.
+	 * @param string      $default     Default 'yes'/'no' when unset.
+	 * @param string|null $legacy_name Older option name to fall back to.
 	 */
 	private function bool_option( string $name, string $default = 'yes', ?string $legacy_name = null ): bool {
 		$value = get_option( $name, null );

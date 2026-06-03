@@ -19,6 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Settings Section controller.
+ */
 interface SettingsSectionController {
 	/**
 	 * Register WP/WC hooks the section depends on (admin-init handlers,

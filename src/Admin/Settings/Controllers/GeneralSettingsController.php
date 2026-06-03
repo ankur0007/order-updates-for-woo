@@ -16,15 +16,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Controller for the general settings section.
+ */
 final class GeneralSettingsController implements SettingsSectionController {
 	private const ASSET_HANDLE = 'order-updates-for-woo-general-tab';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param GeneralSettingsService $service Injected dependency.
+	 */
 	public function __construct( private GeneralSettingsService $service ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
+	/**
+	 * Enqueue this section's CSS/JS on the WC settings screen.
+	 *
+	 * @param string $hook Current admin page hook.
+	 */
 	public function enqueue_assets( string $hook ): void {
 		if ( 'woocommerce_page_wc-settings' !== $hook ) {
 			return;
@@ -64,18 +80,32 @@ final class GeneralSettingsController implements SettingsSectionController {
 		);
 	}
 
+	/**
+	 * URL-safe section id (empty string for the default section).
+	 */
 	public function id(): string {
 		return GeneralSettingsService::SECTION_ID;
 	}
 
+	/**
+	 * Human-readable section label for the nav.
+	 */
 	public function label(): string {
 		return $this->service->label();
 	}
 
+	/**
+	 * WooCommerce settings fields for this section.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
 	public function get_settings(): array {
 		return $this->service->get_settings();
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		woocommerce_admin_fields( $this->service->get_settings() );
 	}
