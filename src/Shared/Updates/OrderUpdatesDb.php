@@ -1534,6 +1534,7 @@ final class OrderUpdatesDb {
 		return $rows;
 	}
 
+	/** Order ids that have at least one unresolved update. Cached. */
 	public function get_order_ids_with_unsolved_updates(): array {
 		global $wpdb;
 
@@ -1557,6 +1558,13 @@ final class OrderUpdatesDb {
 		return $order_ids;
 	}
 
+	/**
+	 * A page of an order's updates with creator/solver/assignee names. Cached.
+	 *
+	 * @param int      $order_id Order id.
+	 * @param int|null $limit    Page size; defaults to the configured value.
+	 * @param int      $offset   Row offset for paging.
+	 */
 	public function get_order_updates( int $order_id, ?int $limit = null, int $offset = 0 ): array {
 		global $wpdb;
 
@@ -1609,6 +1617,11 @@ final class OrderUpdatesDb {
 		return $rows;
 	}
 
+	/**
+	 * One update row with creator/solver/assignee names and notify time. Cached.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function get_update( int $update_id ): array {
 		global $wpdb;
 
@@ -1657,6 +1670,11 @@ final class OrderUpdatesDb {
 		return $update;
 	}
 
+	/**
+	 * Number of updates on an order. Cached.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public function count_order_updates( int $order_id ): int {
 		global $wpdb;
 
@@ -1698,6 +1716,12 @@ final class OrderUpdatesDb {
 		);
 	}
 
+	/**
+	 * Full lifecycle/action history for an update (created, assigned, notes,
+	 * status changes, solved …). Cached.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function get_update_action_history( int $update_id ): array {
 		global $wpdb;
 
