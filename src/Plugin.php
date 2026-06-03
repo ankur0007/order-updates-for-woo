@@ -111,7 +111,7 @@ final class Plugin {
 	/**
 	 * Boot the plugin: build the object graph and register every hook.
 	 */
-	public function powerOn(): void { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid -- intentional camelCase entry point, called from the bootstrap file.
+	public function power_on(): void {
 		$table = new UpdatesTable();
 		$db    = new OrderUpdatesDb( $table );
 

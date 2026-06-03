@@ -492,21 +492,28 @@ final class AttachmentService {
 	 * @param string $tmp_path Temp file path to inspect.
 	 */
 	private static function is_file_content_safe( string $tmp_path ): bool {
-		if ( '' === $tmp_path || ! is_readable( $tmp_path ) ) {
+		if ( '' === $tmp_path ) {
 			return true;
 		}
 
-		// Partial read — first 8 KB only. WP_Filesystem has no bounded-read
-		// primitive (get_contents loads the whole file into memory, which we
-		// don't want for potentially large uploads), so file_get_contents with
-		// an explicit length cap is the right tool here. The path is a local
-		// just-uploaded temp file, not remote.
-		// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown -- local temp upload, bounded 8 KB read; no WP_Filesystem partial-read API exists.
-		$head = (string) file_get_contents( $tmp_path, false, null, 0, 8192 );
+		$fs = AttachmentStorage::filesystem();
 
-		if ( '' === $head ) {
+		// No filesystem handle (rare) → don't block the upload on a scan we
+		// can't run; the mime + extension checks still apply.
+		if ( ! $fs || ! $fs->is_readable( $tmp_path ) ) {
 			return true;
 		}
+
+		// Read through WP_Filesystem and scan the first 8 KB. Uploads are
+		// size-capped, so loading the temp file to inspect its head is cheap
+		// and runs once per upload.
+		$contents = $fs->get_contents( $tmp_path );
+
+		if ( ! is_string( $contents ) || '' === $contents ) {
+			return true;
+		}
+
+		$head = substr( $contents, 0, 8192 );
 
 		$lower = strtolower( $head );
 

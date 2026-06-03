@@ -179,6 +179,12 @@ final class AttachmentStorage {
 			return;
 		}
 
+		$fs = self::filesystem();
+
+		if ( ! $fs ) {
+			return;
+		}
+
 		$current = $start_dir;
 
 		while ( true ) {
@@ -192,15 +198,17 @@ final class AttachmentStorage {
 				return;
 			}
 
-				$entries = is_readable( $current_real ) ? scandir( $current_real ) : false;
+			$entries = $fs->dirlist( $current_real );
 
-			if ( false === $entries ) {
+			if ( ! is_array( $entries ) ) {
 				return;
 			}
 
+			// `index.html` is just our listing-protection stub — a directory
+			// holding only that counts as empty and is safe to prune.
 			$meaningful = array_filter(
-				$entries,
-				static fn( string $entry ) => '.' !== $entry && '..' !== $entry && 'index.html' !== $entry
+				array_keys( $entries ),
+				static fn( string $name ) => 'index.html' !== $name
 			);
 
 			if ( ! empty( $meaningful ) ) {
@@ -282,7 +290,9 @@ final class AttachmentStorage {
 
 	/**
 	 * Delete a directory and all its contents, with root-boundary safety check.
-	 * Uses WP_Filesystem::delete() which handles recursion natively.
+	 * Uses WP_Filesystem::delete(), which handles recursion natively. When the
+	 * filesystem can't initialise (rare — needs FTP/SSH credentials) we skip
+	 * rather than drop to raw PHP filesystem calls.
 	 *
 	 * @param string $dir Directory to delete.
 	 */
@@ -293,39 +303,6 @@ final class AttachmentStorage {
 
 		$fs = self::filesystem();
 
-		if ( $fs ) {
-			return $fs->delete( $dir, true );
-		}
-
-		return self::delete_dir_fallback( $dir );
-	}
-
-	/**
-	 * Pure-PHP recursive delete, used only when WP_Filesystem is unavailable.
-	 *
-	 * @param string $dir Directory to delete.
-	 */
-	private static function delete_dir_fallback( string $dir ): bool {
-		$entries = is_readable( $dir ) ? scandir( $dir ) : false;
-
-		if ( false === $entries ) {
-			return false;
-		}
-
-		foreach ( $entries as $entry ) {
-			if ( '.' === $entry || '..' === $entry ) {
-				continue;
-			}
-
-			$path = $dir . '/' . $entry;
-			if ( is_dir( $path ) ) {
-				self::delete_dir_fallback( $path );
-			} else {
-				wp_delete_file( $path );
-			}
-		}
-
-		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir, WordPress.WP.AlternativeFunctions.file_system_operations_rmdir, Generic.PHP.NoSilencedErrors.Forbidden, WordPress.PHP.NoSilencedErrors.Discouraged -- WP_Filesystem unavailable; documented fallback path.
-		return @rmdir( $dir );
+		return $fs ? $fs->delete( $dir, true ) : false;
 	}
 }

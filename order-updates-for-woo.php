@@ -163,7 +163,7 @@ function order_updates_for_woo_load_plugin(): void {
 	}
 
 	$plugin = new \OrderUpdatesForWoo\Plugin();
-	$plugin->powerOn();
+	$plugin->power_on();
 }
 
 /**
