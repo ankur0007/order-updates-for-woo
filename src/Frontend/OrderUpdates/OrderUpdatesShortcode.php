@@ -1,4 +1,9 @@
 <?php
+/**
+ * Registers the [order_updates_portal] shortcode for the customer portal.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -34,11 +39,20 @@ use OrderUpdatesForWoo\Shared\Language\Labels;
 final class OrderUpdatesShortcode {
 	public const TAG = 'order_updates_portal';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param CustomerOrderUpdatesService $service Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 */
 	public function __construct(
 		private CustomerOrderUpdatesService $service,
 		private OrderUpdatesSettingsService $settings_service
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_shortcode( self::TAG, array( $this, 'render' ) );
 	}
@@ -46,7 +60,7 @@ final class OrderUpdatesShortcode {
 	/**
 	 * Shortcode render callback. Returns HTML (never echoes).
 	 *
-	 * @param array<string,string>|string $atts
+	 * @param array<string,string>|string $atts Shortcode attributes.
 	 */
 	public function render( $atts ): string {
 		$atts = shortcode_atts(
@@ -81,6 +95,11 @@ final class OrderUpdatesShortcode {
 
 	// ----- Order ID / key resolution -----
 
+	/**
+	 * Resolve the order id from the attribute, URL params, or WC context.
+	 *
+	 * @param string $attr_value The shortcode's order_id attribute.
+	 */
 	private function resolve_order_id( string $attr_value ): int {
 		// 1. Shortcode attribute.
 		if ( '' !== $attr_value ) {
@@ -113,6 +132,11 @@ final class OrderUpdatesShortcode {
 		return 0;
 	}
 
+	/**
+	 * Resolve the guest order key from the attribute or URL params.
+	 *
+	 * @param string $attr_value The shortcode's order_key attribute.
+	 */
 	private function resolve_order_key( string $attr_value ): string {
 		if ( '' !== $attr_value ) {
 			return sanitize_text_field( $attr_value );
@@ -132,6 +156,11 @@ final class OrderUpdatesShortcode {
 
 	// ----- Access denial messages -----
 
+	/**
+	 * Customer-facing message for a non-allowed view status.
+	 *
+	 * @param string $status One of the VIEW_* statuses.
+	 */
 	private function denial_message( string $status ): string {
 		switch ( $status ) {
 			case CustomerOrderUpdatesService::VIEW_RESTRICTED:
@@ -146,6 +175,11 @@ final class OrderUpdatesShortcode {
 
 	// ----- Content rendering -----
 
+	/**
+	 * Render the portal body — order summary, updates list, write-note UI.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function render_content( int $order_id ): void {
 		$updates = $this->service->get_updates_for_order( $order_id );
 
@@ -175,6 +209,12 @@ final class OrderUpdatesShortcode {
 
 	// ----- Asset enqueue -----
 
+	/**
+	 * Enqueue the portal CSS/JS and localize its config.
+	 *
+	 * @param int    $order_id  Order id.
+	 * @param string $order_key Guest order key, if any.
+	 */
 	private function enqueue_assets( int $order_id, string $order_key ): void {
 		wp_enqueue_style(
 			'order-updates-for-woo-customer',
@@ -211,7 +251,7 @@ final class OrderUpdatesShortcode {
 				'nonce'                     => wp_create_nonce( 'wp_rest' ),
 				'orderId'                   => $order_id,
 				'orderKey'                  => $order_key,
-				'pageUrl'                   => get_permalink() ?: '',
+				'pageUrl'                   => get_permalink() ? get_permalink() : '',
 				'maxFiles'                  => Variables::getMaxAttachmentFiles(),
 				'maxBytes'                  => AttachmentService::max_bytes(),
 				'acceptMime'                => implode( ',', $allowed_mime ),
@@ -256,6 +296,7 @@ final class OrderUpdatesShortcode {
 
 	// ----- Write-note trigger + modal -----
 
+	/** Render the "write a note" trigger button (gated on the admin opt-in). */
 	private function render_write_note_trigger(): void {
 		if ( ! $this->settings_service->allow_customer_create_update() ) {
 			return;
@@ -264,6 +305,11 @@ final class OrderUpdatesShortcode {
 		View::render( 'src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteTriggerView' );
 	}
 
+	/**
+	 * Render the order summary card at the top of the portal.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function render_order_summary( int $order_id ): void {
 		$summary = $this->service->get_order_summary( $order_id );
 
@@ -277,6 +323,7 @@ final class OrderUpdatesShortcode {
 		);
 	}
 
+	/** Render the "write a note" modal markup (gated on the admin opt-in). */
 	private function render_write_note_modal(): void {
 		if ( ! $this->settings_service->allow_customer_create_update() ) {
 			return;

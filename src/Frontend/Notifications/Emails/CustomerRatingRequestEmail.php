@@ -15,7 +15,15 @@ use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Helpers\UpdateState;
 
+/**
+ * Customer Rating Request Email.
+ */
 final class CustomerRatingRequestEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db ) {
 		$this->id             = Constants::EMAIL_ID_CUSTOMER_RATING_REQUEST;
 		$this->title          = __( 'Customer rating request', 'order-updates-for-woo' );
@@ -26,6 +34,11 @@ final class CustomerRatingRequestEmail extends OrderUpdateEmailBase {
 		$this->template_html = 'src/Frontend/Notifications/Templates/order-update-notification.php';
 	}
 
+	/**
+	 * Send the "rate your experience" request email for an update.
+	 *
+	 * @param int $update_id Update ID.
+	 */
 	public function trigger( int $update_id ): bool {
 		$this->reset_trigger_state();
 
@@ -70,10 +83,16 @@ final class CustomerRatingRequestEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] How did we do on order #{order_number}?', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Rate your experience', 'order-updates-for-woo' );
 	}

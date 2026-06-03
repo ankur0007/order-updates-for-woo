@@ -1,4 +1,9 @@
 <?php
+/**
+ * Email template for a customer-facing order-update notification.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

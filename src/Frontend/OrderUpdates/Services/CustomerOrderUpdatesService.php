@@ -1,4 +1,9 @@
 <?php
+/**
+ * Data + access logic behind the customer order-updates portal.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -23,6 +28,14 @@ use WC_Order;
  * OrderUpdatesDb / AttachmentsDb — no SQL of its own.
  */
 final class CustomerOrderUpdatesService {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb              $order_updates_db Injected dependency.
+	 * @param AttachmentsDb               $attachments_db Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 * @param NoteActionPolicy            $note_action_policy Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private AttachmentsDb $attachments_db,
@@ -56,6 +69,9 @@ final class CustomerOrderUpdatesService {
 	 * staff (shop managers, etc.) are not — they have the admin order screen.
 	 * Customers qualify by being logged in as the order owner or by providing
 	 * the matching order_key (guest links, email recipients).
+	 *
+	 * @param int         $order_id  Order id.
+	 * @param string|null $order_key Guest order key, if any.
 	 */
 	public function can_view_order( int $order_id, ?string $order_key = null ): bool {
 		return self::VIEW_ALLOWED === $this->resolve_view_status( $order_id, $order_key );
@@ -67,6 +83,9 @@ final class CustomerOrderUpdatesService {
 	 * surface a relevant message instead of a single generic error.
 	 *
 	 * Returns one of the VIEW_* constants. Empty string means allowed.
+	 *
+	 * @param int         $order_id  Order id.
+	 * @param string|null $order_key Guest order key, if any.
 	 */
 	public function resolve_view_status( int $order_id, ?string $order_key = null ): string {
 		if ( current_user_can( 'manage_options' ) ) {
@@ -111,6 +130,9 @@ final class CustomerOrderUpdatesService {
 	 * the correct order_key. Unlike {@see can_view_order()}, this does NOT
 	 * grant access to admins/shop managers, so it is the right gate for
 	 * customer-authored actions (ratings, "write a note", reply submissions).
+	 *
+	 * @param int         $order_id  Order id.
+	 * @param string|null $order_key Guest order key, if any.
 	 */
 	public function is_acting_as_customer( int $order_id, ?string $order_key = null ): bool {
 		if ( ! $order_id ) {
@@ -149,6 +171,8 @@ final class CustomerOrderUpdatesService {
 
 	/**
 	 * Whether $order_id has any customer-visible updates worth surfacing.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	public function has_customer_visible_updates( int $order_id ): bool {
 		if ( ! $order_id ) {
@@ -163,6 +187,8 @@ final class CustomerOrderUpdatesService {
 	/**
 	 * Return the customer-visible updates for an order with customer notes
 	 * and their attachments pre-formatted for the view.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	public function get_updates_for_order( int $order_id ): array {
 		if ( ! $order_id ) {
@@ -188,6 +214,9 @@ final class CustomerOrderUpdatesService {
 	/**
 	 * Whether a customer-visible note was authored by someone other than the
 	 * order's customer (i.e. a staff member, including guest-order staff replies).
+	 *
+	 * @param array $note             Note row.
+	 * @param int   $customer_user_id The order's customer user id (0 for guest orders).
 	 */
 	public static function is_staff_authored_note( array $note, int $customer_user_id ): bool {
 		$created_by = (int) ( $note['created_by'] ?? 0 );
@@ -218,6 +247,10 @@ final class CustomerOrderUpdatesService {
 	 * not the latest (e.g. load-prev). Customer notes are editable only when
 	 * the note's id matches this value — once any newer note arrives the
 	 * message is part of the historical conversation.
+	 *
+	 * @param array $note             Note row.
+	 * @param int   $customer_user_id The order's customer user id (0 for guest orders).
+	 * @param int   $latest_note_id   Newest note id in the thread, or 0.
 	 */
 	public function format_customer_thread_note( array $note, int $customer_user_id, int $latest_note_id = 0 ): array {
 		$is_staff = self::is_staff_authored_note( $note, $customer_user_id );
@@ -280,6 +313,8 @@ final class CustomerOrderUpdatesService {
 	 * talking to. When off (default), use the store name and no avatar so
 	 * internal identities aren't leaked.
 	 *
+	 * @param array $note     Note row.
+	 * @param bool  $is_staff Whether the note was staff-authored.
 	 * @return array{name:string, avatar_url:string}
 	 */
 	private function resolve_staff_identity( array $note, bool $is_staff ): array {
@@ -354,6 +389,8 @@ final class CustomerOrderUpdatesService {
 	 *     total:string,
 	 *     currency:string
 	 * }|array{}
+	 *
+	 * @param int $order_id Order id.
 	 */
 	public function get_order_summary( int $order_id ): array {
 		if ( ! $order_id ) {
@@ -405,6 +442,12 @@ final class CustomerOrderUpdatesService {
 		return (array) apply_filters( 'order_updates_for_woo_customer_order_summary', $summary, $order );
 	}
 
+	/**
+	 * Format one update row (with its customer notes) for the portal view.
+	 *
+	 * @param array $row              Update row.
+	 * @param int   $customer_user_id The order's customer user id (0 for guest orders).
+	 */
 	private function format_update( array $row, int $customer_user_id ): array {
 		$update_id        = (int) $row['id'];
 		$assignee_user_id = (int) ( $row['assignee_user_id'] ?? 0 );

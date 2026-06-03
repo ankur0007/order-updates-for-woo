@@ -17,7 +17,15 @@ use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WC_Order;
 
+/**
+ * Customer Update Deleted Email.
+ */
 final class CustomerUpdateDeletedEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db ) {
 		$this->id             = Constants::EMAIL_ID_CUSTOMER_UPDATE_DELETED;
 		$this->title          = __( 'Customer notice — update removed', 'order-updates-for-woo' );
@@ -32,6 +40,9 @@ final class CustomerUpdateDeletedEmail extends OrderUpdateEmailBase {
 	 * Snapshot trigger — the update record is being deleted in the same
 	 * request, so we accept order + title directly rather than re-loading
 	 * from the DB after the row is gone.
+	 *
+	 * @param WC_Order $order        Order the update belonged to.
+	 * @param string   $update_title Title of the deleted update.
 	 */
 	public function trigger_for_deletion( WC_Order $order, string $update_title ): bool {
 		$this->reset_trigger_state();
@@ -73,10 +84,16 @@ final class CustomerUpdateDeletedEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] An update on order #{order_number} was removed', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Update removed', 'order-updates-for-woo' );
 	}

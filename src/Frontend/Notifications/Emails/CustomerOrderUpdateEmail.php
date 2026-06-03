@@ -17,7 +17,16 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Customer Order Update Email.
+ */
 final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AttachmentsDb  $attachments_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db ) {
 		$this->id             = Constants::EMAIL_ID_CUSTOMER_UPDATE;
 		$this->title          = __( 'Order update notification for customer', 'order-updates-for-woo' );
@@ -29,6 +38,13 @@ final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
 		$this->template_html  = 'src/Frontend/Notifications/Templates/order-update-notification.php';
 	}
 
+	/**
+	 * Send the customer update email for an update.
+	 *
+	 * @param int    $update_id Update ID.
+	 * @param int    $note_id   Customer note that triggered it, if any.
+	 * @param string $context   What triggered the email.
+	 */
 	public function trigger( int $update_id, int $note_id = 0, string $context = '' ): bool {
 		$this->reset_trigger_state();
 
@@ -139,10 +155,16 @@ final class CustomerOrderUpdateEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] New update for order #{order_number}', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Order update', 'order-updates-for-woo' );
 	}

@@ -17,7 +17,15 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Updates\SharedLink;
 use WC_Order;
 
+/**
+ * Customer Shared Link Email.
+ */
 final class CustomerSharedLinkEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db ) {
 		$this->id             = Constants::EMAIL_ID_CUSTOMER_SHARED_LINK;
 		$this->title          = __( 'Customer shared link refresh', 'order-updates-for-woo' );
@@ -28,7 +36,11 @@ final class CustomerSharedLinkEmail extends OrderUpdateEmailBase {
 		$this->template_html = 'src/Frontend/Notifications/Templates/order-update-notification.php';
 	}
 
-	/** Trigger by order, not by update — the link is order-level. */
+	/**
+	 * Trigger by order, not by update — the link is order-level.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public function trigger( int $order_id ): bool {
 		$this->reset_trigger_state();
 
@@ -76,10 +88,16 @@ final class CustomerSharedLinkEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] Fresh chat link for order #{order_number}', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Your chat link was refreshed', 'order-updates-for-woo' );
 	}

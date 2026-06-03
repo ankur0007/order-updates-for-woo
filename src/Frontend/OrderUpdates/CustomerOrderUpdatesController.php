@@ -1,4 +1,9 @@
 <?php
+/**
+ * Customer-facing order-updates portal (My Account endpoint + guest link).
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -39,11 +44,20 @@ final class CustomerOrderUpdatesController {
 	private const REWRITE_VERSION_OPTION = 'order_updates_for_woo_rewrite_version';
 	private const LEGACY_PAGE_OPTION     = 'order_updates_for_woo_page_id';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param CustomerOrderUpdatesService $service Injected dependency.
+	 * @param OrderUpdatesSettingsService $settings_service Injected dependency.
+	 */
 	public function __construct(
 		private CustomerOrderUpdatesService $service,
 		private OrderUpdatesSettingsService $settings_service
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		// Native WC MyAccount endpoint for logged-in customers.
 		add_action( 'init', array( $this, 'register_endpoint' ), 5 );
@@ -63,16 +77,19 @@ final class CustomerOrderUpdatesController {
 
 	// ----- Endpoint + rewrite registration -----
 
+	/** Register the My Account endpoint + guest rule, flushing rewrites once per version. */
 	public function register_endpoint(): void {
 		add_rewrite_endpoint( self::ACCOUNT_ENDPOINT, EP_ROOT | EP_PAGES );
 		self::add_guest_rule();
 
 		if ( get_option( self::REWRITE_VERSION_OPTION ) !== self::REWRITE_VERSION ) {
+			// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules -- one-time flush, guarded by a version option.
 			flush_rewrite_rules( false );
 			update_option( self::REWRITE_VERSION_OPTION, self::REWRITE_VERSION );
 		}
 	}
 
+	/** Register the guest no-login URL rewrite rule. */
 	private static function add_guest_rule(): void {
 		add_rewrite_rule(
 			'^' . self::GUEST_URL_BASE . '/([0-9]+)/?$',
@@ -81,22 +98,36 @@ final class CustomerOrderUpdatesController {
 		);
 	}
 
+	/** Activation hook — register the endpoint + guest rule and flush rewrites. */
 	public static function on_activation(): void {
 		add_rewrite_endpoint( self::ACCOUNT_ENDPOINT, EP_ROOT | EP_PAGES );
 		self::add_guest_rule();
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules -- one-time flush on activation.
 		flush_rewrite_rules( false );
 	}
 
+	/** Deactivation hook — flush rewrites so our rules are removed. */
 	public static function on_deactivation(): void {
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules -- one-time flush on deactivation.
 		flush_rewrite_rules( false );
 	}
 
+	/**
+	 * Register the My Account endpoint as a WC query var.
+	 *
+	 * @param array $vars Existing query vars.
+	 */
 	public function add_wc_query_var( array $vars ): array {
 		$vars[ self::ACCOUNT_ENDPOINT ] = self::ACCOUNT_ENDPOINT;
 
 		return $vars;
 	}
 
+	/**
+	 * Register the guest query var with WP.
+	 *
+	 * @param array $vars Existing public query vars.
+	 */
 	public function register_guest_query_var( array $vars ): array {
 		$vars[] = self::GUEST_QUERY_VAR;
 
@@ -105,6 +136,13 @@ final class CustomerOrderUpdatesController {
 
 	// ----- URL helpers -----
 
+	/**
+	 * Portal URL for an order — native My Account endpoint for logged-in
+	 * customers, or a guest URL with the order key when a key is given.
+	 *
+	 * @param int         $order_id  Order id.
+	 * @param string|null $order_key Guest order key, or null for the logged-in path.
+	 */
 	public static function get_page_url( int $order_id, ?string $order_key = null ): string {
 		if ( $order_id <= 0 ) {
 			return '';
@@ -135,6 +173,9 @@ final class CustomerOrderUpdatesController {
 	/**
 	 * URL the admin panel offers for staff sharing. The hash is stable —
 	 * changing the expiry on this link does not change the URL.
+	 *
+	 * @param int    $order_id Order id.
+	 * @param string $hash     Shared-link hash.
 	 */
 	public static function get_shared_link_url( int $order_id, string $hash ): string {
 		if ( $order_id <= 0 || '' === $hash ) {
@@ -152,6 +193,8 @@ final class CustomerOrderUpdatesController {
 	/**
 	 * URL customer emails embed. Carries a time-boxed signed token instead
 	 * of the order_key, so a forwarded email stops working at expiry.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	public static function get_signed_email_url( int $order_id ): string {
 		if ( $order_id <= 0 ) {
@@ -178,6 +221,8 @@ final class CustomerOrderUpdatesController {
 	 * Return the order_key the request authenticates with. Checks ?key=,
 	 * then the shared link hash, then the email signed token. Returns ''
 	 * when none verify so the caller falls back to login / denial.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	private static function resolve_request_order_key( int $order_id ): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -215,6 +260,11 @@ final class CustomerOrderUpdatesController {
 
 	// ----- MyAccount endpoint rendering (WC handles the shell) -----
 
+	/**
+	 * Render the My Account endpoint body for an order id.
+	 *
+	 * @param mixed $value Endpoint value (the order id) from WC.
+	 */
 	public function render_account_endpoint( $value ): void {
 		$order_id = absint( (string) $value );
 		$status   = $this->service->resolve_view_status( $order_id, null );
@@ -228,6 +278,11 @@ final class CustomerOrderUpdatesController {
 		$this->render_content( $order_id );
 	}
 
+	/**
+	 * Customer-facing message for a non-allowed view status.
+	 *
+	 * @param string $status One of the VIEW_* statuses.
+	 */
 	private static function denial_message( string $status ): string {
 		switch ( $status ) {
 			case CustomerOrderUpdatesService::VIEW_RESTRICTED:
@@ -240,10 +295,21 @@ final class CustomerOrderUpdatesController {
 		}
 	}
 
+	/**
+	 * Title for the My Account endpoint.
+	 *
+	 * @param mixed $title Title passed by WC (ignored).
+	 */
 	public function filter_endpoint_title( $title ): string {
 		return __( 'Order updates', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Keep the Orders menu item highlighted while on the updates endpoint.
+	 *
+	 * @param array  $classes  Menu item CSS classes.
+	 * @param string $endpoint Endpoint being rendered.
+	 */
 	public function highlight_orders_menu_item( array $classes, string $endpoint ): array {
 		if ( 'orders' !== $endpoint ) {
 			return $classes;
@@ -260,6 +326,7 @@ final class CustomerOrderUpdatesController {
 
 	// ----- Guest standalone rendering -----
 
+	/** Render the standalone guest page when the guest query var is present. */
 	public function maybe_render_guest(): void {
 		$order_id = (int) get_query_var( self::GUEST_QUERY_VAR );
 
@@ -368,6 +435,11 @@ final class CustomerOrderUpdatesController {
 		exit;
 	}
 
+	/**
+	 * Add body classes to the standalone guest page.
+	 *
+	 * @param array $classes Existing body classes.
+	 */
 	public function filter_guest_body_class( array $classes ): array {
 		$classes[] = 'awts_cou_page_body';
 		$classes[] = 'woocommerce';
@@ -376,6 +448,11 @@ final class CustomerOrderUpdatesController {
 		return $classes;
 	}
 
+	/**
+	 * Set the document title on the standalone guest page.
+	 *
+	 * @param array $parts Title parts.
+	 */
 	public function filter_title_parts( array $parts ): array {
 		$parts['title'] = __( 'Order updates', 'order-updates-for-woo' );
 
@@ -384,6 +461,11 @@ final class CustomerOrderUpdatesController {
 
 	// ----- Shared content rendering -----
 
+	/**
+	 * Render the portal body — order summary, updates list, write-note UI.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function render_content( int $order_id ): void {
 		$updates = $this->service->get_updates_for_order( $order_id );
 
@@ -413,6 +495,12 @@ final class CustomerOrderUpdatesController {
 
 	// ----- Orders table action button -----
 
+	/**
+	 * Add an "Updates" action button to the My Account orders table.
+	 *
+	 * @param array          $actions Existing row actions.
+	 * @param WC_Order|mixed $order   Order for the row.
+	 */
 	public function add_orders_table_action( array $actions, $order ): array {
 		if ( ! $order instanceof WC_Order ) {
 			return $actions;
@@ -428,6 +516,7 @@ final class CustomerOrderUpdatesController {
 
 	// ----- Asset enqueue (on both the endpoint and the guest URL) -----
 
+	/** Enqueue the portal CSS/JS on the account endpoint and guest URL. */
 	public function enqueue_assets(): void {
 		$order_id = $this->resolve_current_order_id();
 
@@ -562,6 +651,7 @@ final class CustomerOrderUpdatesController {
 
 	// ----- Write-note trigger + modal -----
 
+	/** Render the "write a note" trigger button (gated on the admin opt-in). */
 	private function render_write_note_trigger(): void {
 		// Gate the entry point on the admin opt-in; if the customer can't
 		// create a new thread, the "Write it here" prompt is misleading.
@@ -572,6 +662,11 @@ final class CustomerOrderUpdatesController {
 		View::render( 'src/Frontend/OrderUpdates/Views/CustomerPortalWriteNoteTriggerView' );
 	}
 
+	/**
+	 * Render the order summary card at the top of the portal.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	private function render_order_summary( int $order_id ): void {
 		$summary = $this->service->get_order_summary( $order_id );
 
@@ -585,6 +680,7 @@ final class CustomerOrderUpdatesController {
 		);
 	}
 
+	/** Render the "write a note" modal markup (gated on the admin opt-in). */
 	private function render_write_note_modal(): void {
 		if ( ! $this->settings_service->allow_customer_create_update() ) {
 			return;

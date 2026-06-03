@@ -21,12 +21,36 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  * detractors get an empathetic note + a reply CTA.
  */
 final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
-	private bool $is_promoter      = false;
-	private int $stars             = 0;
+	/**
+	 * Whether the rating counts as a promoter score.
+	 *
+	 * @var bool
+	 */
+	private bool $is_promoter = false;
+	/**
+	 * Star score the customer gave.
+	 *
+	 * @var int
+	 */
+	private int $stars = 0;
+	/**
+	 * Optional comment the customer left.
+	 *
+	 * @var string
+	 */
 	private string $rating_comment = '';
-	/** @var array<int, array{platform:string, label:string, url:string}> */
+	/**
+	 * Social share links for promoter follow-ups.
+	 *
+	 * @var array<int, array{platform:string, label:string, url:string}>
+	 */
 	private array $share_links = array();
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db ) {
 		$this->id             = Constants::EMAIL_ID_CUSTOMER_RATING_FOLLOWUP;
 		$this->title          = __( 'Customer rating follow-up', 'order-updates-for-woo' );
@@ -37,6 +61,11 @@ final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
 		$this->template_html = 'src/Frontend/Notifications/Templates/rating-followup.php';
 	}
 
+	/**
+	 * Send the rating follow-up email for an update.
+	 *
+	 * @param int $update_id Update ID.
+	 */
 	public function trigger( int $update_id ): bool {
 		$this->reset_trigger_state();
 
@@ -112,6 +141,7 @@ final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/** Render the HTML email body from the follow-up template. */
 	public function get_content_html(): string {
 		return wc_get_template_html(
 			$this->template_html,
@@ -139,10 +169,16 @@ final class CustomerRatingFollowupEmail extends OrderUpdateEmailBase {
 		);
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] Thanks for your feedback on order #{order_number}', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Thanks for your feedback', 'order-updates-for-woo' );
 	}

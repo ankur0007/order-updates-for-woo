@@ -1,4 +1,9 @@
 <?php
+/**
+ * Adds a "Have a question?" block linking to the updates page in WC emails.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -31,15 +36,20 @@ final class CheckoutEmailInjector {
 		'customer_invoice',
 	);
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'woocommerce_email_after_order_table', array( $this, 'render_block' ), 20, 4 );
 	}
 
 	/**
-	 * @param WC_Order $order
-	 * @param bool     $sent_to_admin
-	 * @param bool     $plain_text
-	 * @param WC_Email $email
+	 * Render the "Have a question?" block after the order table.
+	 *
+	 * @param WC_Order $order         The order.
+	 * @param bool     $sent_to_admin Whether the email goes to the admin.
+	 * @param bool     $plain_text    Whether this is the plain-text email.
+	 * @param WC_Email $email         The email being rendered.
 	 */
 	public function render_block( $order, $sent_to_admin, $plain_text, $email = null ): void {
 		if ( $sent_to_admin || ! $order instanceof WC_Order ) {

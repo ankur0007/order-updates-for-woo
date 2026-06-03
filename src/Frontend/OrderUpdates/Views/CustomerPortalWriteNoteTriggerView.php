@@ -1,4 +1,9 @@
 <?php
+/**
+ * Customer portal "write a note" trigger button markup.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

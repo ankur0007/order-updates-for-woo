@@ -22,16 +22,33 @@ use OrderUpdatesForWoo\Shared\Attachments\AttachmentsDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Frontend Notifications.
+ */
 final class FrontendNotifications {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AttachmentsDb  $attachments_db Injected dependency.
+	 */
 	public function __construct(
 		private OrderUpdatesDb $order_updates_db,
 		private AttachmentsDb $attachments_db
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_filter( 'woocommerce_email_classes', array( $this, 'register_email_classes' ) );
 	}
 
+	/**
+	 * Register the plugin's customer-facing WooCommerce email classes.
+	 *
+	 * @param array $emails Existing WC email classes.
+	 */
 	public function register_email_classes( array $emails ): array {
 		$emails[ Constants::EMAIL_ID_CUSTOMER_UPDATE ]          = new CustomerOrderUpdateEmail( $this->order_updates_db, $this->attachments_db );
 		$emails[ Constants::EMAIL_ID_CUSTOMER_UPDATE_DELETED ]  = new CustomerUpdateDeletedEmail( $this->order_updates_db );
