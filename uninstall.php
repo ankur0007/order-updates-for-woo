@@ -5,6 +5,8 @@
  * and scheduled events created by this plugin. Deactivation must NOT
  * delete user data — that's handled in the deactivation hook in the
  * main plugin file.
+ *
+ * @package OrderUpdatesForWoo
  */
 
 declare(strict_types=1);
@@ -22,7 +24,7 @@ $prefix = $wpdb->prefix . 'order_updates_for_woo';
 
 // 1. Drop every table the plugin created.
 $tables = array(
-	$prefix,                              // updates
+	$prefix,                              // The updates table.
 	$prefix . '_assignees',
 	$prefix . '_internal_notes',
 	$prefix . '_customer_notes',
@@ -38,9 +40,9 @@ foreach ( $tables as $table ) {
 }
 
 // 2. Delete every option whose key starts with our prefix (catches
-//    settings, schema versions, analytics generation counters, the
-//    round-robin pointer, every value in Constants.php — by definition,
-//    we can't miss anything because we match the prefix, not enumerated keys).
+// settings, schema versions, analytics generation counters, the
+// round-robin pointer, every value in Constants.php — by definition,
+// we can't miss anything because we match the prefix, not enumerated keys).
 $wpdb->query(
 	$wpdb->prepare(
 		"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
@@ -58,7 +60,7 @@ $wpdb->query(
 );
 
 // 4. Delete user meta (admin-bar notifications, staff email mute prefs,
-//    customer email prefs).
+// customer email prefs).
 $wpdb->query(
 	$wpdb->prepare(
 		"DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s OR meta_key LIKE %s",
@@ -96,8 +98,8 @@ if ( $page_id ) {
 }
 
 // 7. Unschedule any cron events. The deactivation hook should already have
-//    cleared these, but we run again here so plugins force-deleted via the
-//    Plugins screen (which skips deactivation) still leave WP-Cron clean.
+// cleared these, but we run again here so plugins force-deleted via the
+// Plugins screen (which skips deactivation) still leave WP-Cron clean.
 wp_clear_scheduled_hook( 'order_updates_for_woo_analytics_warmup' );
 
 // Cancel any queued Action Scheduler jobs (async notification emails) so
@@ -119,35 +121,19 @@ if ( function_exists( 'as_unschedule_all_actions' ) ) {
 	}
 }
 
-// 8. Remove the attachment directory tree.
+// 8. Remove the attachment directory tree via WP_Filesystem, which handles
+// the recursive delete natively.
 $uploads          = wp_upload_dir( null, false );
 $attachments_root = trailingslashit( (string) ( $uploads['basedir'] ?? '' ) ) . 'order-updates-for-woo';
 
-if ( is_dir( $attachments_root ) ) {
-	$delete_recursively = static function ( string $dir ) use ( &$delete_recursively ): void {
-		$entries = @scandir( $dir );
+if ( ! function_exists( 'WP_Filesystem' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+}
 
-		if ( false === $entries ) {
-			return;
-		}
+if ( WP_Filesystem() ) {
+	global $wp_filesystem;
 
-		foreach ( $entries as $entry ) {
-			if ( '.' === $entry || '..' === $entry ) {
-				continue;
-			}
-
-			$path = $dir . '/' . $entry;
-
-			if ( is_dir( $path ) && ! is_link( $path ) ) {
-				$delete_recursively( $path );
-			} else {
-				wp_delete_file( $path );
-			}
-		}
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- uninstall runs at request time; WP_Filesystem may not be initialised here, and rmdir is the only reliable cross-host primitive for emptying our own attachments tree.
-		@rmdir( $dir );
-	};
-
-	$delete_recursively( $attachments_root );
+	if ( $wp_filesystem->is_dir( $attachments_root ) ) {
+		$wp_filesystem->delete( $attachments_root, true );
+	}
 }

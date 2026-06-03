@@ -27,7 +27,7 @@
     }
   },
   "scripts": {
-    "lint": "vendor/bin/phpcs --standard=phpcs.xml.dist order-updates-for-woo.php src",
+    "lint": "vendor/bin/phpcs --standard=phpcs.xml.dist order-updates-for-woo.php uninstall.php src",
     "test": "vendor/bin/phpunit",
     "test:unit": "vendor/bin/phpunit --testsuite unit",
     "test:int": "vendor/bin/phpunit --testsuite integration",
