@@ -1,4 +1,9 @@
 <?php
+/**
+ * Plugin-wide identifiers, option keys, and enums.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -166,6 +171,8 @@ final class Constants {
 	public const STATUS_FALLBACK_COLOR          = '#2563eb';
 
 	/**
+	 * Built-in statuses seeded on first install.
+	 *
 	 * @var array<int, array{key:string, label:string, color:string}>
 	 */
 	public const STATUS_SEED_DEFAULTS = array(

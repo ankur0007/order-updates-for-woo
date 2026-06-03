@@ -21,6 +21,9 @@ use OrderUpdatesForWoo\Helpers\StaffEmailPreference;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use WC_Order;
 
+/**
+ * Saves internal + customer notes and fans out the resulting notifications.
+ */
 final class UpdateNoteService {
 	/**
 	 * Inject dependencies.
@@ -83,7 +86,7 @@ final class UpdateNoteService {
 
 				foreach ( $mentioned_user_ids as $mentioned_user_id ) {
 					$mentioned_user_id = absint( $mentioned_user_id );
-					if ( $mentioned_user_id && $mentioned_user_id !== absint( $note_author['id'] ?? 0 ) ) {
+					if ( $mentioned_user_id && absint( $note_author['id'] ?? 0 ) !== $mentioned_user_id ) {
 						do_action( 'order_updates_for_woo_admin_bar_mention', $update_id, $order_id, $note_id, $snippet, $mentioned_user_id );
 					}
 				}
@@ -200,7 +203,7 @@ final class UpdateNoteService {
 		foreach ( $mentioned_user_ids as $mentioned_user_id ) {
 			$mentioned_user_id = absint( $mentioned_user_id );
 
-			if ( ! $mentioned_user_id || $mentioned_user_id === absint( $note_author['id'] ?? 0 ) ) {
+			if ( ! $mentioned_user_id || absint( $note_author['id'] ?? 0 ) === $mentioned_user_id ) {
 				continue;
 			}
 

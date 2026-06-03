@@ -1,4 +1,9 @@
 <?php
+/**
+ * JS-bound UI strings, returned as a key => translated-string map.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

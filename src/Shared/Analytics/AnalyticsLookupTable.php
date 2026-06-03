@@ -1,4 +1,9 @@
 <?php
+/**
+ * Schema + creation for the analytics lookup table.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -26,17 +31,25 @@ final class AnalyticsLookupTable {
 	private const VERSION     = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_analytics_lookup_version';
 
+	/**
+	 * Fully-qualified lookup table name.
+	 *
+	 * @var string
+	 */
 	public string $lookup;
 
+	/** Resolve the prefixed table name. */
 	public function __construct() {
 		global $wpdb;
 		$this->lookup = $wpdb->prefix . 'order_updates_for_woo_analytics_lookup';
 	}
 
+	/** Hook table creation onto `init`. */
 	public function init(): void {
 		add_action( 'init', array( $this, 'maybe_create_table' ) );
 	}
 
+	/** Create or upgrade the lookup table when the schema is missing or stale. */
 	public function maybe_create_table(): void {
 		if ( (string) get_option( self::VERSION_KEY, '' ) === self::VERSION && $this->table_exists() ) {
 			return;
@@ -79,6 +92,7 @@ final class AnalyticsLookupTable {
 		update_option( self::VERSION_KEY, self::VERSION );
 	}
 
+	/** True when the lookup table exists in the database. */
 	private function table_exists(): bool {
 		global $wpdb;
 

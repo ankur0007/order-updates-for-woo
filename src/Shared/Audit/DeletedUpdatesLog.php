@@ -30,7 +30,8 @@ final class DeletedUpdatesLog {
 	/**
 	 * Append a deletion record to the order. Returns true on save success.
 	 *
-	 * @param array{update_id:int,title:string,deleted_at:string,deleted_by_id:int,deleted_by_name:string,events:array<int,array<string,mixed>>} $record
+	 * @param WC_Order                                                                                                                           $order  Order to log against.
+	 * @param array{update_id:int,title:string,deleted_at:string,deleted_by_id:int,deleted_by_name:string,events:array<int,array<string,mixed>>} $record Deletion record.
 	 */
 	public static function record( WC_Order $order, array $record ): bool {
 		$existing = $order->get_meta( self::META_KEY, true );
@@ -46,6 +47,7 @@ final class DeletedUpdatesLog {
 	/**
 	 * Read all deletion records for an order, oldest-first.
 	 *
+	 * @param WC_Order $order Order to read from.
 	 * @return array<int,array<string,mixed>>
 	 */
 	public static function get_for_order( WC_Order $order ): array {

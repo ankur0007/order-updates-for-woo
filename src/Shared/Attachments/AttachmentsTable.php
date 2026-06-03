@@ -1,4 +1,9 @@
 <?php
+/**
+ * Schema + creation for the attachments table.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -11,21 +16,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Direct queries on our own tables. Table names are safe; user input always uses prepare().
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 
+/**
+ * Holds the attachments table name and creates it via dbDelta when needed.
+ */
 final class AttachmentsTable {
 	private const VERSION     = '1.0.0';
 	private const VERSION_KEY = 'order_updates_for_woo_attachments_table_version';
 
+	/**
+	 * Fully-qualified attachments table name.
+	 *
+	 * @var string
+	 */
 	public string $attachments;
 
+	/** Resolve the prefixed table name. */
 	public function __construct() {
 		global $wpdb;
 		$this->attachments = $wpdb->prefix . 'order_updates_for_woo_attachments';
 	}
 
+	/** Hook table creation onto `init`. */
 	public function init(): void {
 		add_action( 'init', array( $this, 'maybe_create_tables' ) );
 	}
 
+	/** Create or upgrade the attachments table when the schema is missing or stale. */
 	public function maybe_create_tables(): void {
 		global $wpdb;
 
@@ -65,6 +81,11 @@ final class AttachmentsTable {
 		update_option( self::VERSION_KEY, self::VERSION );
 	}
 
+	/**
+	 * True when the given table exists in the database.
+	 *
+	 * @param string $table Fully-qualified table name.
+	 */
 	private function table_exists( string $table ): bool {
 		global $wpdb;
 

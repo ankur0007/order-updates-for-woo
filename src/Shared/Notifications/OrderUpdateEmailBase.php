@@ -20,39 +20,107 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
  * plus helpers each subclass trigger() reuses.
  */
 abstract class OrderUpdateEmailBase extends \WC_Email {
-	/** Update data gateway. */
+	/**
+	 * Update data gateway.
+	 *
+	 * @var OrderUpdatesDb
+	 */
 	protected OrderUpdatesDb $order_updates_db;
-	/** Attachment data gateway, if wired in. */
+	/**
+	 * Attachment data gateway, if wired in.
+	 *
+	 * @var AttachmentsDb|null
+	 */
 	protected ?AttachmentsDb $attachments_db = null;
-	/** Loaded update row. */
+	/**
+	 * Loaded update row.
+	 *
+	 * @var array
+	 */
 	protected array $order_update = array();
-	/** Loaded order. */
+	/**
+	 * Loaded order.
+	 *
+	 * @var \WC_Order|null
+	 */
 	protected ?\WC_Order $order = null;
-	/** Recipient name used in the greeting. */
+	/**
+	 * Recipient name used in the greeting.
+	 *
+	 * @var string
+	 */
 	protected string $greeting_name = '';
-	/** Lead paragraph above the message body. */
+	/**
+	 * Lead paragraph above the message body.
+	 *
+	 * @var string
+	 */
 	protected string $intro_text = '';
-	/** Main message body. */
+	/**
+	 * Main message body.
+	 *
+	 * @var string
+	 */
 	protected string $note_content = '';
-	/** Label above the main message body. */
+	/**
+	 * Label above the main message body.
+	 *
+	 * @var string
+	 */
 	protected string $note_label = '';
-	/** Optional second message body. */
+	/**
+	 * Optional second message body.
+	 *
+	 * @var string
+	 */
 	protected string $secondary_note_content = '';
-	/** Label above the second message body. */
+	/**
+	 * Label above the second message body.
+	 *
+	 * @var string
+	 */
 	protected string $secondary_note_label = '';
-	/** Label/value rows shown in the detail block. */
+	/**
+	 * Label/value rows shown in the detail block.
+	 *
+	 * @var array
+	 */
 	protected array $detail_rows = array();
-	/** Formatted attachment rows for the message. */
+	/**
+	 * Formatted attachment rows for the message.
+	 *
+	 * @var array
+	 */
 	protected array $note_attachments = array();
-	/** Label above the attachment list. */
+	/**
+	 * Label above the attachment list.
+	 *
+	 * @var string
+	 */
 	protected string $note_attachments_label = '';
-	/** Call-to-action button URL. */
+	/**
+	 * Call-to-action button URL.
+	 *
+	 * @var string
+	 */
 	protected string $action_url = '';
-	/** Call-to-action button label. */
+	/**
+	 * Call-to-action button label.
+	 *
+	 * @var string
+	 */
 	protected string $action_label = '';
-	/** Status pill text. */
+	/**
+	 * Status pill text.
+	 *
+	 * @var string
+	 */
 	protected string $status_label = '';
-	/** Whether to show the "visible to customer" pill. */
+	/**
+	 * Whether to show the "visible to customer" pill.
+	 *
+	 * @var bool
+	 */
 	protected bool $customer_visible_pill = false;
 
 	/**
@@ -62,7 +130,11 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 	 * @var string
 	 */
 	protected string $note_author = '';
-	/** Formatted note timestamp for the attribution line. */
+	/**
+	 * Formatted note timestamp for the attribution line.
+	 *
+	 * @var string
+	 */
 	protected string $note_created_at = '';
 
 	/**
