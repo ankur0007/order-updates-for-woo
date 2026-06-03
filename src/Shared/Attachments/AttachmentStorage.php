@@ -192,7 +192,7 @@ final class AttachmentStorage {
 				return;
 			}
 
-			$entries = @scandir( $current_real ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Forbidden -- guarded by the false check below.
+				$entries = is_readable( $current_real ) ? scandir( $current_real ) : false;
 
 			if ( false === $entries ) {
 				return;
@@ -306,7 +306,7 @@ final class AttachmentStorage {
 	 * @param string $dir Directory to delete.
 	 */
 	private static function delete_dir_fallback( string $dir ): bool {
-		$entries = @scandir( $dir ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Forbidden -- guarded by the false check below.
+		$entries = is_readable( $dir ) ? scandir( $dir ) : false;
 
 		if ( false === $entries ) {
 			return false;
@@ -325,7 +325,7 @@ final class AttachmentStorage {
 			}
 		}
 
-		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir, Generic.PHP.NoSilencedErrors.Forbidden -- WP_Filesystem unavailable; documented fallback path.
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir, Generic.PHP.NoSilencedErrors.Forbidden, WordPress.PHP.NoSilencedErrors.Discouraged -- WP_Filesystem unavailable; documented fallback path.
 		return @rmdir( $dir );
 	}
 }

@@ -318,7 +318,7 @@ final class AdminBarNotificationStore {
 		$all    = self::get_raw( $user_id );
 		$active = array_values( array_filter( $all, static fn( array $n ) => empty( $n['dismissed'] ) && empty( $n['archived'] ) ) );
 
-		wp_cache_set( $cache_key, $active, Constants::CACHE_GROUP, self::CACHE_TTL );
+		wp_cache_set( $cache_key, $active, Constants::CACHE_GROUP, self::CACHE_TTL ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 
 		return $active;
 	}

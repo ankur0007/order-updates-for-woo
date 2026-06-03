@@ -54,7 +54,7 @@ final class OrderUpdatesDb {
 	 * @param int    $ttl   Lifetime in seconds (0 = default).
 	 */
 	private function cache_set( string $key, mixed $value, int $ttl = 0 ): void {
-		wp_cache_set( $key, $value, Constants::CACHE_GROUP, $ttl );
+		wp_cache_set( $key, $value, Constants::CACHE_GROUP, $ttl ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 	}
 
 	/**

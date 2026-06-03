@@ -38,10 +38,10 @@ final class Avatar {
 	 *
 	 * @param int    $user_id User to fetch a Gravatar for. 0 renders initials only.
 	 * @param string $name    Display name — drives the initials and disc colour.
-	 * @param string $class   Optional extra class on the wrapper (margins, etc.).
-	 * @param int    $size    Avatar diameter in pixels.
+	 * @param string $extra_class Optional extra class on the wrapper (margins, etc.).
+	 * @param int    $size        Avatar diameter in pixels.
 	 */
-	public static function html( int $user_id, string $name, string $class = '', int $size = 40 ): string {
+	public static function html( int $user_id, string $name, string $extra_class = '', int $size = 40 ): string {
 		[ $initials, $color ] = self::initials_and_color( $name );
 
 		$font = max( 9, (int) round( $size * 0.42 ) );
@@ -55,7 +55,7 @@ final class Avatar {
 		return sprintf(
 			'<span class="awts-avatar %1$s" style="width:%2$dpx;height:%2$dpx;font-size:%3$dpx;background:%4$s;">'
 				. '<span class="awts-avatar__initials" aria-hidden="true">%5$s</span>%6$s</span>',
-			esc_attr( trim( $class ) ),
+			esc_attr( trim( $extra_class ) ),
 			$size,
 			$font,
 			esc_attr( $color ),

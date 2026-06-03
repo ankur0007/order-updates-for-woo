@@ -260,19 +260,19 @@ final class OrderUpdatesSettingsService {
 	 * legacy option name (used when an option was renamed and we still
 	 * want to honour the previously-saved value during transition).
 	 *
-	 * @param string      $name        Option name.
-	 * @param string      $default     Default 'yes'/'no' when unset.
-	 * @param string|null $legacy_name Older option name to fall back to.
+	 * @param string      $name          Option name.
+	 * @param string      $default_value Default 'yes'/'no' when unset.
+	 * @param string|null $legacy_name   Older option name to fall back to.
 	 */
-	private function bool_option( string $name, string $default = 'yes', ?string $legacy_name = null ): bool {
+	private function bool_option( string $name, string $default_value = 'yes', ?string $legacy_name = null ): bool {
 		$value = get_option( $name, null );
 
 		if ( null === $value && null !== $legacy_name ) {
-			$value = get_option( $legacy_name, $default );
+			$value = get_option( $legacy_name, $default_value );
 		}
 
 		if ( null === $value ) {
-			$value = $default;
+			$value = $default_value;
 		}
 
 		return 'yes' === $value;

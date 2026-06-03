@@ -56,7 +56,7 @@ final class View {
 
 		if ( '' !== $theme_override ) {
 			$view_data = $context;
-			require $theme_override;
+			require $theme_override; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- theme override path resolved by resolve_theme_override().
 			return;
 		}
 
@@ -72,7 +72,7 @@ final class View {
 		}
 
 		$view_data = $context;
-		require $view_file;
+		require $view_file; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- realpath-resolved and confined to the plugin dir by the check above.
 	}
 
 	/**

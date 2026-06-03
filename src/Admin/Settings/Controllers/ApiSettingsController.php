@@ -45,9 +45,9 @@ final class ApiSettingsController implements SettingsSectionController {
 	 *
 	 * @param string   $summary Summary set by an earlier filter, if any.
 	 * @param string   $path    Route path.
-	 * @param string[] $methods HTTP methods the route accepts.
+	 * @param string[] $methods HTTP methods the route accepts; kept for the hook signature.
 	 */
-	public function document_core_endpoint_summary( string $summary, string $path, array $methods ): string {
+	public function document_core_endpoint_summary( string $summary, string $path, array $methods ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $methods is part of the documented filter signature for other code.
 		if ( '' !== $summary ) {
 			return $summary;
 		}

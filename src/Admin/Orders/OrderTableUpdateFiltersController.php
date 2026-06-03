@@ -347,12 +347,12 @@ final class OrderTableUpdateFiltersController {
 	/**
 	 * Apply filters to the HPOS SQL query.
 	 *
-	 * @param array $clauses   SQL clause fragments.
-	 * @param mixed $query     OrdersTableQuery object.
-	 * @param array $query_vars Raw query vars.
+	 * @param array $clauses    SQL clause fragments.
+	 * @param mixed $query      OrdersTableQuery object; kept for the hook signature.
+	 * @param array $query_vars Raw query vars; kept for the hook signature.
 	 * @return array
 	 */
-	public function apply_hpos_filter( array $clauses, $query, array $query_vars ): array {
+	public function apply_hpos_filter( array $clauses, $query, array $query_vars ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $query/$query_vars are part of the WC filter signature for other code.
 		$order_ids = $this->get_matching_order_ids();
 		
 		if ( null === $order_ids ) {

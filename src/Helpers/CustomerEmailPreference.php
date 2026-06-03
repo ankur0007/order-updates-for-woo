@@ -55,7 +55,7 @@ final class CustomerEmailPreference {
 
 		// Empty string means the preference has never been set — default ON.
 		$result = '' === $val || 'yes' === $val;
-		wp_cache_set( $key, $result, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() );
+		wp_cache_set( $key, $result, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 
 		return $result;
 	}

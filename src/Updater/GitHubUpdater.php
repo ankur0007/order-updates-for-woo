@@ -37,7 +37,7 @@ final class GitHubUpdater {
 			return;
 		}
 
-		require_once $loader;
+		require_once $loader; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- fixed plugin-relative path, existence-checked above.
 
 		$checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
 			self::REPO_URL,

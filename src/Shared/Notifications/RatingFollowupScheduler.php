@@ -46,9 +46,9 @@ final class RatingFollowupScheduler {
 	 * @param int   $update_id Rated update.
 	 * @param int   $order_id  Its order id.
 	 * @param array $rating    The saved rating row.
-	 * @param mixed $request   The REST request (unused; kept for the hook signature).
+	 * @param mixed $request   The REST request; kept for the hook signature.
 	 */
-	public function maybe_schedule( int $update_id, int $order_id, array $rating, $request ): void {
+	public function maybe_schedule( int $update_id, int $order_id, array $rating, $request ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $request is part of the action signature for other code.
 		if ( ! $update_id || empty( $rating['stars'] ) ) {
 			return;
 		}

@@ -155,7 +155,7 @@ final class AssigneePageController {
 			'longest_label' => $longest > 0 ? $this->compact_duration( $longest ) : '',
 		);
 
-		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, 60 );
+		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, 60 ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.LowCacheTime -- 60s is intentional — this caches the live menu badge, which must stay fresh.
 
 		return $result;
 	}

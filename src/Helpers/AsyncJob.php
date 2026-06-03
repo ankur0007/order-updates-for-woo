@@ -74,7 +74,7 @@ final class AsyncJob {
 	 * @param array  $payload Hook payload.
 	 */
 	private function dispatch_key( string $hook, array $payload ): string {
-		return $hook . '|' . md5( serialize( $payload ) );
+		return $hook . '|' . md5( (string) wp_json_encode( $payload ) );
 	}
 
 	/** Whether to background this job, based on the configured delivery mode. */

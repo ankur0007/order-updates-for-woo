@@ -90,7 +90,7 @@ final class AttachmentsDb {
 		$record = is_array( $row ) ? $row : array();
 
 		if ( ! empty( $record ) ) {
-			wp_cache_set( $cache_key, $record, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() );
+			wp_cache_set( $cache_key, $record, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 		}
 
 		return $record;
@@ -128,7 +128,7 @@ final class AttachmentsDb {
 		);
 
 		$result = is_array( $rows ) ? $rows : array();
-		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() );
+		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 
 		return $result;
 	}

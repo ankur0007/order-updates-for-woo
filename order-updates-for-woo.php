@@ -83,6 +83,7 @@ function order_updates_for_woo_install_on_new_subsite( $new_site ): void {
 		return;
 	}
 
+	// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.switch_to_blog_switch_to_blog -- we only need the new subsite's DB context to create its tables; plugin loading is irrelevant here.
 	switch_to_blog( $site_id );
 	try {
 		// Tables auto-create on next `init` tick, but force a fast path here

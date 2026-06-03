@@ -49,7 +49,7 @@ final class StaffEmailPreference {
 		}
 
 		$muted = 'yes' === get_user_meta( $user_id, Constants::STAFF_EMAIL_MUTED_META_PREFIX . $update_id, true );
-		wp_cache_set( $key, $muted, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() );
+		wp_cache_set( $key, $muted, Constants::CACHE_GROUP, Variables::getUpdateCacheTtl() ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 
 		return $muted;
 	}

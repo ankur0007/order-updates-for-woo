@@ -296,11 +296,11 @@ final class CustomerOrderUpdatesController {
 	}
 
 	/**
-	 * Title for the My Account endpoint.
+	 * Title for the My Account endpoint (always our own label).
 	 *
-	 * @param mixed $title Title passed by WC (ignored).
+	 * @param string $title Title passed by the WC filter; kept for the hook signature.
 	 */
-	public function filter_endpoint_title( $title ): string {
+	public function filter_endpoint_title( $title ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $title is the filtered value; the signature must stay intact for other code on this filter.
 		return __( 'Order updates', 'order-updates-for-woo' );
 	}
 

@@ -26,7 +26,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Local file-scope template variables, not globals.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
-$update_id    = (int) ( $view_data['update_id'] ?? 0 );
 $tab_id       = (string) ( $view_data['tab_id'] ?? '' );
 $panel_id     = (string) ( $view_data['panel_id'] ?? '' );
 $participants = isset( $view_data['participants'] ) && is_array( $view_data['participants'] ) ? $view_data['participants'] : array();

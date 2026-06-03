@@ -496,10 +496,12 @@ final class AttachmentService {
 			return true;
 		}
 
-		// Partial read — first 8 KB only. WP_Filesystem has no partial-read
+		// Partial read — first 8 KB only. WP_Filesystem has no bounded-read
 		// primitive (get_contents loads the whole file into memory, which we
-		// don't want for potentially large uploads), so the cleanest path is
-		// PHP's file_get_contents with an explicit length cap.
+		// don't want for potentially large uploads), so file_get_contents with
+		// an explicit length cap is the right tool here. The path is a local
+		// just-uploaded temp file, not remote.
+		// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown -- local temp upload, bounded 8 KB read; no WP_Filesystem partial-read API exists.
 		$head = (string) file_get_contents( $tmp_path, false, null, 0, 8192 );
 
 		if ( '' === $head ) {

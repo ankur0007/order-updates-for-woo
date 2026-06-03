@@ -110,7 +110,7 @@ final class AssigneeSearchEndpoint implements Registrable {
 		}
 
 		$result = array_map( array( $this, 'format_user' ), $users );
-		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, Variables::getAssigneeSearchCacheTtl() );
+		wp_cache_set( $cache_key, $result, Constants::CACHE_GROUP, Variables::getAssigneeSearchCacheTtl() ); // phpcs:ignore WordPressVIPMinimum.Performance.LowExpiryCacheTime.CacheTimeUndetermined -- TTL is a configured value (Variables / constant), which the sniff can't resolve to a literal.
 
 		return rest_ensure_response( apply_filters( 'order_updates_for_woo_assignee_search_response', $result, $query, $request ) );
 	}
