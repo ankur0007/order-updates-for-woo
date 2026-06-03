@@ -145,30 +145,30 @@ final class DeletedUpdatesMetaBox {
 
 		switch ( $type ) {
 			case 'created':
-				return sprintf( /* translators: 1: actor, 2: timestamp. */ __( 'Created by %1$s at %2$s', 'order-updates-for-woo' ), $by, $timestamp );
+				return sprintf( /* translators: 1: user display name, 2: timestamp. */ __( 'Created by %1$s at %2$s', 'order-updates-for-woo' ), $by, $timestamp );
 			case 'assigned':
-				return sprintf( /* translators: 1: assignee, 2: actor, 3: timestamp. */ __( 'Assigned to %1$s by %2$s at %3$s', 'order-updates-for-woo' ), $assignee, $by, $timestamp );
+				return sprintf( /* translators: 1: assignee name, 2: assigner name, 3: timestamp. */ __( 'Assigned to %1$s by %2$s at %3$s', 'order-updates-for-woo' ), $assignee, $by, $timestamp );
 			case 'unassigned':
-				return sprintf( /* translators: 1: assignee, 2: actor, 3: timestamp. */ __( 'Unassigned from %1$s by %2$s at %3$s', 'order-updates-for-woo' ), $assignee, $by, $timestamp );
+				return sprintf( /* translators: 1: prior assignee name, 2: actor name, 3: timestamp. */ __( 'Unassigned from %1$s by %2$s at %3$s', 'order-updates-for-woo' ), $assignee, $by, $timestamp );
 			case 'notified_assignee':
-				return sprintf( /* translators: 1: assignee, 2: timestamp. */ __( 'Notified assignee (%1$s) at %2$s', 'order-updates-for-woo' ), $assignee, $timestamp );
+				return sprintf( /* translators: 1: assignee name, 2: timestamp. */ __( 'Notified assignee (%1$s) at %2$s', 'order-updates-for-woo' ), $assignee, $timestamp );
 			case 'solved':
-				return sprintf( /* translators: 1: actor, 2: timestamp. */ __( 'Marked solved by %1$s at %2$s', 'order-updates-for-woo' ), $by, $timestamp );
+				return sprintf( /* translators: 1: solver name, 2: timestamp. */ __( 'Marked solved by %1$s at %2$s', 'order-updates-for-woo' ), $by, $timestamp );
 			case 'reopened':
-				return sprintf( /* translators: 1: actor, 2: timestamp. */ __( 'Reopened by %1$s at %2$s', 'order-updates-for-woo' ), $by, $timestamp );
+				return sprintf( /* translators: 1: reopener name, 2: timestamp. */ __( 'Reopened by %1$s at %2$s', 'order-updates-for-woo' ), $by, $timestamp );
 			case 'notified_customer':
 				return sprintf( /* translators: %s: timestamp. */ __( 'Notified customer at %s', 'order-updates-for-woo' ), $timestamp );
 			case 'status_changed':
 			case 'title_changed':
 				$message = (string) ( $event['message'] ?? '' );
-				return sprintf( /* translators: 1: change message, 2: actor, 3: timestamp. */ __( '%1$s by %2$s at %3$s', 'order-updates-for-woo' ), $message, $by, $timestamp );
+				return sprintf( /* translators: 1: status-change message, 2: actor display name, 3: timestamp. */ __( '%1$s by %2$s at %3$s', 'order-updates-for-woo' ), $message, $by, $timestamp );
 			case 'rated':
 				// Message already reads "Customer rated X/5 …" so we skip
 				// the "by <actor>" suffix — it would render "by Unknown
 				// user" for guest raters and feels redundant when the
 				// actor is implied in the message itself.
 				$message = (string) ( $event['message'] ?? '' );
-				return sprintf( /* translators: 1: rating message, 2: timestamp. */ __( '%1$s at %2$s', 'order-updates-for-woo' ), $message, $timestamp );
+				return sprintf( /* translators: 1: rating message ("Customer rated 4/5 …"), 2: timestamp. */ __( '%1$s at %2$s', 'order-updates-for-woo' ), $message, $timestamp );
 			default:
 				return '';
 		}

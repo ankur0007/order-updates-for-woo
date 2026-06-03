@@ -45,7 +45,7 @@ echo "vendor.dev-backup" >> "$EXCLUDES_FILE"
 # library gone, GitHubUpdater::boot() finds no loader and stands down, so
 # the WP.org copy updates natively by slug.
 if [ "$WPORG" -eq 1 ]; then
-	echo "/lib/plugin-update-checker" >> "$EXCLUDES_FILE"
+	echo "/lib" >> "$EXCLUDES_FILE"
 	echo "/src/Updater" >> "$EXCLUDES_FILE"
 	echo "→ WP.org build: stripping GitHub update-checker"
 fi

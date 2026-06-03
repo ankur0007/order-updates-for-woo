@@ -33,7 +33,7 @@ $status_label = $status_label ?? '';
 	<p style="margin:0 0 20px; font-size:15px; color:#515151;">
 		<?php
 		printf(
-			/* translators: 1: customer first name, 2: intro text. */
+			/* translators: 1: recipient first name, 2: intro text. */
 			esc_html__( 'Hi %1$s — %2$s', 'order-updates-for-woo' ),
 			'<strong style="color:#101517;">' . esc_html( $greeting_name ) . '</strong>',
 			esc_html( $intro_text )

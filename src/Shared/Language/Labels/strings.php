@@ -22,7 +22,7 @@ $labels = array(
 	'titleRequired'                    => __( 'Update title is required.', 'order-updates-for-woo' ),
 	/* translators: %s: field name (e.g. "Title", "Note"). */
 	'plainTextOnly'                    => __( '%s must be plain text only.', 'order-updates-for-woo' ),
-	/* translators: 1: field name, 2: maximum character count. */
+	/* translators: 1: field label, 2: maximum character count. */
 	'characterLimit'                   => __( '%1$s must be %2$d characters or less.', 'order-updates-for-woo' ),
 	'addHeading'                       => __( 'Add New Update', 'order-updates-for-woo' ),
 	'editHeading'                      => __( 'Edit Update', 'order-updates-for-woo' ),
@@ -124,7 +124,7 @@ $labels = array(
 	// Customer rating UI.
 	'customerRatingSubmitting'         => __( 'Sending…', 'order-updates-for-woo' ),
 	'customerRatingSuccess'            => __( 'Thanks for your feedback!', 'order-updates-for-woo' ),
-	/* translators: %s: star rating (1-5). */
+	/* translators: %s: rating value out of 5. */
 	'customerRatingThanks'             => __( 'You rated this %s/5. Thanks for your feedback!', 'order-updates-for-woo' ),
 	'customerRatingMissing'            => __( 'Please pick a star rating.', 'order-updates-for-woo' ),
 	'customerRatingSaveFailed'         => __( 'Could not save your rating. Please try again.', 'order-updates-for-woo' ),
@@ -141,7 +141,7 @@ $labels = array(
 	'ratingCommentPh'                  => __( 'Tell us what worked or what could be better…', 'order-updates-for-woo' ),
 	'ratingSubmitLabel'                => __( 'Submit rating', 'order-updates-for-woo' ),
 	'ratingStar1Label'                 => __( '1 star', 'order-updates-for-woo' ),
-	/* translators: %d: star count (2-5). */
+	/* translators: %d: number of stars. */
 	'ratingStarLabel'                  => __( '%d stars', 'order-updates-for-woo' ),
 
 	// Admin — stale-state 409 responses for markSolved / reopenUpdate.

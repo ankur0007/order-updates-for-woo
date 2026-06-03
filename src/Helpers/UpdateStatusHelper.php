@@ -91,7 +91,7 @@ final class UpdateStatusHelper {
 			: __( 'Unknown user', 'order-updates-for-woo' );
 
 		$solved_line = sprintf(
-			/* translators: 1: solver name, 2: date */
+			/* translators: 1: solver name, 2: timestamp. */
 			__( 'Marked solved by %1$s at %2$s', 'order-updates-for-woo' ),
 			$name,
 			DateHelper::format_date( (string) ( $resolved_update['solved_at'] ?? '' ) )

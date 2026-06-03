@@ -182,7 +182,7 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		if ( '' === $message ) {
 			return new WP_Error(
 				'order_updates_for_woo_missing_message',
-				sprintf( /* translators: %s: field name */ __( '%s is required.', 'order-updates-for-woo' ), $message_label ),
+				sprintf( /* translators: %s: field label. */ __( '%s is required.', 'order-updates-for-woo' ), $message_label ),
 				array( 'status' => 400 )
 			);
 		}
@@ -199,7 +199,7 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 			if ( '' === $title ) {
 				return new WP_Error(
 					'order_updates_for_woo_missing_subject',
-					sprintf( /* translators: %s: field name */ __( '%s is required.', 'order-updates-for-woo' ), $subject_label ),
+					sprintf( /* translators: %s: field label. */ __( '%s is required.', 'order-updates-for-woo' ), $subject_label ),
 					array( 'status' => 400 )
 				);
 			}
@@ -210,7 +210,7 @@ final class SubmitCustomerUpdateEndpoint implements Registrable {
 		if ( count( $files ) > Variables::getMaxAttachmentFiles() ) {
 			return new WP_Error(
 				'order_updates_for_woo_too_many_files',
-				sprintf( /* translators: %d: max number of files */ __( 'You can attach up to %d files.', 'order-updates-for-woo' ), Variables::getMaxAttachmentFiles() ),
+				sprintf( /* translators: %d: maximum number of attachments allowed. */ __( 'You can attach up to %d files.', 'order-updates-for-woo' ), Variables::getMaxAttachmentFiles() ),
 				array( 'status' => 400 )
 			);
 		}

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-03T11:14:16+00:00\n"
+"POT-Creation-Date: 2026-06-03T11:40:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: order-updates-for-woo\n"
@@ -107,21 +107,19 @@ msgstr ""
 msgid "Assignee changed"
 msgstr ""
 
-#. translators: %s: update title
 #. translators: %s: update title.
 #: src/Admin/AdminBar/AdminBarNotifications.php:488
 #: src/Admin/AdminBar/AdminBarNotifications.php:718
 msgid "You were unassigned from \"%s\""
 msgstr ""
 
-#. translators: %s: update title
+#. translators: %s: update title.
 #: src/Admin/AdminBar/AdminBarNotifications.php:488
 #: src/Admin/AdminBar/AdminBarNotifications.php:489
 #: src/Admin/AdminBar/AdminBarNotifications.php:716
 msgid "(untitled)"
 msgstr ""
 
-#. translators: %s: update title
 #. translators: %s: update title.
 #: src/Admin/AdminBar/AdminBarNotifications.php:489
 #: src/Admin/AdminBar/AdminBarNotifications.php:719
@@ -143,7 +141,6 @@ msgid "View all order updates →"
 msgstr ""
 
 #. translators: %s: human-readable time difference
-#. translators: %s: human-readable time difference, e.g. "2 hours"
 #: src/Admin/AdminBar/AdminBarNotifications.php:889
 #: src/Admin/Notifications/NotificationsPageController.php:504
 msgid "%s ago"
@@ -989,7 +986,6 @@ msgid "Internal note · tagged you"
 msgstr ""
 
 #. translators: 1: recipient first name, 2: intro text.
-#. translators: 1: customer first name, 2: intro text.
 #: src/Admin/Notifications/Templates/order-update-notification.php:45
 #: src/Frontend/Notifications/Templates/order-update-notification.php:39
 #: src/Frontend/Notifications/Templates/rating-followup.php:37
@@ -1147,8 +1143,6 @@ msgstr ""
 msgid "Update ID #%d"
 msgstr ""
 
-#. translators: 1: actor, 2: timestamp.
-#. translators: 1: user name, 2: date
 #. translators: 1: user display name, 2: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:148
 #: src/Helpers/UpdateAuthorHelper.php:86
@@ -1156,29 +1150,24 @@ msgstr ""
 msgid "Created by %1$s at %2$s"
 msgstr ""
 
-#. translators: 1: assignee, 2: actor, 3: timestamp.
 #. translators: 1: assignee name, 2: assigner name, 3: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:150
 #: src/Shared/Language/Labels/strings.php:37
 msgid "Assigned to %1$s by %2$s at %3$s"
 msgstr ""
 
-#. translators: 1: assignee, 2: actor, 3: timestamp.
 #. translators: 1: prior assignee name, 2: actor name, 3: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:152
 #: src/Shared/Language/Labels/strings.php:39
 msgid "Unassigned from %1$s by %2$s at %3$s"
 msgstr ""
 
-#. translators: 1: assignee, 2: timestamp.
 #. translators: 1: assignee name, 2: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:154
 #: src/Shared/Language/Labels/strings.php:41
 msgid "Notified assignee (%1$s) at %2$s"
 msgstr ""
 
-#. translators: 1: actor, 2: timestamp.
-#. translators: 1: solver name, 2: date
 #. translators: 1: solver name, 2: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:156
 #: src/Helpers/UpdateStatusHelper.php:95
@@ -1186,7 +1175,6 @@ msgstr ""
 msgid "Marked solved by %1$s at %2$s"
 msgstr ""
 
-#. translators: 1: actor, 2: timestamp.
 #. translators: 1: reopener name, 2: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:158
 #: src/Shared/Language/Labels/strings.php:45
@@ -1199,14 +1187,12 @@ msgstr ""
 msgid "Notified customer at %s"
 msgstr ""
 
-#. translators: 1: change message, 2: actor, 3: timestamp.
 #. translators: 1: status-change message, 2: actor display name, 3: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:164
 #: src/Shared/Language/Labels/strings.php:49
 msgid "%1$s by %2$s at %3$s"
 msgstr ""
 
-#. translators: 1: rating message, 2: timestamp.
 #. translators: 1: rating message ("Customer rated 4/5 …"), 2: timestamp.
 #: src/Admin/Orders/DeletedUpdatesMetaBox.php:171
 #: src/Shared/Language/Labels/strings.php:51
@@ -2920,7 +2906,6 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#. translators: %s: field name
 #. translators: %s: field label.
 #: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:185
 #: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:202
@@ -2930,7 +2915,6 @@ msgstr ""
 msgid "%s is required."
 msgstr ""
 
-#. translators: %d: max number of files
 #. translators: %d: maximum number of attachments allowed.
 #: src/API/Endpoints/SubmitCustomerUpdateEndpoint.php:213
 #: src/Shared/Language/Labels/strings.php:84
@@ -3381,14 +3365,12 @@ msgid "Tell us what worked or what could be better…"
 msgstr ""
 
 #. translators: %s: rating value out of 5.
-#. translators: %s: star rating (1-5).
 #: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:66
 #: src/Shared/Language/Labels/strings.php:128
 msgid "You rated this %s/5. Thanks for your feedback!"
 msgstr ""
 
 #. translators: %d: number of stars.
-#. translators: %d: star count (2-5).
 #: src/Frontend/OrderUpdates/Views/CustomerOrderUpdatesView.php:68
 #: src/Shared/Language/Labels/strings.php:145
 msgid "%d stars"
@@ -3573,7 +3555,6 @@ msgstr ""
 msgid "%s must be plain text only."
 msgstr ""
 
-#. translators: 1: field name, 2: maximum character count.
 #. translators: 1: field label, 2: maximum character count.
 #: src/Shared/Language/Labels/strings.php:26
 #: src/Shared/Validation/Validator.php:167

@@ -485,8 +485,8 @@ final class AdminBarNotifications {
 				$css_class = $this->row_item_classes( $notification );
 
 				$row_title = 'unassigned' === $notification['type']
-					? sprintf( /* translators: %s: update title */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) )
-					: sprintf( /* translators: %s: update title */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) );
+					? sprintf( /* translators: %s: update title. */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) )
+					: sprintf( /* translators: %s: update title. */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) );
 
 				$wp_admin_bar->add_node(
 					array(

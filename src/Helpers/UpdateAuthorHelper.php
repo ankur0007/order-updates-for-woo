@@ -82,7 +82,7 @@ final class UpdateAuthorHelper {
 	public static function get_formatted_created_by( array|object|int $update, ?OrderUpdatesDb $order_updates_db = null ): string {
 		$resolved_update = UpdateResolver::normalize_update( $update, $order_updates_db );
 		$created_line    = sprintf(
-			/* translators: 1: user name, 2: date */
+			/* translators: 1: user display name, 2: timestamp. */
 			__( 'Created by %1$s at %2$s', 'order-updates-for-woo' ),
 			self::get_created_by_name( $resolved_update ),
 			DateHelper::format_date( (string) ( $resolved_update['created_at'] ?? '' ) )

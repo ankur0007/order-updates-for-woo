@@ -500,7 +500,7 @@ final class NotificationsPageController {
 			'update_id'   => (int) ( $n['update_id'] ?? 0 ),
 			'note_id'     => (int) ( $n['note_id'] ?? 0 ),
 			'deep_url'    => $deep_url,
-			/* translators: %s: human-readable time difference, e.g. "2 hours" */
+			/* translators: %s: human-readable time difference */
 			'time'        => $time > 0 ? sprintf( __( '%s ago', 'order-updates-for-woo' ), human_time_diff( $time, time() ) ) : '',
 			// Each action link flips to its opposite based on current state.
 			'read_url'    => self::row_action_url( $unread ? 'mark_read' : 'mark_unread', $key ),
