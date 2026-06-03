@@ -1,4 +1,9 @@
 <?php
+/**
+ * Email sent to a staff member when they're @mentioned in an internal note.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -10,7 +15,16 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Internal Mention Email.
+ */
 final class InternalMentionEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AttachmentsDb  $attachments_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db ) {
 		$this->id             = Constants::EMAIL_ID_INTERNAL_MENTION;
 		$this->title          = __( 'Order updates: Internal mention', 'order-updates-for-woo' );
@@ -22,6 +36,14 @@ final class InternalMentionEmail extends OrderUpdateEmailBase {
 		$this->template_html  = 'src/Admin/Notifications/Templates/order-update-notification.php';
 	}
 
+	/**
+	 * Send the mention notification to a tagged staff member.
+	 *
+	 * @param int    $update_id         Update ID.
+	 * @param int    $note_id           Note containing the mention.
+	 * @param int    $recipient_user_id Tagged user to notify.
+	 * @param string $mentioned_by_name Display name of who tagged them.
+	 */
 	public function trigger( int $update_id, int $note_id, int $recipient_user_id, string $mentioned_by_name ): bool {
 		$this->reset_trigger_state();
 
@@ -85,6 +107,12 @@ final class InternalMentionEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Find one internal-note row on an update by note id.
+	 *
+	 * @param int $update_id Update ID.
+	 * @param int $note_id   Note ID to find.
+	 */
 	private function find_note_row( int $update_id, int $note_id ): array {
 		foreach ( $this->order_updates_db->get_update_notes( $update_id ) as $row ) {
 			if ( absint( $row['id'] ?? 0 ) === $note_id ) {
@@ -95,10 +123,16 @@ final class InternalMentionEmail extends OrderUpdateEmailBase {
 		return array();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] You were tagged on order #{order_number}', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'You were tagged on an order update', 'order-updates-for-woo' );
 	}

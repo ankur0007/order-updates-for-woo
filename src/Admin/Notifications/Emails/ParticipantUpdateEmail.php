@@ -20,7 +20,16 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Participant Update Email.
+ */
 final class ParticipantUpdateEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AttachmentsDb  $attachments_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db ) {
 		$this->id             = Constants::EMAIL_ID_PARTICIPANT_UPDATE;
 		$this->title          = __( 'Order updates: Participant activity', 'order-updates-for-woo' );
@@ -33,6 +42,8 @@ final class ParticipantUpdateEmail extends OrderUpdateEmailBase {
 	}
 
 	/**
+	 * Send the participant notification for a note.
+	 *
 	 * @param int    $update_id         Update ID.
 	 * @param int    $recipient_user_id Participant to notify.
 	 * @param int    $note_id           Note that triggered this email.
@@ -119,10 +130,16 @@ final class ParticipantUpdateEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] New activity on order #{order_number}', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'New activity on an order update', 'order-updates-for-woo' );
 	}

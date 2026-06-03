@@ -22,6 +22,9 @@ use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WP_Admin_Bar;
 
+/**
+ * Admin Bar Notifications.
+ */
 final class AdminBarNotifications {
 	private const NODE_ID                 = 'awts_assigned_updates';
 	private const ASSIGNED_HEADER         = 'awts_admin_bar_assigned_header';
@@ -32,8 +35,16 @@ final class AdminBarNotifications {
 	private const CLEAR_ALL_ROW           = 'awts_admin_bar_clear_all';
 	private const SNIPPET_LEN             = 60;
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_bar_menu', array( $this, 'add_nodes' ), 999 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -55,14 +66,36 @@ final class AdminBarNotifications {
 		add_action( 'order_updates_for_woo_update_deleted', array( $this, 'on_update_deleted' ), 10, 1 );
 	}
 
+	/**
+	 * Archive every user's admin-bar rows for a deleted update.
+	 *
+	 * @param int $update_id Update that was deleted.
+	 */
 	public function on_update_deleted( int $update_id ): void {
 		AdminBarNotificationStore::archive_for_update_for_all_users( $update_id );
 	}
 
+	/**
+	 * Queue an "assigned to you" admin-bar notification.
+	 *
+	 * @param int    $update_id Update id.
+	 * @param int    $order_id  Order id.
+	 * @param string $title     Update title.
+	 * @param int    $user_id   Assignee to notify.
+	 */
 	public function on_assigned( int $update_id, int $order_id, string $title, int $user_id ): void {
 		AdminBarNotificationStore::add_assigned( $update_id, $order_id, $title, $user_id, $this->current_actor_name() );
 	}
 
+	/**
+	 * Queue a "you were mentioned" admin-bar notification.
+	 *
+	 * @param int    $update_id Update id.
+	 * @param int    $order_id  Order id.
+	 * @param int    $note_id   Note containing the mention.
+	 * @param string $snippet   Short note preview.
+	 * @param int    $user_id   Tagged user to notify.
+	 */
 	public function on_mention( int $update_id, int $order_id, int $note_id, string $snippet, int $user_id ): void {
 		AdminBarNotificationStore::add_mention( $update_id, $order_id, $note_id, $snippet, $user_id, $this->current_actor_name() );
 	}
@@ -81,6 +114,10 @@ final class AdminBarNotifications {
 	 * Skips this entire path when a staff member submitted on behalf of a
 	 * customer — those go through on_staff_reply() instead so the recipients
 	 * see "Bob replied" rather than "Customer replied".
+	 *
+	 * @param int   $update_id Update id.
+	 * @param int   $note_id   Customer note id.
+	 * @param array $context   Submission context (author, order, assignee, …).
 	 */
 	public function on_customer_submit( int $update_id, int $note_id, array $context ): void {
 		$note_author_id = (int) ( $context['note_author']['id'] ?? 0 );
@@ -135,6 +172,16 @@ final class AdminBarNotifications {
 		}
 	}
 
+	/**
+	 * Queue "staff replied" admin-bar notifications for a staff-sent reply.
+	 *
+	 * @param int    $update_id       Update id.
+	 * @param int    $order_id        Order id.
+	 * @param int    $note_id         Customer note id.
+	 * @param string $staff_name      Name of the staff member who replied.
+	 * @param int    $sender_user_id  Sender (excluded from recipients).
+	 * @param int[]  $notify_user_ids Base recipients before pruning.
+	 */
 	public function on_staff_reply( int $update_id, int $order_id, int $note_id, string $staff_name, int $sender_user_id, array $notify_user_ids ): void {
 		// Same broadening as on_customer_submit — staff who participated in
 		// the thread should know when one of their teammates replies on the
@@ -174,7 +221,9 @@ final class AdminBarNotifications {
 	 * via UpdateNoteService; this method does the same for the customer-reply
 	 * and staff-reply paths that take a different route).
 	 *
-	 * @param int[] $recipients
+	 * @param int[] $recipients Candidate recipient user ids.
+	 * @param int   $update_id  Update id.
+	 * @param int   $order_id   Order id.
 	 * @return int[]
 	 */
 	private function prune_admin_bar_recipients( array $recipients, int $update_id, int $order_id ): array {
@@ -211,6 +260,11 @@ final class AdminBarNotifications {
 
 	// ----- Admin bar nodes -----
 
+	/**
+	 * Render the plugin's admin-bar notification nodes.
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar The admin bar instance.
+	 */
 	public function add_nodes( WP_Admin_Bar $wp_admin_bar ): void {
 		if ( ! is_admin_bar_showing() || ! is_user_logged_in() ) {
 			return;
@@ -282,7 +336,7 @@ final class AdminBarNotifications {
 						'id'     => 'awts_notif_' . sanitize_key( $notification['key'] ),
 						'title'  => sprintf(
 							'<span class="awts-ab-row"><span class="awts-ab-row-title">%s</span><span class="awts-ab-row-meta">%s</span></span>',
-							esc_html( $notification['title'] !== '' ? $notification['title'] : __( '(no title)', 'order-updates-for-woo' ) ),
+							esc_html( '' !== $notification['title'] ? $notification['title'] : __( '(no title)', 'order-updates-for-woo' ) ),
 							esc_html( sprintf( /* translators: %s: order number */ __( 'Order #%s', 'order-updates-for-woo' ), (string) $order->get_order_number() ) )
 								. ' &middot; ' . esc_html( $time_ago )
 						),
@@ -350,7 +404,7 @@ final class AdminBarNotifications {
 
 				$row_title = 'staff_reply' === $notification['type']
 					? sprintf( /* translators: %s: staff member display name */ __( '%s replied', 'order-updates-for-woo' ), $notification['title'] )
-					: ( $notification['title'] !== '' ? $notification['title'] : __( '(no title)', 'order-updates-for-woo' ) );
+					: ( '' !== $notification['title'] ? $notification['title'] : __( '(no title)', 'order-updates-for-woo' ) );
 
 				$wp_admin_bar->add_node(
 					array(
@@ -431,8 +485,8 @@ final class AdminBarNotifications {
 				$css_class = $this->row_item_classes( $notification );
 
 				$row_title = 'unassigned' === $notification['type']
-					? sprintf( /* translators: %s: update title */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), $notification['title'] !== '' ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) )
-					: sprintf( /* translators: %s: update title */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), $notification['title'] !== '' ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) );
+					? sprintf( /* translators: %s: update title */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) )
+					: sprintf( /* translators: %s: update title */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) );
 
 				$wp_admin_bar->add_node(
 					array(
@@ -480,6 +534,7 @@ final class AdminBarNotifications {
 
 	// ----- Asset enqueue -----
 
+	/** Enqueue the admin-bar CSS/JS and localize the heartbeat config. */
 	public function enqueue_assets(): void {
 		if ( ! is_admin_bar_showing() ) {
 			return;
@@ -509,6 +564,7 @@ final class AdminBarNotifications {
 		);
 	}
 
+	/** Enqueue just the admin-bar CSS on the front end. */
 	public function enqueue_styles(): void {
 		if ( ! is_admin_bar_showing() ) {
 			return;
@@ -520,6 +576,12 @@ final class AdminBarNotifications {
 
 	// ----- Heartbeat -----
 
+	/**
+	 * Attach the current notification count + items to the heartbeat response.
+	 *
+	 * @param array $response Heartbeat response so far.
+	 * @param array $data     Heartbeat request data from the browser.
+	 */
 	public function handle_heartbeat( array $response, array $data ): array {
 		if ( empty( $data[ Constants::HEARTBEAT_ADMIN_BAR_KEY ] ) || ! is_user_logged_in() ) {
 			return $response;
@@ -542,6 +604,7 @@ final class AdminBarNotifications {
 
 	// ----- AJAX dismiss -----
 
+	/** AJAX: dismiss one admin-bar notification for the current user. */
 	public function handle_dismiss(): void {
 		check_ajax_referer( Constants::ADMIN_BAR_DISMISS_NONCE, 'nonce' );
 
@@ -561,6 +624,7 @@ final class AdminBarNotifications {
 		wp_die( '', '', array( 'response' => 204 ) );
 	}
 
+	/** AJAX: dismiss all admin-bar notifications for the current user. */
 	public function handle_dismiss_all(): void {
 		check_ajax_referer( Constants::ADMIN_BAR_DISMISS_NONCE, 'nonce' );
 
@@ -578,6 +642,7 @@ final class AdminBarNotifications {
 		wp_die( '', '', array( 'response' => 204 ) );
 	}
 
+	/** AJAX: dismiss every admin-bar notification tied to one update. */
 	public function handle_dismiss_for_update(): void {
 		check_ajax_referer( Constants::ADMIN_BAR_DISMISS_NONCE, 'nonce' );
 
@@ -602,7 +667,9 @@ final class AdminBarNotifications {
 	// ----- Helpers -----
 
 	/**
-	 * @param array<int, array{key:string,type:string,update_id:int,order_id:int,note_id:int,title:string,time:int}> $notifications
+	 * Group active notifications into the per-section shape the heartbeat JS renders.
+	 *
+	 * @param array<int, array{key:string,type:string,update_id:int,order_id:int,note_id:int,title:string,time:int}> $notifications Active notifications.
 	 * @return array<int, array{type:string, ...}>
 	 */
 	private function build_items_for_js( array $notifications ): array {
@@ -648,8 +715,8 @@ final class AdminBarNotifications {
 			} elseif ( in_array( $notification['type'], array( 'unassigned', 'assignee_changed' ), true ) ) {
 				$untitled                 = __( '(untitled)', 'order-updates-for-woo' );
 				$item['title']            = 'unassigned' === $notification['type']
-					? sprintf( /* translators: %s: update title. */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), $notification['title'] !== '' ? $notification['title'] : $untitled )
-					: sprintf( /* translators: %s: update title. */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), $notification['title'] !== '' ? $notification['title'] : $untitled );
+					? sprintf( /* translators: %s: update title. */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : $untitled )
+					: sprintf( /* translators: %s: update title. */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : $untitled );
 				$assignee_changed_items[] = $item;
 			} else {
 				$mention_items[] = $item;
@@ -729,7 +796,7 @@ final class AdminBarNotifications {
 	 * (full reload). Note id may be 0 for assignments — class is omitted
 	 * in that case so the selector check fails as expected.
 	 *
-	 * @param array{key:string, update_id:int, note_id?:int} $notification
+	 * @param array{key:string, update_id:int, note_id?:int} $notification Notification row.
 	 */
 	private function row_item_classes( array $notification ): string {
 		$classes = array(
@@ -753,6 +820,14 @@ final class AdminBarNotifications {
 		return implode( ' ', $classes );
 	}
 
+	/**
+	 * Append the update/note hash to an order-edit URL for an in-page jump.
+	 *
+	 * @param string $url       Base order-edit URL.
+	 * @param int    $update_id Update id.
+	 * @param int    $note_id   Note id to focus, if any.
+	 * @param string $note_type Note type (internal / customer), if known.
+	 */
 	private function build_deep_link( string $url, int $update_id, int $note_id = 0, string $note_type = '' ): string {
 		if ( ! $url || ! $update_id ) {
 			return $url;
@@ -779,6 +854,8 @@ final class AdminBarNotifications {
 	 * notification type. Returns '' for notification types that don't
 	 * carry a note (assigned, deleted, assignee_changed) — the deep
 	 * link falls back to "no tab override."
+	 *
+	 * @param array $notification Notification row.
 	 */
 	private function tab_for_notification( array $notification ): string {
 		$type = (string) ( $notification['type'] ?? '' );
@@ -797,6 +874,11 @@ final class AdminBarNotifications {
 		}
 	}
 
+	/**
+	 * "N ago" relative time label, or '' when no timestamp.
+	 *
+	 * @param int $timestamp Unix timestamp.
+	 */
 	private function format_time_ago( int $timestamp ): string {
 		if ( ! $timestamp ) {
 			return '';
@@ -809,6 +891,11 @@ final class AdminBarNotifications {
 		);
 	}
 
+	/**
+	 * Trim text to the snippet length, stripping tags.
+	 *
+	 * @param string $text Raw text.
+	 */
 	private function snippet( string $text ): string {
 		$text = trim( wp_strip_all_tags( $text ) );
 

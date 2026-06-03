@@ -17,7 +17,16 @@ use OrderUpdatesForWoo\Shared\Notifications\OrderUpdateEmailBase;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Helpers\UpdateState;
 
+/**
+ * Admin Order Update Email.
+ */
 final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 * @param AttachmentsDb  $attachments_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db, AttachmentsDb $attachments_db ) {
 		$this->id             = Constants::EMAIL_ID_ADMIN_UPDATE;
 		$this->title          = __( 'Order update notification for admin', 'order-updates-for-woo' );
@@ -32,8 +41,11 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 	/**
 	 * Trigger the email.
 	 *
-	 * @param int $update_id        Update ID.
-	 * @param int $recipient_user_id Optional user to send to instead of the store admin.
+	 * @param int    $update_id         Update ID.
+	 * @param int    $recipient_user_id Optional user to send to instead of the store admin.
+	 * @param string $context           What triggered the email (e.g. 'created').
+	 * @param int    $trigger_note_id   Note that triggered it, if any.
+	 * @param string $trigger_note_type Note type (internal / customer), if any.
 	 */
 	public function trigger( int $update_id, int $recipient_user_id = 0, string $context = 'created', int $trigger_note_id = 0, string $trigger_note_type = '' ): bool {
 		$this->reset_trigger_state();
@@ -151,10 +163,16 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] New update for #{order_number}', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Order update', 'order-updates-for-woo' );
 	}
@@ -163,6 +181,8 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 	/**
 	 * Short status pill text shown above the email heading. Mirrors the
 	 * intro_text contexts but in 1–3 words so it fits the badge.
+	 *
+	 * @param string $context What triggered the email.
 	 */
 	private function get_status_label( string $context ): string {
 		switch ( $context ) {
@@ -181,6 +201,11 @@ final class AdminOrderUpdateEmail extends OrderUpdateEmailBase {
 		}
 	}
 
+	/**
+	 * Lead paragraph text, varied by what triggered the email.
+	 *
+	 * @param string $context What triggered the email.
+	 */
 	private function get_intro_text( string $context = 'created' ): string {
 		if ( 'rated' === $context ) {
 			return __( 'A customer left a low rating on a resolved update. The score and their comment are shown below — review and follow up if needed.', 'order-updates-for-woo' );

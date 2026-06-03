@@ -15,7 +15,15 @@ use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WC_Order;
 use WP_User;
 
+/**
+ * Creator Update Deleted Email.
+ */
 final class CreatorUpdateDeletedEmail extends OrderUpdateEmailBase {
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db ) {
 		$this->id             = Constants::EMAIL_ID_CREATOR_UPDATE_DELETED;
 		$this->title          = __( 'Creator notice — update deleted by another staff member', 'order-updates-for-woo' );
@@ -30,6 +38,12 @@ final class CreatorUpdateDeletedEmail extends OrderUpdateEmailBase {
 	 * Snapshot trigger — the update row is being deleted in the same
 	 * request, so we take order + title + actor inline rather than
 	 * looking them up after the row is gone.
+	 *
+	 * @param WC_Order $order          Order the update belonged to.
+	 * @param WP_User  $recipient      Who to notify.
+	 * @param string   $update_title   Title of the deleted update.
+	 * @param string   $actor_name     Who deleted it.
+	 * @param string   $recipient_role Recipient's role label (e.g. 'creator').
 	 */
 	public function trigger_for_deletion( WC_Order $order, WP_User $recipient, string $update_title, string $actor_name, string $recipient_role = 'creator' ): bool {
 		$this->reset_trigger_state();
@@ -90,10 +104,16 @@ final class CreatorUpdateDeletedEmail extends OrderUpdateEmailBase {
 		return $this->send_with_locale();
 	}
 
+	/**
+	 * Default email subject.
+	 */
 	public function get_default_subject(): string {
 		return __( '[{site_title}] Your update on order #{order_number} was deleted', 'order-updates-for-woo' );
 	}
 
+	/**
+	 * Default email heading.
+	 */
 	public function get_default_heading(): string {
 		return __( 'Your update was deleted', 'order-updates-for-woo' );
 	}

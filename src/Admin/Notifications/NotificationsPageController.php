@@ -1,4 +1,9 @@
 <?php
+/**
+ * "Show all" notifications archive page controller.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -45,8 +50,16 @@ final class NotificationsPageController {
 	public const OPT_ARCHIVE_AFTER_DAYS = 'order_updates_for_woo_notif_archive_after_days';
 	public const OPT_AUTODELETE_DAYS    = 'order_updates_for_woo_notif_autodelete_days';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( private OrderUpdatesDb $order_updates_db ) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
 		add_action( 'admin_init', array( $this, 'maybe_process_bulk' ) );
@@ -80,6 +93,7 @@ final class NotificationsPageController {
 	/**
 	 * Tab counts. Archived is its own bucket; the other tabs exclude it.
 	 *
+	 * @param array $all All of the user's notifications.
 	 * @return array<string,int>
 	 */
 	private function bucket_counts( array $all ): array {
@@ -96,6 +110,8 @@ final class NotificationsPageController {
 	 * internal note — no longer exists, so dead links never linger in the
 	 * active tabs, whatever route deleted them. Bounded by the per-user cap
 	 * (<=50) and backed by cached update lookups.
+	 *
+	 * @param int $user_id User whose notifications to scan.
 	 */
 	private function archive_dead_targets( int $user_id ): void {
 		foreach ( AdminBarNotificationStore::get_all( $user_id ) as $n ) {
@@ -108,7 +124,11 @@ final class NotificationsPageController {
 		}
 	}
 
-	/** True when the notification points at an update (or internal note) that's been deleted. */
+	/**
+	 * True when the notification points at an update (or internal note) that's been deleted.
+	 *
+	 * @param array $n Notification row.
+	 */
 	private function target_is_gone( array $n ): bool {
 		$update_id = (int) ( $n['update_id'] ?? 0 );
 		if ( ! $update_id ) {
@@ -139,6 +159,7 @@ final class NotificationsPageController {
 		return false;
 	}
 
+	/** Register the Notifications submenu page with an unread-count bubble. */
 	public function register_page(): void {
 		$title = __( 'Notifications', 'order-updates-for-woo' );
 
@@ -169,7 +190,7 @@ final class NotificationsPageController {
 		}
 
 		// Per-row links carry ?row_action=<action>&notif_key=…
-		// the bulk form posts ?action=<action>&notif_keys[]=…
+		// the bulk form posts ?action=<action>&notif_keys[]=… instead.
 		$inline_action = isset( $_GET['row_action'] ) ? sanitize_key( wp_unslash( (string) $_GET['row_action'] ) ) : '';
 		$bulk_action   = isset( $_REQUEST['action'] ) ? sanitize_key( wp_unslash( (string) $_REQUEST['action'] ) ) : '';
 		$bulk_action_2 = isset( $_REQUEST['action2'] ) ? sanitize_key( wp_unslash( (string) $_REQUEST['action2'] ) ) : '';
@@ -212,7 +233,13 @@ final class NotificationsPageController {
 		exit;
 	}
 
-	/** Route an action over the selected keys to the store. */
+	/**
+	 * Route an action over the selected keys to the store.
+	 *
+	 * @param string   $action  One of the allowed action keys.
+	 * @param string[] $keys    Notification keys to act on.
+	 * @param int      $user_id Acting user.
+	 */
 	private function dispatch_action( string $action, array $keys, int $user_id ): void {
 		switch ( $action ) {
 			case 'mark_read':
@@ -244,6 +271,9 @@ final class NotificationsPageController {
 		}
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		if ( ! TeamRosterService::user_is_team_member() ) {
 			wp_die( esc_html__( 'You are not allowed to view notifications.', 'order-updates-for-woo' ), 403 );
@@ -347,6 +377,11 @@ final class NotificationsPageController {
 	 * Everything the footer pager needs: range text, first/prev/next/last
 	 * links and a windowed list of numbered page links.
 	 *
+	 * @param int $paged       Current page number.
+	 * @param int $total_pages Total page count.
+	 * @param int $total       Total row count.
+	 * @param int $offset      Zero-based offset of the current page.
+	 * @param int $per_page    Rows per page.
 	 * @return array<string,mixed>
 	 */
 	private function build_pagination( int $paged, int $total_pages, int $total, int $offset, int $per_page ): array {
@@ -396,7 +431,15 @@ final class NotificationsPageController {
 		);
 	}
 
-	/** Apply the tab / order / update / text filters to the raw notification set. */
+	/**
+	 * Apply the tab / order / update / text filters to the raw notification set.
+	 *
+	 * @param array  $rows      All notifications.
+	 * @param string $status    Active tab filter.
+	 * @param int    $order_id  Order id filter (0 = none).
+	 * @param int    $update_id Update id filter (0 = none).
+	 * @param string $search    Title search text.
+	 */
 	private function filter_rows( array $rows, string $status, int $order_id, int $update_id, string $search ): array {
 		// Archived sits in its own tab; every other tab hides archived rows.
 		if ( 'archived' === $status ) {
@@ -425,7 +468,11 @@ final class NotificationsPageController {
 		return array_values( $rows );
 	}
 
-	/** Turn one stored notification into the flat shape the view renders. */
+	/**
+	 * Turn one stored notification into the flat shape the view renders.
+	 *
+	 * @param array $n Notification row.
+	 */
 	private function to_view_row( array $n ): array {
 		$type      = (string) ( $n['type'] ?? '' );
 		$key       = (string) ( $n['key'] ?? '' );
@@ -468,7 +515,8 @@ final class NotificationsPageController {
 	 * Tabs for the inbox header: All / Unread / Favorite / Archived with
 	 * live counts.
 	 *
-	 * @param array<string,int> $counts
+	 * @param string            $current Active tab key.
+	 * @param array<string,int> $counts  Per-bucket counts.
 	 */
 	private function build_tabs( string $current, array $counts ): array {
 		$base = remove_query_arg( array( 'filter_status', 'paged' ) );
@@ -498,6 +546,9 @@ final class NotificationsPageController {
 	/**
 	 * Per-row action URL for inline Mark-as-read / Delete (nonce'd GET link).
 	 * Static so the controller can build links without an instance.
+	 *
+	 * @param string $action Action key.
+	 * @param string $key    Notification key.
 	 */
 	public static function row_action_url( string $action, string $key ): string {
 		$base = add_query_arg(
@@ -512,6 +563,11 @@ final class NotificationsPageController {
 		return wp_nonce_url( $base, self::NONCE_KEY );
 	}
 
+	/**
+	 * Build the order-edit deep link that opens this notification's thread.
+	 *
+	 * @param array $item Notification row.
+	 */
 	private function deep_link_for( array $item ): string {
 		$order_id  = (int) ( $item['order_id'] ?? 0 );
 		$update_id = (int) ( $item['update_id'] ?? 0 );
@@ -545,6 +601,11 @@ final class NotificationsPageController {
 		return $base . '#awts-update-' . $update_id . $suffix;
 	}
 
+	/**
+	 * Default order-edit tab a notification type opens.
+	 *
+	 * @param string $type Notification type.
+	 */
 	private static function tab_for_type( string $type ): string {
 		return match ( $type ) {
 			'mention'           => 'internal',
@@ -554,6 +615,11 @@ final class NotificationsPageController {
 		};
 	}
 
+	/**
+	 * Human-readable label for a notification type.
+	 *
+	 * @param string $type Notification type.
+	 */
 	private static function label_for_type( string $type ): string {
 		return match ( $type ) {
 			'assigned'         => __( 'Assigned to you', 'order-updates-for-woo' ),
@@ -568,7 +634,12 @@ final class NotificationsPageController {
 		};
 	}
 
-	/** Where the note lives — shown after "By {name} ·" so it's clear how it reached you. */
+	/**
+	 * Where the note lives — shown after "By {name} ·" so it's clear how it reached you.
+	 *
+	 * @param string $type      Notification type.
+	 * @param string $note_type Note type (internal / customer).
+	 */
 	private static function context_label( string $type, string $note_type ): string {
 		return match ( $type ) {
 			'deleted'                       => '', // The red "Deleted" tag carries this instead.
@@ -585,6 +656,9 @@ final class NotificationsPageController {
 	 * Note-type family that colours the row's avatar tile and type tag:
 	 * customer-thread activity vs internal/staff activity. Assignment and
 	 * system events fall back to the internal (slate) treatment.
+	 *
+	 * @param string $type      Notification type.
+	 * @param string $note_type Note type (internal / customer).
 	 */
 	private static function kind_for_type( string $type, string $note_type ): string {
 		return match ( $type ) {
@@ -594,11 +668,20 @@ final class NotificationsPageController {
 		};
 	}
 
-	/** Reply only makes sense on note/reply rows, where there's a thread to answer. */
+	/**
+	 * Reply only makes sense on note/reply rows, where there's a thread to answer.
+	 *
+	 * @param string $type Notification type.
+	 */
 	private static function is_replyable( string $type ): bool {
 		return in_array( $type, array( 'customer_reply', 'staff_reply', 'participant_reply', 'mention' ), true );
 	}
 
+	/**
+	 * Dashicon class for a notification type.
+	 *
+	 * @param string $type Notification type.
+	 */
 	private static function icon_for_type( string $type ): string {
 		return match ( $type ) {
 			'assigned'          => 'dashicons-admin-users',
