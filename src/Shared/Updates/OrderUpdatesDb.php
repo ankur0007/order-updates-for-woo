@@ -2512,6 +2512,9 @@ final class OrderUpdatesDb {
 	 * exclusions as the paged fetch). `has_more` flags older notes above the
 	 * window; `has_newer` flags notes below it.
 	 *
+	 * @param int $update_id Update id.
+	 * @param int $note_id   Note to centre the window on.
+	 * @param int $span      Notes to include on each side.
 	 * @return array{notes:array<int, array<string, mixed>>, has_more:bool, has_newer:bool}
 	 */
 	public function get_customer_notes_around( int $update_id, int $note_id, int $span = 8 ): array {
@@ -2609,6 +2612,9 @@ final class OrderUpdatesDb {
 	 *   - edited after $since_time (so the poller can update existing DOM nodes).
 	 *
 	 * Used by the 30-second poll endpoint on the customer page.
+	 *
+	 * @param int $update_id     Update id.
+	 * @param int $since_note_id Last seen note id; 0 uses a 1-hour window.
 	 */
 	public function get_update_notes_since_id( int $update_id, int $since_note_id ): array {
 		global $wpdb;
@@ -2663,6 +2669,12 @@ final class OrderUpdatesDb {
 		return $results;
 	}
 
+	/**
+	 * New/edited customer-thread notes since a cursor, for the customer-page poll.
+	 *
+	 * @param int $update_id     Update id.
+	 * @param int $since_note_id Last seen note id; 0 uses a 1-hour window.
+	 */
 	public function get_customer_notes_since_id( int $update_id, int $since_note_id ): array {
 		global $wpdb;
 
