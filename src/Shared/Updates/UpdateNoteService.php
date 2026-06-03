@@ -44,6 +44,9 @@ final class UpdateNoteService {
 	 *
 	 * Returns the saved note data; 'id' is 0 when the save failed.
 	 *
+	 * @param int    $update_id          Update id.
+	 * @param string $note               Note text.
+	 * @param int[]  $mentioned_user_ids Users tagged in the note.
 	 * @return array{id:int,note:string,created_by_name:string,created_at_utc:string,mentioned_user_ids:int[]}
 	 */
 	public function create_internal_note( int $update_id, string $note, array $mentioned_user_ids = array() ): array {
@@ -114,8 +117,12 @@ final class UpdateNoteService {
 	 * more-specific email to, or anyone who switched Get notifications off
 	 * for this thread). Queues both the email and the admin-bar entry.
 	 *
-	 * @param array{id:int,name:string,created_at:string} $note_author
-	 * @param int[]                                       $exclude_user_ids
+	 * @param int                                         $update_id        Update id.
+	 * @param int                                         $note_id          Saved note id.
+	 * @param string                                      $note_type        Note type (internal / customer).
+	 * @param array{id:int,name:string,created_at:string} $note_author      Note author info.
+	 * @param string                                      $snippet          Short note preview.
+	 * @param int[]                                       $exclude_user_ids Users already notified.
 	 */
 	private function queue_participant_notifications(
 		int $update_id,
@@ -183,6 +190,11 @@ final class UpdateNoteService {
 
 	/**
 	 * Queue one mention email per tagged user (skipping the note author).
+	 *
+	 * @param int   $update_id          Update id.
+	 * @param int   $note_id            Saved note id.
+	 * @param int[] $mentioned_user_ids Users tagged in the note.
+	 * @param array $note_author        Note author info.
 	 */
 	private function queue_mention_emails( int $update_id, int $note_id, array $mentioned_user_ids, array $note_author ): void {
 		foreach ( $mentioned_user_ids as $mentioned_user_id ) {
@@ -214,6 +226,9 @@ final class UpdateNoteService {
 	 *
 	 * Returns the saved note data; 'id' is 0 when the save failed.
 	 *
+	 * @param int    $update_id          Update id.
+	 * @param string $note               Note text.
+	 * @param bool   $queue_notification Also queue the customer email.
 	 * @return array{id:int,note:string,created_by_name:string,created_at_utc:string,queued_at_utc:string,notification_queued:bool}
 	 */
 	public function create_customer_note( int $update_id, string $note, bool $queue_notification = false ): array {
@@ -321,6 +336,7 @@ final class UpdateNoteService {
 	 *                 billing email if name is blank, then to "You" as a last
 	 *                 resort if both are missing.
 	 *
+	 * @param WC_Order $order Order the note belongs to.
 	 * @return array{id:int,name:string}
 	 */
 	public function get_note_author_for_customer_submit( WC_Order $order ): array {
