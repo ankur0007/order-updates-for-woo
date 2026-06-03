@@ -271,6 +271,16 @@ body.landing {
 	cursor: zoom-in;
 }
 
+/* The hero's main shot is a tall order-edit screenshot. Show a trimmed,
+   top-anchored crop so the frame stays balanced; clicking opens the full
+   image in the lightbox. */
+.landing__hero__frame > img {
+	aspect-ratio: 1.15;
+	height: auto;
+	object-fit: cover;
+	object-position: top center;
+}
+
 /* Floating real product screenshots layered over the hero image */
 
 .landing__hero__floater {
