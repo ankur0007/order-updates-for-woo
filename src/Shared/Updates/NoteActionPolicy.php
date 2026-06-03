@@ -17,6 +17,9 @@ namespace OrderUpdatesForWoo\Shared\Updates;
 use OrderUpdatesForWoo\Admin\Settings\Services\OrderUpdatesSettingsService;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 
+/**
+ * Decides whether the current user may edit or delete a given note.
+ */
 final class NoteActionPolicy {
 	private const DEFAULT_EDIT_WINDOW_MINUTES = 1;
 
@@ -56,6 +59,9 @@ final class NoteActionPolicy {
 	 *
 	 * $latest_note_id is the highest note id in this note's thread; pass 0
 	 * to skip the latest-only check (callers that already gate elsewhere).
+	 *
+	 * @param array $note           Note row.
+	 * @param int   $latest_note_id Highest note id in the thread (0 to skip).
 	 */
 	public function can_edit_internal_note( array $note, int $latest_note_id = 0 ): bool {
 		return $this->settings_service->allow_note_edit()
@@ -68,6 +74,9 @@ final class NoteActionPolicy {
 	 * A staff member may delete their own internal note. Same four gates as
 	 * edit (master toggle, authorship, latest-only, window), plus the legacy
 	 * internal-note-delete sub-toggle scoping delete to staff-internal rows.
+	 *
+	 * @param array $note           Note row.
+	 * @param int   $latest_note_id Highest note id in the thread (0 to skip).
 	 */
 	public function can_delete_internal_note( array $note, int $latest_note_id = 0 ): bool {
 		return $this->settings_service->allow_note_delete()
@@ -86,6 +95,9 @@ final class NoteActionPolicy {
 	 * version — different on two surfaces, classic source-of-truth bug.
 	 * Edits within the pre-notification window are still fine (typo escape
 	 * hatch).
+	 *
+	 * @param array $note           Note row.
+	 * @param int   $latest_note_id Highest note id in the thread (0 to skip).
 	 */
 	public function can_edit_member_customer_note( array $note, int $latest_note_id = 0 ): bool {
 		return $this->settings_service->allow_note_edit()
@@ -98,6 +110,11 @@ final class NoteActionPolicy {
 	/**
 	 * A customer may edit their own customer-facing note. Same gates as the
 	 * member path, just with a customer-authorship check instead of staff.
+	 *
+	 * @param array $note              Note row.
+	 * @param int   $order_customer_id The order's customer user id.
+	 * @param bool  $is_guest          Whether the viewer is a guest.
+	 * @param int   $latest_note_id    Highest note id in the thread (0 to skip).
 	 */
 	public function can_edit_customer_authored_note( array $note, int $order_customer_id, bool $is_guest, int $latest_note_id = 0 ): bool {
 		return $this->settings_service->allow_note_edit()
@@ -111,6 +128,8 @@ final class NoteActionPolicy {
 	 * edit endpoint to report "edit window expired" distinctly from generic
 	 * forbidden. When the master option is off this returns false so the
 	 * endpoint short-circuits before reaching window-specific error paths.
+	 *
+	 * @param array $note Note row.
 	 */
 	public function is_within_customer_note_edit_window( array $note ): bool {
 		return $this->settings_service->allow_note_edit()
@@ -121,6 +140,9 @@ final class NoteActionPolicy {
 	 * True when the note is the most recent one in its thread (or when the
 	 * caller passed 0 to skip the check). A note is "latest" when no other
 	 * note in the same thread has a higher id.
+	 *
+	 * @param array $note           Note row.
+	 * @param int   $latest_note_id Highest note id in the thread (0 to skip).
 	 */
 	private function is_latest_in_thread( array $note, int $latest_note_id ): bool {
 		if ( 0 === $latest_note_id ) {
@@ -137,6 +159,8 @@ final class NoteActionPolicy {
 	 * desync the on-portal version. Notes still in the queue (queued_at set,
 	 * notified_at empty) are NOT locked — the queued email re-fetches the
 	 * note body at send time, so an edit before delivery propagates safely.
+	 *
+	 * @param array $note Note row.
 	 */
 	private function customer_note_already_delivered( array $note ): bool {
 		return '' !== trim( (string) ( $note['notified_at'] ?? '' ) );
@@ -145,6 +169,8 @@ final class NoteActionPolicy {
 	/**
 	 * True when the current logged-in user is the user who created this note.
 	 * Used for staff-authored notes (internal or customer-facing).
+	 *
+	 * @param array $note Note row.
 	 */
 	private function is_current_user_the_note_author( array $note ): bool {
 		$current_user_id = get_current_user_id();
@@ -159,6 +185,10 @@ final class NoteActionPolicy {
 	 * Logged-in customer: the note's created_by matches both the order's
 	 * customer ID and the current logged-in user.
 	 * Guest customer:     the note was guest-authored (created_by = 0).
+	 *
+	 * @param array $note              Note row.
+	 * @param int   $order_customer_id The order's customer user id.
+	 * @param bool  $is_guest          Whether the viewer is a guest.
 	 */
 	private function is_current_customer_the_note_author( array $note, int $order_customer_id, bool $is_guest ): bool {
 		$created_by = (int) ( $note['created_by'] ?? 0 );
@@ -169,12 +199,14 @@ final class NoteActionPolicy {
 
 		return $order_customer_id > 0
 			&& $created_by === $order_customer_id
-			&& $created_by === get_current_user_id();
+			&& get_current_user_id() === $created_by;
 	}
 
 	/**
 	 * True if the note was created less than `get_edit_window_minutes()` ago.
 	 * Treats unparseable / blank timestamps as already-expired (safe default).
+	 *
+	 * @param string $created_at_utc Note creation time (GMT mysql).
 	 */
 	private function is_within_edit_window( string $created_at_utc ): bool {
 		if ( '' === $created_at_utc ) {
