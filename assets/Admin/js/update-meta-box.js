@@ -597,6 +597,28 @@ getFieldValue( $field ) {
 			// don't append polled messages there. They load on "Jump to latest".
 			if ( $thread.data( 'awts-windowed' ) ) return;
 
+			// A customer can only post on an OPEN update. If a new customer note
+			// arrives while this card still shows the resolved state (the Re-open
+			// button is present), the card is stale — the customer reopened it
+			// from their side. Re-render from the server so the composer and
+			// buttons match live, instead of dropping a reply under a "resolved"
+			// card and leaving the assignee on a Re-open button until they refresh.
+			const $card = $thread.closest( '.awts_card' );
+			const hasNewCustomerNote = notes.some( note =>
+				!! note.from_customer
+				&& 0 === $thread.find( `[data-awts-note-id="${ parseInt( note.id, 10 ) }"]` ).length
+			);
+			if ( hasNewCustomerNote && $card.find( '.awts_reopen_update' ).length ) {
+				this.request( { url: awtsData.updateEndpointBase + updateId, method: 'GET' } )
+					.then( response => {
+						if ( response && response.cardHtml ) {
+							this.updateSavedCard( { ...response, isEdit: true }, updateId );
+						}
+					} )
+					.catch( () => {} );
+				return;
+			}
+
 			const lastReadId = this.getLastReadCustomerNoteId( updateId );
 			let newCount     = parseInt( $thread.closest( '.awts_card' ).find( `[data-awts-tab-badge="customer"]` ).attr( 'data-awts-count' ) || '0', 10 );
 
@@ -2807,6 +2829,29 @@ getFieldValue( $field ) {
 			}
 		},
 
+		// Initials-disc avatar matching the server Avatar helper, so note
+		// authors always show letters (first + last initial), never a blank or
+		// "?". Used whenever a person has no Gravatar URL.
+		avatarDiscHtml( rawName, extraClass ) {
+			const name  = String( rawName || '' ).trim();
+			const parts = name ? name.split( /\s+/ ) : [];
+			let initials;
+			if ( parts.length >= 2 ) {
+				initials = parts[ 0 ].charAt( 0 ) + parts[ parts.length - 1 ].charAt( 0 );
+			} else if ( 1 === parts.length ) {
+				initials = parts[ 0 ].substr( 0, 2 );
+			} else {
+				initials = '?';
+			}
+			let hue = 0;
+			for ( let i = 0; i < name.length; i++ ) {
+				hue = ( hue * 31 + name.charCodeAt( i ) ) % 360;
+			}
+			const initialsEsc = $( '<span>' ).text( initials.toUpperCase() ).html();
+			return '<span class="awts-avatar ' + ( extraClass || '' ) + '" style="width:28px;height:28px;font-size:12px;background:oklch(62% 0.12 ' + hue + ');">'
+				+ '<span class="awts-avatar__initials" aria-hidden="true">' + initialsEsc + '</span></span>';
+		},
+
 		buildNoteHtml( note, isNew = false ) {
 			const name = note.created_by_name ? $( '<span>' ).text( note.created_by_name ).html() : '';
 			const date = note.created_at ? $( '<span>' ).text( note.created_at ).html() : '';
@@ -2820,7 +2865,7 @@ getFieldValue( $field ) {
 			const avatarUrl = String( note.avatar_url || '' );
 			const avatarHtml = avatarUrl
 				? '<img class="awts_notes_item_avatar" src="' + this.escapeAttribute( avatarUrl ) + '" alt="" width="28" height="28" loading="lazy" />'
-				: '';
+				: this.avatarDiscHtml( note.created_by_name, 'awts_notes_item_avatar' );
 			const actions = [];
 
 			if ( note.can_edit ) {
@@ -3399,7 +3444,17 @@ getFieldValue( $field ) {
 				return this.buildSystemNoteHtml( note );
 			}
 
-			const name        = note.created_by_name ? $( '<span>' ).text( note.created_by_name ).html() : '';
+			// Customer-authored notes show "Name (Customer)" with an initials
+			// disc; staff notes show the staff name. Falls back to "Customer"
+			// when a guest left no name on the order.
+			const isCust      = !! note.from_customer;
+			const rawAuthor   = note.created_by_name
+				? note.created_by_name
+				: ( isCust ? ( this.getString( 'customerFallbackName' ) || 'Customer' ) : '' );
+			const displayName = ( isCust && note.created_by_name )
+				? note.created_by_name + ' (' + ( this.getString( 'customerTag' ) || 'Customer' ) + ')'
+				: rawAuthor;
+			const name        = displayName ? $( '<span>' ).text( displayName ).html() : '';
 			const date        = note.created_at ? $( '<span>' ).text( note.created_at ).html() : '';
 			const text        = note.note ? $( '<span>' ).text( this.convertEmoticons( note.note ) ).html() : '';
 			const noteId      = parseInt( note.id, 10 );
@@ -3414,7 +3469,7 @@ getFieldValue( $field ) {
 			const avatarUrl    = String( note.avatar_url || '' );
 			const avatarHtml   = avatarUrl
 				? '<img class="awts_customer_note_avatar" src="' + this.escapeAttribute( avatarUrl ) + '" alt="" width="28" height="28" loading="lazy" />'
-				: '';
+				: this.avatarDiscHtml( rawAuthor, 'awts_customer_note_avatar' );
 			const itemCls      = 'awts_customer_note_item'
 				+ ( fromCustomer ? ' awts_customer_note_item--from_customer' : ' awts_customer_note_item--from_staff' )
 				+ ( isUnread ? ' awts_customer_note_item--new' : '' );
