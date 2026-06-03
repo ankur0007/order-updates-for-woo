@@ -175,7 +175,8 @@ final class NotificationsPageController {
 			$menu_title,
 			'manage_woocommerce',
 			self::SLUG,
-			array( $this, 'render' )
+			array( $this, 'render' ),
+			AdminMenuController::POSITION_NOTIFICATIONS
 		);
 	}
 

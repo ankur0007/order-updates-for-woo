@@ -32,6 +32,16 @@ cd "$PLUGIN_DIR"
 
 mkdir -p "$OUT_DIR"
 
+# Regenerate minified assets so the zip never ships a stale .min.css/.min.js.
+# Production (SCRIPT_DEBUG off) serves the .min files, so a drift here breaks
+# the design on the live site. Best-effort: warn and continue if Node is absent.
+if command -v node >/dev/null 2>&1; then
+	echo "→ Rebuilding minified assets"
+	bash scripts/build-assets.sh
+else
+	echo "⚠ Node not found — shipping committed minified assets as-is"
+fi
+
 echo "→ Stripping dev dependencies"
 mv vendor vendor.dev-backup
 composer install --no-dev --optimize-autoloader --quiet

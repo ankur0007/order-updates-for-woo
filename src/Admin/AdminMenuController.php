@@ -26,12 +26,24 @@ final class AdminMenuController {
 	public const PARENT_SLUG = 'order-updates-for-woo';
 
 	/**
+	 * Submenu order under the Order Updates menu. WordPress sorts submenu items
+	 * by this position, so the whole order is defined here in one place; each
+	 * sub-page passes its own constant to add_submenu_page().
+	 */
+	public const POSITION_WELCOME       = 1;
+	public const POSITION_NOTIFICATIONS = 2;
+	public const POSITION_ASSIGNMENTS   = 3;
+	public const POSITION_SETTINGS      = 4;
+	public const POSITION_ANALYTICS     = 5;
+
+	/**
 	 * Register the hooks this section depends on.
 	 */
 	public function init(): void {
 		// Priority 9 so the top-level slot exists before sub-pages register at 10.
 		add_action( 'admin_menu', array( $this, 'register_top_level' ), 9 );
-		// Priority 12 so the Settings link lands after the other sub-pages.
+		// Display order comes from the POSITION_* constants, not this priority;
+		// 12 just keeps registration after the top-level menu exists.
 		add_action( 'admin_menu', array( $this, 'register_settings_link' ), 12 );
 		// Priority 11 so the auto-duplicate submenu is removed AFTER sub-pages register.
 		add_action( 'admin_menu', array( $this, 'remove_auto_duplicate' ), 11 );
@@ -61,7 +73,9 @@ final class AdminMenuController {
 			__( 'Order Updates Settings', 'order-updates-for-woo' ),
 			__( 'Settings', 'order-updates-for-woo' ),
 			'manage_woocommerce',
-			'admin.php?page=wc-settings&tab=order_updates_for_woo'
+			'admin.php?page=wc-settings&tab=order_updates_for_woo',
+			'',
+			self::POSITION_SETTINGS
 		);
 	}
 

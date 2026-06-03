@@ -39,15 +39,16 @@ final class UpdatePresentationHelper {
 	 */
 	public static function get_card_details( array $update ): array {
 		return array(
-			'is_customer_visible' => ! empty( $update['customer_visible'] ),
-			'created'             => UpdateAuthorHelper::get_formatted_created_by( $update ),
-			'created_by_name'     => UpdateAuthorHelper::get_created_by_name( $update ),
-			'created_date'        => DateHelper::format_date( (string) ( $update['created_at'] ?? '' ) ),
-			'assigned_to'         => AssigneeHelper::get_assignee_name( $update ),
-			'solved_by'           => UpdateStatusHelper::get_solved_by_name( $update ),
-			'solved_line'         => UpdateStatusHelper::get_formatted_solved_by( $update ),
-			'customer_update'     => CustomerHelper::get_formatted_customer_update_label( $update ),
-			'dot_style'           => self::get_color_icon( $update ),
+			'is_customer_visible'    => ! empty( $update['customer_visible'] ),
+			'created'                => UpdateAuthorHelper::get_formatted_created_by( $update ),
+			'created_by_name'        => UpdateAuthorHelper::get_created_by_name( $update ),
+			'created_by_avatar_name' => UpdateAuthorHelper::get_avatar_name( $update ),
+			'created_date'           => DateHelper::format_date( (string) ( $update['created_at'] ?? '' ) ),
+			'assigned_to'            => AssigneeHelper::get_assignee_name( $update ),
+			'solved_by'              => UpdateStatusHelper::get_solved_by_name( $update ),
+			'solved_line'            => UpdateStatusHelper::get_formatted_solved_by( $update ),
+			'customer_update'        => CustomerHelper::get_formatted_customer_update_label( $update ),
+			'dot_style'              => self::get_color_icon( $update ),
 		);
 	}
 }

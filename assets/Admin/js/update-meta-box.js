@@ -1832,8 +1832,6 @@ getFieldValue( $field ) {
 
 			const userId   = $li.data( 'awts-user-id' );
 			const userName = $li.data( 'awts-user-name' );
-			const wasUnassigned = ! parseInt( $item.data( 'awts-assignee-id' ), 10 );
-
 			$name.text( userName );
 			$idField.val( userId );
 			$item.attr( 'data-awts-assignee-id', userId );
@@ -1845,7 +1843,11 @@ getFieldValue( $field ) {
 
 			const savePromise = this.saveInlineField( $card, { assignee_id: userId } );
 
-			if ( wasUnassigned && savePromise ) {
+			// Re-render from the server card on every assignee change. The avatar
+			// is a server-composited disc (initials + colour + Gravatar overlay),
+			// so it can't be patched client-side — only a re-render shows the new
+			// assignee's avatar instead of leaving the previous one in place.
+			if ( savePromise ) {
 				const updateId = parseInt( $card.data( 'awts-update-id' ), 10 );
 				savePromise.then( response => {
 					if ( response && response.cardHtml ) {

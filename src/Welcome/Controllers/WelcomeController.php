@@ -44,7 +44,8 @@ final class WelcomeController {
 			__( 'Welcome', 'order-updates-for-woo' ),
 			'manage_woocommerce',
 			self::SLUG,
-			array( $this, 'render' )
+			array( $this, 'render' ),
+			\OrderUpdatesForWoo\Admin\AdminMenuController::POSITION_WELCOME
 		);
 	}
 

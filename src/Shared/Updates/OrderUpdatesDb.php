@@ -2417,7 +2417,7 @@ final class OrderUpdatesDb {
 			$wpdb->prepare(
 				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
 				FROM {$this->updates_table->customer_notes}
-				WHERE update_id = %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' )
+				WHERE update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				ORDER BY created_at ASC, id ASC",
 				$update_id
 			),
@@ -2465,7 +2465,7 @@ final class OrderUpdatesDb {
 				$wpdb->prepare(
 					"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
 					FROM {$this->updates_table->customer_notes}
-					WHERE update_id = %d AND id < %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' )
+					WHERE update_id = %d AND id < %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
 					$update_id,
@@ -2479,7 +2479,7 @@ final class OrderUpdatesDb {
 				$wpdb->prepare(
 					"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
 					FROM {$this->updates_table->customer_notes}
-					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' )
+					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
 					$update_id,
@@ -2539,7 +2539,7 @@ final class OrderUpdatesDb {
 		}
 
 		$columns = 'id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at';
-		$exclude = "kind NOT IN ( 'title_change', 'reopen', 'rating' )";
+		$exclude = "kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )";
 
 		$target = $wpdb->get_row(
 			$wpdb->prepare(
@@ -2697,7 +2697,7 @@ final class OrderUpdatesDb {
 				$wpdb->prepare(
 					"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
 					FROM {$this->updates_table->customer_notes}
-					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' ) AND created_at >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 1 HOUR )
+					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' ) AND created_at >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 1 HOUR )
 					ORDER BY id ASC",
 					$update_id
 				),
@@ -2714,7 +2714,7 @@ final class OrderUpdatesDb {
 			$wpdb->prepare(
 				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
 				FROM {$this->updates_table->customer_notes}
-				WHERE update_id = %d AND id > %d AND kind NOT IN ( 'title_change', 'reopen', 'rating' )
+				WHERE update_id = %d AND id > %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				ORDER BY id ASC",
 				$update_id,
 				$since_note_id

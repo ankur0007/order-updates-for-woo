@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use OrderUpdatesForWoo\Admin\AdminMenuController;
 use OrderUpdatesForWoo\Helpers\AssetHelper;
 use OrderUpdatesForWoo\Helpers\Avatar;
+use OrderUpdatesForWoo\Helpers\UpdateAuthorHelper;
 use OrderUpdatesForWoo\Helpers\View;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
@@ -78,7 +79,8 @@ final class AssigneePageController {
 			$menu_title,
 			'read',
 			self::SLUG,
-			array( $this, 'render' )
+			array( $this, 'render' ),
+			AdminMenuController::POSITION_ASSIGNMENTS
 		);
 	}
 
@@ -285,8 +287,12 @@ final class AssigneePageController {
 			$status = $resolved ? __( 'Resolved', 'order-updates-for-woo' ) : __( 'Open', 'order-updates-for-woo' );
 		}
 
-		$created_by = (string) ( $row['created_by_name'] ?? '' );
-		$assignee   = (string) ( $row['assignee_name'] ?? '' );
+		// Resolve through UpdateAuthorHelper so a customer-opened update shows
+		// the customer's name + "(Customer)" and an initials avatar, never a
+		// blank "?" from the empty raw created_by_name.
+		$created_by          = UpdateAuthorHelper::get_created_by_name( $row );
+		$created_avatar_name = UpdateAuthorHelper::get_avatar_name( $row );
+		$assignee            = (string) ( $row['assignee_name'] ?? '' );
 
 		return array(
 			'update_id'       => $update_id,
@@ -298,7 +304,7 @@ final class AssigneePageController {
 			'status'          => $status,
 			'status_color'    => $this->safe_color( (string) ( $row['color'] ?? '' ) ),
 			'created_by'      => $created_by,
-			'created_avatar'  => Avatar::html( (int) ( $row['created_by'] ?? 0 ), $created_by, 'awts-asg__avatar', 20 ),
+			'created_avatar'  => Avatar::html( (int) ( $row['created_by'] ?? 0 ), $created_avatar_name, 'awts-asg__avatar', 20 ),
 			'created_date'    => $this->datetime_label( (string) ( $row['created_at'] ?? '' ) ),
 			'assignee'        => $assignee,
 			'assignee_avatar' => '' !== $assignee ? Avatar::html( (int) ( $row['assignee_user_id'] ?? 0 ), $assignee, 'awts-asg__avatar', 20 ) : '',

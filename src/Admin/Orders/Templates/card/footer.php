@@ -35,10 +35,11 @@ $settings  = $view_data['settings'] ?? array();
 $formatted = $view_data['formatted'] ?? array();
 $flags     = $view_data['flags'] ?? array();
 
-$created_by_name = (string) ( $formatted['created_by_name'] ?? '' );
-$created_date    = (string) ( $formatted['created_date'] ?? '' );
-$assigned_to     = (string) ( $formatted['assigned_to'] ?? '' );
-$solved_date     = (string) ( $flags['solved_date'] ?? '' );
+$created_by_name        = (string) ( $formatted['created_by_name'] ?? '' );
+$created_by_avatar_name = (string) ( $formatted['created_by_avatar_name'] ?? $created_by_name );
+$created_date           = (string) ( $formatted['created_date'] ?? '' );
+$assigned_to            = (string) ( $formatted['assigned_to'] ?? '' );
+$solved_date            = (string) ( $flags['solved_date'] ?? '' );
 
 $has_assignee = ! empty( $flags['has_assignee'] );
 $can_edit     = ! empty( $flags['can_edit'] );
@@ -68,7 +69,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 
 	<?php if ( '' !== $created_by_name || '' !== $created_date ) : ?>
 		<span class="awts_footer_item">
-			<?php echo Avatar::html( (int) ( $raw['created_by_user_id'] ?? 0 ), $created_by_name, 'awts_assignee_avatar', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
+			<?php echo Avatar::html( (int) ( $raw['created_by_user_id'] ?? 0 ), $created_by_avatar_name, 'awts_assignee_avatar', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
 			<strong><?php echo esc_html( $created_by_name ); ?></strong>
 			<?php if ( '' !== $created_date ) : ?>
 				<span class="awts_footer_sep">·</span>
