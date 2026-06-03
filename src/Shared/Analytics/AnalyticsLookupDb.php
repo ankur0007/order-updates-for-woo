@@ -1,4 +1,9 @@
 <?php
+/**
+ * Read + write API for the analytics lookup table.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -69,6 +74,9 @@ final class AnalyticsLookupDb {
 		add_action( 'admin_init', array( $this, 'maybe_schedule_backfill' ) );
 	}
 
+	/**
+	 * Schedule the first backfill batch if backfill has never completed.
+	 */
 	public function maybe_schedule_backfill(): void {
 		if ( '1' === get_option( self::BACKFILL_DONE, '' ) ) {
 			return;
@@ -89,6 +97,8 @@ final class AnalyticsLookupDb {
 	 * Process one backfill batch from $after_id. Re-queues itself with the
 	 * next cursor as long as there's more data. Stays well under PHP/MySQL
 	 * limits by capping each batch at 500 updates.
+	 *
+	 * @param int $after_id Process updates with an id above this cursor.
 	 */
 	public function run_backfill_batch( int $after_id ): void {
 		$next = $this->backfill_batch( $after_id, 500 );
@@ -122,6 +132,8 @@ final class AnalyticsLookupDb {
 	 * Rebuild the lookup row for an update from its current state in the
 	 * live tables. Safe to call after any mutation; a no-op if the update
 	 * no longer exists (handles race conditions between delete + retry).
+	 *
+	 * @param int $update_id Update id.
 	 */
 	public function sync_update( int $update_id ): void {
 		if ( ! $update_id ) {
@@ -166,6 +178,8 @@ final class AnalyticsLookupDb {
 	 * Remove the lookup row for an update. Called from delete_order_update
 	 * after the live row is gone — keeps the lookup table in step so a
 	 * deleted update vanishes from analytics immediately.
+	 *
+	 * @param int $update_id Update id.
 	 */
 	public function delete_for_update( int $update_id ): void {
 		if ( ! $update_id ) {
@@ -184,6 +198,10 @@ final class AnalyticsLookupDb {
 	// -------------------------------------------------------------------------
 
 	/**
+	 * Totals + average rating for a date range.
+	 *
+	 * @param string $from Start date (Y-m-d).
+	 * @param string $to   End date (Y-m-d).
 	 * @return array{total:int, solved:int, pending:int, avg_rating:float|null}
 	 */
 	public function summary( string $from, string $to ): array {
@@ -226,6 +244,10 @@ final class AnalyticsLookupDb {
 	}
 
 	/**
+	 * Daily totals for a date range.
+	 *
+	 * @param string $from Start date (Y-m-d).
+	 * @param string $to   End date (Y-m-d).
 	 * @return array<int, array{date:string, total:int, solved:int}>
 	 */
 	public function by_date( string $from, string $to ): array {
@@ -260,7 +282,7 @@ final class AnalyticsLookupDb {
 				'total'  => (int) $r['total'],
 				'solved' => (int) $r['solved'],
 			),
-			$rows ?: array()
+			is_array( $rows ) ? $rows : array()
 		);
 
 		$ttl = $to < gmdate( 'Y-m-d' ) ? Constants::ANALYTICS_CACHE_TTL : Variables::getUpdateCacheTtl();
@@ -270,6 +292,10 @@ final class AnalyticsLookupDb {
 	}
 
 	/**
+	 * Per-assignee totals + average rating for a date range.
+	 *
+	 * @param string $from Start date (Y-m-d).
+	 * @param string $to   End date (Y-m-d).
 	 * @return array<int, array{user_id:int, name:string, total:int, solved:int, pending:int, avg_rating:float|null}>
 	 */
 	public function by_assignee( string $from, string $to ): array {
@@ -336,6 +362,10 @@ final class AnalyticsLookupDb {
 	}
 
 	/**
+	 * Per-product totals for a date range (top 20 by volume).
+	 *
+	 * @param string $from Start date (Y-m-d).
+	 * @param string $to   End date (Y-m-d).
 	 * @return array<int, array{product_id:int, name:string, total:int, solved:int, pending:int}>
 	 */
 	public function by_product( string $from, string $to ): array {
@@ -409,6 +439,9 @@ final class AnalyticsLookupDb {
 	 * cursor (0 when done). The caller schedules a follow-up batch until
 	 * the cursor hits 0, so the backfill scales linearly without locking
 	 * the DB or blowing PHP memory.
+	 *
+	 * @param int $after_id   Process updates with an id above this cursor.
+	 * @param int $batch_size Max updates per batch.
 	 */
 	public function backfill_batch( int $after_id, int $batch_size = 500 ): int {
 		global $wpdb;
@@ -454,6 +487,7 @@ final class AnalyticsLookupDb {
 	 * Read the update's current state from the live tables and shape the
 	 * lookup row. Returns null when the update no longer exists.
 	 *
+	 * @param int $update_id Update id.
 	 * @return array<string, mixed>|null
 	 */
 	private function compute_row( int $update_id ): ?array {
@@ -535,6 +569,9 @@ final class AnalyticsLookupDb {
 		);
 	}
 
+	/**
+	 * Current analytics cache generation (bumped on every write).
+	 */
 	private function generation(): int {
 		$cache_key = Constants::ANALYTICS_GEN_PFX . 'lookup';
 		$cached    = wp_cache_get( $cache_key, Constants::CACHE_GROUP );
@@ -559,6 +596,9 @@ final class AnalyticsLookupDb {
 		$this->bump_generation();
 	}
 
+	/**
+	 * Bump the analytics cache generation, invalidating every cached response.
+	 */
 	private function bump_generation(): void {
 		$option_key = Constants::ANALYTICS_GEN_OPTION_PFX . 'lookup';
 		$next       = (int) get_option( $option_key, 0 ) + 1;
