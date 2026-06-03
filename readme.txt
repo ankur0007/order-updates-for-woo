@@ -26,6 +26,8 @@ Order Updates for WooCommerce adds a dedicated order-updates workflow for store 
 * Upload attachments to any note (images, PDFs, docs)
 * Mute email notifications per update so a chatty thread doesn't flood your inbox
 * See assigned items, mentions, and replies in the WordPress admin bar with deep-link rows
+* Track each team member's queue on a dedicated Assignments page — store-wide waiting, resolved, and longest-wait stats, filterable by assignee and status
+* Work through a full Notifications inbox — filter by Unread, Favorite or Archived, search, and mark read / favorite / archive / delete in bulk (auto-archives and auto-clears on a schedule)
 * View an analytics dashboard with totals, resolution rate, average rating, per-assignee performance, and per-product breakdowns
 * Get an email for every customer reply, even when not @mentioned — assignees are always notified
 
@@ -85,6 +87,8 @@ No. Analytics queries are bounded by date range, indexed on `created_at`, transi
 2. Customer-facing order updates page
 3. Analytics dashboard with totals, charts, and per-assignee/product breakdowns
 4. Order list column and filters for updates
+5. Assignments page — per-assignee queue with waiting, resolved, and longest-wait stats
+6. Notifications inbox — filter, search, and bulk actions across mentions, assignments, and replies
 
 == Changelog ==
 
@@ -96,6 +100,8 @@ Initial public release.
 * @mention autocomplete with per-mention email + admin-bar notifications.
 * Round-robin assignment mode for fair workload distribution across staff.
 * WordPress admin bar surface for assigned items, mentions, customer replies, and staff replies — with deep-link rows.
+* Assignments page — a per-assignee queue with store-wide waiting / resolved / longest-wait cards, filterable by assignee and status; non-admins see only their own.
+* Notifications page — a full inbox with All / Unread / Favorite / Archived tabs, search, per-row and bulk actions (read, favorite, archive, delete), and scheduled auto-archive then auto-clear.
 * Email deep links — every notification (assignee, admin, mention, customer) opens directly on the relevant update.
 * Customer My Account experience: per-update unread badge, auto-scroll on landing, threaded replies with emoji and attachments, optional rating + comment on resolved updates, "Anita is assisting you" personalisation.
 * 30-second poll on the customer page so new staff replies appear without refresh, including the rating box auto-appearing once an update is resolved.
