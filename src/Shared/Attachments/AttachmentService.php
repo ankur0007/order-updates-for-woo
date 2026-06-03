@@ -1,4 +1,9 @@
 <?php
+/**
+ * Validates and stores note-attachment uploads.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -12,6 +17,10 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 use WP_Error;
 
+/**
+ * Gatekeeper for attachment uploads: mime/extension/content checks, safe move
+ * into the protected storage tree, DB row creation, and deletion helpers.
+ */
 final class AttachmentService {
 	/**
 	 * Every mime type the plugin knows how to handle, with its canonical
@@ -169,11 +178,14 @@ final class AttachmentService {
 	/**
 	 * Resolve the canonical extension for a stored mime, or empty string
 	 * if the type is unknown to the plugin entirely.
+	 *
+	 * @param string $mime Mime type.
 	 */
 	public static function extension_for_mime( string $mime ): string {
 		return (string) ( self::SUPPORTED_MIMES[ $mime ] ?? '' );
 	}
 
+	/** Maximum allowed upload size in bytes. */
 	public static function max_bytes(): int {
 		return Variables::getMaxAttachmentBytes();
 	}
@@ -181,8 +193,8 @@ final class AttachmentService {
 	/**
 	 * Store an uploaded file and insert a DB row.
 	 *
-	 * @param array{name:string,tmp_name:string,type:string,size:int,error:int}              $file  PHP $_FILES entry.
-	 * @param array{order_id:int,update_id:int,note_id:int,note_type:string,uploaded_by:int} $context
+	 * @param array{name:string,tmp_name:string,type:string,size:int,error:int}              $file    PHP $_FILES entry.
+	 * @param array{order_id:int,update_id:int,note_id:int,note_type:string,uploaded_by:int} $context Where the file belongs.
 	 * @return array|WP_Error
 	 */
 	public function store_upload( array $file, array $context ): array|WP_Error {
@@ -267,6 +279,7 @@ final class AttachmentService {
 		}
 
 		$destination = $moved;
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod -- WP_Filesystem method, not the PHP chmod() function.
 		AttachmentStorage::filesystem()?->chmod( $destination, FS_CHMOD_FILE );
 
 		$id = $this->attachments_db->create(
@@ -296,6 +309,8 @@ final class AttachmentService {
 	 * Delete an attachment's file from disk and its DB row. Returns false if
 	 * the record is not found. Fires the before-delete action and allows addons
 	 * to handle the filesystem removal via the `order_updates_for_woo_attachment_delete` filter.
+	 *
+	 * @param int $attachment_id Attachment id.
 	 */
 	public function delete( int $attachment_id ): bool {
 		$record = $this->attachments_db->get( $attachment_id );
@@ -326,7 +341,11 @@ final class AttachmentService {
 		return $this->attachments_db->delete( $attachment_id );
 	}
 
-	/** Remove all attachment DB rows and the full filesystem directory tree for an order. */
+	/**
+	 * Remove all attachment DB rows and the full filesystem directory tree for an order.
+	 *
+	 * @param int $order_id Order id.
+	 */
 	public function delete_all_for_order( int $order_id ): void {
 		if ( ! $order_id ) {
 			return;
@@ -336,7 +355,12 @@ final class AttachmentService {
 		AttachmentStorage::delete_order_dir( $order_id );
 	}
 
-	/** Remove all attachment DB rows and the update's filesystem directory. */
+	/**
+	 * Remove all attachment DB rows and the update's filesystem directory.
+	 *
+	 * @param int $order_id  Order id.
+	 * @param int $update_id Update id.
+	 */
 	public function delete_all_for_update( int $order_id, int $update_id ): void {
 		if ( ! $order_id || ! $update_id ) {
 			return;
@@ -354,6 +378,8 @@ final class AttachmentService {
 	/**
 	 * Resolve the absolute filesystem path for an attachment DB record.
 	 * Required keys: order_id, update_id, note_id, file_name.
+	 *
+	 * @param array $record Attachment DB record.
 	 */
 	public function absolute_path_for( array $record ): string {
 		return AttachmentStorage::note_dir(
@@ -368,6 +394,10 @@ final class AttachmentService {
 	 * The upload_dir filter redirects WordPress's destination so the file lands inside
 	 * our protected dir instead of wp-content/uploads. Returns the absolute path on
 	 * success, or a WP_Error on failure.
+	 *
+	 * @param array  $file        PHP $_FILES entry.
+	 * @param string $dir         Destination directory.
+	 * @param string $stored_name Final stored file name.
 	 */
 	private function move_via_wp_handle_upload( array $file, string $dir, string $stored_name ): string|WP_Error {
 		if ( ! function_exists( 'wp_handle_upload' ) ) {
@@ -437,6 +467,8 @@ final class AttachmentService {
 	/**
 	 * Reject filenames that contain any banned extension fragment, even
 	 * embedded mid-name. Case-insensitive.
+	 *
+	 * @param string $filename Original upload file name.
 	 */
 	private static function is_filename_safe( string $filename ): bool {
 		$lower = strtolower( $filename );
@@ -456,6 +488,8 @@ final class AttachmentService {
 	 * top of mime detection — a sophisticated attacker can craft a file
 	 * whose mime/extension look benign but whose content executes; this
 	 * scan rejects those before the file ever reaches the storage path.
+	 *
+	 * @param string $tmp_path Temp file path to inspect.
 	 */
 	private static function is_file_content_safe( string $tmp_path ): bool {
 		if ( '' === $tmp_path || ! is_readable( $tmp_path ) ) {
@@ -489,6 +523,12 @@ final class AttachmentService {
 		return true;
 	}
 
+	/**
+	 * Best-effort mime detection from a file's bytes + name.
+	 *
+	 * @param string $tmp_path Temp file path.
+	 * @param string $filename Original upload file name.
+	 */
 	private function detect_mime( string $tmp_path, string $filename ): string {
 		// Same shape requirement as wp_handle_upload — see comment there.
 		$check = wp_check_filetype_and_ext( $tmp_path, $filename, self::wp_handle_upload_mimes() );
