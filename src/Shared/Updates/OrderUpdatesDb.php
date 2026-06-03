@@ -2237,6 +2237,14 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Edit an internal note's text + mentions and stamp edited_at.
+	 *
+	 * @param int    $note_id            Internal note id.
+	 * @param string $note               New note text.
+	 * @param array  $mentioned_user_ids Users @mentioned in the new text.
+	 * @param string $edited_at          Edit time (GMT mysql).
+	 */
 	public function update_update_note( int $note_id, string $note, array $mentioned_user_ids, string $edited_at ): bool {
 		global $wpdb;
 
@@ -2270,6 +2278,11 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Delete an internal note and bust its update's caches.
+	 *
+	 * @param int $note_id Internal note id.
+	 */
 	public function delete_update_note( int $note_id ): bool {
 		global $wpdb;
 
@@ -2296,6 +2309,11 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Encode mention user ids to the stored comma-separated string.
+	 *
+	 * @param array $ids User ids.
+	 */
 	private function encode_mention_ids( array $ids ): string {
 		$clean = array_values( array_unique( array_filter( array_map( 'absint', $ids ) ) ) );
 
@@ -2306,6 +2324,11 @@ final class OrderUpdatesDb {
 		return implode( ',', $clean );
 	}
 
+	/**
+	 * Decode the stored comma-separated mention string to user ids.
+	 *
+	 * @param string $raw Stored mentioned_user_ids value.
+	 */
 	private function decode_mention_ids( string $raw ): array {
 		if ( '' === $raw ) {
 			return array();
@@ -2316,6 +2339,16 @@ final class OrderUpdatesDb {
 		return array_values( array_unique( array_filter( $parts ) ) );
 	}
 
+	/**
+	 * Insert a customer-thread note (converting emoticons) and flip the update
+	 * to customer-visible; returns the new note id.
+	 *
+	 * @param int    $update_id       Update id.
+	 * @param string $note            Note text.
+	 * @param int    $created_by      Author user id (0 for the customer).
+	 * @param string $created_by_name Author display name.
+	 * @param string $created_at      Created time (GMT mysql).
+	 */
 	public function create_customer_note( int $update_id, string $note, int $created_by, string $created_by_name, string $created_at ): int {
 		global $wpdb;
 
@@ -2361,6 +2394,11 @@ final class OrderUpdatesDb {
 		return $note_id;
 	}
 
+	/**
+	 * Customer-thread notes for an update (excludes admin-only system rows). Cached.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	public function get_customer_notes( int $update_id ): array {
 		global $wpdb;
 
@@ -2397,6 +2435,9 @@ final class OrderUpdatesDb {
 	 * before $before_id (cursor-based). Fetches $limit + 1 rows to detect
 	 * whether older notes exist without a separate COUNT query.
 	 *
+	 * @param int $update_id Update id.
+	 * @param int $limit     Page size.
+	 * @param int $before_id Cursor: only notes older than this id; 0 for newest.
 	 * @return array{ notes: array, has_more: bool }
 	 */
 	public function get_customer_notes_paged( int $update_id, int $limit, int $before_id = 0 ): array {
