@@ -1,4 +1,9 @@
 <?php
+/**
+ * No-login "shared chat link" hash + expiry stored on the order.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -31,6 +36,8 @@ final class SharedLink {
 	/**
 	 * Read the order's shared link, minting one on first call.
 	 *
+	 * @param WC_Order $order         Order the link belongs to.
+	 * @param int      $actor_user_id Who triggered the mint (for the log).
 	 * @return array{hash:string,expires_at:int,days_left:int}
 	 */
 	public static function ensure( WC_Order $order, int $actor_user_id = 0 ): array {
@@ -55,6 +62,9 @@ final class SharedLink {
 	/**
 	 * Mint a new hash and reset the expiry. The old URL stops working.
 	 *
+	 * @param WC_Order $order         Order the link belongs to.
+	 * @param int      $days          Days until the new link expires.
+	 * @param int      $actor_user_id Who triggered it (for the log).
 	 * @return array{hash:string,expires_at:int,days_left:int}
 	 */
 	public static function regenerate( WC_Order $order, int $days, int $actor_user_id = 0 ): array {
@@ -75,6 +85,9 @@ final class SharedLink {
 	 * Set the expiry to N days from now. Hash stays the same. Logs as
 	 * extended or shortened based on the previous value.
 	 *
+	 * @param WC_Order $order         Order the link belongs to.
+	 * @param int      $days          New days-until-expiry.
+	 * @param int      $actor_user_id Who triggered it (for the log).
 	 * @return array{hash:string,expires_at:int,days_left:int}
 	 */
 	public static function set_expiry( WC_Order $order, int $days, int $actor_user_id = 0 ): array {
@@ -102,7 +115,12 @@ final class SharedLink {
 		return self::state_for( $existing_hash, $expires_at );
 	}
 
-	/** True if the hash matches the order and the expiry has not passed. */
+	/**
+	 * True if the hash matches the order and the expiry has not passed.
+	 *
+	 * @param WC_Order $order Order the link belongs to.
+	 * @param string   $hash  Hash from the URL.
+	 */
 	public static function verify( WC_Order $order, string $hash ): bool {
 		if ( '' === $hash ) {
 			return false;
@@ -119,7 +137,12 @@ final class SharedLink {
 		return $expires_at > 0 && $expires_at >= time();
 	}
 
-	/** True if the hash matches but the window has passed. */
+	/**
+	 * True if the hash matches but the window has passed.
+	 *
+	 * @param WC_Order $order Order the link belongs to.
+	 * @param string   $hash  Hash from the URL.
+	 */
 	public static function is_expired( WC_Order $order, string $hash ): bool {
 		if ( '' === $hash ) {
 			return false;
@@ -137,6 +160,9 @@ final class SharedLink {
 	}
 
 	/**
+	 * The order's shared-link change log, newest entries last.
+	 *
+	 * @param WC_Order $order Order the link belongs to.
 	 * @return array<int, array{action:string,days:int,by_id:int,by_name:string,at:string}>
 	 */
 	public static function get_log( WC_Order $order ): array {
@@ -145,6 +171,12 @@ final class SharedLink {
 		return is_array( $log ) ? $log : array();
 	}
 
+	/**
+	 * Shape the public state array for a hash + expiry.
+	 *
+	 * @param string $hash       Link hash.
+	 * @param int    $expires_at Expiry timestamp.
+	 */
 	private static function state_for( string $hash, int $expires_at ): array {
 		return array(
 			'hash'       => $hash,
@@ -153,14 +185,25 @@ final class SharedLink {
 		);
 	}
 
+	/** A fresh random link hash. */
 	private static function new_hash(): string {
 		return bin2hex( random_bytes( 16 ) );
 	}
 
+	/**
+	 * Expiry timestamp N days from now.
+	 *
+	 * @param int $days Days until expiry.
+	 */
 	private static function expiry_from_days( int $days ): int {
 		return time() + ( $days * DAY_IN_SECONDS );
 	}
 
+	/**
+	 * Whole days left until an expiry timestamp (0 if past).
+	 *
+	 * @param int $expires_at Expiry timestamp.
+	 */
 	private static function days_remaining( int $expires_at ): int {
 		if ( $expires_at <= 0 ) {
 			return 0;
@@ -171,10 +214,23 @@ final class SharedLink {
 		return $delta > 0 ? (int) ceil( $delta / DAY_IN_SECONDS ) : 0;
 	}
 
+	/**
+	 * Clamp a requested expiry to the allowed 1–365 day range.
+	 *
+	 * @param int $days Requested days.
+	 */
 	private static function clamp_days( int $days ): int {
 		return max( 1, min( 365, $days ) );
 	}
 
+	/**
+	 * Append one entry to the order's shared-link change log.
+	 *
+	 * @param WC_Order $order         Order the link belongs to.
+	 * @param string   $action        Log action (generated / extended / …).
+	 * @param int      $days          Days value at the time of the action.
+	 * @param int      $actor_user_id Who performed the action.
+	 */
 	private static function append_log( WC_Order $order, string $action, int $days, int $actor_user_id ): void {
 		$log = self::get_log( $order );
 
