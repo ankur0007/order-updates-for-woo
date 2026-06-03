@@ -1,4 +1,9 @@
 <?php
+/**
+ * Dismissible onboarding banner shown after activation.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -10,13 +15,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use OrderUpdatesForWoo\Shared\Language\Labels;
 
+/**
+ * Onboarding controller.
+ */
 final class OnboardingController {
 	private const DISMISSED_OPTION = 'order_updates_for_woo_onboarding_dismissed';
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'wp_ajax_order_updates_for_woo_dismiss_onboarding', array( $this, 'dismiss' ) );
 	}
 
+	/** Whether the onboarding banner should still be shown to this user. */
 	public function should_show(): bool {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			return false;
@@ -25,6 +37,7 @@ final class OnboardingController {
 		return ! get_option( self::DISMISSED_OPTION );
 	}
 
+	/** AJAX: permanently dismiss the onboarding banner. */
 	public function dismiss(): void {
 		check_ajax_referer( 'wp_rest', '_nonce' );
 

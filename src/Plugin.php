@@ -1,4 +1,9 @@
 <?php
+/**
+ * Plugin bootstrap and service wiring.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -99,8 +104,14 @@ use OrderUpdatesForWoo\Shared\Updates\UpdateNoteService;
 use OrderUpdatesForWoo\Shared\Updates\UpdatesTable;
 use OrderUpdatesForWoo\Shared\Validation\Validator;
 
+/**
+ * Plugin bootstrap — wires up services and registers all hooks.
+ */
 final class Plugin {
-	public function powerOn(): void {
+	/**
+	 * Boot the plugin: build the object graph and register every hook.
+	 */
+	public function powerOn(): void { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid -- intentional camelCase entry point, called from the bootstrap file.
 		$table = new UpdatesTable();
 		$db    = new OrderUpdatesDb( $table );
 

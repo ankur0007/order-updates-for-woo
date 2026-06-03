@@ -60,6 +60,11 @@ function order_updates_for_woo_boot_github_updater(): void {
 // first request anyway — this just makes sure they exist immediately.
 add_action( 'wp_initialize_site', 'order_updates_for_woo_install_on_new_subsite', 20, 1 );
 
+/**
+ * Install the plugin's tables on a newly created subsite (network-active only).
+ *
+ * @param \WP_Site|int $new_site The new site object or id.
+ */
 function order_updates_for_woo_install_on_new_subsite( $new_site ): void {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -91,6 +96,7 @@ function order_updates_for_woo_install_on_new_subsite( $new_site ): void {
 	}
 }
 
+/** Activation hook — set the welcome redirect and register rewrites. */
 function order_updates_for_woo_activate(): void {
 	\OrderUpdatesForWoo\Welcome\Controllers\WelcomeController::set_redirect_flag();
 	\OrderUpdatesForWoo\Frontend\OrderUpdates\CustomerOrderUpdatesController::on_activation();

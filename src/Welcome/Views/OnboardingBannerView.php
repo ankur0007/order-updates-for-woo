@@ -1,4 +1,9 @@
 <?php
+/**
+ * Onboarding banner markup.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 

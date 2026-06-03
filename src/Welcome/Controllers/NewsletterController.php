@@ -1,4 +1,9 @@
 <?php
+/**
+ * Newsletter opt-in handler on the welcome page.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -11,14 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 use OrderUpdatesForWoo\Helpers\AssetHelper;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 
+/**
+ * Newsletter controller.
+ */
 final class NewsletterController {
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'wp_ajax_order_updates_for_woo_newsletter_subscribe', array( $this, 'subscribe' ) );
 		add_action( 'wp_ajax_order_updates_for_woo_newsletter_reset', array( $this, 'reset' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'maybe_enqueue_script' ) );
 	}
 
+	/**
+	 * Enqueue the opt-in script on the settings + welcome pages.
+	 *
+	 * @param string $hook Current admin page hook.
+	 */
 	public function maybe_enqueue_script( string $hook ): void {
 		$target_pages = array(
 			'woocommerce_page_wc-settings',
@@ -52,6 +68,7 @@ final class NewsletterController {
 		);
 	}
 
+	/** AJAX: subscribe the submitted email to the newsletter. */
 	public function subscribe(): void {
 		check_ajax_referer( 'wp_rest', '_nonce' );
 
@@ -95,6 +112,8 @@ final class NewsletterController {
 	/**
 	 * POSTs the email to the Cloudflare Worker that fronts Mailchimp.
 	 * Returns null on success, or an error string suitable for display.
+	 *
+	 * @param string $email Email address to subscribe.
 	 */
 	private function send_to_worker( string $email ): ?string {
 		$response = wp_remote_post(
@@ -107,8 +126,9 @@ final class NewsletterController {
 						'site'  => home_url(),
 					) 
 				),
+				// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout -- admin-only opt-in, not a front-end request; the worker can be slow on a cold start.
 				'timeout' => 15,
-			) 
+			)
 		);
 
 		if ( is_wp_error( $response ) ) {

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Welcome page + first-activation redirect.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -10,19 +15,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Welcome controller.
+ */
 final class WelcomeController {
 	private const REDIRECT_OPTION = 'order_updates_for_woo_do_activation_redirect';
 	private const SLUG            = 'order-updates-for-woo-welcome';
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
 		add_action( 'admin_init', array( $this, 'maybe_redirect' ) );
 	}
 
+	/** Flag that the welcome page should be shown on the next admin load. */
 	public static function set_redirect_flag(): void {
 		update_option( self::REDIRECT_OPTION, '1', false );
 	}
 
+	/** Register the hidden Welcome submenu page. */
 	public function register_page(): void {
 		add_submenu_page(
 			\OrderUpdatesForWoo\Admin\AdminMenuController::PARENT_SLUG,
@@ -34,6 +47,7 @@ final class WelcomeController {
 		);
 	}
 
+	/** Redirect to the welcome page once after activation, then clear the flag. */
 	public function maybe_redirect(): void {
 		if ( ! get_option( self::REDIRECT_OPTION ) ) {
 			return;
@@ -52,6 +66,9 @@ final class WelcomeController {
 		exit;
 	}
 
+	/**
+	 * Render the section body.
+	 */
 	public function render(): void {
 		$settings_url = admin_url( 'admin.php?page=wc-settings&tab=order_updates_for_woo' );
 

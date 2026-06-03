@@ -1,4 +1,9 @@
 <?php
+/**
+ * Self-hosted GitHub update channel for pre-WP.org builds.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -23,6 +28,7 @@ final class GitHubUpdater {
 	private const REPO_URL = 'https://github.com/ankur0007/order-updates-for-woo/';
 	private const SLUG     = 'order-updates-for-woo';
 
+	/** Wire up the GitHub update checker when its library is bundled. */
 	public static function boot(): void {
 		$loader = ORDER_UPDATES_FOR_WOO_PATH . 'lib/plugin-update-checker/plugin-update-checker.php';
 

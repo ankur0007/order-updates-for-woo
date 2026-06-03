@@ -1,4 +1,9 @@
 <?php
+/**
+ * Welcome page markup.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
