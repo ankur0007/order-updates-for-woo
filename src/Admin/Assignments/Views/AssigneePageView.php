@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 // Local template vars only — this file is required inside View::render()'s
 // method scope, so these never touch real WordPress globals.
-// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

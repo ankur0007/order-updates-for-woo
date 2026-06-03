@@ -325,7 +325,7 @@ final class AttachmentStorage {
 			}
 		}
 
-		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir, Generic.PHP.NoSilencedErrors.Forbidden, WordPress.PHP.NoSilencedErrors.Discouraged -- WP_Filesystem unavailable; documented fallback path.
+		// phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.directory_rmdir, WordPress.WP.AlternativeFunctions.file_system_operations_rmdir, Generic.PHP.NoSilencedErrors.Forbidden, WordPress.PHP.NoSilencedErrors.Discouraged -- WP_Filesystem unavailable; documented fallback path.
 		return @rmdir( $dir );
 	}
 }
