@@ -1149,6 +1149,8 @@ final class OrderUpdatesDb {
 	/**
 	 * Unresolved updates where the user is the active assignee or the creator.
 	 *
+	 * @param int $user_id Staff user id.
+	 * @param int $limit   Max rows to return.
 	 * @return array<int, array{id:int, order_id:int, title:string}>
 	 */
 	public function get_assigned_updates_for_user( int $user_id, int $limit = 10 ): array {
@@ -1356,6 +1358,8 @@ final class OrderUpdatesDb {
 	 * returns every open update (manager scope). Capped so the badge stays a
 	 * lightweight count even on busy stores.
 	 *
+	 * @param int $assignee_id Assignee user id, or 0 for manager scope.
+	 * @param int $limit       Max ids to return.
 	 * @return int[]
 	 */
 	public function get_open_update_ids_for_assignee( int $assignee_id, int $limit = 300 ): array {
@@ -1398,6 +1402,7 @@ final class OrderUpdatesDb {
 	 * Total and resolved update counts for the assignee summary cards.
 	 * assignee_id = 0 counts every update (manager scope). One query.
 	 *
+	 * @param int $assignee_id Assignee user id, or 0 for manager scope.
 	 * @return array{total:int, resolved:int}
 	 */
 	public function get_assignee_counts( int $assignee_id ): array {
@@ -1433,6 +1438,8 @@ final class OrderUpdatesDb {
 	/**
 	 * Recent internal notes that mention the user, joined with their parent update.
 	 *
+	 * @param int $user_id Mentioned user id.
+	 * @param int $limit   Max rows to return.
 	 * @return array<int, array{note_id:int, update_id:int, order_id:int, title:string, snippet:string, created_at:string, created_by_name:string}>
 	 */
 	public function get_mentions_for_user( int $user_id, int $limit = 10 ): array {
@@ -1495,6 +1502,7 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/** Distinct users who hold an active assignment (id + display name). Cached. */
 	public function get_users_with_active_assignments(): array {
 		global $wpdb;
 
