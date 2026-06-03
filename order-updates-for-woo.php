@@ -20,8 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ORDER_UPDATES_FOR_WOO_VERSION', '1.0.0' );
 define( 'ORDER_UPDATES_FOR_WOO_FILE', __FILE__ );
+
+// Read the version straight from the plugin header above so it lives in one
+// place — bump the `Version:` line and this constant follows automatically.
+$order_updates_for_woo_header = get_file_data( __FILE__, array( 'Version' => 'Version' ) );
+define(
+	'ORDER_UPDATES_FOR_WOO_VERSION',
+	'' !== $order_updates_for_woo_header['Version'] ? $order_updates_for_woo_header['Version'] : '1.0.0'
+);
+unset( $order_updates_for_woo_header );
 define( 'ORDER_UPDATES_FOR_WOO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ORDER_UPDATES_FOR_WOO_URL', plugin_dir_url( __FILE__ ) );
 

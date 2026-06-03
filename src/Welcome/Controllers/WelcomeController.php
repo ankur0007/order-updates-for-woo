@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OrderUpdatesForWoo\Welcome\Controllers;
 
 use OrderUpdatesForWoo\Helpers\AssetHelper;
+use OrderUpdatesForWoo\Helpers\View;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -79,6 +80,6 @@ final class WelcomeController {
 			file_exists( ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/css/welcome.css' ) ? (string) filemtime( ORDER_UPDATES_FOR_WOO_PATH . 'assets/Admin/css/welcome.css' ) : '1.0.0'
 		);
 
-		include __DIR__ . '/../Views/WelcomePageView.php';
+		View::render( 'src/Welcome/Views/WelcomePageView', array( 'settings_url' => $settings_url ) );
 	}
 }

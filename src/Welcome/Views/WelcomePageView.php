@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Local file-scope template variables, not globals.
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
+$settings_url = (string) ( $view_data['settings_url'] ?? '' );
 ?>
 <div class="wrap awts_welcome">
 	<?php
