@@ -84,7 +84,7 @@ final class OrderUpdatesDb {
 	 */
 	private function get_order_updates_cache_version( int $order_id ): int {
 		$cached = $this->cache_get( "order_updates_ver_{$order_id}" );
-		return $cached !== false ? (int) $cached : 0;
+		return false !== $cached ? (int) $cached : 0;
 	}
 
 	/**
@@ -195,7 +195,7 @@ final class OrderUpdatesDb {
 	 * Bust the mentions cache for each user listed in $user_ids.
 	 * Call this after creating or deleting a note that contains @mentions.
 	 *
-	 * @param int[] $user_ids
+	 * @param int[] $user_ids User ids to bust.
 	 */
 	public function invalidate_mention_caches( array $user_ids ): void {
 		foreach ( $user_ids as $uid ) {
@@ -791,7 +791,7 @@ final class OrderUpdatesDb {
 			$this->updates_table->updates,
 			array(
 				'is_resolved'     => 0,
-				'last_updated_by' => $reopened_by ?: null,
+				'last_updated_by' => $reopened_by ? $reopened_by : null,
 				'last_updated_at' => current_time( 'mysql', true ),
 			),
 			array( 'id' => $update_id ),
@@ -1217,7 +1217,7 @@ final class OrderUpdatesDb {
 	 * the page rows plus the total count for the pager. Not cached — it's a
 	 * filtered admin listing read on demand.
 	 *
-	 * @param array{assignee_id?:int,status?:string,search?:string,per_page?:int,paged?:int} $args
+	 * @param array{assignee_id?:int,status?:string,search?:string,per_page?:int,paged?:int} $args Filter and paging args.
 	 * @return array{rows:array<int,array<string,mixed>>, total:int}
 	 */
 	public function get_assignee_page_updates( array $args ): array {
@@ -1305,7 +1305,7 @@ final class OrderUpdatesDb {
 	 * update, used by the Assignee page SLA badge to tell who spoke last and
 	 * how long ago. One indexed query for the whole visible page.
 	 *
-	 * @param int[] $update_ids
+	 * @param int[] $update_ids Update ids on the page.
 	 * @return array<int, array{created_at:string, created_by:int}>
 	 */
 	public function get_latest_customer_messages( array $update_ids ): array {
@@ -2728,6 +2728,14 @@ final class OrderUpdatesDb {
 		return $rows;
 	}
 
+	/**
+	 * New or edited customer-thread notes across an order since a cursor — the
+	 * customer page poll.
+	 *
+	 * @param int    $order_id      Order id.
+	 * @param int    $since_note_id Last seen note id.
+	 * @param string $since_time    Only edits after this time (GMT mysql).
+	 */
 	public function get_customer_thread_changes( int $order_id, int $since_note_id, string $since_time ): array {
 		global $wpdb;
 
@@ -2762,6 +2770,8 @@ final class OrderUpdatesDb {
 	 * Return the highest update id for an order. Cached for 30 seconds via the
 	 * WP object cache (persistent if Redis/Memcached is active, per-process
 	 * otherwise) to reduce DB hits from the customer page's polling loop.
+	 *
+	 * @param int $order_id Order id.
 	 */
 	public function get_latest_update_id_for_order( int $order_id ): int {
 		global $wpdb;
@@ -2797,6 +2807,8 @@ final class OrderUpdatesDb {
 	 * whose id is below this value is locked because at least one newer note
 	 * exists. Cached briefly (5s) so a typical presenter loop over a batch
 	 * of notes only pays one DB round-trip.
+	 *
+	 * @param int $update_id Update id.
 	 */
 	public function get_latest_customer_note_id( int $update_id ): int {
 		global $wpdb;
@@ -2827,6 +2839,8 @@ final class OrderUpdatesDb {
 
 	/**
 	 * Same as get_latest_customer_note_id() but for the internal-note thread.
+	 *
+	 * @param int $update_id Update id.
 	 */
 	public function get_latest_internal_note_id( int $update_id ): int {
 		global $wpdb;
@@ -2855,6 +2869,11 @@ final class OrderUpdatesDb {
 		return $value;
 	}
 
+	/**
+	 * One customer-note row by id (cached), or [] if missing.
+	 *
+	 * @param int $note_id Customer note id.
+	 */
 	public function get_customer_note_by_id( int $note_id ): array {
 		global $wpdb;
 
@@ -2886,6 +2905,13 @@ final class OrderUpdatesDb {
 		return $note;
 	}
 
+	/**
+	 * Overwrite a customer note's text and stamp its edit time.
+	 *
+	 * @param int    $note_id   Customer note id.
+	 * @param string $note      New note text.
+	 * @param string $edited_at Edit time (GMT mysql).
+	 */
 	public function update_customer_note( int $note_id, string $note, string $edited_at ): bool {
 		global $wpdb;
 
@@ -2923,6 +2949,12 @@ final class OrderUpdatesDb {
 	 * Archive a customer-note revision before the live row is overwritten.
 	 * The endpoint calls this immediately before update_customer_note() so the
 	 * prior text is preserved for the audit trail.
+	 *
+	 * @param int    $note_id        Customer note id.
+	 * @param string $prior_note     Text before the edit.
+	 * @param int    $editor_user_id Who made the edit.
+	 * @param string $editor_name    Editor display name.
+	 * @param string $edited_at      Edit time (GMT mysql).
 	 */
 	public function archive_customer_note_revision(
 		int $note_id,
@@ -2950,6 +2982,11 @@ final class OrderUpdatesDb {
 		);
 	}
 
+	/**
+	 * All archived revisions of a customer note, oldest first.
+	 *
+	 * @param int $note_id Customer note id.
+	 */
 	public function get_customer_note_history( int $note_id ): array {
 		global $wpdb;
 
@@ -2971,6 +3008,11 @@ final class OrderUpdatesDb {
 		return is_array( $results ) ? $results : array();
 	}
 
+	/**
+	 * Delete a customer note and bust its caches.
+	 *
+	 * @param int $note_id Customer note id.
+	 */
 	public function delete_customer_note( int $note_id ): bool {
 		global $wpdb;
 
@@ -2997,6 +3039,12 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Stamp when a customer note was queued for sending.
+	 *
+	 * @param int    $note_id   Customer note id.
+	 * @param string $queued_at Queue time (GMT mysql).
+	 */
 	public function mark_customer_note_queued( int $note_id, string $queued_at ): bool {
 		global $wpdb;
 
@@ -3027,6 +3075,12 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Stamp when a customer note's email went out.
+	 *
+	 * @param int    $note_id     Customer note id.
+	 * @param string $notified_at Send time (GMT mysql).
+	 */
 	public function mark_customer_note_notified( int $note_id, string $notified_at ): bool {
 		global $wpdb;
 
@@ -3061,6 +3115,8 @@ final class OrderUpdatesDb {
 	 * Read the single rating row for an update, if any. Each update has at most
 	 * one rating row, lifecycle: created on resolve (requested_at) → email
 	 * delivered (request_notified_at) → customer submits (stars/comment/created_at).
+	 *
+	 * @param int $update_id Update id.
 	 */
 	public function get_rating_for_update( int $update_id ): array {
 		global $wpdb;
@@ -3098,7 +3154,7 @@ final class OrderUpdatesDb {
 	 * Seed the rating cache for a batch of update IDs in a single query.
 	 * Call this before iterating over a list of updates to avoid N individual queries.
 	 *
-	 * @param int[] $update_ids
+	 * @param int[] $update_ids Update ids to warm.
 	 */
 	public function prefetch_ratings_for_updates( array $update_ids ): void {
 		global $wpdb;
@@ -3150,6 +3206,10 @@ final class OrderUpdatesDb {
 	/**
 	 * Idempotent: creates a rating-request row for the update if none exists,
 	 * stamping requested_at. Returns the rating id.
+	 *
+	 * @param int    $update_id    Update id.
+	 * @param int    $order_id     Order id.
+	 * @param string $requested_at Request time (GMT mysql).
 	 */
 	public function create_rating_request( int $update_id, int $order_id, string $requested_at ): int {
 		global $wpdb;
@@ -3191,6 +3251,8 @@ final class OrderUpdatesDb {
 	 * customer's submitted rating: that's the audit trail.
 	 *
 	 * Returns true when a row was actually deleted, false otherwise.
+	 *
+	 * @param int $update_id Update id.
 	 */
 	public function clear_rating_request( int $update_id ): bool {
 		global $wpdb;
@@ -3218,6 +3280,12 @@ final class OrderUpdatesDb {
 		return (bool) $result;
 	}
 
+	/**
+	 * Stamp when the "How did we do?" rating email went out.
+	 *
+	 * @param int    $update_id   Update id.
+	 * @param string $notified_at Send time (GMT mysql).
+	 */
 	public function mark_rating_request_notified( int $update_id, string $notified_at ): bool {
 		global $wpdb;
 
@@ -3243,6 +3311,14 @@ final class OrderUpdatesDb {
 	/**
 	 * Persist a customer's rating response. Will not overwrite an existing
 	 * submission — caller should check via {@see get_rating_for_update()}.
+	 *
+	 * @param int    $update_id       Update id.
+	 * @param int    $order_id        Order id.
+	 * @param int    $stars           Star score 1–5.
+	 * @param string $comment         Optional comment.
+	 * @param int    $created_by      Who rated (user id, 0 for guest).
+	 * @param string $created_by_name Rater display name.
+	 * @param string $created_at      Submit time (GMT mysql).
 	 */
 	public function submit_rating(
 		int $update_id,
@@ -3305,6 +3381,14 @@ final class OrderUpdatesDb {
 		return $result;
 	}
 
+	/**
+	 * Mark every active assignee on an update as unassigned.
+	 *
+	 * @param int    $update_id           Update id.
+	 * @param int    $current_assignee_id Assignee whose cache to bust.
+	 * @param int    $unassigned_by       Who unassigned (user id).
+	 * @param string $unassigned_at       Unassign time (GMT mysql).
+	 */
 	private function deactivate_active_assignees( int $update_id, int $current_assignee_id, int $unassigned_by, string $unassigned_at ): bool {
 		global $wpdb;
 
