@@ -6,10 +6,16 @@
  * list — no WP_List_Table. All values arrive pre-built in $view_data and
  * are escaped at output here.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data
  */
 
 declare(strict_types=1);
+
+// Local template vars only — this file is required inside View::render()'s
+// method scope, so these never touch real WordPress globals.
+// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

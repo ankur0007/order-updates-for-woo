@@ -4,6 +4,8 @@
  *
  * Override: copy to your-theme/order-updates-for-woo/admin/card/tags.php
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type array $flags  Computed flags from the parent view.
  * }

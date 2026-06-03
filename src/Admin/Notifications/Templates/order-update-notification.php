@@ -1,4 +1,9 @@
 <?php
+/**
+ * Email template for an admin/staff order-update notification.
+ *
+ * @package OrderUpdatesForWoo
+ */
 
 declare(strict_types=1);
 
@@ -53,7 +58,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 
 			<?php if ( ! empty( $order_update['title'] ) ) : ?>
 				<p style="margin:0 0 4px; font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:#666666;">
-					<?php echo esc_html( $note_label !== '' ? $note_label : __( 'Note title', 'order-updates-for-woo' ) ); ?>
+					<?php echo esc_html( '' !== $note_label ? $note_label : __( 'Note title', 'order-updates-for-woo' ) ); ?>
 				</p>
 				<h2 style="margin:0 0 16px; font-size:18px; font-weight:700; color:#101517; line-height:1.3;">
 					<?php echo esc_html( (string) $order_update['title'] ); ?>
@@ -173,10 +178,11 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 
 <?php
 /*
-secondary_note_content now renders inside the main card, directly
-		after the primary note block — see the section above the detail rows.
-		Kept this hook removed so the customer comment (used in rating emails)
-		sits adjacent to the stars rather than detached below the metadata. */
+ * Secondary note content now renders inside the main card, directly after the
+ * primary note block — see the section above the detail rows. Kept this hook
+ * removed so the customer comment (used in rating emails) sits next to the
+ * stars rather than detached below the metadata.
+ */
 ?>
 
 <?php if ( ! empty( $action_url ) && ! empty( $action_label ) ) : ?>

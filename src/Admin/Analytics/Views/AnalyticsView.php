@@ -4,6 +4,8 @@
  *
  * Rendered by AnalyticsController::render(). All dynamic data is loaded
  * via the REST API after page load; this file is static markup only.
+ *
+ * @package OrderUpdatesForWoo
  */
 
 declare(strict_types=1);

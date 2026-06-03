@@ -3,6 +3,8 @@
  * Participants tab panel — avatar + name + role chip for every staff user
  * who follows this update. The list is derived (creator, current assignee,
  *
+ * @package OrderUpdatesForWoo
+ *
  * @mentioned users, prior repliers) — there's no manual add/remove in v1.
  *
  * Override: copy to your-theme/order-updates-for-woo/admin/card/participants.php

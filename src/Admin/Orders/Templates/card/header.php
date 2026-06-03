@@ -7,6 +7,8 @@
  * Hook surface:
  *   - order_updates_for_woo_update_card_actions  (action) — append your own buttons to the actions row.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type array $raw       Update row from the DB.
  *     @type array $settings  Plugin settings.

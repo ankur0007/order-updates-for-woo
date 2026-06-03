@@ -8,6 +8,8 @@
  *
  * Override: copy to your-theme/order-updates-for-woo/admin/card/note-thread.php
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type string $type             'internal' | 'customer'
  *     @type int    $update_id        Update id (used in data attrs and ARIA wiring).
@@ -21,6 +23,10 @@
  */
 
 declare(strict_types=1);
+
+// Local template vars only — this file is required inside View::render()'s
+// method scope, so these never touch real WordPress globals.
+// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 
 use OrderUpdatesForWoo\Helpers\Icons;
 

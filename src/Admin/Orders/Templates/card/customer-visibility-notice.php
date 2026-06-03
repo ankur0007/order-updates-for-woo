@@ -8,6 +8,8 @@
  *
  * Override: copy to your-theme/order-updates-for-woo/admin/card/customer-visibility-notice.php
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type bool $is_guest_order  True when the order's customer_id is 0.
  * }

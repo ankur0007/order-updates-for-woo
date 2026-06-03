@@ -7,6 +7,8 @@
  * Hook surface:
  *   - order_updates_for_woo_update_card_tabs (action) — append your own tabs.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type int    $update_id              Update id (for ARIA + JS targeting).
  *     @type bool   $customer_notes_enabled Whether the customer-notes tab renders.
