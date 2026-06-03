@@ -14,36 +14,77 @@ use OrderUpdatesForWoo\Shared\Attachments\AttachmentsDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 
+/**
+ * Shared base for the plugin's order-update emails. Holds the loaded update,
+ * order and the per-trigger message fields the email template renders from,
+ * plus helpers each subclass trigger() reuses.
+ */
 abstract class OrderUpdateEmailBase extends \WC_Email {
+	/** Update data gateway. */
 	protected OrderUpdatesDb $order_updates_db;
+	/** Attachment data gateway, if wired in. */
 	protected ?AttachmentsDb $attachments_db = null;
-	protected array $order_update            = array();
-	protected ?\WC_Order $order              = null;
-	protected string $greeting_name          = '';
-	protected string $intro_text             = '';
-	protected string $note_content           = '';
-	protected string $note_label             = '';
+	/** Loaded update row. */
+	protected array $order_update = array();
+	/** Loaded order. */
+	protected ?\WC_Order $order = null;
+	/** Recipient name used in the greeting. */
+	protected string $greeting_name = '';
+	/** Lead paragraph above the message body. */
+	protected string $intro_text = '';
+	/** Main message body. */
+	protected string $note_content = '';
+	/** Label above the main message body. */
+	protected string $note_label = '';
+	/** Optional second message body. */
 	protected string $secondary_note_content = '';
-	protected string $secondary_note_label   = '';
-	protected array $detail_rows             = array();
-	protected array $note_attachments        = array();
+	/** Label above the second message body. */
+	protected string $secondary_note_label = '';
+	/** Label/value rows shown in the detail block. */
+	protected array $detail_rows = array();
+	/** Formatted attachment rows for the message. */
+	protected array $note_attachments = array();
+	/** Label above the attachment list. */
 	protected string $note_attachments_label = '';
-	protected string $action_url             = '';
-	protected string $action_label           = '';
-	protected string $status_label           = '';
-	protected bool $customer_visible_pill    = false;
+	/** Call-to-action button URL. */
+	protected string $action_url = '';
+	/** Call-to-action button label. */
+	protected string $action_label = '';
+	/** Status pill text. */
+	protected string $status_label = '';
+	/** Whether to show the "visible to customer" pill. */
+	protected bool $customer_visible_pill = false;
 
-	// Author + timestamp shown as attribution under the message body
-	// in the email template — "— Author Name · May 7, 1:20 PM".
-	protected string $note_author     = '';
+	/**
+	 * Author + timestamp shown as attribution under the message body
+	 * in the email template — "— Author Name · May 7, 1:20 PM".
+	 *
+	 * @var string
+	 */
+	protected string $note_author = '';
+	/** Formatted note timestamp for the attribution line. */
 	protected string $note_created_at = '';
 
-	// Declared explicitly to silence PHP 8.2 dynamic-property deprecation —
-	// WC_Email inherits these from WC_Settings_API but doesn't declare them
-	// on the class itself, so PHP 8.2+ warns when we assign to them below.
+	/**
+	 * Declared explicitly to silence PHP 8.2 dynamic-property deprecation —
+	 * WC_Email inherits these from WC_Settings_API but doesn't declare them
+	 * on the class itself, so PHP 8.2+ warns when we assign to them below.
+	 *
+	 * @var string
+	 */
 	public $additional_content = '';
-	public $email_type         = 'html';
+	/**
+	 * Email format: 'html' or 'plain'.
+	 *
+	 * @var string
+	 */
+	public $email_type = 'html';
 
+	/**
+	 * Inject dependencies and load the saved subject/heading options.
+	 *
+	 * @param OrderUpdatesDb $order_updates_db Injected dependency.
+	 */
 	public function __construct( OrderUpdatesDb $order_updates_db ) {
 		$this->order_updates_db = $order_updates_db;
 		// Plugin root. Fallback covers PHPUnit, where the constant isn't defined.
@@ -59,6 +100,9 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 		$this->email_type         = $this->get_option( 'email_type', 'html' );
 	}
 
+	/**
+	 * Register the WooCommerce email settings fields.
+	 */
 	public function init_form_fields(): void {
 		$this->form_fields = array(
 			'enabled'            => array(
@@ -102,6 +146,9 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 		);
 	}
 
+	/**
+	 * Render the HTML email body from the template and current fields.
+	 */
 	public function get_content_html(): string {
 		return wc_get_template_html(
 			$this->template_html,
@@ -134,6 +181,9 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 		);
 	}
 
+	/**
+	 * Render the plain-text email body (HTML stripped).
+	 */
 	public function get_content_plain(): string {
 		return wp_strip_all_tags( $this->get_content_html() );
 	}
@@ -188,6 +238,7 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 	 * shape, which is what every recipient (staff or customer) lands on when
 	 * they click through from the email.
 	 *
+	 * @param int    $note_id   Note id.
 	 * @param string $note_type Constants::NOTE_TYPE_INTERNAL or NOTE_TYPE_CUSTOMER.
 	 */
 	protected function populate_note_attachments( int $note_id, string $note_type ): void {
@@ -213,6 +264,8 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 	 * Populate the message body + attribution (author, timestamp) from a
 	 * raw note row (customer_notes or update_notes shape — both have the
 	 * same `note` / `created_by_name` / `created_at` columns).
+	 *
+	 * @param array $row Note row.
 	 */
 	protected function set_note_from_row( array $row ): void {
 		$this->note_content    = (string) ( $row['note'] ?? '' );
@@ -260,6 +313,12 @@ abstract class OrderUpdateEmailBase extends \WC_Email {
 		return empty( $notes ) ? array() : (array) end( $notes );
 	}
 
+	/**
+	 * Load the update + its order into instance state for rendering.
+	 * Returns false when the update or order can't be found.
+	 *
+	 * @param int $update_id Update id.
+	 */
 	protected function load_context( int $update_id ): bool {
 		$this->order_update = $this->order_updates_db->get_update( $update_id );
 
