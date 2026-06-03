@@ -21,16 +21,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Assignee Rotation Field.
+ */
 final class AssigneeRotationField {
 	public const FIELD_TYPE = 'order_updates_for_woo_assignee_rotation';
 
 	private const ASSET_HANDLE = 'order-updates-for-woo-assignee-rotation';
 
+	/**
+	 * Inject dependencies.
+	 *
+	 * @param TeamRosterService $team_roster Injected dependency.
+	 * @param Validator         $validator Injected dependency.
+	 */
 	public function __construct(
 		private TeamRosterService $team_roster,
 		private Validator $validator
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'woocommerce_admin_field_' . self::FIELD_TYPE, array( $this, 'render' ) );
 		add_filter( 'woocommerce_admin_settings_sanitize_option', array( $this, 'sanitize' ), 10, 3 );
@@ -38,7 +50,9 @@ final class AssigneeRotationField {
 	}
 
 	/**
-	 * @param array{id:string,name:string,desc?:string,desc_tip?:bool} $value
+	 * Render the custom rotation field.
+	 *
+	 * @param array{id:string,name:string,desc?:string,desc_tip?:bool} $value Field definition.
 	 */
 	public function render( array $value ): void {
 		$option_id = (string) ( $value['id'] ?? '' );
@@ -93,9 +107,9 @@ final class AssigneeRotationField {
 	 * keeps their slot for when the admin re-enables them. Storage shape:
 	 * `[ id => bool ]` keyed associative, insertion order preserved.
 	 *
-	 * @param mixed                          $value
-	 * @param array{type?:string,id?:string} $option
-	 * @param mixed                          $raw_value
+	 * @param mixed                          $value     Value sanitized so far.
+	 * @param array{type?:string,id?:string} $option    Field definition.
+	 * @param mixed                          $raw_value Raw submitted value.
 	 *
 	 * @return array<int,bool>|mixed
 	 */
@@ -123,6 +137,8 @@ final class AssigneeRotationField {
 	/**
 	 * Enqueue the field's assets only on our settings tab. jQuery UI
 	 * Sortable ships with WP core — no extra dependency.
+	 *
+	 * @param string $hook Current admin page hook.
 	 */
 	public function enqueue_assets( string $hook ): void {
 		if ( 'woocommerce_page_wc-settings' !== $hook ) {
@@ -156,7 +172,11 @@ final class AssigneeRotationField {
 	}
 
 	/**
-	 * @param array{id:int,name:string,email:string,avatar:string} $member
+	 * Render one member row in the rotation list.
+	 *
+	 * @param string                                               $option_id Option name.
+	 * @param array{id:int,name:string,email:string,avatar:string} $member    Member data.
+	 * @param bool                                                 $is_active Whether the member is active.
 	 */
 	private function render_member_row( string $option_id, array $member, bool $is_active ): void {
 		$member_id = (int) ( $member['id'] ?? 0 );
@@ -166,8 +186,8 @@ final class AssigneeRotationField {
 		 * inject extra columns (role label, last-active, etc.) without
 		 * overriding the whole field.
 		 *
-		 * @param array{id:int,name:string,email:string,avatar:string} $member
-		 * @param bool                                                  $is_active
+		 * @param array{id:int,name:string,email:string,avatar:string} $member    Member data.
+		 * @param bool                                                  $is_active Whether the member is active.
 		 */
 		$member = (array) apply_filters( 'order_updates_for_woo_assignee_rotation_member', $member, $is_active );
 		?>
@@ -209,6 +229,7 @@ final class AssigneeRotationField {
 	 * insertion-ordered. Accepts the legacy flat `[id, id]` shape too —
 	 * everything in the old list is treated as active.
 	 *
+	 * @param string $option_id Option name.
 	 * @return array<int,bool>
 	 */
 	private function load_saved( string $option_id ): array {
@@ -241,8 +262,8 @@ final class AssigneeRotationField {
 	 * in the saved list. Newly added staff appear at the bottom so the
 	 * admin can opt them in.
 	 *
-	 * @param array<int,array{id:int,name:string,email:string,avatar:string}> $members
-	 * @param int[]                                                           $saved_order
+	 * @param array<int,array{id:int,name:string,email:string,avatar:string}> $members     All current members.
+	 * @param int[]                                                           $saved_order Saved display order.
 	 * @return array<int,array{id:int,name:string,email:string,avatar:string}>
 	 */
 	private function order_members( array $members, array $saved_order ): array {

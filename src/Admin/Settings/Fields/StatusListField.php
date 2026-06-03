@@ -21,11 +21,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Status List Field.
+ */
 final class StatusListField {
 	public const FIELD_TYPE = 'order_updates_for_woo_status_list';
 
 	private const ASSET_HANDLE = 'order-updates-for-woo-status-list';
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_action( 'woocommerce_admin_field_' . self::FIELD_TYPE, array( $this, 'render' ) );
 		add_filter( 'woocommerce_admin_settings_sanitize_option', array( $this, 'sanitize' ), 10, 3 );
@@ -33,7 +39,9 @@ final class StatusListField {
 	}
 
 	/**
-	 * @param array{id:string,name:string,desc?:string,desc_tip?:bool} $value
+	 * Render the custom status-list field.
+	 *
+	 * @param array{id:string,name:string,desc?:string,desc_tip?:bool} $value Field definition.
 	 */
 	public function render( array $value ): void {
 		$option_id = (string) ( $value['id'] ?? '' );
@@ -89,9 +97,9 @@ final class StatusListField {
 	 * with an empty label OR an invalid hex are dropped silently so a
 	 * half-edited row doesn't break the form dropdown.
 	 *
-	 * @param mixed                          $value
-	 * @param array{type?:string,id?:string} $option
-	 * @param mixed                          $raw_value
+	 * @param mixed                          $value     Value sanitized so far.
+	 * @param array{type?:string,id?:string} $option    Field definition.
+	 * @param mixed                          $raw_value Raw submitted value.
 	 *
 	 * @return array<int, array{key:string, label:string, color:string}>|mixed
 	 */
@@ -144,6 +152,11 @@ final class StatusListField {
 		return ! empty( $result ) ? $result : Constants::STATUS_SEED_DEFAULTS;
 	}
 
+	/**
+	 * Enqueue this section's CSS/JS on the WC settings screen.
+	 *
+	 * @param string $hook Current admin page hook.
+	 */
 	public function enqueue_assets( string $hook ): void {
 		if ( 'woocommerce_page_wc-settings' !== $hook ) {
 			return;
@@ -176,7 +189,10 @@ final class StatusListField {
 	}
 
 	/**
-	 * @param array{key:string,label:string,color:string} $row
+	 * Render one status row in the editable list.
+	 *
+	 * @param string                                      $option_id Option name.
+	 * @param array{key:string,label:string,color:string} $row       Status row data.
 	 */
 	private function render_row( string $option_id, array $row ): void {
 		$key   = (string) ( $row['key'] ?? '' );
@@ -219,6 +235,9 @@ final class StatusListField {
 	}
 
 	/**
+	 * Load the saved status rows, falling back to the seed defaults.
+	 *
+	 * @param string $option_id Option name.
 	 * @return array<int, array{key:string, label:string, color:string}>
 	 */
 	private function load_saved( string $option_id ): array {
@@ -244,12 +263,22 @@ final class StatusListField {
 		return ! empty( $rows ) ? $rows : Constants::STATUS_SEED_DEFAULTS;
 	}
 
+	/**
+	 * Derive a URL-safe status key from a label (random suffix if blank).
+	 *
+	 * @param string $label Status label.
+	 */
 	private function derive_key( string $label ): string {
 		$key = sanitize_key( $label );
 
 		return '' !== $key ? $key : 'status-' . substr( md5( $label . wp_generate_password( 6, false ) ), 0, 6 );
 	}
 
+	/**
+	 * Normalise a hex color to lowercase `#rrggbb`, or '' if invalid.
+	 *
+	 * @param string $value Raw color value.
+	 */
 	private function sanitize_hex( string $value ): string {
 		$value = trim( $value );
 		if ( '' === $value ) {

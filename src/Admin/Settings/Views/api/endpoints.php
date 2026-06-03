@@ -2,6 +2,8 @@
 /**
  * API endpoints — read-only directory with copy-paste curl per endpoint.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type string $namespace REST namespace, e.g. 'order-updates-for-woo/v1'.
  *     @type string $base_url  Absolute base URL for the namespace.

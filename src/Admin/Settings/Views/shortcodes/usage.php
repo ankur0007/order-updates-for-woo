@@ -2,6 +2,8 @@
 /**
  * Shortcodes section — usage cards.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type array<int, array{
  *         tag:string,

@@ -23,20 +23,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Controller for the order updates settings section.
+ */
 final class OrderUpdatesSettingsController {
 	private const TAB_ID = 'order_updates_for_woo';
 
-	/** @var array<int, SettingsSectionController> */
+	/**
+	 * Section controllers resolved via the filter, keyed by order.
+	 *
+	 * @var array<int, SettingsSectionController>
+	 */
 	private array $resolved_sections = array();
 
 	/**
-	 * @param array<int, SettingsSectionController> $sections
+	 * Inject dependencies.
+	 *
+	 * @param array<int, SettingsSectionController> $sections    Section controllers.
+	 * @param TeamRosterService|null                $team_roster Injected dependency.
 	 */
 	public function __construct(
 		private array $sections,
 		private ?TeamRosterService $team_roster = null
 	) {}
 
+	/**
+	 * Register the hooks this section depends on.
+	 */
 	public function init(): void {
 		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'register_settings_tab' ), 50 );
 		add_action( 'woocommerce_settings_tabs_' . self::TAB_ID, array( $this, 'render_settings_page' ) );
@@ -86,6 +99,11 @@ final class OrderUpdatesSettingsController {
 		update_option( 'order_updates_for_woo_defaults_seeded', ORDER_UPDATES_FOR_WOO_VERSION, false );
 	}
 
+	/**
+	 * Add the plugin's tab to the WooCommerce settings tabs.
+	 *
+	 * @param array $tabs Existing WC settings tabs.
+	 */
 	public function register_settings_tab( array $tabs ): array {
 		if ( ! $this->user_can_manage_settings() ) {
 			return $tabs;
@@ -96,6 +114,7 @@ final class OrderUpdatesSettingsController {
 		return $tabs;
 	}
 
+	/** Render the active section under the plugin's settings tab. */
 	public function render_settings_page(): void {
 		if ( ! $this->user_can_manage_settings() ) {
 			wp_die( esc_html__( 'You are not allowed to view order updates.', 'order-updates-for-woo' ), '', array( 'response' => 403 ) );
@@ -110,6 +129,7 @@ final class OrderUpdatesSettingsController {
 		$this->render_reset_button( $active );
 	}
 
+	/** Save the active section's submitted fields. */
 	public function save_settings_page(): void {
 		if ( ! $this->user_can_manage_settings() ) {
 			return;
@@ -149,6 +169,7 @@ final class OrderUpdatesSettingsController {
 		}
 	}
 
+	/** Flush the team roster cache (nonce-checked), then redirect. */
 	private function handle_refresh_team_roster(): void {
 		if ( ! $this->user_can_manage_settings() ) {
 			wp_die( esc_html__( 'You are not allowed to view order updates.', 'order-updates-for-woo' ), '', array( 'response' => 403 ) );
@@ -210,6 +231,8 @@ final class OrderUpdatesSettingsController {
 	}
 
 	/**
+	 * Section controllers, resolved once through the filter and cached.
+	 *
 	 * @return array<int, SettingsSectionController>
 	 */
 	private function sections(): array {
@@ -225,6 +248,7 @@ final class OrderUpdatesSettingsController {
 		return $this->resolved_sections;
 	}
 
+	/** The section matching the current `?section=`, or the default. */
 	private function resolve_active_section(): SettingsSectionController {
 		$current_id = $this->current_section_id();
 
@@ -238,11 +262,13 @@ final class OrderUpdatesSettingsController {
 		return $this->sections()[0];
 	}
 
+	/** The current `?section=` id from the URL (empty for default). */
 	private function current_section_id(): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only nav lookup
 		return isset( $_GET['section'] ) ? sanitize_key( wp_unslash( (string) $_GET['section'] ) ) : '';
 	}
 
+	/** Render the left-rail section navigation links. */
 	private function render_section_nav(): void {
 		$current = $this->current_section_id();
 		$links   = array();
@@ -274,6 +300,8 @@ final class OrderUpdatesSettingsController {
 	 * tabs like Shortcodes and the API reference). The link target is a
 	 * GET URL handled by maybe_handle_actions(); a JS confirm() guards
 	 * against accidental clicks since this wipes every option in the tab.
+	 *
+	 * @param SettingsSectionController $section Active section.
 	 */
 	private function render_reset_button( SettingsSectionController $section ): void {
 		if ( ! $this->section_has_resettable_fields( $section->get_settings() ) ) {
@@ -309,7 +337,7 @@ final class OrderUpdatesSettingsController {
 	 * gate the reset button so info-only tabs (Shortcodes, API reference)
 	 * don't get a no-op control.
 	 *
-	 * @param array<int, array<string, mixed>> $settings
+	 * @param array<int, array<string, mixed>> $settings Section field definitions.
 	 */
 	private function section_has_resettable_fields( array $settings ): bool {
 		foreach ( $settings as $field ) {
@@ -327,6 +355,7 @@ final class OrderUpdatesSettingsController {
 		return false;
 	}
 
+	/** Show the success notice after a section reset redirect. */
 	private function maybe_show_reset_notice(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only flash
 		if ( empty( $_GET['order_updates_for_woo_section_reset'] ) ) {
@@ -339,6 +368,7 @@ final class OrderUpdatesSettingsController {
 		);
 	}
 
+	/** Show the success notice after a team-roster refresh redirect. */
 	private function maybe_show_team_refreshed_notice(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only flash
 		if ( empty( $_GET['order_updates_for_woo_team_refreshed'] ) ) {

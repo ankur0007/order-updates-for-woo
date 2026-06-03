@@ -2,6 +2,8 @@
 /**
  * Plugin email directory.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type array<int, array{id:string, title:string, description:string, enabled:bool, edit_url:string, toggle_url:string}> $emails
  *     @type string $wc_emails_url Absolute URL to WC's full email settings tab.

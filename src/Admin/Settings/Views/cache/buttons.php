@@ -2,6 +2,8 @@
 /**
  * Cache section — list of clear-cache action buttons.
  *
+ * @package OrderUpdatesForWoo
+ *
  * @var array $view_data {
  *     @type array<int, array{id:string, label:string, description:string, url:string}> $buttons
  * }
