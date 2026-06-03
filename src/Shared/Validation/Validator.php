@@ -13,6 +13,9 @@ use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use WP_Error;
 
+/**
+ * Sanitizes and validates request payloads (updates, attachments, notes).
+ */
 final class Validator {
 	/**
 	 * Inject dependencies.
@@ -21,6 +24,7 @@ final class Validator {
 	 */
 	public function __construct( private ?TeamRosterService $team_roster = null ) {}
 
+	/** Lazily resolve the team roster service. */
 	private function team_roster(): TeamRosterService {
 		if ( ! $this->team_roster instanceof TeamRosterService ) {
 			$this->team_roster = new TeamRosterService();
@@ -32,7 +36,7 @@ final class Validator {
 	/**
 	 * Filter and validate a list of mentioned user IDs against the configured team roster.
 	 *
-	 * @param array<int|string> $raw_ids
+	 * @param array<int|string> $raw_ids Raw user ids from the request.
 	 * @return int[]
 	 */
 	public function sanitize_mentioned_user_ids( $raw_ids ): array {
@@ -65,6 +69,11 @@ final class Validator {
 
 		return $valid;
 	}
+	/**
+	 * Validate + sanitize an update payload against the field rules.
+	 *
+	 * @param array $payload Raw request payload.
+	 */
 	public function validate_update_payload( array $payload ): array|WP_Error {
 		$sanitized_payload = array();
 
@@ -82,6 +91,11 @@ final class Validator {
 		return $sanitized_payload;
 	}
 
+	/**
+	 * Validate an attachment payload (update/note refs + file).
+	 *
+	 * @param array $payload Raw request payload.
+	 */
 	public function validate_attachment_payload( array $payload ): array|WP_Error {
 		$update_id = absint( $payload['update_id'] ?? 0 );
 		$note_id   = absint( $payload['note_id'] ?? 0 );
@@ -128,12 +142,20 @@ final class Validator {
 		);
 	}
 
+	/** Load the field validation rules from validationRules.php. */
 	private function get_update_rules(): array {
 		$rules = require __DIR__ . '/validationRules.php';
 
 		return is_array( $rules ) ? $rules : array();
 	}
 
+	/**
+	 * Sanitize a note body and enforce a max length.
+	 *
+	 * @param string $raw         Raw note text.
+	 * @param int    $max_length  Max characters (0 to skip the check).
+	 * @param string $field_label Label used in the error message.
+	 */
 	public function sanitize_note( string $raw, int $max_length = 500, string $field_label = '' ): string|WP_Error {
 		$sanitized = wp_kses_post( wp_unslash( $raw ) );
 		$sanitized = self::trim_message( $sanitized );
@@ -157,15 +179,17 @@ final class Validator {
 	 * with `<br>`, `<br />`, `&nbsp;`, NBSP ( ), or empty `<p>`/`<div>`
 	 * tags after pressing Enter a few times before submit. Also normalises
 	 * leading whitespace the same way for symmetry.
+	 *
+	 * @param string $value Raw message text.
 	 */
 	private static function trim_message( string $value ): string {
 		// Trailing empty containers + breaks + nbsp + whitespace, repeated.
 		$pattern = '/(' .
-			'\s+|' . // ASCII / unicode whitespace
-			'&nbsp;|' . // entity NBSP
-			'\xC2\xA0|' . // raw UTF-8 NBSP
-			'<br\s*\/?>|' . // <br>, <br/>, <br />
-			'<(p|div)[^>]*>\s*(&nbsp;|\xC2\xA0|\s)*<\/\1>'  // empty <p>/<div> with optional nbsp/whitespace
+			'\s+|' . // ASCII / unicode whitespace.
+			'&nbsp;|' . // entity NBSP.
+			'\xC2\xA0|' . // raw UTF-8 NBSP.
+			'<br\s*\/?>|' . // <br>, <br/>, <br />.
+			'<(p|div)[^>]*>\s*(&nbsp;|\xC2\xA0|\s)*<\/\1>'  // empty <p>/<div> with optional nbsp/whitespace.
 			. ')+$/iu';
 
 		$value = preg_replace( $pattern, '', $value ) ?? $value;
@@ -178,6 +202,13 @@ final class Validator {
 		return preg_replace( $lead_pattern, '', $value ) ?? $value;
 	}
 
+	/**
+	 * Sanitize one field by its rule type, or return a WP_Error.
+	 *
+	 * @param string $field_name  Field key.
+	 * @param mixed  $value       Raw value.
+	 * @param array  $field_rules Rule definition (type, required, …).
+	 */
 	private function sanitize_field( string $field_name, $value, array $field_rules ): string|int|float|WP_Error {
 		$field_type  = $field_rules['type'];
 		$is_required = ! empty( $field_rules['required'] );
