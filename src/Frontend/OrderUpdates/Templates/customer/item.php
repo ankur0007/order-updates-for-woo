@@ -79,7 +79,7 @@ $has_more_notes = ! empty( $update['has_more_notes'] );
 	class="awts_cou_item<?php echo $is_resolved ? ' awts_cou_item--resolved' : ''; ?>"
 	data-awts-update-id="<?php echo esc_attr( (string) $update_id_attr ); ?>"
 	data-awts-latest-note-id="<?php echo esc_attr( (string) $latest_note_id ); ?>"
-	<?php if ( $assignee_since > 0 && '' !== $assignee_fname ) : ?>
+	<?php if ( $show_assignee && $assignee_since > 0 && '' !== $assignee_fname ) : ?>
 		data-awts-assignee-since="<?php echo esc_attr( (string) $assignee_since ); ?>"
 		data-awts-assignee-name="<?php echo esc_attr( $assignee_fname ); ?>"
 	<?php endif; ?>

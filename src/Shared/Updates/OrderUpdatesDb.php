@@ -2761,6 +2761,7 @@ final class OrderUpdatesDb {
 				INNER JOIN {$this->updates_table->updates} u ON u.id = cn.update_id
 				WHERE u.order_id = %d
 				  AND u.customer_visible = 1
+				  AND cn.kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				  AND (
 				        cn.id > %d
 				        OR ( cn.edited_at IS NOT NULL AND cn.edited_at > %s )

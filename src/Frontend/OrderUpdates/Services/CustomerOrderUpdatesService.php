@@ -457,8 +457,12 @@ final class CustomerOrderUpdatesService {
 		$update_id        = (int) $row['id'];
 		$assignee_user_id = (int) ( $row['assignee_user_id'] ?? 0 );
 
+		// Mask the assignee at the source when "Show assignee to customers" is
+		// off, so no template or script downstream can surface it (the "assisting
+		// you" badge, the re-assignment divider, a data attribute, etc.).
+		$reveal_assignee     = ! empty( $this->settings_service->get_feature_settings()['show_assignee_to_customers'] );
 		$assignee_first_name = '';
-		if ( $assignee_user_id > 0 ) {
+		if ( $reveal_assignee && $assignee_user_id > 0 ) {
 			$user_data           = get_userdata( $assignee_user_id );
 			$assignee_first_name = $user_data ? (string) $user_data->first_name : '';
 			if ( '' === $assignee_first_name ) {
@@ -512,9 +516,9 @@ final class CustomerOrderUpdatesService {
 				: null,
 			'notes'                  => $formatted_notes,
 			'has_more_notes'         => $paged_notes['has_more'],
-			'assignee_name'          => (string) ( $row['assignee_name'] ?? '' ),
+			'assignee_name'          => $reveal_assignee ? (string) ( $row['assignee_name'] ?? '' ) : '',
 			'assignee_first_name'    => $assignee_first_name,
-			'assignee_since_note_id' => isset( $row['assignee_since_note_id'] ) ? (int) $row['assignee_since_note_id'] : 0,
+			'assignee_since_note_id' => $reveal_assignee && isset( $row['assignee_since_note_id'] ) ? (int) $row['assignee_since_note_id'] : 0,
 			'rating'                 => $rating_payload,
 		);
 	}
