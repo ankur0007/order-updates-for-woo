@@ -1551,6 +1551,11 @@ getFieldValue( $field ) {
 			const $card         = $( response.cardHtml );
 			const $existingCard = this.$updateList.children( '.awts_card[data-awts-update-id="' + updateId + '"]' );
 
+			// Re-rendered cards default the "Enter = Send" box to checked (template);
+			// sync it to the saved per-browser preference so a user who turned it
+			// off doesn't get it back on every re-render.
+			$card.find( '[data-awts-enter-to-send]' ).prop( 'checked', '0' !== localStorage.getItem( 'awts_enter_to_send' ) );
+
 			this.$updateList.find( '.awts_update_card_empty' ).remove();
 
 			if ( response.isEdit && $existingCard.length ) {

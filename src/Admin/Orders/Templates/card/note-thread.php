@@ -127,7 +127,7 @@ $submit_class        = $is_customer ? 'awts_customer_notes_submit' : 'awts_notes
 				</span>
 
 				<label class="awts_enter_to_send" title="<?php echo esc_attr__( 'Press Enter to send. Use Shift+Enter for a new line.', 'order-updates-for-woo' ); ?>">
-					<input type="checkbox" data-awts-enter-to-send>
+					<input type="checkbox" data-awts-enter-to-send checked>
 					<?php esc_html_e( 'Enter = Send', 'order-updates-for-woo' ); ?>
 				</label>
 
