@@ -1335,7 +1335,11 @@
 
 		var author = document.createElement('span');
 		author.className = 'awts_cou_note__author';
-		author.textContent = String(note.authorDisplay || note.created_by_name || '');
+		// Use the server-masked label (author_display = "By {store}" when the
+		// "Show assignee to customers" setting is off). Never fall back to the
+		// raw created_by_name for a staff note — that would leak on live refresh
+		// what the page render hides. The raw name is only the customer's own.
+		author.textContent = String(note.author_display || note.authorDisplay || (isStaff ? '' : note.created_by_name) || '');
 
 		var time = document.createElement('time');
 		time.className = 'awts_cou_note__time';
