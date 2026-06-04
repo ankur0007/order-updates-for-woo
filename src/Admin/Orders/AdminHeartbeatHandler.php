@@ -157,16 +157,25 @@ final class AdminHeartbeatHandler {
 		// Update-level state sync: report each watched update's last-changed
 		// time so an open card on another teammate's screen can refresh itself
 		// when someone changes the status, title, assignee, or solves/reopens
-		// it — no notification or page reload needed. An empty value means the
-		// update no longer exists (deleted), so the stale card can be removed.
+		// it — no notification or page reload needed. We only report updates
+		// that still exist and have a known last-changed time. A deleted update
+		// is left off the list (its card clears on the next page load); the card
+		// is never removed from a heartbeat signal.
 		$state_by_update = array();
 		foreach ( array_unique( array_merge( array_keys( $since_map ), array_keys( $since_internal_map ) ) ) as $update_id_raw ) {
 			$update_id = absint( $update_id_raw );
 			if ( ! $update_id ) {
 				continue;
 			}
-			$update                        = $this->order_updates_db->get_update( $update_id );
-			$state_by_update[ $update_id ] = ! empty( $update ) ? (string) ( $update['last_updated_at'] ?? '' ) : '';
+			$update = $this->order_updates_db->get_update( $update_id );
+			if ( empty( $update ) ) {
+				continue;
+			}
+			$last_changed = (string) ( $update['last_updated_at'] ?? '' );
+			if ( '' === $last_changed ) {
+				continue;
+			}
+			$state_by_update[ $update_id ] = $last_changed;
 		}
 		if ( ! empty( $state_by_update ) ) {
 			$result['state_by_update'] = $state_by_update;

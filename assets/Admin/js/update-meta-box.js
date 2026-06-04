@@ -598,20 +598,16 @@ getFieldValue( $field ) {
 
 		// Refresh one card in place when the server reports a newer last-changed
 		// time than what it was rendered with — so a teammate's status / title /
-		// assignee / solve / reopen shows up live, without a reload. An empty
-		// server stamp means the update was deleted, so the stale card is removed.
+		// assignee / solve / reopen shows up live, without a reload. This only
+		// ever refreshes a card; it never removes one. An empty stamp means
+		// "nothing to compare", not "deleted", so we leave the card alone.
 		syncCardState( updateId, serverStamp ) {
-			if ( ! updateId ) return;
+			if ( ! updateId || ! serverStamp ) return;
 
 			const $card = this.$updateList.children( `.awts_card[data-awts-update-id="${ updateId }"]` );
 			if ( ! $card.length ) return;
 
-			if ( '' === serverStamp ) {
-				$card.remove();
-				return;
-			}
-
-			if ( String( $card.attr( 'data-awts-last-updated' ) || '' ) === serverStamp ) return;
+			if ( String( $card.attr( 'data-awts-last-updated' ) || '' ) === String( serverStamp ) ) return;
 
 			// Guard against overlapping refreshes while the GET is in flight.
 			if ( $card.data( 'awts-state-refreshing' ) ) return;
@@ -623,7 +619,10 @@ getFieldValue( $field ) {
 						this.updateSavedCard( { ...response, isEdit: true }, updateId );
 					}
 				} )
-				.catch( () => {} );
+				.catch( () => {} )
+				// On failure the old node survives — clear the guard so a later
+				// heartbeat can retry instead of being stuck "refreshing".
+				.then( () => $card.data( 'awts-state-refreshing', false ) );
 		},
 
 		appendHeartbeatNotes( updateId, notes ) {

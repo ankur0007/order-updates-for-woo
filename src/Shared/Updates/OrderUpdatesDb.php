@@ -1647,7 +1647,7 @@ final class OrderUpdatesDb {
 			$wpdb->prepare(
 				"SELECT updates.id, updates.order_id, updates.title,
 					updates.customer_visible, updates.status, updates.color, updates.created_by, updates.solved_by,
-					updates.is_resolved, updates.solved_at, updates.created_at,
+					updates.is_resolved, updates.solved_at, updates.created_at, updates.last_updated_at,
 					(SELECT MAX(cn.notified_at) FROM {$cn} cn WHERE cn.update_id = updates.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
 					creator.display_name AS created_by_name, solver.display_name AS solved_by_name,
 					a.assignee_user_id, a.assigned_at, assignee.display_name AS assignee_name
