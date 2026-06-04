@@ -286,7 +286,11 @@ final class CustomerOrderUpdatesService {
 			'note'            => (string) $note['note'],
 			'kind'            => $kind,
 			'is_system'       => $is_system,
-			'created_by_name' => (string) $note['created_by_name'],
+			// Never ship a staff member's real name to the customer. Staff notes
+			// are shown via author_display only ("By {store}", or the real name
+			// when "Show assignee" is on) — the raw name stays server-side so it
+			// can't be read from the response. Customers' own notes keep theirs.
+			'created_by_name' => $is_staff ? '' : (string) $note['created_by_name'],
 			'is_staff'        => $is_staff,
 			'author_display'  => $author_display,
 			'avatar_url'      => $identity['avatar_url'],
