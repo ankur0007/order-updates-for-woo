@@ -98,7 +98,7 @@ final class CustomersSettingsService {
 			),
 			array(
 				'name'    => __( 'Follow-up message for low ratings (1-3 stars)', 'order-updates-for-woo' ),
-				'desc'    => __( 'Shown to customers who leave a low rating, in the follow-up email. A button back to their update is rendered automatically below this text.', 'order-updates-for-woo' ),
+				'desc'    => __( 'Shown to customers who leave a low rating, in the follow-up email. A button back to their update is added automatically below this text.', 'order-updates-for-woo' ),
 				'id'      => Constants::DETRACTOR_FOLLOWUP_TEXT_OPTION,
 				'type'    => 'textarea',
 				'default' => Constants::DETRACTOR_FOLLOWUP_TEXT_DEFAULT,

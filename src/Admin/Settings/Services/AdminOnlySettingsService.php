@@ -45,7 +45,7 @@ final class AdminOnlySettingsService {
 			array(
 				'name' => __( 'Admin notifications', 'order-updates-for-woo' ),
 				'type' => 'title',
-				'desc' => __( 'Control which events copy the site admin (the user whose email is set at Settings → General → Administration Email Address). These toggles only affect the admin\'s own inbox.', 'order-updates-for-woo' ),
+				'desc' => __( 'Choose which events also email the site admin (the user set at Settings → General → Administration Email Address). This only changes the admin\'s own inbox.', 'order-updates-for-woo' ),
 				'id'   => 'order_updates_for_woo_admin_notifications_section',
 			),
 			array(
@@ -57,7 +57,7 @@ final class AdminOnlySettingsService {
 			),
 			array(
 				'name'    => __( 'Email site admin on low ratings (1-3 stars)', 'order-updates-for-woo' ),
-				'desc'    => __( 'When on, the admin gets a heads-up email whenever a customer leaves a 1, 2 or 3 star rating. Useful for spotting detractors early.', 'order-updates-for-woo' ),
+				'desc'    => __( 'When on, the admin gets an email whenever a customer leaves a 1, 2 or 3 star rating. Helps you spot unhappy customers early.', 'order-updates-for-woo' ),
 				'id'      => Constants::NOTIFY_ADMIN_ON_DETRACTOR_RATING_OPTION,
 				'default' => 'yes',
 				'type'    => 'checkbox',
@@ -74,7 +74,7 @@ final class AdminOnlySettingsService {
 			array(
 				'name' => __( 'Restricted features', 'order-updates-for-woo' ),
 				'type' => 'title',
-				'desc' => __( 'Allowing edits and deletes can weaken the audit trail of customer conversations. As a guardrail, only the most recent message in each thread can be changed — the moment a new message is posted, all previous notes lock permanently.', 'order-updates-for-woo' ),
+				'desc' => __( 'Editing and deleting can weaken the record of customer conversations. To keep it safe, only the newest message in each thread can be changed — once a new message is posted, all earlier notes lock for good.', 'order-updates-for-woo' ),
 				'id'   => 'order_updates_for_woo_restricted_section',
 			),
 			array(
@@ -100,7 +100,7 @@ final class AdminOnlySettingsService {
 			),
 			array(
 				'name'    => __( 'Allow members to delete own internal notes', 'order-updates-for-woo' ),
-				'desc'    => __( 'Sub-toggle for "Allow deleting notes" — when off, only customer-side delete applies. Customer-facing notes are never deletable; they keep an edit history instead.', 'order-updates-for-woo' ),
+				'desc'    => __( 'Part of "Allow deleting notes". When off, team members cannot delete their own internal notes. Notes the customer can see are never deletable — they keep an edit history instead.', 'order-updates-for-woo' ),
 				'id'      => 'order_updates_for_woo_allow_member_note_delete',
 				'default' => 'no',
 				'type'    => 'checkbox',
