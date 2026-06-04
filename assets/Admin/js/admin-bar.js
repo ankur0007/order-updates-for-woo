@@ -27,6 +27,9 @@
 		const notifKey = getNotifKey( $li );
 		const updateId = getRowId( $li, 'update' );
 		const noteId   = getRowId( $li, 'note' );
+		// Tab the note lives in (Internal vs Customer), encoded in the deep-link
+		// hash. Lets the in-page focus switch tabs, not just scroll.
+		const tab      = ( href.match( /#awts-update-\d+-(internal|customer)-note-\d+/ ) || [] )[ 1 ] || '';
 		const isDeletedRow = $li.hasClass( 'awts-ab-deleted-row' );
 
 		removeItem( $li );
@@ -52,7 +55,7 @@
 		// and briefly highlight it. Falls through to a reload/navigate when
 		// either id is missing from the DOM — that's the signal the user
 		// is on a different order or hasn't loaded the freshest data yet.
-		if ( focusInPage( updateId, noteId ) ) {
+		if ( focusInPage( updateId, noteId, tab ) ) {
 			return;
 		}
 
@@ -64,11 +67,21 @@
 		}
 	} );
 
-	function focusInPage( updateId, noteId ) {
+	function focusInPage( updateId, noteId, tab ) {
 		if ( ! updateId ) return false;
 
 		const updateEl = document.querySelector( '[data-awts-update-id="' + updateId + '"]' );
 		if ( ! updateEl ) return false;
+
+		// Switch to the note's tab (Internal vs Customer) first, so the message
+		// is actually on screen — otherwise we'd scroll to a note sitting in a
+		// hidden tab panel and nothing would appear to happen.
+		if ( tab ) {
+			const tabBtn = updateEl.querySelector( '.awts_card_tab[data-awts-tab="' + tab + '"]' );
+			if ( tabBtn ) {
+				tabBtn.click();
+			}
+		}
 
 		// Note id present: bail out unless the note is also rendered
 		// (admin may not have expanded the customer-notes tab yet, or
