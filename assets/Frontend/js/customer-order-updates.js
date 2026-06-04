@@ -1267,14 +1267,12 @@
 	function createSystemNoteElement(note) {
 		var article = document.createElement('article');
 		var noteId = parseInt(note.id || '0', 10);
-		var color = String(note.status || '#94a3b8');
 
 		article.className = 'awts_cou_note awts_cou_note--system';
 		article.setAttribute('data-awts-note-id', String(noteId));
 
 		var dot = document.createElement('span');
 		dot.className = 'awts_cou_system__dot';
-		dot.style.background = color;
 		article.appendChild(dot);
 
 		var text = document.createElement('span');
