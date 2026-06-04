@@ -309,9 +309,11 @@ final class OrderUpdatesDb {
 			return false;
 		}
 
-		$existing  = $this->get_update( $update_id );
-		$old_title = (string) ( $existing['title'] ?? '' );
-		$new_title = (string) ( $update_data['title'] ?? '' );
+		$existing   = $this->get_update( $update_id );
+		$old_title  = (string) ( $existing['title'] ?? '' );
+		$new_title  = (string) ( $update_data['title'] ?? '' );
+		$old_status = (string) ( $existing['status'] ?? '' );
+		$new_status = (string) ( $update_data['status'] ?? '' );
 
 		$result = false !== $wpdb->update(
 			$this->updates_table->updates,
@@ -361,6 +363,12 @@ final class OrderUpdatesDb {
 				$this->invalidate_update_row_cache( $update_id, $order_id );
 			} else {
 				$this->cache_delete( "update_{$update_id}" );
+			}
+
+			// A status change via the edit form must notify the same people the
+			// inline picker does. Only the admin-bar notifier listens; note_id 0.
+			if ( '' !== $new_status && $old_status !== $new_status ) {
+				do_action( 'order_updates_for_woo_status_changed', $update_id, $old_status, $new_status, (int) ( $update_data['last_updated_by'] ?? 0 ), 0 );
 			}
 
 			do_action( 'order_updates_for_woo_update_changed', $update_id );
