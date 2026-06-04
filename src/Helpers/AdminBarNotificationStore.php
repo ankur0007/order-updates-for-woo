@@ -136,6 +136,38 @@ final class AdminBarNotificationStore {
 	}
 
 	/**
+	 * Notify an update's owner (creator / assignee) that its state changed —
+	 * status, title, solved, or reopened. Keyed by type + update so repeated
+	 * changes of the same kind coalesce into one row.
+	 *
+	 * @param string $type      One of 'status_changed', 'title_changed', 'solved', 'reopened'.
+	 * @param int    $update_id Update id.
+	 * @param int    $order_id  Order id.
+	 * @param string $title     Update title.
+	 * @param int    $user_id   Recipient (creator or assignee).
+	 * @param string $actor     Who made the change.
+	 */
+	public static function add_update_change( string $type, int $update_id, int $order_id, string $title, int $user_id, string $actor = '' ): void {
+		if ( ! $update_id || ! $user_id || '' === $type ) {
+			return;
+		}
+
+		self::store(
+			array(
+				'key'       => $type . '_' . $update_id,
+				'type'      => $type,
+				'update_id' => $update_id,
+				'order_id'  => $order_id,
+				'note_id'   => 0,
+				'title'     => $title,
+				'actor'     => $actor,
+				'time'      => time(),
+			),
+			$user_id
+		);
+	}
+
+	/**
 	 * Notify a user they were assigned to an update. Keyed by update.
 	 *
 	 * @param int    $update_id Update id.

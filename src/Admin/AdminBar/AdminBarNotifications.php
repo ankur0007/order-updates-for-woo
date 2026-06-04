@@ -64,6 +64,14 @@ final class AdminBarNotifications {
 		// entries referencing it. Otherwise the bar shows orphan rows
 		// pointing at a row that no longer exists.
 		add_action( 'order_updates_for_woo_update_deleted', array( $this, 'on_update_deleted' ), 10, 1 );
+
+		// State changes notify the update's owners (creator + assignee). Each
+		// listener takes only the update id (accepted_args = 1); the actor is
+		// the current user, so they exclude themselves.
+		add_action( 'order_updates_for_woo_status_changed', array( $this, 'on_status_changed' ), 10, 1 );
+		add_action( 'order_updates_for_woo_title_changed', array( $this, 'on_title_changed' ), 10, 1 );
+		add_action( 'order_updates_for_woo_after_mark_solved', array( $this, 'on_marked_solved' ), 10, 1 );
+		add_action( 'order_updates_for_woo_after_reopen_update', array( $this, 'on_reopened' ), 10, 1 );
 	}
 
 	/**
@@ -73,6 +81,116 @@ final class AdminBarNotifications {
 	 */
 	public function on_update_deleted( int $update_id ): void {
 		AdminBarNotificationStore::archive_for_update_for_all_users( $update_id );
+	}
+
+	/**
+	 * Notify owners that the status changed.
+	 *
+	 * @param int $update_id Update id.
+	 */
+	public function on_status_changed( int $update_id ): void {
+		$this->notify_owners_of_state_change( $update_id, 'status_changed' );
+	}
+
+	/**
+	 * Notify owners that the title was renamed.
+	 *
+	 * @param int $update_id Update id.
+	 */
+	public function on_title_changed( int $update_id ): void {
+		$this->notify_owners_of_state_change( $update_id, 'title_changed' );
+	}
+
+	/**
+	 * Notify owners that the update was marked solved.
+	 *
+	 * @param int $update_id Update id.
+	 */
+	public function on_marked_solved( int $update_id ): void {
+		$this->notify_owners_of_state_change( $update_id, 'solved' );
+	}
+
+	/**
+	 * Notify owners that the update was reopened.
+	 *
+	 * @param int $update_id Update id.
+	 */
+	public function on_reopened( int $update_id ): void {
+		$this->notify_owners_of_state_change( $update_id, 'reopened' );
+	}
+
+	/**
+	 * Notify an update's owners — its creator and current assignee — that its
+	 * state changed. Excludes whoever made the change (the current user), skips
+	 * non-staff (the customer on a customer-opened update is never an admin-bar
+	 * recipient) and anyone who muted the update.
+	 *
+	 * @param int    $update_id Update id.
+	 * @param string $type      State-change type for the notification row.
+	 */
+	private function notify_owners_of_state_change( int $update_id, string $type ): void {
+		$update = $this->order_updates_db->get_update( $update_id );
+		if ( empty( $update ) ) {
+			return;
+		}
+
+		$order_id = (int) ( $update['order_id'] ?? 0 );
+		$actor_id = get_current_user_id();
+
+		$recipients = array_unique(
+			array_filter(
+				array(
+					(int) ( $update['created_by'] ?? 0 ),
+					(int) ( $update['assignee_user_id'] ?? 0 ),
+				)
+			)
+		);
+
+		// Drop the actor (they made the change) and anyone who can't edit orders.
+		$recipients = array_filter(
+			$recipients,
+			static fn( int $id ): bool => $id !== $actor_id
+				&& ( user_can( $id, 'edit_shop_orders' ) || user_can( $id, 'manage_woocommerce' ) )
+		);
+
+		$recipients = $this->prune_admin_bar_recipients( $recipients, $update_id, $order_id );
+
+		$title = (string) ( $update['title'] ?? '' );
+		$actor = $this->current_actor_name();
+
+		foreach ( $recipients as $recipient_user_id ) {
+			AdminBarNotificationStore::add_update_change( $type, $update_id, $order_id, $title, (int) $recipient_user_id, $actor );
+		}
+	}
+
+	/**
+	 * Human row label for an "Update activity" notification, shared by the
+	 * server-rendered admin bar and the heartbeat-rebuilt rows.
+	 *
+	 * @param string $type  Notification type (unassigned / assignee_changed / status_changed / title_changed / solved / reopened).
+	 * @param string $label Update title, already defaulted to "(untitled)".
+	 */
+	private function state_change_row_title( string $type, string $label ): string {
+		switch ( $type ) {
+			case 'unassigned':
+				/* translators: %s: update title. */
+				return sprintf( __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), $label );
+			case 'status_changed':
+				/* translators: %s: update title. */
+				return sprintf( __( 'Status changed on "%s"', 'order-updates-for-woo' ), $label );
+			case 'title_changed':
+				/* translators: %s: update title. */
+				return sprintf( __( 'Renamed to "%s"', 'order-updates-for-woo' ), $label );
+			case 'solved':
+				/* translators: %s: update title. */
+				return sprintf( __( '"%s" was marked solved', 'order-updates-for-woo' ), $label );
+			case 'reopened':
+				/* translators: %s: update title. */
+				return sprintf( __( '"%s" was reopened', 'order-updates-for-woo' ), $label );
+			default:
+				/* translators: %s: update title. */
+				return sprintf( __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), $label );
+		}
 	}
 
 	/**
@@ -305,11 +423,11 @@ final class AdminBarNotifications {
 			return;
 		}
 
-		$assigned         = array_values( array_filter( $notifications, fn( $notification ) => 'assigned' === $notification['type'] ) );
-		$mentions         = array_values( array_filter( $notifications, fn( $notification ) => 'mention' === $notification['type'] ) );
-		$replies          = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'customer_reply', 'staff_reply', 'participant_reply' ), true ) ) );
-		$deleted          = array_values( array_filter( $notifications, fn( $notification ) => 'deleted' === $notification['type'] ) );
-		$assignee_changed = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'unassigned', 'assignee_changed' ), true ) ) );
+		$assigned      = array_values( array_filter( $notifications, fn( $notification ) => 'assigned' === $notification['type'] ) );
+		$mentions      = array_values( array_filter( $notifications, fn( $notification ) => 'mention' === $notification['type'] ) );
+		$replies       = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'customer_reply', 'staff_reply', 'participant_reply' ), true ) ) );
+		$deleted       = array_values( array_filter( $notifications, fn( $notification ) => 'deleted' === $notification['type'] ) );
+		$state_changes = array_values( array_filter( $notifications, fn( $notification ) => in_array( $notification['type'], array( 'unassigned', 'assignee_changed', 'status_changed', 'title_changed', 'solved', 'reopened' ), true ) ) );
 
 		if ( ! empty( $assigned ) ) {
 			$wp_admin_bar->add_node(
@@ -465,17 +583,17 @@ final class AdminBarNotifications {
 			}
 		}
 
-		if ( ! empty( $assignee_changed ) ) {
+		if ( ! empty( $state_changes ) ) {
 			$wp_admin_bar->add_node(
 				array(
 					'parent' => self::NODE_ID,
 					'id'     => self::ASSIGNEE_CHANGED_HEADER,
-					'title'  => esc_html__( 'Assignee changed', 'order-updates-for-woo' ),
+					'title'  => esc_html__( 'Update activity', 'order-updates-for-woo' ),
 					'meta'   => array( 'class' => 'awts-ab-section-header' ),
 				)
 			);
 
-			foreach ( $assignee_changed as $notification ) {
+			foreach ( $state_changes as $notification ) {
 				$order = function_exists( 'wc_get_order' ) ? wc_get_order( $notification['order_id'] ) : null;
 				if ( ! $order ) {
 					continue;
@@ -484,9 +602,8 @@ final class AdminBarNotifications {
 				$time_ago  = $this->format_time_ago( (int) $notification['time'] );
 				$css_class = $this->row_item_classes( $notification );
 
-				$row_title = 'unassigned' === $notification['type']
-					? sprintf( /* translators: %s: update title. */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) )
-					: sprintf( /* translators: %s: update title. */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' ) );
+				$row_label = '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' );
+				$row_title = $this->state_change_row_title( (string) $notification['type'], $row_label );
 
 				$wp_admin_bar->add_node(
 					array(
@@ -713,11 +830,9 @@ final class AdminBarNotifications {
 				// edit page where DeletedUpdatesMetaBox surfaces the audit.
 				$item['url']     = $order->get_edit_order_url();
 				$deleted_items[] = $item;
-			} elseif ( in_array( $notification['type'], array( 'unassigned', 'assignee_changed' ), true ) ) {
-				$untitled                 = __( '(untitled)', 'order-updates-for-woo' );
-				$item['title']            = 'unassigned' === $notification['type']
-					? sprintf( /* translators: %s: update title. */ __( 'You were unassigned from "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : $untitled )
-					: sprintf( /* translators: %s: update title. */ __( 'Assignee changed on "%s"', 'order-updates-for-woo' ), '' !== $notification['title'] ? $notification['title'] : $untitled );
+			} elseif ( in_array( $notification['type'], array( 'unassigned', 'assignee_changed', 'status_changed', 'title_changed', 'solved', 'reopened' ), true ) ) {
+				$label                    = '' !== $notification['title'] ? $notification['title'] : __( '(untitled)', 'order-updates-for-woo' );
+				$item['title']            = $this->state_change_row_title( (string) $notification['type'], $label );
 				$assignee_changed_items[] = $item;
 			} else {
 				$mention_items[] = $item;
@@ -769,7 +884,7 @@ final class AdminBarNotifications {
 		if ( ! empty( $assignee_changed_items ) ) {
 			$result[] = array(
 				'type'  => 'header',
-				'label' => __( 'Assignee changed', 'order-updates-for-woo' ),
+				'label' => __( 'Update activity', 'order-updates-for-woo' ),
 			);
 			foreach ( $assignee_changed_items as $item ) {
 				$result[] = $item;

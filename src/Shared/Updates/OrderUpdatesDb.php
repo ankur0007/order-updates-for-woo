@@ -344,6 +344,8 @@ final class OrderUpdatesDb {
 					(string) ( $update_data['last_updated_at'] ?? current_time( 'mysql', true ) )
 				);
 
+				do_action( 'order_updates_for_woo_title_changed', $update_id, $old_title, $new_title, (int) ( $update_data['last_updated_by'] ?? 0 ) );
+
 				// Title change writes a customer_notes row, so the narrower
 				// row-only bust isn't enough — clear the history cache too.
 				if ( $order_id ) {
