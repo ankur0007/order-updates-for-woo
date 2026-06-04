@@ -1,0 +1,18 @@
+/*
+ * Order Updates settings tab — stop WooCommerce from flashing as the current menu.
+ *
+ * The settings page lives under WooCommerce, so a stale server-side menu cache
+ * can briefly paint the WooCommerce item highlighted before the highlight lands
+ * on Order Updates. Zeroing its current-state background here (scheme-agnostic,
+ * and higher specificity than the colour-scheme rule via the #id) stops that
+ * flash. The real highlight is applied to Order Updates by the parent_file /
+ * submenu_file filters server-side, or by menu-highlight.js — both use
+ * WordPress's own classes, so the colour is always correct for the active scheme.
+ *
+ * This file is enqueued only on that tab, so the selectors are safe to be global.
+ */
+
+#adminmenu #toplevel_page_woocommerce > a.wp-has-current-submenu,
+#adminmenu #toplevel_page_woocommerce.wp-has-current-submenu > a.menu-top {
+	background: transparent;
+}

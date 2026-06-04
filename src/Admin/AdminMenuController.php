@@ -146,6 +146,15 @@ final class AdminMenuController {
 			return;
 		}
 
+		// Loads in <head>, so it applies on first paint — kills the WooCommerce
+		// highlight flash before the JS/PHP highlight lands on our menu.
+		wp_enqueue_style(
+			'order-updates-for-woo-menu-highlight',
+			AssetHelper::url( 'assets/Admin/css/menu-highlight.css' ),
+			array(),
+			AssetHelper::version( 'assets/Admin/css/menu-highlight.css' )
+		);
+
 		wp_enqueue_script(
 			'order-updates-for-woo-menu-highlight',
 			AssetHelper::url( 'assets/Admin/js/menu-highlight.js' ),
