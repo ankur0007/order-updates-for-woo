@@ -29,6 +29,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $update_id              = (int) ( $view_data['update_id'] ?? 0 );
 $customer_notes_enabled = ! empty( $view_data['customer_notes_enabled'] );
+// Default true when the key is absent, so older theme overrides that don't pass
+// it keep showing the internal tab.
+$internal_notes_enabled = ! array_key_exists( 'internal_notes_enabled', $view_data ) || ! empty( $view_data['internal_notes_enabled'] );
 $default_tab            = (string) ( $view_data['default_tab'] ?? 'internal' );
 $raw                    = $view_data['raw'] ?? array();
 $settings               = $view_data['settings'] ?? array();
@@ -38,19 +41,21 @@ $panel  = static fn( string $name ): string => 'awts_panel_' . $name . '_' . $up
 ?>
 <div class="awts_card_tabs" role="tablist" aria-label="<?php echo esc_attr__( 'Update tabs', 'order-updates-for-woo' ); ?>">
 
-	<button
-		type="button"
-		role="tab"
-		class="awts_card_tab<?php echo 'internal' === $default_tab ? ' awts_card_tab--active' : ''; ?>"
-		data-awts-tab="internal"
-		id="<?php echo esc_attr( $tab_id( 'internal' ) ); ?>"
-		aria-controls="<?php echo esc_attr( $panel( 'internal' ) ); ?>"
-		aria-selected="<?php echo 'internal' === $default_tab ? 'true' : 'false'; ?>"
-		tabindex="<?php echo 'internal' === $default_tab ? '0' : '-1'; ?>"
-	>
-		<?php esc_html_e( 'Internal Notes', 'order-updates-for-woo' ); ?>
-		<span class="awts_tab_count_badge" data-awts-tab-badge="internal" data-awts-count="0"></span>
-	</button>
+	<?php if ( $internal_notes_enabled ) : ?>
+		<button
+			type="button"
+			role="tab"
+			class="awts_card_tab<?php echo 'internal' === $default_tab ? ' awts_card_tab--active' : ''; ?>"
+			data-awts-tab="internal"
+			id="<?php echo esc_attr( $tab_id( 'internal' ) ); ?>"
+			aria-controls="<?php echo esc_attr( $panel( 'internal' ) ); ?>"
+			aria-selected="<?php echo 'internal' === $default_tab ? 'true' : 'false'; ?>"
+			tabindex="<?php echo 'internal' === $default_tab ? '0' : '-1'; ?>"
+		>
+			<?php esc_html_e( 'Internal Notes', 'order-updates-for-woo' ); ?>
+			<span class="awts_tab_count_badge" data-awts-tab-badge="internal" data-awts-count="0"></span>
+		</button>
+	<?php endif; ?>
 
 	<?php if ( $customer_notes_enabled ) : ?>
 		<button

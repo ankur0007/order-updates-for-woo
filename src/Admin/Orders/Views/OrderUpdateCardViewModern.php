@@ -107,7 +107,10 @@ $status_lookup_by_color = isset( $view_data['status_lookup_by_color'] ) && is_ar
 $flags['status_label']  = (string) ( $status_lookup_by_color[ strtolower( $update_color ) ]['label'] ?? '' );
 
 $customer_notes_enabled = ! empty( $settings['enable_customer_note'] );
-$default_tab            = 'internal';
+$internal_notes_enabled = ! empty( $settings['enable_internal_note'] );
+// Open the first available note tab. Internal is the default when on; if it's
+// disabled, fall back to the customer tab.
+$default_tab = $internal_notes_enabled ? 'internal' : ( $customer_notes_enabled ? 'customer' : 'internal' );
 
 // Guest detection — `$raw` does not include order_id (it isn't in the DB
 // SELECT for get_order_updates), so the panel passes it via $view_data.
@@ -176,6 +179,7 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 			array(
 				'update_id'              => $update_id,
 				'customer_notes_enabled' => $customer_notes_enabled,
+				'internal_notes_enabled' => $internal_notes_enabled,
 				'default_tab'            => $default_tab,
 				'raw'                    => $raw,
 				'settings'               => $settings,
@@ -210,21 +214,23 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 		</div>
 
 		<?php
-		// Internal notes thread.
-		View::render(
-			'src/Admin/Orders/Templates/card/note-thread',
-			array(
-				'type'                 => 'internal',
-				'update_id'            => $update_id,
-				'tab_id'               => $tab_id_for( 'internal' ),
-				'panel_id'             => $panel_id_for( 'internal' ),
-				'is_active'            => 'internal' === $default_tab,
-				'is_resolved'          => $flags['is_resolved'],
-				'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
-				'composer_placeholder' => __( 'Write a note...', 'order-updates-for-woo' ),
-				'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
-			) 
-		);
+		// Internal notes thread. Skipped entirely when the feature is off.
+		if ( $internal_notes_enabled ) {
+			View::render(
+				'src/Admin/Orders/Templates/card/note-thread',
+				array(
+					'type'                 => 'internal',
+					'update_id'            => $update_id,
+					'tab_id'               => $tab_id_for( 'internal' ),
+					'panel_id'             => $panel_id_for( 'internal' ),
+					'is_active'            => 'internal' === $default_tab,
+					'is_resolved'          => $flags['is_resolved'],
+					'is_rated'             => 'received' === ( $flags['rating_status'] ?? '' ),
+					'composer_placeholder' => __( 'Write a note...', 'order-updates-for-woo' ),
+					'submit_label'         => __( 'Add Note', 'order-updates-for-woo' ),
+				)
+			);
+		}
 		?>
 
 		<?php if ( $customer_notes_enabled ) : ?>
