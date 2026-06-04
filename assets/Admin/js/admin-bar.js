@@ -27,9 +27,9 @@
 		const notifKey = getNotifKey( $li );
 		const updateId = getRowId( $li, 'update' );
 		const noteId   = getRowId( $li, 'note' );
-		// Tab the note lives in (Internal vs Customer), encoded in the deep-link
-		// hash. Lets the in-page focus switch tabs, not just scroll.
-		const tab      = ( href.match( /#awts-update-\d+-(internal|customer)-note-\d+/ ) || [] )[ 1 ] || '';
+		// Tab the note lives in (internal | customer) — drives the tab swap so
+		// clicking an internal-note notification flips off the Customer tab.
+		const tab      = getRowTab( $li );
 		const isDeletedRow = $li.hasClass( 'awts-ab-deleted-row' );
 
 		removeItem( $li );
@@ -202,11 +202,12 @@
 				const timeHtml = item.time_ago ? ' &middot; ' + esc( item.time_ago ) : '';
 				const noteCls  = noteId ? ' awts-ab-note-' + noteId : '';
 				const noteAttr = noteId ? ' data-awts-note-id="' + noteId + '"' : '';
+				const tabAttr  = item.tab ? ' data-awts-tab="' + esc( item.tab ) + '"' : '';
 				$submenu.append(
 					'<li class="awts-ab-row-item awts-ab-update-' + updateId + noteCls + '"'
 					+ ' data-awts-notif-key="' + esc( item.notif_key || '' ) + '"'
 					+ ' data-awts-update-id="' + updateId + '"'
-					+ noteAttr + '>'
+					+ noteAttr + tabAttr + '>'
 					+ '<a class="ab-item" href="' + esc( item.url || '' ) + '">'
 					+ '<span class="awts-ab-row">'
 					+ '<span class="awts-ab-row-title">' + esc( item.title || '' ) + '</span>'
@@ -237,6 +238,16 @@
 		const re = new RegExp( '\\bawts-ab-' + kind + '-(\\d+)\\b' );
 		const match = ( $li.attr( 'class' ) || '' ).match( re );
 		return match ? parseInt( match[ 1 ], 10 ) : 0;
+	}
+
+	// Tab the note lives in (internal | customer). JS-rebuilt items carry it as
+	// a data attr; PHP-rendered items carry it in an `awts-ab-tab-{tab}` class.
+	function getRowTab( $li ) {
+		const fromData = ( $li.attr( 'data-awts-tab' ) || '' ).toString();
+		if ( fromData ) return fromData;
+
+		const match = ( $li.attr( 'class' ) || '' ).match( /\bawts-ab-tab-(internal|customer)\b/ );
+		return match ? match[ 1 ] : '';
 	}
 
 	function removeItem( $li ) {

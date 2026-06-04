@@ -691,6 +691,7 @@ final class AdminBarNotifications {
 				'notif_key' => $notification['key'],
 				'update_id' => (int) $notification['update_id'],
 				'note_id'   => (int) ( $notification['note_id'] ?? 0 ),
+				'tab'       => $this->tab_for_notification( $notification ),
 				'title'     => $notification['title'],
 				'meta'      => sprintf( /* translators: %s: order number */ __( 'Order #%s', 'order-updates-for-woo' ), (string) $order->get_order_number() ),
 				'time_ago'  => $time_ago,
@@ -808,6 +809,14 @@ final class AdminBarNotifications {
 		$note_id = (int) ( $notification['note_id'] ?? 0 );
 		if ( $note_id > 0 ) {
 			$classes[] = 'awts-ab-note-' . $note_id;
+		}
+
+		// Tab the note lives in (internal | customer) so the click handler can
+		// switch to it. PHP rows carry it as a class; JS-rebuilt rows carry it
+		// as data-awts-tab — getRowTab() reads either.
+		$tab = $this->tab_for_notification( $notification );
+		if ( '' !== $tab ) {
+			$classes[] = 'awts-ab-tab-' . $tab;
 		}
 
 		// Marker class used by admin-bar.js — when this row is clicked, the
