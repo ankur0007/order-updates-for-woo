@@ -52,7 +52,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 	</nav>
 
 	<div class="awts-asg__stats">
-		<div class="awts-asg__stat">
+		<div class="awts-asg__stat" title="<?php esc_attr_e( 'Every order update shown in this view', 'order-updates-for-woo' ); ?>">
 			<div class="awts-asg__stat-top">
 				<span class="awts-asg__stat-label"><?php esc_html_e( 'Total updates', 'order-updates-for-woo' ); ?></span>
 				<span class="awts-asg__stat-icon is-total"><span class="dashicons dashicons-archive"></span></span>
@@ -63,7 +63,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 			</div>
 		</div>
 
-		<div class="awts-asg__stat">
+		<div class="awts-asg__stat" title="<?php esc_attr_e( 'Open updates still waiting on a staff reply', 'order-updates-for-woo' ); ?>">
 			<div class="awts-asg__stat-top">
 				<span class="awts-asg__stat-label"><?php esc_html_e( 'Waiting', 'order-updates-for-woo' ); ?></span>
 				<span class="awts-asg__stat-icon is-waiting"><span class="dashicons dashicons-clock"></span></span>
@@ -74,7 +74,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 			</div>
 		</div>
 
-		<div class="awts-asg__stat">
+		<div class="awts-asg__stat" title="<?php esc_attr_e( 'Updates marked as resolved', 'order-updates-for-woo' ); ?>">
 			<div class="awts-asg__stat-top">
 				<span class="awts-asg__stat-label"><?php esc_html_e( 'Resolved', 'order-updates-for-woo' ); ?></span>
 				<span class="awts-asg__stat-icon is-resolved"><span class="dashicons dashicons-yes-alt"></span></span>
@@ -84,7 +84,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 			</div>
 		</div>
 
-		<div class="awts-asg__stat">
+		<div class="awts-asg__stat" title="<?php esc_attr_e( 'The longest a customer has currently been waiting on an open update', 'order-updates-for-woo' ); ?>">
 			<div class="awts-asg__stat-top">
 				<span class="awts-asg__stat-label"><?php esc_html_e( 'Longest wait', 'order-updates-for-woo' ); ?></span>
 				<span class="awts-asg__stat-icon is-longest"><span class="dashicons dashicons-warning"></span></span>
@@ -165,7 +165,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 				$created     = (string) ( $row['created_avatar'] ?? '' );
 				$assignee_av = (string) ( $row['assignee_avatar'] ?? '' );
 				?>
-				<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?> class="awts-asg__row"<?php echo $href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_url'd above. ?>>
+				<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?> class="awts-asg__row"<?php echo $href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_url'd above. ?><?php echo $open ? ' title="' . esc_attr__( 'Open this update on its order', 'order-updates-for-woo' ) . '"' : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_attr__ output. ?>>
 					<span class="awts-asg__accent" style="background: <?php echo esc_attr( $accent ); ?>"></span>
 
 					<span class="awts-asg__icon <?php echo $resolved ? 'is-done' : 'is-waiting'; ?>">
@@ -209,9 +209,9 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 
 					<span class="awts-asg__right">
 						<?php if ( $resolved ) : ?>
-							<span class="awts-asg__pill is-done"><?php esc_html_e( 'Resolved', 'order-updates-for-woo' ); ?></span>
+							<span class="awts-asg__pill is-done" title="<?php esc_attr_e( 'This update is resolved', 'order-updates-for-woo' ); ?>"><?php esc_html_e( 'Resolved', 'order-updates-for-woo' ); ?></span>
 						<?php elseif ( $waiting ) : ?>
-							<span class="awts-asg__pill is-waiting">
+							<span class="awts-asg__pill is-waiting" title="<?php esc_attr_e( 'How long the customer has been waiting for a reply', 'order-updates-for-woo' ); ?>">
 								<span class="dashicons dashicons-clock"></span>
 								<?php /* translators: %s: wait time, e.g. "16h" */ ?>
 								<?php printf( esc_html__( 'Waiting %s', 'order-updates-for-woo' ), esc_html( (string) $row['waiting_label'] ) ); ?>
