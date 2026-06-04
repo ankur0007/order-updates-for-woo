@@ -2829,10 +2829,11 @@ getFieldValue( $field ) {
 			}
 		},
 
-		// Initials-disc avatar matching the server Avatar helper, so note
-		// authors always show letters (first + last initial), never a blank or
-		// "?". Used whenever a person has no Gravatar URL.
-		avatarDiscHtml( rawName, extraClass ) {
+		// Initials-disc avatar matching the server Avatar helper: a coloured
+		// disc with the author's initials, and the Gravatar layered on top with
+		// a transparent (d=blank) fallback — so a real photo covers the disc and
+		// no photo reveals the letters. Never renders a blank avatar.
+		avatarDiscHtml( rawName, extraClass, avatarUrl ) {
 			const name  = String( rawName || '' ).trim();
 			const parts = name ? name.split( /\s+/ ) : [];
 			let initials;
@@ -2848,8 +2849,22 @@ getFieldValue( $field ) {
 				hue = ( hue * 31 + name.charCodeAt( i ) ) % 360;
 			}
 			const initialsEsc = $( '<span>' ).text( initials.toUpperCase() ).html();
+
+			// Force d=blank so users without a Gravatar get a transparent image
+			// and the initials beneath show through, regardless of the site's
+			// default-avatar setting.
+			let imgHtml = '';
+			const url = String( avatarUrl || '' );
+			if ( url ) {
+				const blankUrl = /[?&]d=/.test( url )
+					? url.replace( /([?&]d=)[^&]*/, '$1blank' )
+					: url + ( -1 === url.indexOf( '?' ) ? '?' : '&' ) + 'd=blank';
+				imgHtml = '<img class="awts-avatar__img" src="' + this.escapeAttribute( blankUrl ) + '" alt="" loading="lazy" />';
+			}
+
 			return '<span class="awts-avatar ' + ( extraClass || '' ) + '" style="width:28px;height:28px;font-size:12px;background:oklch(62% 0.12 ' + hue + ');">'
-				+ '<span class="awts-avatar__initials" aria-hidden="true">' + initialsEsc + '</span></span>';
+				+ '<span class="awts-avatar__initials" aria-hidden="true">' + initialsEsc + '</span>'
+				+ imgHtml + '</span>';
 		},
 
 		buildNoteHtml( note, isNew = false ) {
@@ -2862,10 +2877,7 @@ getFieldValue( $field ) {
 			const attachments = Array.isArray( note.attachments ) ? note.attachments : [];
 			const mentions = Array.isArray( note.mentions ) ? note.mentions : [];
 			const editedHtml = note.edited_at ? ' &middot; ' + this.getString( 'editedLabel' ) + ' ' + $( '<span>' ).text( note.edited_at ).html() : '';
-			const avatarUrl = String( note.avatar_url || '' );
-			const avatarHtml = avatarUrl
-				? '<img class="awts_notes_item_avatar" src="' + this.escapeAttribute( avatarUrl ) + '" alt="" width="28" height="28" loading="lazy" />'
-				: this.avatarDiscHtml( note.created_by_name, 'awts_notes_item_avatar' );
+			const avatarHtml = this.avatarDiscHtml( note.created_by_name, 'awts_notes_item_avatar', note.avatar_url );
 			const actions = [];
 
 			if ( note.can_edit ) {
@@ -3466,10 +3478,7 @@ getFieldValue( $field ) {
 			const attachments = Array.isArray( note.attachments ) ? note.attachments : [];
 			const canRemoveAttachments = ! isPending;
 			const fromCustomer = !! note.from_customer;
-			const avatarUrl    = String( note.avatar_url || '' );
-			const avatarHtml   = avatarUrl
-				? '<img class="awts_customer_note_avatar" src="' + this.escapeAttribute( avatarUrl ) + '" alt="" width="28" height="28" loading="lazy" />'
-				: this.avatarDiscHtml( rawAuthor, 'awts_customer_note_avatar' );
+			const avatarHtml   = this.avatarDiscHtml( rawAuthor, 'awts_customer_note_avatar', note.avatar_url );
 			const itemCls      = 'awts_customer_note_item'
 				+ ( fromCustomer ? ' awts_customer_note_item--from_customer' : ' awts_customer_note_item--from_staff' )
 				+ ( isUnread ? ' awts_customer_note_item--new' : '' );
