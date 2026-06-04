@@ -27,7 +27,6 @@ $settings = wp_parse_args(
 	$settings,
 	array(
 		'enable_assignee'      => true,
-		'enable_color'         => true,
 		'enable_internal_note' => true,
 		'enable_customer_note' => true,
 		'enable_solved_state'  => true,
@@ -79,7 +78,7 @@ $settings = wp_parse_args(
 		</div>
 	<?php endif; ?>
 
-	<?php if ( $settings['enable_color'] && ! empty( $statuses ) ) : ?>
+	<?php if ( ! empty( $statuses ) ) : ?>
 		<div class="awts_field">
 			<label class="awts_field_label" for="awts_update_status"><?php esc_html_e( 'Status', 'order-updates-for-woo' ); ?></label>
 			<select id="awts_update_status" class="awts_input awts_status_select">

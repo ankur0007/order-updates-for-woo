@@ -104,13 +104,6 @@ final class GeneralSettingsService {
 				'type'    => 'checkbox',
 			),
 			array(
-				'name'    => __( 'Enable color field', 'order-updates-for-woo' ),
-				'desc'    => __( 'Let your team add a color label to each update, to flag or group them at a glance.', 'order-updates-for-woo' ),
-				'id'      => 'order_updates_for_woo_enable_color',
-				'default' => 'yes',
-				'type'    => 'checkbox',
-			),
-			array(
 				'name'    => __( 'Enable internal note field', 'order-updates-for-woo' ),
 				'desc'    => __( 'Let your team write private notes on an update. Only staff can see these — never the customer.', 'order-updates-for-woo' ),
 				'id'      => 'order_updates_for_woo_enable_internal_note',

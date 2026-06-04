@@ -52,7 +52,6 @@ $settings = wp_parse_args(
 	$settings,
 	array(
 		'enable_assignee'      => true,
-		'enable_color'         => true,
 		'enable_internal_note' => true,
 		'enable_customer_note' => true,
 		'enable_solved_state'  => true,

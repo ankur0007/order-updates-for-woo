@@ -30,7 +30,6 @@ final class OrderUpdatesSettingsService {
 	 *
 	 * @return array{
 	 *     enable_assignee:bool,
-	 *     enable_color:bool,
 	 *     enable_internal_note:bool,
 	 *     enable_customer_note:bool,
 	 *     enable_solved_state:bool,
@@ -47,7 +46,6 @@ final class OrderUpdatesSettingsService {
 	public function get_feature_settings(): array {
 		return array(
 			'enable_assignee'                       => $this->bool_option( 'order_updates_for_woo_enable_assignee' ),
-			'enable_color'                          => $this->bool_option( 'order_updates_for_woo_enable_color' ),
 			'enable_internal_note'                  => $this->bool_option( 'order_updates_for_woo_enable_internal_note', 'yes', 'order_updates_for_woo_enable_note' ),
 			'enable_customer_note'                  => $this->bool_option( 'order_updates_for_woo_enable_customer_note' ),
 			'enable_solved_state'                   => $this->bool_option( 'order_updates_for_woo_enable_solved_state' ),
