@@ -15,6 +15,7 @@ use OrderUpdatesForWoo\Helpers\DateHelper;
 use OrderUpdatesForWoo\Helpers\UpdateState;
 use OrderUpdatesForWoo\Shared\Attachments\AttachmentsDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
+use OrderUpdatesForWoo\Shared\Team\TeamRosterService;
 use OrderUpdatesForWoo\Shared\Updates\NoteActionPolicy;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use WC_Order;
@@ -212,29 +213,29 @@ final class CustomerOrderUpdatesService {
 	}
 
 	/**
-	 * Whether a customer-visible note was authored by someone other than the
-	 * order's customer (i.e. a staff member, including guest-order staff replies).
+	 * Whether a customer-visible note was authored by a staff member (a team
+	 * member or anyone who can edit orders), as opposed to the customer. Based
+	 * on the author, not the viewer, so a staff member previewing the customer
+	 * page never sees their own replies attributed to their real name.
 	 *
-	 * @param array $note             Note row.
-	 * @param int   $customer_user_id The order's customer user id (0 for guest orders).
+	 * @param array $note Note row.
 	 */
-	public static function is_staff_authored_note( array $note, int $customer_user_id ): bool {
+	public static function is_staff_authored_note( array $note ): bool {
 		$created_by = (int) ( $note['created_by'] ?? 0 );
 
-		// Guest writers (created_by = 0) are never staff. Catches customers
-		// who reply via the order-key URL while signed out.
+		// Guest writers (created_by = 0) are the customer replying via the
+		// order-key link while signed out — never staff.
 		if ( 0 === $created_by ) {
 			return false;
 		}
 
-		if ( $customer_user_id > 0 ) {
-			return $created_by !== $customer_user_id;
-		}
-
-		// Guest order: customer is anonymous (no WP user); anything with a
-		// real user id is staff (handled by the guest-writer guard above
-		// already returning false for created_by = 0).
-		return true;
+		// "Staff-authored" is decided by WHO WROTE the note — a team member or
+		// anyone who can edit orders — not by who is viewing. Comparing against
+		// the viewer leaked the author's real name whenever the viewer was that
+		// staff member (e.g. previewing the customer page via the share link),
+		// even with "Show assignee to customers" off.
+		return TeamRosterService::user_is_team_member( $created_by )
+			|| user_can( $created_by, 'edit_shop_orders' );
 	}
 
 	/**
@@ -253,7 +254,7 @@ final class CustomerOrderUpdatesService {
 	 * @param int   $latest_note_id   Newest note id in the thread, or 0.
 	 */
 	public function format_customer_thread_note( array $note, int $customer_user_id, int $latest_note_id = 0 ): array {
-		$is_staff = self::is_staff_authored_note( $note, $customer_user_id );
+		$is_staff = self::is_staff_authored_note( $note );
 		$is_guest = 0 === get_current_user_id();
 
 		$identity     = $this->resolve_staff_identity( $note, $is_staff );
