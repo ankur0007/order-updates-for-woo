@@ -36,12 +36,14 @@ final class NewsletterController {
 	 * @param string $hook Current admin page hook.
 	 */
 	public function maybe_enqueue_script( string $hook ): void {
-		$target_pages = array(
-			'woocommerce_page_wc-settings',
-			'woocommerce_page_order-updates-for-woo-welcome',
-		);
+		// The Welcome page is a sub-page of the plugin's own top-level menu, so
+		// its hook is "<menu>_page_order-updates-for-woo-welcome" — match by
+		// suffix rather than a fixed prefix so it keeps working if the parent
+		// menu ever moves.
+		$is_settings = 'woocommerce_page_wc-settings' === $hook;
+		$is_welcome  = str_ends_with( $hook, '_page_order-updates-for-woo-welcome' );
 
-		if ( ! in_array( $hook, $target_pages, true ) ) {
+		if ( ! $is_settings && ! $is_welcome ) {
 			return;
 		}
 
