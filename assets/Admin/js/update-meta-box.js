@@ -586,7 +586,44 @@ getFieldValue( $field ) {
 					if ( ! Array.isArray( notes ) || ! notes.length ) return;
 					this.appendHeartbeatInternalNotes( parseInt( updateId, 10 ), notes );
 				} );
+
+				// State sync: a teammate changed an update's status / title /
+				// assignee or solved/reopened/deleted it on another screen.
+				const stateByUpdate = payload.state_by_update || {};
+				Object.keys( stateByUpdate ).forEach( updateId => {
+					this.syncCardState( parseInt( updateId, 10 ), String( stateByUpdate[ updateId ] || '' ) );
+				} );
 			} );
+		},
+
+		// Refresh one card in place when the server reports a newer last-changed
+		// time than what it was rendered with — so a teammate's status / title /
+		// assignee / solve / reopen shows up live, without a reload. An empty
+		// server stamp means the update was deleted, so the stale card is removed.
+		syncCardState( updateId, serverStamp ) {
+			if ( ! updateId ) return;
+
+			const $card = this.$updateList.children( `.awts_card[data-awts-update-id="${ updateId }"]` );
+			if ( ! $card.length ) return;
+
+			if ( '' === serverStamp ) {
+				$card.remove();
+				return;
+			}
+
+			if ( String( $card.attr( 'data-awts-last-updated' ) || '' ) === serverStamp ) return;
+
+			// Guard against overlapping refreshes while the GET is in flight.
+			if ( $card.data( 'awts-state-refreshing' ) ) return;
+			$card.data( 'awts-state-refreshing', true );
+
+			this.request( { url: awtsData.updateEndpointBase + updateId, method: 'GET' } )
+				.then( response => {
+					if ( response && response.cardHtml ) {
+						this.updateSavedCard( { ...response, isEdit: true }, updateId );
+					}
+				} )
+				.catch( () => {} );
 		},
 
 		appendHeartbeatNotes( updateId, notes ) {

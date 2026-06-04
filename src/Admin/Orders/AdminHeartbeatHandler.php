@@ -154,6 +154,24 @@ final class AdminHeartbeatHandler {
 			$result['internal_notes_by_update'] = $internal_notes_by_update;
 		}
 
+		// Update-level state sync: report each watched update's last-changed
+		// time so an open card on another teammate's screen can refresh itself
+		// when someone changes the status, title, assignee, or solves/reopens
+		// it — no notification or page reload needed. An empty value means the
+		// update no longer exists (deleted), so the stale card can be removed.
+		$state_by_update = array();
+		foreach ( array_unique( array_merge( array_keys( $since_map ), array_keys( $since_internal_map ) ) ) as $update_id_raw ) {
+			$update_id = absint( $update_id_raw );
+			if ( ! $update_id ) {
+				continue;
+			}
+			$update                        = $this->order_updates_db->get_update( $update_id );
+			$state_by_update[ $update_id ] = ! empty( $update ) ? (string) ( $update['last_updated_at'] ?? '' ) : '';
+		}
+		if ( ! empty( $state_by_update ) ) {
+			$result['state_by_update'] = $state_by_update;
+		}
+
 		if ( ! empty( $result ) ) {
 			$response[ Constants::HEARTBEAT_KEY ] = apply_filters(
 				'order_updates_for_woo_heartbeat_notes_response',

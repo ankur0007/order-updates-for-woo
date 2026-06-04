@@ -123,6 +123,7 @@ $panel_id_for = static fn( string $name ): string => 'awts_panel_' . $name . '_'
 	id="awts-update-<?php echo esc_attr( (string) $update_id ); ?>"
 	data-awts-update-id="<?php echo esc_attr( (string) $update_id ); ?>"
 	data-awts-customer-visible="<?php echo $flags['is_customer_visible'] ? '1' : '0'; ?>"
+	data-awts-last-updated="<?php echo esc_attr( (string) ( $raw['last_updated_at'] ?? '' ) ); ?>"
 >
 	<div class="awts_card_left_border" style="background:<?php echo esc_attr( $update_color ); ?>;"></div>
 
