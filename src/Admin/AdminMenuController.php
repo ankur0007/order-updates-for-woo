@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OrderUpdatesForWoo\Admin;
 
 use OrderUpdatesForWoo\Helpers\AdminBarNotificationStore;
+use OrderUpdatesForWoo\Helpers\AssetHelper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -61,6 +62,10 @@ final class AdminMenuController {
 		// sub-item while the tab is open.
 		add_filter( 'parent_file', array( $this, 'highlight_parent_menu' ) );
 		add_filter( 'submenu_file', array( $this, 'highlight_settings_submenu' ) );
+
+		// Client-side guarantee for the same highlight, in case the filters above
+		// don't take effect (e.g. a cached menu). Loads only on the settings tab.
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_menu_highlight' ) );
 	}
 
 	/** Register the top-level Order Updates menu and its landing page. */
@@ -129,6 +134,25 @@ final class AdminMenuController {
 	 */
 	public function highlight_settings_submenu( ?string $submenu_file ): ?string {
 		return $this->is_settings_tab() ? self::SETTINGS_SUBMENU_SLUG : $submenu_file;
+	}
+
+	/**
+	 * Enqueue the small script that moves the admin-menu highlight onto our menu
+	 * on the settings tab. Belt-and-suspenders with the filters above; only loads
+	 * on that exact tab, so it never touches any other admin screen.
+	 */
+	public function enqueue_menu_highlight(): void {
+		if ( ! $this->is_settings_tab() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'order-updates-for-woo-menu-highlight',
+			AssetHelper::url( 'assets/Admin/js/menu-highlight.js' ),
+			array(),
+			AssetHelper::version( 'assets/Admin/js/menu-highlight.js' ),
+			true
+		);
 	}
 
 	/** Whether the current screen is the Order Updates settings tab (any section). */
