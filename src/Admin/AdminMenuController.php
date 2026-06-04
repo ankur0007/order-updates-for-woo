@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OrderUpdatesForWoo\Admin;
 
+use OrderUpdatesForWoo\Helpers\AdminBarNotificationStore;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -51,9 +53,19 @@ final class AdminMenuController {
 
 	/** Register the top-level Order Updates menu and its landing page. */
 	public function register_top_level(): void {
+		// Mirror the unread-notification count onto the top-level item, so it
+		// stays visible when the admin menu is collapsed (the Notifications
+		// sub-item's bubble is hidden then). Same markup as WordPress's
+		// comments bubble.
+		$menu_title = __( 'Order Updates', 'order-updates-for-woo' );
+		$unread     = AdminBarNotificationStore::unread_count( get_current_user_id() );
+		if ( $unread > 0 ) {
+			$menu_title .= ' <span class="awaiting-mod"><span class="pending-count">' . esc_html( number_format_i18n( $unread ) ) . '</span></span>';
+		}
+
 		add_menu_page(
 			__( 'Order Updates', 'order-updates-for-woo' ),
-			__( 'Order Updates', 'order-updates-for-woo' ),
+			$menu_title,
 			'manage_woocommerce',
 			self::PARENT_SLUG,
 			'__return_null',
