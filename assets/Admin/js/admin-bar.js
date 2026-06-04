@@ -16,7 +16,43 @@
 		const count = parseInt( data[ key ].count || 0, 10 );
 		const items = Array.isArray( data[ key ].items ) ? data[ key ].items : null;
 		updateBadge( count, items );
+		syncMenuBubbles( count );
 	} );
+
+	// Keep the sidebar menu count bubbles in sync with the live count: the
+	// top-level "Order Updates" item and the "Notifications" sub-item. Both are
+	// rendered server-side at page load, so without this they stay stale until
+	// the page is reloaded.
+	function syncMenuBubbles( count ) {
+		const $menu = $( '#toplevel_page_order-updates-for-woo' );
+		if ( ! $menu.length ) return;
+
+		// Top-level: the count bubble sits in the menu title (.wp-menu-name).
+		setMenuBubble( $menu.find( '.wp-menu-name' ).first(), count );
+
+		// Notifications sub-item: matched by its page slug in the href.
+		const slug = config.notificationsSlug || '';
+		if ( slug ) {
+			setMenuBubble( $menu.find( '.wp-submenu a[href*="page=' + slug + '"]' ).first(), count );
+		}
+	}
+
+	// Set, create, or remove WordPress's native count bubble on a menu element.
+	function setMenuBubble( $target, count ) {
+		if ( ! $target.length ) return;
+
+		let $bubble = $target.find( '.awaiting-mod' );
+
+		if ( count > 0 ) {
+			if ( ! $bubble.length ) {
+				$target.append( ' <span class="awaiting-mod"><span class="pending-count"></span></span>' );
+				$bubble = $target.find( '.awaiting-mod' );
+			}
+			$bubble.find( '.pending-count' ).text( count );
+		} else {
+			$bubble.remove();
+		}
+	}
 
 	// Click: dismiss server-side, remove from DOM, then navigate or focus.
 	$( document ).on( 'click', '#' + nodeId + ' .awts-ab-row-item > .ab-item', function ( e ) {

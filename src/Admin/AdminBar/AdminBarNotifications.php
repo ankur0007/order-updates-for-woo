@@ -669,14 +669,15 @@ final class AdminBarNotifications {
 			'order-updates-for-woo-admin-bar',
 			'awtsAdminBarData',
 			array(
-				'heartbeatKey'   => Constants::HEARTBEAT_ADMIN_BAR_KEY,
-				'nodeId'         => 'wp-admin-bar-' . self::NODE_ID,
-				'viewAllLabel'   => __( 'View all order updates →', 'order-updates-for-woo' ),
-				'showAllLabel'   => __( 'Show all', 'order-updates-for-woo' ),
-				'clearAllLabel'  => __( 'Clear', 'order-updates-for-woo' ),
-				'clearAllAction' => Constants::ADMIN_BAR_DISMISS_ALL_ACTION,
-				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
-				'dismissNonce'   => wp_create_nonce( Constants::ADMIN_BAR_DISMISS_NONCE ),
+				'heartbeatKey'      => Constants::HEARTBEAT_ADMIN_BAR_KEY,
+				'nodeId'            => 'wp-admin-bar-' . self::NODE_ID,
+				'notificationsSlug' => \OrderUpdatesForWoo\Admin\Notifications\NotificationsPageController::SLUG,
+				'viewAllLabel'      => __( 'View all order updates →', 'order-updates-for-woo' ),
+				'showAllLabel'      => __( 'Show all', 'order-updates-for-woo' ),
+				'clearAllLabel'     => __( 'Clear', 'order-updates-for-woo' ),
+				'clearAllAction'    => Constants::ADMIN_BAR_DISMISS_ALL_ACTION,
+				'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
+				'dismissNonce'      => wp_create_nonce( Constants::ADMIN_BAR_DISMISS_NONCE ),
 			)
 		);
 	}
