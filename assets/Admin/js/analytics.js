@@ -220,15 +220,58 @@
 		} );
 	}
 
+	const TABLE_PAGE_SIZE = 10;
+
+	// Client-side pagination for the analytics tables: 10 rows per page with
+	// prev/next. The dataset is already in memory (one fetch per range), so
+	// paging is just a re-slice — no extra requests.
+	function paginateTable( $tbody, rows, rowHtml, pagerId ) {
+		const pages = Math.ceil( rows.length / TABLE_PAGE_SIZE );
+		let page    = 0;
+
+		let $pager = $( '#' + pagerId );
+		if ( ! $pager.length ) {
+			$pager = $( '<div class="awts-analytics__pager" id="' + pagerId + '"></div>' );
+			$tbody.closest( 'table' ).after( $pager );
+		}
+
+		function draw() {
+			const slice = rows.slice( page * TABLE_PAGE_SIZE, ( page * TABLE_PAGE_SIZE ) + TABLE_PAGE_SIZE );
+			$tbody.html( slice.map( rowHtml ).join( '' ) );
+
+			if ( pages <= 1 ) {
+				$pager.empty();
+				return;
+			}
+
+			$pager.html(
+				'<button type="button" class="button awts-analytics__pager-btn" data-dir="-1"' + ( 0 === page ? ' disabled' : '' ) + '>&lsaquo;</button>'
+				+ '<span class="awts-analytics__pager-info">' + ( page + 1 ) + ' / ' + pages + '</span>'
+				+ '<button type="button" class="button awts-analytics__pager-btn" data-dir="1"' + ( page >= pages - 1 ? ' disabled' : '' ) + '>&rsaquo;</button>'
+			);
+		}
+
+		$pager.off( 'click.awtspager' ).on( 'click.awtspager', '.awts-analytics__pager-btn', function () {
+			const next = page + parseInt( $( this ).attr( 'data-dir' ), 10 );
+			if ( next >= 0 && next < pages ) {
+				page = next;
+				draw();
+			}
+		} );
+
+		draw();
+	}
+
 	function renderAssignees( rows ) {
 		const $tbody = $( '#awts-analytics-assignees-tbody' );
 
 		if ( ! rows.length ) {
 			$tbody.html( '<tr><td colspan="5">' + esc( s.noData || 'No data for this period.' ) + '</td></tr>' );
+			$( '#awts-analytics-assignees-pager' ).empty();
 			return;
 		}
 
-		const html = rows.map( function ( r ) {
+		paginateTable( $tbody, rows, function ( r ) {
 			const rating = r.avg_rating !== null ? r.avg_rating + ' ★' : ( s.na || 'N/A' );
 			return '<tr>'
 				+ '<td>' + esc( r.name ) + '</td>'
@@ -237,9 +280,7 @@
 				+ '<td>' + esc( r.pending ) + '</td>'
 				+ '<td>' + esc( rating ) + '</td>'
 				+ '</tr>';
-		} ).join( '' );
-
-		$tbody.html( html );
+		}, 'awts-analytics-assignees-pager' );
 	}
 
 	function renderProducts( rows ) {
@@ -247,12 +288,13 @@
 
 		if ( ! rows.length ) {
 			$tbody.html( '<tr><td colspan="4">' + esc( s.noData || 'No data for this period.' ) + '</td></tr>' );
+			$( '#awts-analytics-products-pager' ).empty();
 			return;
 		}
 
 		const adminUrl = ( window.awtsAnalyticsData && awtsAnalyticsData.adminUrl ) ? awtsAnalyticsData.adminUrl : '';
 
-		const html = rows.map( function ( r ) {
+		paginateTable( $tbody, rows, function ( r ) {
 			var nameCell;
 			if ( adminUrl && r.product_id ) {
 				var productUrl = adminUrl + '?post=' + encodeURIComponent( r.product_id ) + '&action=edit';
@@ -266,9 +308,7 @@
 				+ '<td>' + esc( r.solved ) + '</td>'
 				+ '<td>' + esc( r.pending ) + '</td>'
 				+ '</tr>';
-		} ).join( '' );
-
-		$tbody.html( html );
+		}, 'awts-analytics-products-pager' );
 	}
 
 	// -------------------------------------------------------------------------
