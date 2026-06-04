@@ -28,6 +28,7 @@ $settings = wp_parse_args(
 	array(
 		'enable_assignee'      => true,
 		'enable_color'         => true,
+		'enable_internal_note' => true,
 		'enable_customer_note' => true,
 		'enable_solved_state'  => true,
 		'allow_deletion'       => false,
@@ -59,11 +60,13 @@ $settings = wp_parse_args(
 		</div>
 	<?php endif; ?>
 
+	<?php if ( $settings['enable_internal_note'] ) : ?>
 	<div class="awts_field awts_add_only_field awts_internal_note_field">
 		<label class="awts_field_label" for="awts_update_internal_note"><?php esc_html_e( 'Internal note', 'order-updates-for-woo' ); ?></label>
 		<textarea id="awts_update_internal_note" class="awts_textarea" placeholder="<?php echo esc_attr__( 'Plain text only. Add internal context for your team. Maximum 500 characters.', 'order-updates-for-woo' ); ?>" data-awts-character-limit="500" maxlength="500"></textarea>
 		<p class="awts_field_hint awts_note_counter" data-awts-counter-for="awts_update_internal_note"><?php esc_html_e( '0/500', 'order-updates-for-woo' ); ?></p>
 	</div>
+	<?php endif; ?>
 
 	<?php if ( $settings['enable_customer_note'] ) : ?>
 		<div class="awts_field awts_add_only_field awts_customer_note_field" hidden>
