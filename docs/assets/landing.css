@@ -1108,7 +1108,7 @@ body.landing {
 		gap: 28px;
 	}
 
-	/* Mobile: drop the circle — lay the 7 steps out as a single
+	/* Mobile: drop the circle — lay the 9 steps out as a single
 	   horizontal progress line (1—2—…—9) with a dashed connector
 	   running behind the numbered dots. */
 	.landing__stepper__rail {
