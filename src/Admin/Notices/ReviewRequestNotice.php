@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace OrderUpdatesForWoo\Admin\Notices;
 
+use OrderUpdatesForWoo\Helpers\AssetHelper;
 use OrderUpdatesForWoo\Helpers\HposHelper;
 use OrderUpdatesForWoo\Shared\Updates\OrderUpdatesDb;
 use OrderUpdatesForWoo\Shared\Config\Constants;
@@ -70,6 +71,7 @@ final class ReviewRequestNotice {
 		// measured relative to a stable baseline.
 		add_action( 'admin_init', array( $this, 'stamp_first_seen' ) );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_notice_script' ) );
 		add_action( 'admin_notices', array( $this, 'maybe_render' ) );
 
 		// Three buttons on the notice — each posts back here.
@@ -163,65 +165,26 @@ final class ReviewRequestNotice {
 			</p>
 		</div>
 
-		<script>
-		( function () {
-			'use strict';
-			var notice = document.querySelector( '[data-awts-review-notice]' );
-			if ( ! notice ) return;
-			var stars   = notice.querySelectorAll( '[data-awts-star]' );
-			var form    = notice.querySelector( '[data-awts-review-form]' );
-			var input   = notice.querySelector( '[data-awts-rating-input]' );
-			var status  = notice.querySelector( '[data-awts-status]' );
-			var markUrl = <?php echo wp_json_encode( $mark_rated ); ?>;
-
-			function paint( picked ) {
-				stars.forEach( function ( star, i ) {
-					star.style.color = ( i < picked ) ? '#f59e0b' : '#cbd5e1';
-				} );
-			}
-
-			stars.forEach( function ( star, i ) {
-				var rank = i + 1;
-				star.addEventListener( 'mouseenter', function () { paint( rank ); } );
-				star.addEventListener( 'mouseleave', function () { paint( parseInt( input.value || '0', 10 ) ); } );
-				star.addEventListener( 'click', function () {
-					input.value = rank;
-					paint( rank );
-					form.style.display = 'block';
-				} );
-			} );
-
-			form.addEventListener( 'submit', function ( e ) {
-				e.preventDefault();
-				if ( ! input.value ) return;
-				status.style.display = 'inline';
-				status.textContent   = 'Sending…';
-				status.style.color   = '#475569';
-
-				fetch( 'https://api.web3forms.com/submit', {
-					method: 'POST',
-					body:   new FormData( form ),
-				} )
-					.then( function ( r ) { return r.json().catch( function () { return {}; } ); } )
-					.then( function ( data ) {
-						if ( data && data.success !== false ) {
-							status.textContent = '✓ Thanks — submitted!';
-							status.style.color = '#059669';
-							// Mark the user as rated so the notice doesn't come back.
-							setTimeout( function () { window.location.href = markUrl; }, 1200 );
-						} else {
-							status.textContent = '⚠ ' + ( ( data && data.message ) || 'Could not send. Try again.' );
-							status.style.color = '#b91c1c';
-						}
-					} )
-					.catch( function () {
-						status.textContent = '⚠ Network error.';
-						status.style.color = '#b91c1c';
-					} );
-			} );
-		} )();
-		</script>
 		<?php
+	}
+
+	/** Enqueue the star-rating interaction script on screens where the notice will show. */
+	public function enqueue_notice_script(): void {
+		if ( ! $this->should_render() ) {
+			return;
+		}
+		wp_enqueue_script(
+			'order-updates-for-woo-review-notice',
+			AssetHelper::url( 'assets/Admin/js/review-notice.js' ),
+			array(),
+			AssetHelper::version( 'assets/Admin/js/review-notice.js' ),
+			true
+		);
+		wp_localize_script(
+			'order-updates-for-woo-review-notice',
+			'awtsReviewNotice',
+			array( 'markUrl' => $this->action_url( 'already' ) )
+		);
 	}
 
 	/**
