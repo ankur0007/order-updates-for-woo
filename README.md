@@ -75,6 +75,18 @@ The analytics page shows how many updates you solve, your average rating, and ho
 
 ![Analytics dashboard](.github/screenshots/analytics-dashboard.png)
 
+### The Notifications page
+
+Every notification in one place — filter, mark as read, and clear. The unread count also shows on the menu so nothing slips by.
+
+![Notifications page](.github/screenshots/notifications-page.png)
+
+### Assignments at a glance
+
+Each teammate sees their own queue with how long each update has waited; managers see the whole store, filterable by person.
+
+![Assignments page](.github/screenshots/assignments-page.png)
+
 ### Settings
 
 Everything is configurable — statuses, emails, customer access, attachments, and more.
