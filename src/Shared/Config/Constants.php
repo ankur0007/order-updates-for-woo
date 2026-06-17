@@ -71,8 +71,10 @@ final class Constants {
 	public const NOTIFICATIONS_CLEANUP_HOOK       = 'order_updates_for_woo_notifications_cleanup';
 	public const NOTIFICATIONS_CLEANUP_BATCH_HOOK = 'order_updates_for_woo_notifications_cleanup_batch';
 	public const ANALYTICS_GEN_PFX                = 'analytics_gen_';
-	// Option key prefix for persistent generation counters (used on hosts without a persistent object cache).
-	public const ANALYTICS_GEN_OPTION_PFX = 'order_updates_for_woo_analytics_gen_';
+	// Persistent generation-counter option (used on hosts without a persistent object cache). Full name kept as one literal so its prefix is visible.
+	public const ANALYTICS_GEN_LOOKUP_OPTION = 'order_updates_for_woo_analytics_gen_lookup';
+	// Prefix for the cached analytics response transients (stored in the shared options table, so it carries the full plugin prefix).
+	public const ANALYTICS_TRANSIENT_PFX = 'order_updates_for_woo_analytics_';
 
 	// WooCommerce order item table suffixes (without $wpdb->prefix).
 	public const WC_ORDER_ITEMS_TABLE    = 'woocommerce_order_items';

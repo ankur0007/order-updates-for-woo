@@ -31,7 +31,7 @@ $is_customer_visible = ! empty( $view_data['is_customer_visible'] );
 ?>
 <?php if ( ! $is_customer_visible ) : ?>
 	<div class="awts_customer_notes_warning awts_customer_notes_warning--hidden">
-		<?php echo Icons::dashicon( 'hidden' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo wp_kses_post( Icons::dashicon( 'hidden' ) ); ?>
 		<span>
 			<strong><?php esc_html_e( 'Hidden from customer:', 'order-updates-for-woo' ); ?></strong>
 			<?php esc_html_e( 'this update is not yet visible to the customer. Write a customer note below to make it visible and notify them.', 'order-updates-for-woo' ); ?>
@@ -39,7 +39,7 @@ $is_customer_visible = ! empty( $view_data['is_customer_visible'] );
 	</div>
 <?php elseif ( $is_guest_order ) : ?>
 	<div class="awts_guest_customer_notice">
-		<?php echo Icons::dashicon( 'warning' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo wp_kses_post( Icons::dashicon( 'warning' ) ); ?>
 		<span>
 			<strong><?php esc_html_e( 'Guest customer:', 'order-updates-for-woo' ); ?></strong>
 			<?php esc_html_e( 'no My Account access — every note here is auto-emailed to the billing address.', 'order-updates-for-woo' ); ?>
@@ -47,7 +47,7 @@ $is_customer_visible = ! empty( $view_data['is_customer_visible'] );
 	</div>
 <?php else : ?>
 	<div class="awts_customer_notes_warning">
-		<?php echo Icons::dashicon( 'warning' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo wp_kses_post( Icons::dashicon( 'warning' ) ); ?>
 		<?php esc_html_e( 'Visible to the customer on their My Account page.', 'order-updates-for-woo' ); ?>
 	</div>
 <?php endif; ?>

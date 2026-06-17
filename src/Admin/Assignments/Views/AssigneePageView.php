@@ -109,10 +109,9 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 			</div>
 			<nav class="awts-asg__tabs">
 				<?php
-				// Links are assembled with esc_* in the $tab closure above.
-				echo $tab( '', __( 'All', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $tab( 'open', __( 'Waiting', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $tab( 'solved', __( 'Resolved', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo wp_kses_post( $tab( '', __( 'All', 'order-updates-for-woo' ) ) );
+				echo wp_kses_post( $tab( 'open', __( 'Waiting', 'order-updates-for-woo' ) ) );
+				echo wp_kses_post( $tab( 'solved', __( 'Resolved', 'order-updates-for-woo' ) ) );
 				?>
 			</nav>
 		</div>
@@ -159,13 +158,15 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 				$waiting     = ! empty( $row['waiting'] );
 				$resolved    = ! empty( $row['resolved'] );
 				$open        = '' !== (string) $row['edit_url'];
-				$tag         = $open ? 'a' : 'div';
-				$href        = $open ? ' href="' . esc_url( (string) $row['edit_url'] ) . '"' : '';
 				$accent      = $waiting ? '#f59e0b' : (string) $row['status_color'];
 				$created     = (string) ( $row['created_avatar'] ?? '' );
 				$assignee_av = (string) ( $row['assignee_avatar'] ?? '' );
 				?>
-				<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?> class="awts-asg__row"<?php echo $href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_url'd above. ?><?php echo $open ? ' title="' . esc_attr__( 'Open this update on its order', 'order-updates-for-woo' ) . '"' : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_attr__ output. ?>>
+				<?php if ( $open ) : ?>
+				<a class="awts-asg__row" href="<?php echo esc_url( (string) $row['edit_url'] ); ?>" title="<?php esc_attr_e( 'Open this update on its order', 'order-updates-for-woo' ); ?>">
+				<?php else : ?>
+				<div class="awts-asg__row">
+				<?php endif; ?>
 					<span class="awts-asg__accent" style="background: <?php echo esc_attr( $accent ); ?>"></span>
 
 					<span class="awts-asg__icon <?php echo $resolved ? 'is-done' : 'is-waiting'; ?>">
@@ -189,7 +190,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 
 						<span class="awts-asg__meta">
 							<span class="awts-asg__person">
-								<?php echo $created; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
+								<?php echo wp_kses_post( $created ); ?>
 								<span><span class="awts-asg__muted"><?php esc_html_e( 'by', 'order-updates-for-woo' ); ?></span> <span class="awts-asg__name"><?php echo esc_html( (string) $row['created_by'] ); ?></span></span>
 							</span>
 							<?php if ( '' !== (string) $row['created_date'] ) : ?>
@@ -198,7 +199,7 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 							<span class="awts-asg__person">
 								<span class="awts-asg__muted"><?php esc_html_e( 'assigned to', 'order-updates-for-woo' ); ?></span>
 								<?php if ( '' !== (string) $row['assignee'] ) : ?>
-									<?php echo $assignee_av; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
+									<?php echo wp_kses_post( $assignee_av ); ?>
 									<span class="awts-asg__name"><?php echo esc_html( (string) $row['assignee'] ); ?></span>
 								<?php else : ?>
 									<span class="awts-asg__name"><?php esc_html_e( 'Unassigned', 'order-updates-for-woo' ); ?></span>
@@ -219,20 +220,26 @@ $longest = (string) ( $summary['longest_label'] ?? '' );
 						<?php endif; ?>
 						<span class="awts-asg__arrow" aria-hidden="true">&rarr;</span>
 					</span>
-				</<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 'a' or 'div'. ?>>
+				<?php if ( $open ) : ?>
+				</a>
+				<?php else : ?>
+				</div>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
 
 		<div class="awts-asg__foot">
 			<span class="awts-asg__range">
 				<?php
-				printf(
-					/* translators: 1: first row, 2: last row, 3: total */
-					esc_html__( 'Showing %1$s of %2$s', 'order-updates-for-woo' ),
-					'<b>' . esc_html( number_format_i18n( (int) ( $view_data['range_from'] ?? 0 ) ) ) . '&ndash;' . esc_html( number_format_i18n( (int) ( $view_data['range_to'] ?? 0 ) ) ) . '</b>',
-					'<b>' . esc_html( number_format_i18n( $total ) ) . '</b>'
+				echo wp_kses(
+					sprintf(
+						/* translators: 1: first row, 2: last row, 3: total */
+						esc_html__( 'Showing %1$s of %2$s', 'order-updates-for-woo' ),
+						'<b>' . esc_html( number_format_i18n( (int) ( $view_data['range_from'] ?? 0 ) ) ) . '&ndash;' . esc_html( number_format_i18n( (int) ( $view_data['range_to'] ?? 0 ) ) ) . '</b>',
+						'<b>' . esc_html( number_format_i18n( $total ) ) . '</b>'
+					),
+					array( 'b' => array() )
 				);
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- numbers escaped above; only <b> wrappers are literal.
 				?>
 			</span>
 

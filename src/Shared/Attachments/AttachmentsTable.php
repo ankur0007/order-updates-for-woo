@@ -13,8 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Direct queries on our own tables. Table names are safe; user input always uses prepare().
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// Schema management: a dbDelta CREATE statement + a direct table-existence
+// check on our own table. The `CREATE TABLE {$this->...}` string is interpolated
+// per the dbDelta convention; the existence check binds its value via prepare().
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 /**
  * Holds the attachments table name and creates it via dbDelta when needed.

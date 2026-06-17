@@ -13,8 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Direct queries on our own tables. Table names are safe; user input always uses prepare().
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// Schema management: dbDelta CREATE statements + direct schema/identity checks
+// on our own tables. The `CREATE TABLE {$this->...}` strings are interpolated
+// per the dbDelta convention (no $wpdb->prepare for schema creation); every
+// other identifier uses a %i placeholder and every value is bound.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 
 /**
  * Holds the fully-qualified names of the plugin's tables and creates or
@@ -214,7 +217,7 @@ final class UpdatesTable {
 		// earlier dev migration. Safe to call repeatedly: the SHOW COLUMNS
 		// guard makes it a no-op once the drop has run.
 		if ( $this->column_exists( $this->customer_notes, 'status' ) ) {
-			$wpdb->query( "ALTER TABLE {$this->customer_notes} DROP COLUMN status" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange -- own-schema table.
+			$wpdb->query( $wpdb->prepare( 'ALTER TABLE %i DROP COLUMN status', $this->customer_notes ) );
 		}
 
 		dbDelta(
@@ -265,8 +268,10 @@ final class UpdatesTable {
 		global $wpdb;
 
 		$has_blank_status = (int) $wpdb->get_var(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- own-schema table name.
-			"SELECT COUNT(*) FROM {$this->updates} WHERE status = '' OR status IS NULL"
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM %i WHERE status = '' OR status IS NULL",
+				$this->updates
+			)
 		);
 
 		if ( $has_blank_status <= 0 ) {
@@ -281,16 +286,16 @@ final class UpdatesTable {
 				continue;
 			}
 
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$wpdb->query(
 				$wpdb->prepare(
-					"UPDATE {$this->updates}
+					"UPDATE %i
 				SET status = %s
 				WHERE ( status = '' OR status IS NULL )
 				  AND LOWER( color ) = %s",
+					$this->updates,
 					$key,
 					$color
-				) 
+				)
 			);
 		}
 	}
@@ -320,14 +325,13 @@ final class UpdatesTable {
 			return false;
 		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- $table is allowlisted above; identifier cannot be parameterised.
 		$found = $wpdb->get_var(
 			$wpdb->prepare(
-				'SHOW COLUMNS FROM `' . $table . '` LIKE %s',
+				'SHOW COLUMNS FROM %i LIKE %s',
+				$table,
 				$column
 			)
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		return null !== $found && '' !== (string) $found;
 	}

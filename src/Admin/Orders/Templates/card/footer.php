@@ -69,7 +69,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 
 	<?php if ( '' !== $created_by_name || '' !== $created_date ) : ?>
 		<span class="awts_footer_item">
-			<?php echo Avatar::html( (int) ( $raw['created_by_user_id'] ?? 0 ), $created_by_avatar_name, 'awts_assignee_avatar', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
+			<?php echo wp_kses_post( Avatar::html( (int) ( $raw['created_by_user_id'] ?? 0 ), $created_by_avatar_name, 'awts_assignee_avatar', 30 ) ); ?>
 			<strong><?php echo esc_html( $created_by_name ); ?></strong>
 			<?php if ( '' !== $created_date ) : ?>
 				<span class="awts_footer_sep">·</span>
@@ -89,14 +89,14 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 			<?php if ( $can_edit_meta ) : ?>
 				<button type="button" class="awts_inline_edit_btn awts_edit_assignee">
 					<?php if ( $has_assignee ) : ?>
-						<?php echo Avatar::html( (int) ( $raw['assignee_user_id'] ?? 0 ), $assigned_to, 'awts_assignee_avatar', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Avatar::html escapes internally. ?>
+						<?php echo wp_kses_post( Avatar::html( (int) ( $raw['assignee_user_id'] ?? 0 ), $assigned_to, 'awts_assignee_avatar', 30 ) ); ?>
 						<strong class="awts_assignee_name"><?php echo esc_html( $assigned_to ); ?></strong>
 					<?php else : ?>
 						<span class="awts_footer_label awts_footer_label--muted">
 							<?php esc_html_e( 'Assign', 'order-updates-for-woo' ); ?>
 						</span>
 					<?php endif; ?>
-					<?php echo Icons::dashicon( 'edit', __( 'Edit assignee', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_kses_post( Icons::dashicon( 'edit', __( 'Edit assignee', 'order-updates-for-woo' ) ) ); ?>
 				</button>
 			<?php elseif ( $has_assignee ) : ?>
 				<strong class="awts_assignee_name"><?php echo esc_html( $assigned_to ); ?></strong>
@@ -137,7 +137,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 						<span class="awts_status_pill_dot" style="background:<?php echo esc_attr( $current_color ); ?>;"></span>
 						<?php echo esc_html( '' !== $current_status_label ? $current_status_label : $current_color ); ?>
 					</span>
-					<?php echo Icons::dashicon( 'edit', __( 'Change status', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_kses_post( Icons::dashicon( 'edit', __( 'Change status', 'order-updates-for-woo' ) ) ); ?>
 				</button>
 			<?php else : ?>
 				<span class="awts_status_pill" style="background:<?php echo esc_attr( $current_color ); ?>1a; color:<?php echo esc_attr( $current_color ); ?>;">
@@ -169,7 +169,7 @@ $current_color = $current_status ? strtolower( (string) ( $current_status['color
 
 	<?php if ( ! empty( $settings['enable_solved_state'] ) && $is_resolved ) : ?>
 		<span class="awts_footer_item awts_footer_solved">
-			<?php echo Icons::dashicon( 'yes' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo wp_kses_post( Icons::dashicon( 'yes' ) ); ?>
 			<?php
 			if ( '' !== $solved_date ) {
 				echo esc_html(

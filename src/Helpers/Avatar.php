@@ -70,8 +70,13 @@ final class Avatar {
 	 * The colour hue is derived from the name so one person always gets one
 	 * colour, run after run.
 	 *
+	 * The colour is returned as a hex string on purpose: the markup is escaped
+	 * on output with wp_kses, whose CSS filter strips colour functions like
+	 * oklch()/rgb() from inline styles — hex survives, so the disc keeps its
+	 * colour.
+	 *
 	 * @param string $name Display name to derive initials and colour from.
-	 * @return array{0:string, 1:string} Initials, then an oklch() colour string.
+	 * @return array{0:string, 1:string} Initials, then a hex colour string.
 	 */
 	private static function initials_and_color( string $name ): array {
 		$name  = trim( $name );
@@ -93,7 +98,28 @@ final class Avatar {
 
 		return array(
 			mb_strtoupper( $initials ),
-			sprintf( 'oklch(62%% 0.12 %d)', $hue ),
+			self::hsl_to_hex( $hue, 0.55, 0.52 ),
 		);
+	}
+
+	/**
+	 * Convert an HSL colour to a `#rrggbb` hex string, so the disc colour is a
+	 * plain hex value that survives output escaping (see initials_and_color).
+	 *
+	 * @param int   $hue        Hue, 0–359.
+	 * @param float $saturation Saturation, 0–1.
+	 * @param float $lightness  Lightness, 0–1.
+	 */
+	private static function hsl_to_hex( int $hue, float $saturation, float $lightness ): string {
+		$chroma = ( 1 - abs( 2 * $lightness - 1 ) ) * $saturation;
+
+		$channel = static function ( int $n ) use ( $hue, $lightness, $chroma ): int {
+			$k     = fmod( $n + $hue / 30, 12 );
+			$value = $lightness - ( $chroma / 2 ) * max( -1, min( $k - 3, 9 - $k, 1 ) );
+
+			return (int) round( 255 * $value );
+		};
+
+		return sprintf( '#%02x%02x%02x', $channel( 0 ), $channel( 8 ), $channel( 4 ) );
 	}
 }

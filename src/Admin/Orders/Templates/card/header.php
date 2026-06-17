@@ -45,7 +45,7 @@ $staff_email_muted = ! empty( $flags['staff_email_muted'] );
 		<span class="awts_title_text"><?php echo esc_html( (string) ( $raw['title'] ?? '' ) ); ?></span>
 		<?php if ( $can_edit && ! $is_resolved ) : ?>
 			<button type="button" class="awts_inline_edit_btn awts_edit_title" title="<?php echo esc_attr__( 'Edit', 'order-updates-for-woo' ); ?>">
-				<?php echo Icons::dashicon( 'edit', __( 'Edit', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses_post( Icons::dashicon( 'edit', __( 'Edit', 'order-updates-for-woo' ) ) ); ?>
 			</button>
 		<?php endif; ?>
 	</div>
@@ -92,7 +92,7 @@ $staff_email_muted = ! empty( $flags['staff_email_muted'] );
 		</label>
 
 		<button type="button" class="awts_inline_edit_btn awts_card_collapse_toggle" title="<?php echo esc_attr__( 'Collapse / expand', 'order-updates-for-woo' ); ?>" aria-label="<?php echo esc_attr__( 'Collapse or expand this update', 'order-updates-for-woo' ); ?>">
-			<?php echo Icons::dashicon( 'arrow-up-alt2', __( 'Collapse or expand', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo wp_kses_post( Icons::dashicon( 'arrow-up-alt2', __( 'Collapse or expand', 'order-updates-for-woo' ) ) ); ?>
 		</button>
 	</div>
 </div>

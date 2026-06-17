@@ -291,7 +291,7 @@ final class OrderUpdatesSettingsController {
 			);
 		}
 
-		echo '<ul class="subsubsub">' . implode( ' | ', $links ) . '</ul><br class="clear" />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc'd above
+		echo wp_kses_post( '<ul class="subsubsub">' . implode( ' | ', $links ) . '</ul><br class="clear" />' );
 	}
 
 	/**
@@ -322,12 +322,10 @@ final class OrderUpdatesSettingsController {
 			'order_updates_for_woo_reset_section_' . $section_id
 		);
 
-		$confirm = esc_js( __( 'Reset all settings in this tab to their defaults? This cannot be undone.', 'order-updates-for-woo' ) );
-
 		printf(
 			'<p class="submit"><a href="%1$s" class="button" onclick="return confirm(\'%2$s\');">%3$s</a></p>',
 			esc_url( $url ),
-			$confirm, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_js'd above
+			esc_js( __( 'Reset all settings in this tab to their defaults? This cannot be undone.', 'order-updates-for-woo' ) ),
 			esc_html__( 'Reset to default', 'order-updates-for-woo' )
 		);
 	}

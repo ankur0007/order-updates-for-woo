@@ -12,8 +12,10 @@ namespace OrderUpdatesForWoo\Shared\Attachments;
 use OrderUpdatesForWoo\Shared\Config\Constants;
 use OrderUpdatesForWoo\Shared\Config\Variables;
 
-// Direct queries on our own tables. Table names are safe; user input always uses prepare().
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// Direct queries on our own table: the table identifier uses a %i placeholder
+// and all values are bound via prepare(). The sniffs below only cover the
+// direct-query / caching patterns inherent to a custom-table data layer.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 /**
  * CRUD + cache for attachment rows, keyed by note / order / update.
@@ -81,7 +83,8 @@ final class AttachmentsDb {
 
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM {$this->table->attachments} WHERE id = %d LIMIT 1",
+				'SELECT * FROM %i WHERE id = %d LIMIT 1',
+				$this->table->attachments,
 				$attachment_id
 			),
 			ARRAY_A
@@ -118,9 +121,10 @@ final class AttachmentsDb {
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$this->table->attachments}
+				'SELECT * FROM %i
 				WHERE note_id = %d AND note_type = %s
-				ORDER BY uploaded_at ASC, id ASC",
+				ORDER BY uploaded_at ASC, id ASC',
+				$this->table->attachments,
 				$note_id,
 				$note_type
 			),
@@ -147,7 +151,8 @@ final class AttachmentsDb {
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$this->table->attachments} WHERE order_id = %d",
+				'SELECT * FROM %i WHERE order_id = %d',
+				$this->table->attachments,
 				$order_id
 			),
 			ARRAY_A
@@ -237,7 +242,8 @@ final class AttachmentsDb {
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$this->table->attachments} WHERE update_id = %d",
+				'SELECT * FROM %i WHERE update_id = %d',
+				$this->table->attachments,
 				$update_id
 			),
 			ARRAY_A

@@ -17,8 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Direct queries on our own tables. Table names are safe; user input always uses prepare().
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+// Direct queries on our own tables: table identifiers use %i placeholders and
+// all values are bound via prepare(). The sniffs below only cover the
+// direct-query / caching / slow-query / TRUNCATE patterns inherent to a
+// custom-table analytics layer.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.SlowDBQuery
 
 /**
  * Read + write API for the analytics lookup table.
@@ -156,7 +159,8 @@ final class AnalyticsLookupDb {
 		// KEY UPDATE with all the column expressions we'd want.
 		$existing = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT id FROM {$this->table->lookup} WHERE update_id = %d LIMIT 1",
+				'SELECT id FROM %i WHERE update_id = %d LIMIT 1',
+				$this->table->lookup,
 				$update_id
 			)
 		);
@@ -205,7 +209,7 @@ final class AnalyticsLookupDb {
 	 * @return array{total:int, solved:int, pending:int, avg_rating:float|null}
 	 */
 	public function summary( string $from, string $to ): array {
-		$cache_key = 'analytics_summary_lk_' . $this->generation() . '_' . md5( $from . $to );
+		$cache_key = Constants::ANALYTICS_TRANSIENT_PFX . 'summary_lk_' . $this->generation() . '_' . md5( $from . $to );
 		$cached    = get_transient( $cache_key );
 
 		if ( false !== $cached ) {
@@ -216,12 +220,13 @@ final class AnalyticsLookupDb {
 
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT
+				'SELECT
 					COUNT(*) AS total,
 					COALESCE( SUM( CASE WHEN solved_at IS NOT NULL THEN 1 ELSE 0 END ), 0 ) AS solved,
 					ROUND( AVG( rating ), 1 ) AS avg_rating
-				FROM {$this->table->lookup}
-				WHERE created_date >= %s AND created_date <= %s",
+				FROM %i
+				WHERE created_date >= %s AND created_date <= %s',
+				$this->table->lookup,
 				$from,
 				$to
 			),
@@ -251,7 +256,7 @@ final class AnalyticsLookupDb {
 	 * @return array<int, array{date:string, total:int, solved:int}>
 	 */
 	public function by_date( string $from, string $to ): array {
-		$cache_key = 'analytics_by_date_lk_' . $this->generation() . '_' . md5( $from . $to );
+		$cache_key = Constants::ANALYTICS_TRANSIENT_PFX . 'by_date_lk_' . $this->generation() . '_' . md5( $from . $to );
 		$cached    = get_transient( $cache_key );
 
 		if ( false !== $cached ) {
@@ -262,14 +267,15 @@ final class AnalyticsLookupDb {
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT
+				'SELECT
 					created_date AS date,
 					COUNT(*) AS total,
 					COALESCE( SUM( CASE WHEN solved_at IS NOT NULL THEN 1 ELSE 0 END ), 0 ) AS solved
-				FROM {$this->table->lookup}
+				FROM %i
 				WHERE created_date >= %s AND created_date <= %s
 				GROUP BY created_date
-				ORDER BY created_date ASC",
+				ORDER BY created_date ASC',
+				$this->table->lookup,
 				$from,
 				$to
 			),
@@ -299,7 +305,7 @@ final class AnalyticsLookupDb {
 	 * @return array<int, array{user_id:int, name:string, total:int, solved:int, pending:int, avg_rating:float|null}>
 	 */
 	public function by_assignee( string $from, string $to ): array {
-		$cache_key = 'analytics_assignees_lk_' . $this->generation() . '_' . md5( $from . $to );
+		$cache_key = Constants::ANALYTICS_TRANSIENT_PFX . 'assignees_lk_' . $this->generation() . '_' . md5( $from . $to );
 		$cached    = get_transient( $cache_key );
 
 		if ( false !== $cached ) {
@@ -310,16 +316,17 @@ final class AnalyticsLookupDb {
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT
+				'SELECT
 					assignee_user_id AS user_id,
 					COUNT(*) AS total,
 					COALESCE( SUM( CASE WHEN solved_at IS NOT NULL THEN 1 ELSE 0 END ), 0 ) AS solved,
 					ROUND( AVG( rating ), 1 ) AS avg_rating
-				FROM {$this->table->lookup}
+				FROM %i
 				WHERE created_date >= %s AND created_date <= %s
 				  AND assignee_user_id > 0
 				GROUP BY assignee_user_id
-				ORDER BY total DESC",
+				ORDER BY total DESC',
+				$this->table->lookup,
 				$from,
 				$to
 			),
@@ -369,7 +376,7 @@ final class AnalyticsLookupDb {
 	 * @return array<int, array{product_id:int, name:string, total:int, solved:int, pending:int}>
 	 */
 	public function by_product( string $from, string $to ): array {
-		$cache_key = 'analytics_products_lk_' . $this->generation() . '_' . md5( $from . $to );
+		$cache_key = Constants::ANALYTICS_TRANSIENT_PFX . 'products_lk_' . $this->generation() . '_' . md5( $from . $to );
 		$cached    = get_transient( $cache_key );
 
 		if ( false !== $cached ) {
@@ -384,23 +391,25 @@ final class AnalyticsLookupDb {
 		// Filter on the lookup first, then JOIN to order items + itemmeta to
 		// expand by product. Outer GROUP BY collapses back to one row per
 		// (update, product). Driving table is the small lookup, not updates.
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT
 					CAST( im.meta_value AS UNSIGNED ) AS product_id,
 					COUNT( DISTINCT l.update_id ) AS total,
 					COALESCE( SUM( CASE WHEN l.solved_at IS NOT NULL THEN 1 ELSE 0 END ), 0 ) AS solved
-				FROM {$this->table->lookup} l
-				INNER JOIN {$items_table} oi
+				FROM %i l
+				INNER JOIN %i oi
 					ON oi.order_id = l.order_id AND oi.order_item_type = 'line_item'
-				INNER JOIN {$itemmeta_table} im
+				INNER JOIN %i im
 					ON im.order_item_id = oi.order_item_id AND im.meta_key = '_product_id'
 				WHERE l.created_date >= %s AND l.created_date <= %s
 				  AND im.meta_value > 0
 				GROUP BY im.meta_value
 				ORDER BY total DESC
 				LIMIT 20",
+				$this->table->lookup,
+				$items_table,
+				$itemmeta_table,
 				$from,
 				$to
 			),
@@ -448,10 +457,11 @@ final class AnalyticsLookupDb {
 
 		$ids = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT id FROM {$this->updates_table->updates}
+				'SELECT id FROM %i
 				WHERE id > %d
 				ORDER BY id ASC
-				LIMIT %d",
+				LIMIT %d',
+				$this->updates_table->updates,
 				$after_id,
 				$batch_size
 			)
@@ -474,7 +484,7 @@ final class AnalyticsLookupDb {
 	 */
 	public function truncate(): void {
 		global $wpdb;
-		$wpdb->query( "TRUNCATE TABLE {$this->table->lookup}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.SchemaChange -- own-schema table name, no user input
+		$wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', $this->table->lookup ) );
 
 		$this->bump_generation();
 	}
@@ -495,10 +505,11 @@ final class AnalyticsLookupDb {
 
 		$update = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT id, order_id, created_at, solved_at, is_resolved, created_by, customer_visible
-				FROM {$this->updates_table->updates}
+				'SELECT id, order_id, created_at, solved_at, is_resolved, created_by, customer_visible
+				FROM %i
 				WHERE id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$this->updates_table->updates,
 				$update_id
 			),
 			ARRAY_A
@@ -510,21 +521,23 @@ final class AnalyticsLookupDb {
 
 		$assignee_id = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT assignee_user_id
-				FROM {$this->updates_table->assignees}
+				'SELECT assignee_user_id
+				FROM %i
 				WHERE update_id = %d AND is_active = 1
 				ORDER BY assigned_at DESC
-				LIMIT 1",
+				LIMIT 1',
+				$this->updates_table->assignees,
 				$update_id
 			)
 		);
 
 		$rating = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT stars, comment, created_at
-				FROM {$this->updates_table->ratings}
+				'SELECT stars, comment, created_at
+				FROM %i
 				WHERE update_id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$this->updates_table->ratings,
 				$update_id
 			),
 			ARRAY_A
@@ -580,7 +593,7 @@ final class AnalyticsLookupDb {
 			return (int) $cached;
 		}
 
-		$ver = (int) get_option( Constants::ANALYTICS_GEN_OPTION_PFX . 'lookup', 0 );
+		$ver = (int) get_option( Constants::ANALYTICS_GEN_LOOKUP_OPTION, 0 );
 		wp_cache_set( $cache_key, $ver, Constants::CACHE_GROUP );
 
 		return $ver;
@@ -600,7 +613,7 @@ final class AnalyticsLookupDb {
 	 * Bump the analytics cache generation, invalidating every cached response.
 	 */
 	private function bump_generation(): void {
-		$option_key = Constants::ANALYTICS_GEN_OPTION_PFX . 'lookup';
+		$option_key = Constants::ANALYTICS_GEN_LOOKUP_OPTION;
 		$next       = (int) get_option( $option_key, 0 ) + 1;
 
 		update_option( $option_key, $next, false );

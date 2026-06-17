@@ -111,7 +111,7 @@ $submit_class        = $is_customer ? 'awts_customer_notes_submit' : 'awts_notes
 				</button>
 
 				<button type="button" class="awts_attach_trigger" title="<?php echo esc_attr__( 'Attach file', 'order-updates-for-woo' ); ?>">
-					<?php echo Icons::dashicon( 'paperclip', __( 'Attach file', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_kses_post( Icons::dashicon( 'paperclip', __( 'Attach file', 'order-updates-for-woo' ) ) ); ?>
 				</button>
 
 				<input

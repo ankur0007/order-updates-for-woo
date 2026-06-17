@@ -469,7 +469,8 @@ final class AdminBarNotificationStore {
 
 		$user_ids = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s",
+				'SELECT user_id FROM %i WHERE meta_key = %s',
+				$wpdb->usermeta,
 				self::META_KEY
 			) 
 		);
@@ -727,7 +728,8 @@ final class AdminBarNotificationStore {
 
 		$ids = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s",
+				'SELECT user_id FROM %i WHERE meta_key = %s',
+				$wpdb->usermeta,
 				self::META_KEY
 			)
 		);

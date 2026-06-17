@@ -163,7 +163,7 @@ $settings = wp_parse_args(
 			<?php esc_html_e( 'Add new update', 'order-updates-for-woo' ); ?>
 		</button>
 		<button type="button" class="awts_refresh_updates" data-awts-order-id="<?php echo esc_attr( (string) $order_id ); ?>" title="<?php echo esc_attr__( 'Refresh updates', 'order-updates-for-woo' ); ?>">
-			<?php echo Icons::dashicon( 'update-alt', __( 'Refresh updates', 'order-updates-for-woo' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo wp_kses_post( Icons::dashicon( 'update-alt', __( 'Refresh updates', 'order-updates-for-woo' ) ) ); ?>
 		</button>
 	</div>
 

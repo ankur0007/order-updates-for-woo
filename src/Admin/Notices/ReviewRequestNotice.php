@@ -243,15 +243,17 @@ final class ReviewRequestNotice {
 
 	/** Handle a dismiss / remind-later / left-review click (nonce-checked). */
 	public function handle_action(): void {
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- nonce check below.
-		$action = isset( $_GET['awts_review_notice'] ) ? sanitize_key( wp_unslash( (string) $_GET['awts_review_notice'] ) ) : '';
-		if ( ! $action ) {
+		if ( ! isset( $_GET['awts_review_notice'] ) ) {
 			return;
 		}
-		$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['_wpnonce'] ) ) : '';
-		// phpcs:enable
 
+		$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['_wpnonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+			return;
+		}
+
+		$action = sanitize_key( wp_unslash( (string) $_GET['awts_review_notice'] ) );
+		if ( ! $action ) {
 			return;
 		}
 
@@ -273,14 +275,13 @@ final class ReviewRequestNotice {
 					array(
 						'status' => 'snoozed',
 						'until'  => time() + ( self::SNOOZE_DAYS * DAY_IN_SECONDS ),
-					) 
+					)
 				);
 				break;
 			default:
 				return;
 		}
 
-		// Strip our query args from the URL after we've recorded the state.
 		wp_safe_redirect( remove_query_arg( array( 'awts_review_notice', '_wpnonce' ) ) );
 		exit;
 	}

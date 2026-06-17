@@ -59,10 +59,10 @@ final class StatusListField {
 		<tr valign="top">
 			<th scope="row" class="titledesc">
 				<label><?php echo esc_html( (string) ( $value['name'] ?? '' ) ); ?></label>
-				<?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wc_help_tip is safe ?>
+				<?php echo wp_kses_post( $tooltip ); ?>
 			</th>
 			<td class="forminp">
-				<?php echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses_post( $desc ); ?>
 
 				<ul class="awts_status_list" data-awts-status-list data-awts-option-id="<?php echo esc_attr( $option_id ); ?>">
 					<?php foreach ( $rows as $row ) : ?>

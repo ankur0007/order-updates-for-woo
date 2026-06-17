@@ -72,10 +72,10 @@ final class AssigneeRotationField {
 		<tr valign="top">
 			<th scope="row" class="titledesc">
 				<label><?php echo esc_html( (string) ( $value['name'] ?? '' ) ); ?></label>
-				<?php echo $tooltip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wc_help_tip is safe ?>
+				<?php echo wp_kses_post( $tooltip ); ?>
 			</th>
 			<td class="forminp">
-				<?php echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses_post( $desc ); ?>
 
 				<?php if ( empty( $ordered ) ) : ?>
 					<p class="awts_assignee_rotation__empty">

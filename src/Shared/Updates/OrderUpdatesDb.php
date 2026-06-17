@@ -15,9 +15,16 @@ use OrderUpdatesForWoo\Shared\Config\Variables;
 // Data-access layer. Every interpolated value is a trusted table identifier from
 // UpdatesTable; all user input is bound via $wpdb->prepare() %d/%s placeholders.
 // SqlPreparationTest independently enforces prepare()-or-safe-literal on every
-// $wpdb call here, so the sniffs below only silence the table-name-interpolation noise.
-// Joins against $wpdb->users are read-only lookups of display names.
-// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.SlowDBQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
+// $wpdb call here. ALL table identifiers use %i placeholders and ALL values are
+// bound via %d/%s. InterpolatedNotPrepared remains disabled only for the three
+// safe, unavoidable fixed-fragment patterns: dynamic IN() placeholder lists
+// (`{$placeholders}`, built from array_fill of %d), the static internal column
+// list (`{$columns}`)/exclusion clause (`{$exclude}`), and the whitelisted
+// WHERE/ORDER fragments in the assignee listing — none of which carry user
+// input. The remaining sniffs cover direct-query / caching / slow-query patterns
+// inherent to a custom-table data layer; joins against $wpdb->users are
+// read-only name lookups.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPressVIPMinimum.Variables.RestrictedVariables.user_meta__wpdb__users
 
 /**
  * The plugin's main database gateway: reads and writes updates, internal and
@@ -216,8 +223,9 @@ final class OrderUpdatesDb {
 
 		$rows = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT mentioned_user_ids FROM {$this->updates_table->notes}
+				"SELECT mentioned_user_ids FROM %i
 				WHERE update_id = %d AND mentioned_user_ids != ''",
+				$this->updates_table->notes,
 				$update_id
 			)
 		);
@@ -729,7 +737,8 @@ final class OrderUpdatesDb {
 
 		return (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT MAX(id) FROM {$this->updates_table->customer_notes} WHERE update_id = %d",
+				'SELECT MAX(id) FROM %i WHERE update_id = %d',
+				$this->updates_table->customer_notes,
 				$update_id
 			)
 		);
@@ -846,7 +855,8 @@ final class OrderUpdatesDb {
 			'absint',
 			(array) $wpdb->get_col(
 				$wpdb->prepare(
-					"SELECT id FROM {$this->updates_table->updates} WHERE order_id = %d",
+					'SELECT id FROM %i WHERE order_id = %d',
+					$this->updates_table->updates,
 					$order_id
 				)
 			)
@@ -858,34 +868,36 @@ final class OrderUpdatesDb {
 
 		$placeholders = implode( ',', array_fill( 0, count( $update_ids ), '%d' ) );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$this->updates_table->assignees} WHERE update_id IN ({$placeholders})", ...$update_ids ) );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$this->updates_table->notes} WHERE update_id IN ({$placeholders})", ...$update_ids ) );
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
+		$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE update_id IN ({$placeholders})", $this->updates_table->assignees, ...$update_ids ) );
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
+		$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE update_id IN ({$placeholders})", $this->updates_table->notes, ...$update_ids ) );
 
 		// Capture customer-note ids first so the history cascade still has
 		// something to match against after the parent rows are wiped.
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$customer_note_ids = $wpdb->get_col(
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
 			$wpdb->prepare(
-				"SELECT id FROM {$this->updates_table->customer_notes} WHERE update_id IN ({$placeholders})",
+				"SELECT id FROM %i WHERE update_id IN ({$placeholders})",
+				$this->updates_table->customer_notes,
 				...$update_ids
-			) 
+			)
 		);
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$this->updates_table->customer_notes} WHERE update_id IN ({$placeholders})", ...$update_ids ) );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$this->updates_table->ratings} WHERE update_id IN ({$placeholders})", ...$update_ids ) );
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
+		$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE update_id IN ({$placeholders})", $this->updates_table->customer_notes, ...$update_ids ) );
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
+		$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE update_id IN ({$placeholders})", $this->updates_table->ratings, ...$update_ids ) );
 
 		if ( ! empty( $customer_note_ids ) ) {
 			$history_placeholders = implode( ',', array_fill( 0, count( $customer_note_ids ), '%d' ) );
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- placeholders generated above
 			$wpdb->query(
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
 				$wpdb->prepare(
-					"DELETE FROM {$this->updates_table->customer_note_history} WHERE note_id IN ({$history_placeholders})",
+					"DELETE FROM %i WHERE note_id IN ({$history_placeholders})",
+					$this->updates_table->customer_note_history,
 					...array_map( 'intval', $customer_note_ids )
-				) 
+				)
 			);
 		}
 
@@ -935,9 +947,10 @@ final class OrderUpdatesDb {
 			// history table would orphan rows on every update delete.
 			$customer_note_ids = $wpdb->get_col(
 				$wpdb->prepare(
-					"SELECT id FROM {$this->updates_table->customer_notes} WHERE update_id = %d",
+					'SELECT id FROM %i WHERE update_id = %d',
+					$this->updates_table->customer_notes,
 					$update_id
-				) 
+				)
 			);
 
 			$wpdb->delete( $this->updates_table->customer_notes, array( 'update_id' => $update_id ), array( '%d' ) );
@@ -945,12 +958,13 @@ final class OrderUpdatesDb {
 
 			if ( ! empty( $customer_note_ids ) ) {
 				$placeholders = implode( ',', array_fill( 0, count( $customer_note_ids ), '%d' ) );
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- placeholders generated above
 				$wpdb->query(
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
 					$wpdb->prepare(
-						"DELETE FROM {$this->updates_table->customer_note_history} WHERE note_id IN ({$placeholders})",
+						"DELETE FROM %i WHERE note_id IN ({$placeholders})",
+						$this->updates_table->customer_note_history,
 						...array_map( 'intval', $customer_note_ids )
-					) 
+					)
 				);
 			}
 
@@ -1023,17 +1037,18 @@ final class OrderUpdatesDb {
 		// Return orders where the user is either the active assignee OR the update
 		// owner (creator) on an unresolved update. Both roles should see the
 		// admin-bar counter when there's activity that needs their attention.
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $updates_table and $assignees_table come from UpdatesTable, which builds them from $wpdb->prefix + a hardcoded suffix; no user input.
 		$results = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT DISTINCT updates.order_id
-				FROM {$updates_table} AS updates
-				LEFT JOIN {$assignees_table} AS assignees
+				'SELECT DISTINCT updates.order_id
+				FROM %i AS updates
+				LEFT JOIN %i AS assignees
 					ON assignees.update_id = updates.id
 					AND assignees.is_active = 1
 				WHERE updates.is_resolved = 0
 					AND ( assignees.assignee_user_id = %d OR updates.created_by = %d )
-				ORDER BY updates.order_id DESC",
+				ORDER BY updates.order_id DESC',
+				$updates_table,
+				$assignees_table,
 				$user_id,
 				$user_id
 			)
@@ -1108,8 +1123,8 @@ final class OrderUpdatesDb {
 			$users_table     = $wpdb->users;
 			$placeholders    = implode( ', ', array_fill( 0, count( $uncached ), '%d' ) );
 
-			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 			$rows = $wpdb->get_results(
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
 				$wpdb->prepare(
 					"SELECT
 						updates.order_id,
@@ -1117,12 +1132,15 @@ final class OrderUpdatesDb {
 						SUM( CASE WHEN updates.is_resolved = 0 THEN 1 ELSE 0 END ) AS unsolved_count,
 						MAX( CASE WHEN updates.customer_visible = 1 THEN 1 ELSE 0 END ) AS has_customer_visible,
 						MIN( u.display_name ) AS assignee_name
-					FROM {$updates_table} AS updates
-					LEFT JOIN {$assignees_table} AS a
+					FROM %i AS updates
+					LEFT JOIN %i AS a
 						ON a.update_id = updates.id AND a.is_active = 1
-					LEFT JOIN {$users_table} AS u ON u.ID = a.assignee_user_id
+					LEFT JOIN %i AS u ON u.ID = a.assignee_user_id
 					WHERE updates.order_id IN ({$placeholders})
 					GROUP BY updates.order_id",
+					$updates_table,
+					$assignees_table,
+					$users_table,
 					...$uncached
 				),
 				ARRAY_A
@@ -1180,18 +1198,19 @@ final class OrderUpdatesDb {
 		$assignees_table = $this->updates_table->assignees;
 		$limit           = max( 1, $limit );
 
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- table names from UpdatesTable, built from $wpdb->prefix + hardcoded suffix.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT DISTINCT updates.id, updates.order_id, updates.title, updates.last_updated_at
-				FROM {$updates_table} AS updates
-				LEFT JOIN {$assignees_table} AS assignees
+				'SELECT DISTINCT updates.id, updates.order_id, updates.title, updates.last_updated_at
+				FROM %i AS updates
+				LEFT JOIN %i AS assignees
 					ON assignees.update_id = updates.id
 					AND assignees.is_active = 1
 				WHERE updates.is_resolved = 0
 					AND ( assignees.assignee_user_id = %d OR updates.created_by = %d )
 				ORDER BY updates.last_updated_at DESC, updates.id DESC
-				LIMIT %d",
+				LIMIT %d',
+				$updates_table,
+				$assignees_table,
 				$user_id,
 				$user_id,
 				$limit
@@ -1241,13 +1260,6 @@ final class OrderUpdatesDb {
 		$paged       = max( 1, (int) ( $args['paged'] ?? 1 ) );
 		$offset      = ( $paged - 1 ) * $per_page;
 
-		// Whitelisted ORDER BY — fixed clauses only, never raw input.
-		$order_sql = match ( $orderby ) {
-			'oldest'   => 'updates.last_updated_at ASC, updates.id ASC',
-			'assignee' => 'assignee.display_name ASC, updates.last_updated_at DESC',
-			default    => 'updates.last_updated_at DESC, updates.id DESC',
-		};
-
 		// Short cache — the listing is read on demand and changes as updates
 		// flow, so a brief TTL trims repeat queries without lingering stale.
 		$cache_key = 'assignee_page_' . md5( $assignee_id . '|' . $status . '|' . $search . '|' . $orderby . '|' . $per_page . '|' . $paged );
@@ -1260,45 +1272,74 @@ final class OrderUpdatesDb {
 		$assignees = $this->updates_table->assignees;
 		$users     = $wpdb->users;
 
-		$where  = array( '1 = 1' );
-		$params = array();
+		$resolved_val = ( 'solved' === $status ) ? 1 : 0;
+		$search_like  = '%' . $wpdb->esc_like( $search ) . '%';
+		$search_int   = (int) $search;
 
-		if ( $assignee_id > 0 ) {
-			$where[]  = 'a.assignee_user_id = %d';
-			$params[] = $assignee_id;
-		}
-		if ( 'open' === $status ) {
-			$where[] = 'updates.is_resolved = 0';
-		} elseif ( 'solved' === $status ) {
-			$where[] = 'updates.is_resolved = 1';
-		}
-		if ( '' !== $search ) {
-			$where[]  = '( updates.title LIKE %s OR updates.order_id = %d )';
-			$params[] = '%' . $wpdb->esc_like( $search ) . '%';
-			$params[] = (int) $search;
-		}
+		// Fully placeholdered: table identifiers via %i, every filter value via
+		// %d/%s. A filter that's off neutralises through a leading toggle (e.g.
+		// "%d = 0 OR …"), and the sort picks a whitelisted ORDER BY clause via
+		// CASE on the bound $orderby. Nothing is built from an interpolated
+		// SQL string, so the statement is a single safe literal.
+		$total = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT( DISTINCT updates.id )
+				FROM %i AS updates
+				LEFT JOIN %i AS a ON a.update_id = updates.id AND a.is_active = 1
+				WHERE ( %d = 0 OR a.assignee_user_id = %d )
+				  AND ( %s NOT IN ( 'open', 'solved' ) OR updates.is_resolved = %d )
+				  AND ( %s = '' OR updates.title LIKE %s OR updates.order_id = %d )",
+				$updates,
+				$assignees,
+				$assignee_id,
+				$assignee_id,
+				$status,
+				$resolved_val,
+				$search,
+				$search_like,
+				$search_int
+			)
+		);
 
-		$where_sql = implode( ' AND ', $where );
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names from UpdatesTable; the WHERE is fixed fragments with %d/%s placeholders bound from $params.
-		$count_sql = "SELECT COUNT( DISTINCT updates.id )
-			FROM {$updates} AS updates
-			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
-			WHERE {$where_sql}";
-		$total     = (int) $wpdb->get_var( $params ? $wpdb->prepare( $count_sql, $params ) : $count_sql );
-
-		$list_sql = "SELECT updates.id, updates.order_id, updates.title, updates.is_resolved,
-				updates.status, updates.color, updates.created_by, updates.created_at, updates.last_updated_at,
-				creator.display_name AS created_by_name,
-				a.assignee_user_id, assignee.display_name AS assignee_name
-			FROM {$updates} AS updates
-			LEFT JOIN {$users} AS creator ON creator.ID = updates.created_by
-			LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
-			LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
-			WHERE {$where_sql}
-			ORDER BY {$order_sql}
-			LIMIT %d OFFSET %d";
-		$rows     = $wpdb->get_results( $wpdb->prepare( $list_sql, array_merge( $params, array( $per_page, $offset ) ) ), ARRAY_A );
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT updates.id, updates.order_id, updates.title, updates.is_resolved,
+					updates.status, updates.color, updates.created_by, updates.created_at, updates.last_updated_at,
+					creator.display_name AS created_by_name,
+					a.assignee_user_id, assignee.display_name AS assignee_name
+				FROM %i AS updates
+				LEFT JOIN %i AS creator ON creator.ID = updates.created_by
+				LEFT JOIN %i AS a ON a.update_id = updates.id AND a.is_active = 1
+				LEFT JOIN %i AS assignee ON assignee.ID = a.assignee_user_id
+				WHERE ( %d = 0 OR a.assignee_user_id = %d )
+				  AND ( %s NOT IN ( 'open', 'solved' ) OR updates.is_resolved = %d )
+				  AND ( %s = '' OR updates.title LIKE %s OR updates.order_id = %d )
+				ORDER BY
+					CASE WHEN %s = 'assignee' THEN assignee.display_name END ASC,
+					CASE WHEN %s = 'oldest' THEN updates.last_updated_at END ASC,
+					CASE WHEN %s = 'oldest' THEN updates.id END ASC,
+					updates.last_updated_at DESC,
+					updates.id DESC
+				LIMIT %d OFFSET %d",
+				$updates,
+				$users,
+				$assignees,
+				$users,
+				$assignee_id,
+				$assignee_id,
+				$status,
+				$resolved_val,
+				$search,
+				$search_like,
+				$search_int,
+				$orderby,
+				$orderby,
+				$orderby,
+				$per_page,
+				$offset
+			),
+			ARRAY_A
+		);
 
 		$result = array(
 			'rows'  => is_array( $rows ) ? $rows : array(),
@@ -1338,17 +1379,17 @@ final class OrderUpdatesDb {
 		$cn           = $this->updates_table->customer_notes;
 		$placeholders = implode( ', ', array_fill( 0, count( $update_ids ), '%d' ) );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name from UpdatesTable; ids bound via %d placeholders.
-		$sql  = "SELECT cn.update_id, cn.created_by, cn.created_at
-			FROM {$cn} AS cn
+		$sql = "SELECT cn.update_id, cn.created_by, cn.created_at
+			FROM %i AS cn
 			INNER JOIN (
 				SELECT update_id, MAX( id ) AS max_id
-				FROM {$cn}
+				FROM %i
 				WHERE update_id IN ( {$placeholders} )
 					AND kind NOT IN ( 'title_change', 'status_change', 'assignee_change', 'reopen', 'rating' )
 				GROUP BY update_id
 			) AS latest ON latest.max_id = cn.id";
-		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $update_ids ), ARRAY_A );
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber,WordPress.DB.PreparedSQL.NotPrepared -- dynamic %d IN() list; $sql assembled from %i table placeholders, ids bound here.
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, array_merge( array( $cn, $cn ), $update_ids ) ), ARRAY_A );
 
 		$out = array();
 		foreach ( (array) $rows as $row ) {
@@ -1379,16 +1420,17 @@ final class OrderUpdatesDb {
 		$assignees = $this->updates_table->assignees;
 		$limit     = max( 1, $limit );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names from UpdatesTable; values bound via placeholders.
 		if ( $assignee_id > 0 ) {
 			$ids = $wpdb->get_col(
 				$wpdb->prepare(
-					"SELECT DISTINCT updates.id
-					FROM {$updates} AS updates
-					LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
+					'SELECT DISTINCT updates.id
+					FROM %i AS updates
+					LEFT JOIN %i AS a ON a.update_id = updates.id AND a.is_active = 1
 					WHERE updates.is_resolved = 0 AND a.assignee_user_id = %d
 					ORDER BY updates.id DESC
-					LIMIT %d",
+					LIMIT %d',
+					$updates,
+					$assignees,
 					$assignee_id,
 					$limit
 				)
@@ -1396,10 +1438,11 @@ final class OrderUpdatesDb {
 		} else {
 			$ids = $wpdb->get_col(
 				$wpdb->prepare(
-					"SELECT updates.id FROM {$updates} AS updates
+					'SELECT updates.id FROM %i AS updates
 					WHERE updates.is_resolved = 0
 					ORDER BY updates.id DESC
-					LIMIT %d",
+					LIMIT %d',
+					$updates,
 					$limit
 				)
 			);
@@ -1421,22 +1464,22 @@ final class OrderUpdatesDb {
 		$updates   = $this->updates_table->updates;
 		$assignees = $this->updates_table->assignees;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names from UpdatesTable; id bound via placeholder.
 		if ( $assignee_id > 0 ) {
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
-					"SELECT COUNT( DISTINCT updates.id ) AS total,
+					'SELECT COUNT( DISTINCT updates.id ) AS total,
 						COUNT( DISTINCT CASE WHEN updates.is_resolved = 1 THEN updates.id END ) AS resolved
-					FROM {$updates} AS updates
-					LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
-					WHERE a.assignee_user_id = %d",
+					FROM %i AS updates
+					LEFT JOIN %i AS a ON a.update_id = updates.id AND a.is_active = 1
+					WHERE a.assignee_user_id = %d',
+					$updates,
+					$assignees,
 					$assignee_id
 				),
 				ARRAY_A
 			);
 		} else {
-			// No user input — a fixed COUNT over our own table (name interpolated).
-			$row = $wpdb->get_row( "SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM {$updates}", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$row = $wpdb->get_row( $wpdb->prepare( 'SELECT COUNT(*) AS total, SUM( is_resolved ) AS resolved FROM %i', $updates ), ARRAY_A );
 		}
 
 		return array(
@@ -1469,18 +1512,19 @@ final class OrderUpdatesDb {
 		$updates_table = $this->updates_table->updates;
 		$limit         = max( 1, $limit );
 
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- table names from UpdatesTable, built from $wpdb->prefix + hardcoded suffix.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT notes.id AS note_id, notes.update_id, notes.note, notes.created_at, notes.created_by_name,
+				'SELECT notes.id AS note_id, notes.update_id, notes.note, notes.created_at, notes.created_by_name,
 					updates.order_id, updates.title
-				FROM {$notes_table} AS notes
-				INNER JOIN {$updates_table} AS updates ON updates.id = notes.update_id
+				FROM %i AS notes
+				INNER JOIN %i AS updates ON updates.id = notes.update_id
 				WHERE FIND_IN_SET( %d, notes.mentioned_user_ids )
 					AND notes.created_by != %d
 					AND updates.is_resolved = 0
 				ORDER BY notes.created_at DESC, notes.id DESC
-				LIMIT %d",
+				LIMIT %d',
+				$notes_table,
+				$updates_table,
 				$user_id,
 				$user_id,
 				$limit
@@ -1525,14 +1569,15 @@ final class OrderUpdatesDb {
 
 		$assignees_table = $this->updates_table->assignees;
 
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $assignees_table from UpdatesTable, built from $wpdb->prefix + hardcoded suffix.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT DISTINCT u.ID AS id, u.display_name
-				FROM {$assignees_table} AS a
-				INNER JOIN {$wpdb->users} AS u ON u.ID = a.assignee_user_id
+				'SELECT DISTINCT u.ID AS id, u.display_name
+				FROM %i AS a
+				INNER JOIN %i AS u ON u.ID = a.assignee_user_id
 				WHERE a.is_active = %d
-				ORDER BY u.display_name ASC",
+				ORDER BY u.display_name ASC',
+				$assignees_table,
+				$wpdb->users,
 				1
 			),
 			ARRAY_A
@@ -1557,7 +1602,8 @@ final class OrderUpdatesDb {
 
 		$results = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT DISTINCT order_id FROM {$this->updates_table->updates} WHERE is_resolved = %d ORDER BY order_id DESC",
+				'SELECT DISTINCT order_id FROM %i WHERE is_resolved = %d ORDER BY order_id DESC',
+				$this->updates_table->updates,
 				0
 			)
 		);
@@ -1599,21 +1645,27 @@ final class OrderUpdatesDb {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT updates.id, updates.title,
+				'SELECT updates.id, updates.title,
 					updates.customer_visible, updates.status, updates.color, updates.created_by, updates.solved_by,
 					updates.is_resolved, updates.solved_at, updates.created_at,
 					updates.assignee_since_note_id, updates.previous_assignee_name,
-					(SELECT MAX(cn.notified_at) FROM {$cn} cn WHERE cn.update_id = updates.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
+					(SELECT MAX(cn.notified_at) FROM %i cn WHERE cn.update_id = updates.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
 					creator.display_name AS created_by_name, solver.display_name AS solved_by_name,
 					a.assignee_user_id, a.assigned_at, assignee.display_name AS assignee_name
-				FROM {$updates} AS updates
-				LEFT JOIN {$users} AS creator ON creator.ID = updates.created_by
-				LEFT JOIN {$users} AS solver ON solver.ID = updates.solved_by
-				LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
-				LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
+				FROM %i AS updates
+				LEFT JOIN %i AS creator ON creator.ID = updates.created_by
+				LEFT JOIN %i AS solver ON solver.ID = updates.solved_by
+				LEFT JOIN %i AS a ON a.update_id = updates.id AND a.is_active = 1
+				LEFT JOIN %i AS assignee ON assignee.ID = a.assignee_user_id
 				WHERE updates.order_id = %d
 				ORDER BY updates.created_at DESC, updates.id DESC
-				LIMIT %d OFFSET %d",
+				LIMIT %d OFFSET %d',
+				$cn,
+				$updates,
+				$users,
+				$users,
+				$assignees,
+				$users,
 				$order_id,
 				$limit,
 				$offset
@@ -1653,19 +1705,25 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT updates.id, updates.order_id, updates.title,
+				'SELECT updates.id, updates.order_id, updates.title,
 					updates.customer_visible, updates.status, updates.color, updates.created_by, updates.solved_by,
 					updates.is_resolved, updates.solved_at, updates.created_at, updates.last_updated_at,
-					(SELECT MAX(cn.notified_at) FROM {$cn} cn WHERE cn.update_id = updates.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
+					(SELECT MAX(cn.notified_at) FROM %i cn WHERE cn.update_id = updates.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
 					creator.display_name AS created_by_name, solver.display_name AS solved_by_name,
 					a.assignee_user_id, a.assigned_at, assignee.display_name AS assignee_name
-				FROM {$updates} AS updates
-				LEFT JOIN {$users} AS creator ON creator.ID = updates.created_by
-				LEFT JOIN {$users} AS solver ON solver.ID = updates.solved_by
-				LEFT JOIN {$assignees} AS a ON a.update_id = updates.id AND a.is_active = 1
-				LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
+				FROM %i AS updates
+				LEFT JOIN %i AS creator ON creator.ID = updates.created_by
+				LEFT JOIN %i AS solver ON solver.ID = updates.solved_by
+				LEFT JOIN %i AS a ON a.update_id = updates.id AND a.is_active = 1
+				LEFT JOIN %i AS assignee ON assignee.ID = a.assignee_user_id
 				WHERE updates.id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$cn,
+				$updates,
+				$users,
+				$users,
+				$assignees,
+				$users,
 				$update_id
 			),
 			ARRAY_A
@@ -1701,7 +1759,8 @@ final class OrderUpdatesDb {
 
 		$count = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(id) FROM {$this->updates_table->updates} WHERE order_id = %d",
+				'SELECT COUNT(id) FROM %i WHERE order_id = %d',
+				$this->updates_table->updates,
 				$order_id
 			)
 		);
@@ -1721,8 +1780,7 @@ final class OrderUpdatesDb {
 		global $wpdb;
 
 		return (int) $wpdb->get_var(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name only, not user input.
-			"SELECT COUNT(id) FROM {$this->updates_table->updates}"
+			$wpdb->prepare( 'SELECT COUNT(id) FROM %i', $this->updates_table->updates )
 		);
 	}
 
@@ -1751,21 +1809,25 @@ final class OrderUpdatesDb {
 		$cn_table        = $this->updates_table->customer_notes;
 		$users           = $wpdb->users;
 
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- table names from UpdatesTable / $wpdb->users; no user input in identifiers.
 		$update = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT u.id, u.order_id, u.created_by, u.created_at, u.solved_at,
-					(SELECT MAX(cn.notified_at) FROM {$cn_table} cn WHERE cn.update_id = u.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
+				'SELECT u.id, u.order_id, u.created_by, u.created_at, u.solved_at,
+					(SELECT MAX(cn.notified_at) FROM %i cn WHERE cn.update_id = u.id AND cn.notified_at IS NOT NULL) AS notified_customer_at,
 					u.is_resolved, u.last_updated_by, u.last_updated_at,
 					creator.display_name AS created_by_name,
 					solver.display_name AS solved_by_name,
 					reopener.display_name AS reopened_by_name
-				FROM {$updates_table} AS u
-				LEFT JOIN {$users} AS creator ON creator.ID = u.created_by
-				LEFT JOIN {$users} AS solver ON solver.ID = u.solved_by
-				LEFT JOIN {$users} AS reopener ON reopener.ID = u.last_updated_by
+				FROM %i AS u
+				LEFT JOIN %i AS creator ON creator.ID = u.created_by
+				LEFT JOIN %i AS solver ON solver.ID = u.solved_by
+				LEFT JOIN %i AS reopener ON reopener.ID = u.last_updated_by
 				WHERE u.id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$cn_table,
+				$updates_table,
+				$users,
+				$users,
+				$users,
 				$update_id
 			),
 			ARRAY_A
@@ -1791,19 +1853,22 @@ final class OrderUpdatesDb {
 			'performed_by_name' => $creator_label,
 		);
 
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- table names from UpdatesTable / $wpdb->users; no user input in identifiers.
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT a.assigned_at, a.unassigned_at, a.notified_at,
+				'SELECT a.assigned_at, a.unassigned_at, a.notified_at,
 					assignee.display_name AS assignee_name,
 					assigner.display_name AS assigned_by_name,
 					unassigner.display_name AS unassigned_by_name
-				FROM {$assignees_table} AS a
-				LEFT JOIN {$users} AS assignee ON assignee.ID = a.assignee_user_id
-				LEFT JOIN {$users} AS assigner ON assigner.ID = a.assigned_by
-				LEFT JOIN {$users} AS unassigner ON unassigner.ID = a.unassigned_by
+				FROM %i AS a
+				LEFT JOIN %i AS assignee ON assignee.ID = a.assignee_user_id
+				LEFT JOIN %i AS assigner ON assigner.ID = a.assigned_by
+				LEFT JOIN %i AS unassigner ON unassigner.ID = a.unassigned_by
 				WHERE a.update_id = %d
-				ORDER BY a.assigned_at ASC, a.id ASC",
+				ORDER BY a.assigned_at ASC, a.id ASC',
+				$assignees_table,
+				$users,
+				$users,
+				$users,
 				$update_id
 			),
 			ARRAY_A
@@ -1858,13 +1923,13 @@ final class OrderUpdatesDb {
 		// Status, title, reopen, and rating events live as system rows on
 		// customer_notes. Include them so the tracking log shows every
 		// lifecycle event in one list.
-		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- table names from UpdatesTable; no user input in identifiers.
 		$system_rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT kind, note, created_by_name, created_at
-				FROM {$cn_table}
+				FROM %i
 				WHERE update_id = %d AND kind IN ( 'status_change', 'title_change', 'reopen', 'rating' )
 				ORDER BY created_at ASC, id ASC",
+				$cn_table,
 				$update_id
 			),
 			ARRAY_A
@@ -1959,10 +2024,11 @@ final class OrderUpdatesDb {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
-				FROM {$this->updates_table->notes}
+				'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
+				FROM %i
 				WHERE update_id = %d
-				ORDER BY created_at ASC, id ASC",
+				ORDER BY created_at ASC, id ASC',
+				$this->updates_table->notes,
 				$update_id
 			),
 			ARRAY_A
@@ -2001,18 +2067,20 @@ final class OrderUpdatesDb {
 
 		$internal = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT DISTINCT created_by
-				FROM {$this->updates_table->notes}
-				WHERE update_id = %d AND created_by > 0",
+				'SELECT DISTINCT created_by
+				FROM %i
+				WHERE update_id = %d AND created_by > 0',
+				$this->updates_table->notes,
 				$update_id
 			)
 		);
 
 		$customer = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT DISTINCT created_by
-				FROM {$this->updates_table->customer_notes}
-				WHERE update_id = %d AND created_by > 0",
+				'SELECT DISTINCT created_by
+				FROM %i
+				WHERE update_id = %d AND created_by > 0',
+				$this->updates_table->customer_notes,
 				$update_id
 			)
 		);
@@ -2060,11 +2128,12 @@ final class OrderUpdatesDb {
 		if ( $before_id > 0 ) {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->notes}
+					'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
+					FROM %i
 					WHERE update_id = %d AND id < %d
 					ORDER BY created_at DESC, id DESC
-					LIMIT %d",
+					LIMIT %d',
+					$this->updates_table->notes,
 					$update_id,
 					$before_id,
 					$fetch
@@ -2074,11 +2143,12 @@ final class OrderUpdatesDb {
 		} else {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->notes}
+					'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
+					FROM %i
 					WHERE update_id = %d
 					ORDER BY created_at DESC, id DESC
-					LIMIT %d",
+					LIMIT %d',
+					$this->updates_table->notes,
 					$update_id,
 					$fetch
 				),
@@ -2142,11 +2212,10 @@ final class OrderUpdatesDb {
 			return $cached;
 		}
 
-		$columns = 'id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at';
-
 		$target = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT {$columns} FROM {$this->updates_table->notes} WHERE id = %d AND update_id = %d LIMIT 1",
+				'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at FROM %i WHERE id = %d AND update_id = %d LIMIT 1',
+				$this->updates_table->notes,
 				$note_id,
 				$update_id
 			),
@@ -2162,10 +2231,11 @@ final class OrderUpdatesDb {
 
 		$older    = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT {$columns} FROM {$this->updates_table->notes}
+				'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at FROM %i
 				WHERE update_id = %d AND id < %d
 				ORDER BY created_at DESC, id DESC
-				LIMIT %d",
+				LIMIT %d',
+				$this->updates_table->notes,
 				$update_id,
 				$note_id,
 				$fetch
@@ -2181,10 +2251,11 @@ final class OrderUpdatesDb {
 
 		$newer     = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT {$columns} FROM {$this->updates_table->notes}
+				'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at FROM %i
 				WHERE update_id = %d AND id > %d
 				ORDER BY created_at ASC, id ASC
-				LIMIT %d",
+				LIMIT %d',
+				$this->updates_table->notes,
 				$update_id,
 				$note_id,
 				$fetch
@@ -2229,10 +2300,11 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
-				FROM {$this->updates_table->notes}
+				'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
+				FROM %i
 				WHERE id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$this->updates_table->notes,
 				$note_id
 			),
 			ARRAY_A
@@ -2426,9 +2498,10 @@ final class OrderUpdatesDb {
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
-				FROM {$this->updates_table->customer_notes}
+				FROM %i
 				WHERE update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				ORDER BY created_at ASC, id ASC",
+				$this->updates_table->customer_notes,
 				$update_id
 			),
 			ARRAY_A
@@ -2474,10 +2547,11 @@ final class OrderUpdatesDb {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->customer_notes}
+					FROM %i
 					WHERE update_id = %d AND id < %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
+					$this->updates_table->customer_notes,
 					$update_id,
 					$before_id,
 					$fetch
@@ -2488,10 +2562,11 @@ final class OrderUpdatesDb {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->customer_notes}
+					FROM %i
 					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 					ORDER BY created_at DESC, id DESC
 					LIMIT %d",
+					$this->updates_table->customer_notes,
 					$update_id,
 					$fetch
 				),
@@ -2548,12 +2623,10 @@ final class OrderUpdatesDb {
 			return $cached;
 		}
 
-		$columns = 'id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at';
-		$exclude = "kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )";
-
 		$target = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT {$columns} FROM {$this->updates_table->customer_notes} WHERE id = %d AND update_id = %d AND {$exclude} LIMIT 1",
+				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at FROM %i WHERE id = %d AND update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' ) LIMIT 1",
+				$this->updates_table->customer_notes,
 				$note_id,
 				$update_id
 			),
@@ -2569,10 +2642,11 @@ final class OrderUpdatesDb {
 
 		$older    = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT {$columns} FROM {$this->updates_table->customer_notes}
-				WHERE update_id = %d AND id < %d AND {$exclude}
+				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at FROM %i
+				WHERE update_id = %d AND id < %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				ORDER BY created_at DESC, id DESC
 				LIMIT %d",
+				$this->updates_table->customer_notes,
 				$update_id,
 				$note_id,
 				$fetch
@@ -2588,10 +2662,11 @@ final class OrderUpdatesDb {
 
 		$newer     = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT {$columns} FROM {$this->updates_table->customer_notes}
-				WHERE update_id = %d AND id > %d AND {$exclude}
+				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at FROM %i
+				WHERE update_id = %d AND id > %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				ORDER BY created_at ASC, id ASC
 				LIMIT %d",
+				$this->updates_table->customer_notes,
 				$update_id,
 				$note_id,
 				$fetch
@@ -2643,10 +2718,11 @@ final class OrderUpdatesDb {
 		if ( 0 === $since_note_id ) {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->notes}
+					'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
+					FROM %i
 					WHERE update_id = %d AND created_at >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 1 HOUR )
-					ORDER BY id ASC",
+					ORDER BY id ASC',
+					$this->updates_table->notes,
 					$update_id
 				),
 				ARRAY_A
@@ -2654,10 +2730,11 @@ final class OrderUpdatesDb {
 		} else {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->notes}
+					'SELECT id, update_id, note, mentioned_user_ids, created_by, created_by_name, created_at, edited_at
+					FROM %i
 					WHERE update_id = %d AND id > %d
-					ORDER BY id ASC",
+					ORDER BY id ASC',
+					$this->updates_table->notes,
 					$update_id,
 					$since_note_id
 				),
@@ -2706,9 +2783,10 @@ final class OrderUpdatesDb {
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
-					FROM {$this->updates_table->customer_notes}
+					FROM %i
 					WHERE update_id = %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' ) AND created_at >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL 1 HOUR )
 					ORDER BY id ASC",
+					$this->updates_table->customer_notes,
 					$update_id
 				),
 				ARRAY_A
@@ -2723,9 +2801,10 @@ final class OrderUpdatesDb {
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
-				FROM {$this->updates_table->customer_notes}
+				FROM %i
 				WHERE update_id = %d AND id > %d AND kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
 				ORDER BY id ASC",
+				$this->updates_table->customer_notes,
 				$update_id,
 				$since_note_id
 			),
@@ -2757,8 +2836,8 @@ final class OrderUpdatesDb {
 			$wpdb->prepare(
 				"SELECT cn.id, cn.update_id, cn.note, cn.kind, cn.queued_at, cn.notified_at,
 				        cn.created_by, cn.created_by_name, cn.created_at, cn.edited_at
-				FROM {$this->updates_table->customer_notes} cn
-				INNER JOIN {$this->updates_table->updates} u ON u.id = cn.update_id
+				FROM %i cn
+				INNER JOIN %i u ON u.id = cn.update_id
 				WHERE u.order_id = %d
 				  AND u.customer_visible = 1
 				  AND cn.kind NOT IN ( 'title_change', 'assignee_change', 'reopen', 'rating' )
@@ -2767,6 +2846,8 @@ final class OrderUpdatesDb {
 				        OR ( cn.edited_at IS NOT NULL AND cn.edited_at > %s )
 				      )
 				ORDER BY cn.id ASC",
+				$this->updates_table->customer_notes,
+				$this->updates_table->updates,
 				$order_id,
 				$since_note_id,
 				$since_time
@@ -2800,8 +2881,9 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT MAX(id) FROM {$this->updates_table->updates}
-				WHERE order_id = %d AND customer_visible = 1",
+				'SELECT MAX(id) FROM %i
+				WHERE order_id = %d AND customer_visible = 1',
+				$this->updates_table->updates,
 				$order_id
 			)
 		);
@@ -2837,7 +2919,8 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT MAX(id) FROM {$this->updates_table->customer_notes} WHERE update_id = %d",
+				'SELECT MAX(id) FROM %i WHERE update_id = %d',
+				$this->updates_table->customer_notes,
 				$update_id
 			)
 		);
@@ -2869,7 +2952,8 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT MAX(id) FROM {$this->updates_table->notes} WHERE update_id = %d",
+				'SELECT MAX(id) FROM %i WHERE update_id = %d',
+				$this->updates_table->notes,
 				$update_id
 			)
 		);
@@ -2901,10 +2985,11 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
-				FROM {$this->updates_table->customer_notes}
+				'SELECT id, update_id, note, kind, queued_at, notified_at, created_by, created_by_name, created_at, edited_at
+				FROM %i
 				WHERE id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$this->updates_table->customer_notes,
 				$note_id
 			),
 			ARRAY_A
@@ -3007,10 +3092,11 @@ final class OrderUpdatesDb {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, note_id, prior_note, edited_by, edited_by_name, edited_at
-				FROM {$this->updates_table->customer_note_history}
+				'SELECT id, note_id, prior_note, edited_by, edited_by_name, edited_at
+				FROM %i
 				WHERE note_id = %d
-				ORDER BY edited_at ASC, id ASC",
+				ORDER BY edited_at ASC, id ASC',
+				$this->updates_table->customer_note_history,
 				$note_id
 			),
 			ARRAY_A
@@ -3145,11 +3231,12 @@ final class OrderUpdatesDb {
 
 		$result = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT id, update_id, order_id, stars, comment, created_by, created_by_name,
+				'SELECT id, update_id, order_id, stars, comment, created_by, created_by_name,
 					requested_at, request_notified_at, created_at
-				FROM {$this->updates_table->ratings}
+				FROM %i
 				WHERE update_id = %d
-				LIMIT 1",
+				LIMIT 1',
+				$this->updates_table->ratings,
 				$update_id
 			),
 			ARRAY_A
@@ -3191,11 +3278,13 @@ final class OrderUpdatesDb {
 		$placeholders = implode( ',', array_fill( 0, count( $missing ), '%d' ) );
 
 		$rows = $wpdb->get_results(
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- dynamic %d list built for the IN() clause.
 			$wpdb->prepare(
 				"SELECT id, update_id, order_id, stars, comment, created_by, created_by_name,
 					requested_at, request_notified_at, created_at
-				FROM {$this->updates_table->ratings}
+				FROM %i
 				WHERE update_id IN ({$placeholders})",
+				$this->updates_table->ratings,
 				...$missing
 			),
 			ARRAY_A

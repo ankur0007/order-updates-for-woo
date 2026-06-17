@@ -190,12 +190,24 @@ final class NotificationsPageController {
 			return;
 		}
 
+		$is_inline = isset( $_GET['row_action'] );
+		$is_bulk   = isset( $_REQUEST['action'] );
+
+		// Plain page view — nothing to process, so no nonce to verify.
+		if ( ! $is_inline && ! $is_bulk ) {
+			return;
+		}
+
+		if ( $is_inline ) {
+			check_admin_referer( self::NONCE_KEY );
+		} else {
+			check_admin_referer( self::BULK_NONCE );
+		}
 		// Per-row links carry ?row_action=<action>&notif_key=…
 		// the bulk form posts ?action=<action>&notif_keys[]=… instead.
-		$inline_action = isset( $_GET['row_action'] ) ? sanitize_key( wp_unslash( (string) $_GET['row_action'] ) ) : '';
-		$bulk_action   = isset( $_REQUEST['action'] ) ? sanitize_key( wp_unslash( (string) $_REQUEST['action'] ) ) : '';
-		$bulk_action_2 = isset( $_REQUEST['action2'] ) ? sanitize_key( wp_unslash( (string) $_REQUEST['action2'] ) ) : '';
-		$action        = '' !== $inline_action ? $inline_action : ( '-1' !== $bulk_action ? $bulk_action : $bulk_action_2 );
+		$inline_action = $is_inline ? sanitize_key( wp_unslash( (string) $_GET['row_action'] ) ) : '';
+		$bulk_action   = $is_bulk ? sanitize_key( wp_unslash( (string) $_REQUEST['action'] ) ) : '';
+		$action        = '' !== $inline_action ? $inline_action : $bulk_action;
 
 		$allowed = array( 'mark_read', 'mark_unread', 'favorite', 'unfavorite', 'archive', 'unarchive', 'delete' );
 		if ( ! in_array( $action, $allowed, true ) ) {
@@ -209,14 +221,12 @@ final class NotificationsPageController {
 
 		$keys = array();
 		if ( '' !== $inline_action ) {
-			check_admin_referer( self::NONCE_KEY );
 			$single = isset( $_GET['notif_key'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['notif_key'] ) ) : '';
 			if ( '' !== $single ) {
 				$keys = array( $single );
 			}
 		} else {
 			// Bulk path — the inbox form carries our own nonce field.
-			check_admin_referer( self::BULK_NONCE );
 			$raw  = isset( $_REQUEST['notif_keys'] ) ? (array) wp_unslash( $_REQUEST['notif_keys'] ) : array();
 			$keys = array_values( array_filter( array_map( 'sanitize_text_field', $raw ) ) );
 		}
@@ -355,7 +365,7 @@ final class NotificationsPageController {
 				'filter_status'     => $status,
 				'slug'              => self::SLUG,
 				'form_action'       => $this->current_url(),
-				'bulk_nonce'        => wp_nonce_field( self::BULK_NONCE, '_wpnonce', true, false ),
+				'bulk_nonce_action' => self::BULK_NONCE,
 				'has_filters'       => ( '' !== $status || $order_id > 0 || $update_id > 0 || '' !== $search ),
 				'is_archived'       => ( 'archived' === $status ),
 				'auto_archive_days' => (int) get_option( self::OPT_ARCHIVE_AFTER_DAYS, 30 ),

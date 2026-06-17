@@ -55,7 +55,7 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 		</div>
 
 		<form class="awts-inbox__list-form" method="post" action="<?php echo esc_url( (string) $view_data['form_action'] ); ?>">
-			<?php echo $view_data['bulk_nonce']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_nonce_field output. ?>
+			<?php wp_nonce_field( (string) $view_data['bulk_nonce_action'] ); ?>
 
 			<div class="awts-inbox__bulkbar">
 				<label class="awts-inbox__selectall">
@@ -164,14 +164,30 @@ $pg   = isset( $view_data['pagination'] ) && is_array( $view_data['pagination'] 
 								<?php endif; ?>
 									<span class="awts-inbox__dot" aria-hidden="true"></span>
 									<span class="awts-inbox__msg-text">
-										<?php echo $is_message ? '&ldquo;' . esc_html( $primary ) . '&rdquo;' : esc_html( $primary ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- message escaped, quotes static. ?>
+										<?php if ( $is_message ) : ?>
+											&ldquo;<?php echo esc_html( $primary ); ?>&rdquo;
+										<?php else : ?>
+											<?php echo esc_html( $primary ); ?>
+										<?php endif; ?>
 									</span>
-								<?php echo $open ? '</a>' : '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static closing tag. ?>
+								<?php if ( $open ) : ?>
+									</a>
+								<?php else : ?>
+									</span>
+								<?php endif; ?>
 
 								<?php if ( '' !== (string) $row['actor'] ) : ?>
 									<div class="awts-inbox__author">
-										<?php /* translators: %s: sender display name */ ?>
-										<?php printf( esc_html__( 'by %s', 'order-updates-for-woo' ), '<strong>' . esc_html( (string) $row['actor'] ) . '</strong>' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- name escaped above. ?>
+										<?php
+										echo wp_kses(
+											sprintf(
+												/* translators: %s: sender display name */
+												esc_html__( 'by %s', 'order-updates-for-woo' ),
+												'<strong>' . esc_html( (string) $row['actor'] ) . '</strong>'
+											),
+											array( 'strong' => array() )
+										);
+										?>
 									</div>
 								<?php endif; ?>
 							</div>
