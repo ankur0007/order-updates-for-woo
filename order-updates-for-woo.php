@@ -39,28 +39,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 
 add_action( 'plugins_loaded', 'order_updates_for_woo_load_plugin' );
 add_action( 'before_woocommerce_init', 'order_updates_for_woo_declare_hpos_compatibility' );
-add_action( 'admin_init', 'order_updates_for_woo_boot_github_updater' );
 register_activation_hook( __FILE__, 'order_updates_for_woo_activate' );
-
-/**
- * Check GitHub Releases for updates on installs that came from GitHub.
- *
- * Skipped if the host site explicitly opts out, and a no-op on the
- * WordPress.org build (which ships without the update-checker library).
- */
-function order_updates_for_woo_boot_github_updater(): void {
-	if ( defined( 'ORDER_UPDATES_FOR_WOO_DISABLE_GITHUB_UPDATER' ) && ORDER_UPDATES_FOR_WOO_DISABLE_GITHUB_UPDATER ) {
-		return;
-	}
-
-	// The WordPress.org build strips src/Updater. Skip the call when the file
-	// is absent so the WP.org copy never references an external update checker.
-	if ( ! is_readable( ORDER_UPDATES_FOR_WOO_PATH . 'src/Updater/GitHubUpdater.php' ) ) {
-		return;
-	}
-
-	\OrderUpdatesForWoo\Updater\GitHubUpdater::boot();
-}
 
 // Multisite: when a new subsite is provisioned on a network where this
 // plugin is already active, fire a clean table install in that subsite's

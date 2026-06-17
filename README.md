@@ -115,8 +115,7 @@ npm run build:js      # minify admin JS
 Build a distributable zip:
 
 ```bash
-bash scripts/build-dist.sh            # customer zip (with the GitHub updater)
-bash scripts/build-dist.sh --wporg    # WordPress.org zip (updater stripped)
+bash scripts/build-dist.sh    # WordPress.org-ready zip (also served on the website)
 ```
 
 ### Releasing
