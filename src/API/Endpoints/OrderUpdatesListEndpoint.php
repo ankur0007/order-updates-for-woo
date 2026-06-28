@@ -78,7 +78,9 @@ final class OrderUpdatesListEndpoint implements Registrable {
 			return $error;
 		}
 
-		if ( $this->is_list_authorized() ) {
+		$order_id = absint( $request->get_param( 'order_id' ) );
+
+		if ( $this->is_authorized_for_order( $order_id ) ) {
 			return true;
 		}
 
