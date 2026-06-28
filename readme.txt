@@ -16,7 +16,7 @@ Order Updates for WooCommerce adds a dedicated order-updates workflow for store 
 
 **Official website:** [orderupdatesforwoo.com](https://orderupdatesforwoo.com) — see every feature in detail, submit a support ticket, and read or share real, verified reviews.
 
-**Live demo:** [Try it instantly on TasteWP](https://tastewp.com/recipe/orderupdatesforwoo) — a throwaway WordPress + WooCommerce site with the plugin pre-installed, no signup needed.
+**Live demo:** [Try it instantly on TasteWP](https://tastewp.com/recipe/OrderUpdatesForWooDemo) — a throwaway WordPress + WooCommerce site with the plugin pre-installed, no signup needed.
 
 **Store managers can:**
 
