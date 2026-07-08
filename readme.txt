@@ -18,6 +18,11 @@ Order Updates for WooCommerce adds a dedicated order-updates workflow for store 
 
 **Live demo:** [Try it instantly on TasteWP](https://tastewp.com/recipe/OrderUpdatesForWooDemo) — a throwaway WordPress + WooCommerce site with the plugin pre-installed, no signup needed.
 
+**Demo logins** (throwaway TasteWP site — it resets automatically, so explore freely):
+
+* **Admin** — username: `admin` / password: `Admin@Test@12345`
+* **Store Manager** — username: `bobmerry` / password: `Demo@Test1234`
+
 **Store managers can:**
 
 * Create and edit order updates directly from the WooCommerce order edit screen
@@ -85,12 +90,18 @@ No. Analytics queries are bounded by date range, indexed on `created_at`, transi
 
 == Screenshots ==
 
-1. Order updates panel on the WooCommerce order edit screen
-2. Customer-facing order updates page
-3. Analytics dashboard with totals, charts, and per-assignee/product breakdowns
-4. Order list column and filters for updates
-5. Assignments page — per-assignee queue with waiting, resolved, and longest-wait stats
-6. Notifications inbox — filter, search, and bulk actions across mentions, assignments, and replies
+1. Order updates panel on the order edit screen
+2. Creating a new order update
+3. Internal staff notes with @mentions
+4. Customer-facing order updates page
+5. Guest reply via a secure link
+6. Customer rating box
+7. @mention email notification
+8. Admin-bar notifications
+9. Notifications inbox
+10. Assignments page
+11. Analytics dashboard
+12. Settings
 
 == Changelog ==
 
