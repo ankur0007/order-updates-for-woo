@@ -1,4 +1,4 @@
-=== Order Updates for Woo ===
+=== Order Updates for Woo – Customer Support & Conversations for Every Order ===
 Contributors: the-ank
 Tags: woocommerce, customer support, help desk, support tickets, order status
 Requires at least: 6.5
