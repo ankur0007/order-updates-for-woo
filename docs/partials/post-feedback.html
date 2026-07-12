@@ -1,0 +1,27 @@
+<style>
+.postfeedback { max-width: 820px; margin: 48px auto 0; padding: 0 24px; }
+.postfeedback__box { border: 1px solid #e5e7eb; border-radius: 16px; padding: 26px 28px; background: #f8fafc; }
+.postfeedback__box h3 { margin: 0 0 6px; font-size: 20px; color: #0f172a; }
+.postfeedback__box p { margin: 0 0 16px; color: #475569; font-size: 16px; line-height: 1.6; }
+.postfeedback__links { display: flex; flex-wrap: wrap; gap: 12px; }
+.postfeedback__links a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 15px; padding: 10px 18px; border-radius: 999px; }
+.pf-forum { color: #1d4ed8; background: #dbe4ff; }
+.pf-github { color: #ffffff; background: #0f172a; }
+@media (prefers-color-scheme: dark) {
+	.postfeedback__box { background: #1e293b; border-color: #334155; }
+	.postfeedback__box h3 { color: #f1f5f9; }
+	.postfeedback__box p { color: #cbd5e1; }
+	.pf-forum { color: #bfdbfe; background: rgba(255,255,255,.08); }
+	.pf-github { color: #f1f5f9; background: #334155; }
+}
+</style>
+<section class="postfeedback">
+	<div class="postfeedback__box">
+		<h3>Have a question or feedback?</h3>
+		<p>I read every message. Ask on the WordPress.org support forum, or open an issue on GitHub &mdash; critical bugs get fixed fast.</p>
+		<div class="postfeedback__links">
+			<a class="pf-forum" href="https://wordpress.org/support/plugin/order-updates-for-woo/" target="_blank" rel="noopener">WordPress.org support &rarr;</a>
+			<a class="pf-github" href="https://github.com/ankur0007/order-updates-for-woo/issues" target="_blank" rel="noopener">GitHub issues &rarr;</a>
+		</div>
+	</div>
+</section>
