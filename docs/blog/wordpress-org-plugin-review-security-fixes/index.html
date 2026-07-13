@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<base href="/">
+
+	<title>WordPress.org plugin review in 2026: 8 security fixes I had to make</title>
+	<meta name="description" content="My WooCommerce plugin got sent back twice by the WordPress.org review team — not for weak features, but for security details. Here are the 8 fixes, in plain English, with examples, plus why Plugin Check misses most of them.">
+	<meta name="robots" content="index, follow">
+	<link rel="canonical" href="https://orderupdatesforwoo.com/blog/wordpress-org-plugin-review-security-fixes">
+
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://orderupdatesforwoo.com/blog/wordpress-org-plugin-review-security-fixes">
+	<meta property="og:title" content="WordPress.org plugin review in 2026: 8 security fixes I had to make">
+	<meta property="og:description" content="My plugin got sent back twice — not for weak features, but for security details most developers never think about. Here they are, in plain English.">
+	<meta property="og:image" content="https://orderupdatesforwoo.com/images/blog-wporg-review.png">
+	<meta name="twitter:card" content="summary_large_image">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="icon" type="image/png" href="/favicon.png">
+	<link rel="stylesheet" href="/assets/styles.css">
+	<link rel="stylesheet" href="/assets/landing.css">
+
+	<script src="/assets/partials.js" defer></script>
+	<script src="/assets/mobile-nav.js" defer></script>
+	<script src="/assets/mega-menu.js" defer></script>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"headline": "WordPress.org plugin review in 2026: 8 security fixes I had to make",
+		"description": "My WooCommerce plugin got sent back twice by the WordPress.org review team. Here are the 8 security fixes, in plain English, with examples.",
+		"image": "https://orderupdatesforwoo.com/images/blog-wporg-review.png",
+		"datePublished": "2026-07-13",
+		"dateModified": "2026-07-13",
+		"keywords": "WordPress plugin review, WordPress.org security, WooCommerce plugin development, Plugin Check, wpdb prepare, REST API permission callback, escaping sanitization",
+		"author": { "@type": "Person", "name": "Ankur Vishwakarma", "url": "https://orderupdatesforwoo.com/about" },
+		"publisher": { "@type": "Organization", "name": "Order Updates for WooCommerce", "logo": { "@type": "ImageObject", "url": "https://orderupdatesforwoo.com/images/logo-horizontal.png" } },
+		"mainEntityOfPage": "https://orderupdatesforwoo.com/blog/wordpress-org-plugin-review-security-fixes"
+	}
+	</script>
+
+	<style>
+	.article { max-width: 820px; margin: 0 auto; padding: 72px 24px 96px; color: #1e293b; }
+	.article__kicker { color: #2563eb; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; font-size: 14px; }
+	.article h1 { font-size: 44px; line-height: 1.1; letter-spacing: -1px; color: #0f172a; margin: 12px 0 18px; }
+	.article__meta { color: #64748b; font-size: 15px; margin-bottom: 20px; }
+	.article__lede { font-size: 21px; line-height: 1.55; color: #334155; }
+	.article h2 { font-size: 28px; line-height: 1.25; color: #0f172a; margin: 48px 0 12px; letter-spacing: -0.5px; }
+	.article p { font-size: 17px; line-height: 1.75; margin: 16px 0; }
+	.article ul { margin: 16px 0 16px 22px; }
+	.article li { font-size: 17px; line-height: 1.7; margin: 8px 0; }
+	.article a { color: #2563eb; }
+	.article strong { color: #0f172a; }
+	.article pre { background: #0f172a; color: #e2e8f0; border-radius: 12px; padding: 18px 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.65; margin: 18px 0; }
+	.article code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14.5px; background: #eef2ff; color: #1e3a8a; padding: 2px 6px; border-radius: 6px; }
+	.article pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: none; color: inherit; padding: 0; white-space: pre; font-size: 13.5px; }
+	.article blockquote { border-left: 4px solid #2563eb; background: #eff6ff; margin: 26px 0; padding: 18px 22px; border-radius: 0 12px 12px 0; }
+	.article blockquote p { margin: 8px 0; color: #1e3a8a; font-size: 16.5px; }
+	.article blockquote p:first-child { margin-top: 0; }
+	.article blockquote p:last-child { margin-bottom: 0; }
+	.article__cta { text-align: center; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border-radius: 16px; padding: 40px 28px; margin: 56px 0 0; }
+	.article__cta h2 { color: #fff; margin-top: 0; }
+	.article__cta p { color: #dbeafe; }
+	.article__cta a { display: inline-block; margin-top: 14px; background: #fff; color: #1d4ed8; font-weight: 800; padding: 14px 28px; border-radius: 999px; text-decoration: none; }
+	.article__share { margin: 0 0 30px; }
+	.article__copy { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #2563eb; background: #eef2ff; border: 1px solid #dbe4ff; border-radius: 999px; padding: 9px 16px; cursor: pointer; transition: background .15s; font-family: inherit; }
+	.article__copy:hover { background: #dbe4ff; }
+	.article__copy.is-copied { color: #059669; background: #ecfdf5; border-color: #a7f3d0; }
+	.article__copy svg { width: 16px; height: 16px; }
+	@media (prefers-color-scheme: dark) {
+		.article { color: #cbd5e1; }
+		.article h1, .article h2, .article strong { color: #f1f5f9; }
+		.article__lede, .article p, .article li { color: #cbd5e1; }
+		.article code { color: #bfdbfe; background: #1e293b; }
+		.article blockquote { background: #14233b; border-color: #3b82f6; }
+		.article blockquote p { color: #bfdbfe; }
+		.article__copy { color: #93c5fd; background: #1e293b; border-color: #334155; }
+		.article__copy.is-copied { color: #6ee7b7; background: #064e3b; border-color: #065f46; }
+	}
+	</style>
+</head>
+<body class="landing">
+
+<div data-include="partials/nav.html"></div>
+
+<article class="article">
+	<p class="article__kicker">For developers &middot; 2026</p>
+	<h1>WordPress.org plugin review in 2026: 8 security fixes I had to make</h1>
+	<p class="article__meta">July 2026 &middot; ~9 min read</p>
+
+	<div class="article__share">
+		<button type="button" class="article__copy" data-copy-url>
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+			<span>Copy link</span>
+		</button>
+	</div>
+
+	<p class="article__lede">My plugin got sent back <strong>twice</strong> by the WordPress.org review team. Not because the features were weak &mdash; because of small security details most of us never think about. When I submitted my last plugin back in 2022, the review was much lighter. The bar is a lot higher now.</p>
+
+	<blockquote>
+		<p><strong>Important:</strong> Don&rsquo;t lean on the Plugin Check (PCP) tool alone. I ran PCP on my code and it passed clean on most of the points below &mdash; the <strong>human reviewers still flagged them</strong>. PCP is a pattern matcher: great at obvious things it can <em>see</em>, but it can&rsquo;t judge whether your permission check protects the <em>right</em> record, whether your nonce runs <em>before</em> you read input, or whether a footer line breaks a policy.</p>
+		<p>Passing Plugin Check is the floor, not the finish line.</p>
+	</blockquote>
+
+	<h2>1. Use <code>%i</code> for table names in <code>$wpdb->prepare()</code></h2>
+	<p><code>prepare()</code> only protects <em>values</em> (the <code>%d</code>, <code>%s</code> you pass in). It does <strong>not</strong> protect table or column names &mdash; so building those into the query string by hand is a risk if any part is dynamic. Use the <code>%i</code> placeholder (WordPress 6.2+) for identifiers:</p>
+	<pre><code>// Before &mdash; table name interpolated into the string
+$wpdb-&gt;get_results( "SELECT * FROM {$table} WHERE order_id = %d" );
+
+// After &mdash; %i for the identifier, %d for the value
+$wpdb-&gt;get_results(
+    $wpdb-&gt;prepare( "SELECT * FROM %i WHERE order_id = %d", $table, $order_id )
+);</code></pre>
+
+	<h2>2. Use <code>WP_Filesystem</code>, not raw PHP file functions</h2>
+	<p>Skip <code>fopen</code> / <code>fwrite</code> / <code>move_uploaded_file</code>. Go through WordPress&rsquo;s filesystem API so your code works on every host &mdash; including ones where PHP can&rsquo;t write directly and needs FTP or SSH credentials:</p>
+	<pre><code>global $wp_filesystem;
+if ( ! function_exists( 'WP_Filesystem' ) ) {
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+}
+WP_Filesystem();
+
+$wp_filesystem-&gt;put_contents( $path, $data, FS_CHMOD_FILE ); // write
+$wp_filesystem-&gt;delete( $dir, true );                        // recursive delete</code></pre>
+
+	<h2>3. Document every outside service you call</h2>
+	<p>If your plugin sends data anywhere off the user&rsquo;s site &mdash; an avatar service, a form handler, a newsletter API &mdash; say so in <code>readme.txt</code>: name the service, what data you send, when, and link its <strong>Terms</strong> and <strong>Privacy</strong> pages. This surprised me most: <strong>even Gravatar counts</strong>, because an email hash leaves the site. Add a clear <code>== External services ==</code> section.</p>
+
+	<h2>4. No &ldquo;Powered by&rdquo; credit on anything a customer sees</h2>
+	<p>A branding line on a user-facing surface (like an email footer) isn&rsquo;t allowed by default. Make it a <strong>setting that&rsquo;s off by default</strong>, and only ever show it on emails going to your own staff &mdash; never to customers.</p>
+
+	<h2>5. Check the nonce <em>before</em> you touch <code>$_POST</code> / <code>$_GET</code></h2>
+	<p>A nonce is a one-time token proving the request came from your form, not a forged one. If the request is forged, you shouldn&rsquo;t even read its data. Verify first, bail, then read:</p>
+	<pre><code>// Before &mdash; reads input, then checks
+$note = sanitize_text_field( $_POST['note'] );
+if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'save_note' ) ) return;
+
+// After &mdash; checks first, then reads
+if ( ! wp_verify_nonce( $_POST['_wpnonce'] ?? '', 'save_note' ) ) return;
+$note = sanitize_text_field( wp_unslash( $_POST['note'] ?? '' ) );</code></pre>
+
+	<h2>6. Prefix every option name &mdash; and store it as one full literal</h2>
+	<p>Options share one table across the whole site, so a generic name like <code>settings</code> or <code>api_key</code> can collide with another plugin and overwrite or leak data. Everything must be namespaced.</p>
+	<p>Using a constant for the key is the <strong>right</strong> practice &mdash; one source of truth, no typos. The trap is <em>assembling</em> the key by concatenation, like <code>PREFIX . 'settings'</code>. Plugin Check reads your code as plain text and can&rsquo;t compute that join, so it only sees the <code>'settings'</code> tail and flags it. Keep the constant &mdash; just give it the <strong>complete literal</strong> value:</p>
+	<pre><code>// Bad &mdash; key assembled from a prefix + tail (checker only sees 'settings')
+const PREFIX = 'myplugin_';
+get_option( self::PREFIX . 'settings' );
+
+// Good &mdash; constant holds the full literal in one piece
+const SETTINGS_OPTION = 'myplugin_settings';
+get_option( self::SETTINGS_OPTION );</code></pre>
+
+	<h2>7. Check permission <em>per object</em> on every REST endpoint</h2>
+	<p>An endpoint&rsquo;s <code>permission_callback</code> has to do two things: confirm the request is genuine (nonce), <strong>and</strong> confirm this user may act on this specific record. Two anti-patterns:</p>
+	<ul>
+		<li><code>is_user_logged_in()</code> &mdash; far too loose; any logged-in user passes.</li>
+		<li><code>current_user_can( 'manage_options' )</code> &mdash; too tight <em>and</em> wrong; that&rsquo;s admin-only, so it locks out the very managers who should use the plugin.</li>
+	</ul>
+	<p>The right check is <strong>capability + object ownership</strong> &mdash; pass the object&rsquo;s ID into <code>current_user_can</code>:</p>
+	<pre><code>public function can_access( WP_REST_Request $request ): bool {
+    if ( ! wp_verify_nonce( $request-&gt;get_header( 'X-WP-Nonce' ), 'wp_rest' ) ) {
+        return false;
+    }
+    $order_id = (int) $request['order_id'];
+    return current_user_can( 'manage_woocommerce' )            // store-wide override
+        || current_user_can( 'edit_shop_order', $order_id );   // may edit THIS order
+}</code></pre>
+	<p>Passing <code>$order_id</code> is the key &mdash; a user who can edit <em>their</em> orders still can&rsquo;t touch someone else&rsquo;s. Route every endpoint through one shared gate so the rule is identical everywhere. Plugin Check never flagged the loose versions &mdash; this is exactly the logic an automated tool can&rsquo;t reason about.</p>
+
+	<h2>8. Escape output <em>late</em> &mdash; with WordPress&rsquo;s own functions</h2>
+	<p>&ldquo;Escaping&rdquo; cleans a value so it can&rsquo;t inject HTML or scripts when it prints. Two mistakes:</p>
+	<ul>
+		<li><strong>Escaping early and trusting it later</strong> &mdash; always escape at the exact moment you echo.</li>
+		<li><strong>Relying on your own helper</strong> &mdash; this one tripped me up. My code <em>did</em> clean the value, correctly, through a custom function. But Plugin Check only recognizes a fixed list of <strong>built-in</strong> functions (<code>esc_html</code>, <code>esc_attr</code>, <code>esc_url</code>, <code>wp_kses_post</code>, <code>sanitize_text_field</code>&hellip;). It has no idea your function is safe, so it flags the output anyway &mdash; and you can&rsquo;t teach the WordPress.org checker about custom functions. So the code can be correct and still fail the review.</li>
+	</ul>
+	<p>Call the built-in escaper directly, right where you print:</p>
+	<pre><code>echo esc_html( $customer_name );
+echo '&lt;a href="' . esc_url( $link ) . '"&gt;' . esc_html( $label ) . '&lt;/a&gt;';
+echo wp_kses_post( $rich_note );</code></pre>
+	<p>Same rule for <strong>input</strong>: sanitize with core functions (<code>sanitize_text_field</code>, <code>absint</code>, <code>wp_unslash</code>&hellip;) at the point you read <code>$_POST</code>, not through a wrapper the checker can&rsquo;t see. And delete every <code>phpcs:ignore</code> comment &mdash; hiding a warning isn&rsquo;t fixing it.</p>
+	<p>Fun detail: I set an avatar background with the modern <code>oklch()</code> colour in inline CSS. <code>wp_kses</code> strips <code>oklch()</code> as unsafe, so the colour silently vanished &mdash; back to plain hex.</p>
+
+	<h2>The small things we all forget</h2>
+	<ul>
+		<li>The <code>Requires Plugins: woocommerce</code> header in the main plugin file, so WordPress knows the dependency.</li>
+		<li><code>wp_upload_dir()</code> for file paths &mdash; never a hard-coded constant like <code>WP_CONTENT_DIR</code>, which breaks on sites that move their uploads folder.</li>
+		<li>Not even one inline <code>&lt;script&gt;</code> in admin output &mdash; enqueue it from a real <code>.js</code> file.</li>
+	</ul>
+
+	<p>The review felt slow while I was in it. But it&rsquo;s the best free security audit a plugin developer will ever get &mdash; and it caught things no automated checker would.</p>
+
+	<div class="article__cta">
+		<h2>Building a plugin right now?</h2>
+		<p>Run this list before you submit &mdash; it&rsquo;ll save you a review round. Got a fix or a gotcha of your own? I&rsquo;d love to hear it below.</p>
+	</div>
+</article>
+
+<div data-include="partials/post-feedback.html"></div>
+
+<div data-include="partials/footer.html"></div>
+
+<script>
+( function () {
+	document.addEventListener( 'click', function ( e ) {
+		var btn = e.target.closest( '[data-copy-url]' );
+		if ( ! btn ) return;
+		var canonical = document.querySelector( 'link[rel="canonical"]' );
+		var url = canonical ? canonical.href : window.location.href;
+		navigator.clipboard.writeText( url ).then( function () {
+			var label = btn.querySelector( 'span' );
+			var original = label.textContent;
+			label.textContent = 'Copied!';
+			btn.classList.add( 'is-copied' );
+			setTimeout( function () {
+				label.textContent = original;
+				btn.classList.remove( 'is-copied' );
+			}, 1800 );
+		} );
+	} );
+} )();
+</script>
+
+</body>
+</html>
